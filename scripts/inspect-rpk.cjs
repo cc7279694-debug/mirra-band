@@ -155,8 +155,8 @@ async function inspect(filePath, certificatePath, mode = 'demo') {
   }
   const manifest = JSON.parse(await zip.file('manifest.json').async('string'))
   assert.equal(manifest.package, profile.package)
-  assert.equal(manifest.versionName, '0.2.0')
-  assert.equal(manifest.versionCode, 2)
+  assert.equal(manifest.versionName, profile.versionName)
+  assert.equal(manifest.versionCode, profile.versionCode)
   assert.deepEqual(Object.keys(manifest.router.pages).sort(), (mode === 'live' ? ['pages/Home','pages/Detail','pages/Connection'] : ['pages/Home','pages/Detail','pages/Connection','pages/States']).sort())
   assert.equal(manifest.config.designWidth, 168)
   assert.equal(manifest.router.entry, 'pages/Home')
@@ -173,7 +173,7 @@ async function inspect(filePath, certificatePath, mode = 'demo') {
   return {
     path: path.resolve(filePath), bytes: buffer.length,
     sha256: crypto.createHash('sha256').update(buffer).digest('hex'),
-    package: manifest.package, version: manifest.versionName, profile: mode,
+    package: manifest.package, version: manifest.versionName, versionCode: manifest.versionCode, profile: mode,
     signature: 'RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified',
     certificateSubject: verified.certificate.subject,
     certificateFingerprint256: verified.certificate.fingerprint256,

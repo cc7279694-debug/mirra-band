@@ -19,21 +19,54 @@ function createTransport(options) {
     if (context.timer !== null) cancel(context.timer);
     context.timer = null;
   }
+  function restoreHandlers(context) {
+    context.handlers.forEach(entry => {
+      try { if (context.native[entry.name] === entry.handler) context.native[entry.name] = entry.previous; }
+      catch (error) { /* Retired callbacks remain inert even if native teardown fails. */ }
+    });
+  }
+  function errorCategory(error) {
+    // Never inspect native error text or arbitrary name/message getters.
+    try {
+      if (error instanceof TypeError) return 'TYPE_ERROR';
+      if (error instanceof ReferenceError) return 'REFERENCE_ERROR';
+      if (error instanceof RangeError) return 'RANGE_ERROR';
+      if (error instanceof SyntaxError) return 'SYNTAX_ERROR';
+      if (error instanceof Error) return 'ERROR';
+    } catch (ignored) { /* Exotic native throws can also reject prototype inspection. */ }
+    return 'UNKNOWN_THROW';
+  }
   function start() {
     if (owner) return;
-    const context = { native: null, handlers: [], timer: null, pending: false, sendGeneration: 0 };
+    const context = { native: null, handlers: [], timer: null, pending: false, sendGeneration: 0, failed: false };
     owner = context;
-    const current = () => owner === context;
+    const current = () => owner === context && !context.failed;
     function connection(next, code) {
       if (!current()) return;
       clearQuery(context);
       publish({ kind: 'connection', status: next, code: code || null });
     }
+    function initializationFailed(code) {
+      if (!current()) return;
+      context.failed = true;
+      clearQuery(context);
+      restoreHandlers(context);
+      publish({ kind: 'connection', status: 'unsupported', code });
+    }
+    let stage = 'MODULE_LOAD';
     try {
+      if (typeof options.loadModule !== 'function') { initializationFailed('INIT_MODULE_LOAD_API_MISSING'); return; }
       const platform = options.loadModule();
-      context.native = platform.instance();
+      stage = 'INSTANCE';
+      const instance = platform && platform.instance;
+      if (typeof instance !== 'function') { initializationFailed('INIT_INSTANCE_API_MISSING'); return; }
+      context.native = instance.call(platform);
       const native = context.native;
+      if (!native || typeof native !== 'object' && typeof native !== 'function') {
+        initializationFailed('INIT_INSTANCE_API_MISSING'); return;
+      }
       const slots = ['onmessage', 'onopen', 'onclose', 'onerror'];
+      stage = 'READ_CALLBACK';
       if (slots.some(name => native[name] !== undefined && native[name] !== null)) {
         connection('unavailable', 'CALLBACK_OWNED'); return;
       }
@@ -48,31 +81,33 @@ function createTransport(options) {
         },
       };
       slots.forEach(name => {
+        stage = 'READ_CALLBACK';
         context.handlers.push({ name, handler: handlers[name], previous: native[name] });
+        stage = 'SET_CALLBACK';
         native[name] = handlers[name];
       });
+      stage = 'READY_CALL';
       context.pending = true;
       publish({ kind: 'connection', status: 'connecting', code: null });
       context.timer = schedule(() => {
         if (current() && context.pending) connection('disconnected', 'CHANNEL_TIMEOUT');
       }, 3000);
-      native.getReadyState({
+      const ready = native.getReadyState;
+      if (typeof ready !== 'function') { initializationFailed('INIT_READY_CALL_API_MISSING'); return; }
+      ready.call(native, {
         success(data) {
           if (!current() || !context.pending) return;
           connection(data && data.status === 1 ? 'connected' : 'disconnected');
         },
         fail() { if (current() && context.pending) connection('disconnected', 'CHANNEL_UNAVAILABLE'); },
       });
-    } catch (error) { connection('unsupported', 'INTERCONNECT_UNAVAILABLE'); }
+    } catch (error) { initializationFailed('INIT_' + stage + '_' + errorCategory(error)); }
   }
   function stop() {
     const context = owner; owner = null; status = 'disconnected';
     if (!context) return;
     clearQuery(context);
-    context.handlers.forEach(entry => {
-      try { if (context.native[entry.name] === entry.handler) context.native[entry.name] = entry.previous; }
-      catch (error) { /* Retired callbacks remain inert even if native teardown fails. */ }
-    });
+    restoreHandlers(context);
   }
   function send(payload) {
     const context = owner;
