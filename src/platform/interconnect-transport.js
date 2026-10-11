@@ -36,6 +36,14 @@ function createTransport(options) {
     } catch (ignored) { /* Exotic native throws can also reject prototype inspection. */ }
     return 'UNKNOWN_THROW';
   }
+  function queryFailure(prefix, code) {
+    const known = [200, 201, 202, 203, 204, 205, 207, 300, 1000, 1001, 1006];
+    return prefix + '_FAIL_' + (typeof code === 'number' && known.indexOf(code) >= 0 ? code : 'UNKNOWN');
+  }
+  function unknownStatus(prefix, value) {
+    // typeof has a fixed language-defined set; never inspect or stringify value.
+    return prefix + '_STATUS_UNKNOWN_' + (typeof value).toUpperCase();
+  }
   function start() {
     if (owner) return;
     const context = { native: null, handlers: [], timer: null, pending: false, sendGeneration: 0, failed: false };
@@ -100,9 +108,11 @@ function createTransport(options) {
         ready.call(native, {
           success(data) {
             if (!current() || !context.pending) return;
-            connection(data && data.status === 1 ? 'connected' : 'disconnected');
+            const result = data && data.status;
+            const code = result === 2 ? 'READY_STATUS_2' : unknownStatus('READY', result);
+            connection(result === 1 ? 'connected' : 'disconnected', result === 1 ? null : code);
           },
-          fail() { if (current() && context.pending) connection('disconnected', 'CHANNEL_UNAVAILABLE'); },
+          fail(data, code) { if (current() && context.pending) connection('disconnected', queryFailure('READY', code)); },
         });
       } else {
         stage = 'DIAGNOSIS_CALL';
@@ -113,11 +123,11 @@ function createTransport(options) {
             success(data) {
               if (!current() || !context.pending) return;
               const result = data && data.status;
-              const code = result === 204 ? 'CHANNEL_TIMEOUT' : result === 1001 ? 'PHONE_APP_MISSING'
-                : result === 1000 ? 'CHANNEL_ERROR' : 'CHANNEL_UNAVAILABLE';
+              const code = result === 204 ? 'DIAG_STATUS_204' : result === 1001 ? 'DIAG_STATUS_1001'
+                : result === 1000 ? 'DIAG_STATUS_1000' : unknownStatus('DIAG', result);
               connection(result === 0 ? 'connected' : 'disconnected', result === 0 ? null : code);
             },
-            fail() { if (current() && context.pending) connection('disconnected', 'CHANNEL_UNAVAILABLE'); },
+            fail(data, code) { if (current() && context.pending) connection('disconnected', queryFailure('DIAG', code)); },
           });
         } else {
           stage = 'APK_STATUS_CALL';
@@ -126,9 +136,9 @@ function createTransport(options) {
           // Legacy official API is synchronous; never poll or infer success.
           const result = apkStatus.call(native);
           if (!current() || !context.pending) return;
-          const code = result === 'UNINSTALLED' ? 'PHONE_APP_MISSING'
-            : result === 'CONNECTED' || result === 'DISCONNECTED' ? null : 'CHANNEL_UNAVAILABLE';
-          connection(result === 'CONNECTED' ? 'connected' : 'disconnected', code);
+          const code = result === 'UNINSTALLED' ? 'APK_STATUS_UNINSTALLED' : result === 'DISCONNECTED'
+            ? 'APK_STATUS_DISCONNECTED' : unknownStatus('APK', result);
+          connection(result === 'CONNECTED' ? 'connected' : 'disconnected', result === 'CONNECTED' ? null : code);
         }
       }
     } catch (error) { initializationFailed('INIT_' + stage + '_' + errorCategory(error)); }

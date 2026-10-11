@@ -220,7 +220,7 @@ test('normal asynchronous readiness failure retains its channel category and ret
   r.transport.start();
   query.fail({ message: 'private-detail' }, 1006);
   assert.equal(r.events.at(-1).status, 'disconnected');
-  assert.equal(r.events.at(-1).code, 'CHANNEL_UNAVAILABLE');
+  assert.equal(r.events.at(-1).code, 'READY_FAIL_1006');
   assert.equal(r.timers.size, 0);
   r.transport.stop();
   const count = r.events.length;
@@ -253,9 +253,9 @@ function compatibilityRig(methods) {
 
 test('official diagnosis fallback uses a bounded timeout and requires exact status zero', () => {
   for (const [value, status, code] of [
-    [0, 'connected', null], [204, 'disconnected', 'CHANNEL_TIMEOUT'],
-    [1001, 'disconnected', 'PHONE_APP_MISSING'], [1000, 'disconnected', 'CHANNEL_ERROR'],
-    ['0', 'disconnected', 'CHANNEL_UNAVAILABLE'], [undefined, 'disconnected', 'CHANNEL_UNAVAILABLE'],
+    [0, 'connected', null], [204, 'disconnected', 'DIAG_STATUS_204'],
+    [1001, 'disconnected', 'DIAG_STATUS_1001'], [1000, 'disconnected', 'DIAG_STATUS_1000'],
+    ['0', 'disconnected', 'DIAG_STATUS_UNKNOWN_STRING'], [undefined, 'disconnected', 'DIAG_STATUS_UNKNOWN_UNDEFINED'],
   ]) {
     let query;
     const r = compatibilityRig({ diagnosis(options) {
@@ -292,11 +292,11 @@ test('non-callable readiness uses diagnosis before the deprecated query', () => 
 
 test('legacy getApkStatus is called once and only exact CONNECTED proves a channel', () => {
   for (const [value, status, code] of [
-    ['CONNECTED', 'connected', null], ['DISCONNECTED', 'disconnected', null],
-    ['UNINSTALLED', 'disconnected', 'PHONE_APP_MISSING'],
-    ['connected', 'disconnected', 'CHANNEL_UNAVAILABLE'],
-    [{ status: 'CONNECTED' }, 'disconnected', 'CHANNEL_UNAVAILABLE'],
-    [true, 'disconnected', 'CHANNEL_UNAVAILABLE'],
+    ['CONNECTED', 'connected', null], ['DISCONNECTED', 'disconnected', 'APK_STATUS_DISCONNECTED'],
+    ['UNINSTALLED', 'disconnected', 'APK_STATUS_UNINSTALLED'],
+    ['connected', 'disconnected', 'APK_STATUS_UNKNOWN_STRING'],
+    [{ status: 'CONNECTED' }, 'disconnected', 'APK_STATUS_UNKNOWN_OBJECT'],
+    [true, 'disconnected', 'APK_STATUS_UNKNOWN_BOOLEAN'],
   ]) {
     let calls = 0;
     const r = compatibilityRig({ diagnosis: false, getApkStatus() {
@@ -349,7 +349,7 @@ test('diagnosis failure is explicit and captured callbacks remain inert after st
   const queries = [];
   const r = compatibilityRig({ diagnosis(options) { queries.push(options); } });
   r.transport.start(); queries[0].fail({ message: 'private-detail' }, 1006);
-  assert.equal(r.events.at(-1).code, 'CHANNEL_UNAVAILABLE');
+  assert.equal(r.events.at(-1).code, 'DIAG_FAIL_1006');
   assert.equal(r.timers.size, 0);
   r.transport.stop(); r.transport.start();
   const count = r.events.length;
@@ -415,3 +415,140 @@ test('a send started by synchronous readiness success cannot revive failed initi
   const count = r.events.length; r.sent[0].fail({}, 1006);
   assert.equal(r.events.length, count);
 });
+
+function queryRig(capability) {
+  if (capability === 'ready') return rig();
+  const r = compatibilityRig({ diagnosis(options) { r.requests.push(options); } });
+  return r;
+}
+
+for (const [capability, prefix] of [['ready', 'READY'], ['diagnosis', 'DIAG']]) {
+  test(capability + ' failure preserves known numeric codes without another native query or send', () => {
+    for (const [value, readyCode, diagnosisCode] of [
+      [200, 'READY_FAIL_200', 'DIAG_FAIL_200'], [201, 'READY_FAIL_201', 'DIAG_FAIL_201'],
+      [202, 'READY_FAIL_202', 'DIAG_FAIL_202'], [203, 'READY_FAIL_203', 'DIAG_FAIL_203'],
+      [204, 'READY_FAIL_204', 'DIAG_FAIL_204'], [205, 'READY_FAIL_205', 'DIAG_FAIL_205'],
+      [207, 'READY_FAIL_207', 'DIAG_FAIL_207'], [300, 'READY_FAIL_300', 'DIAG_FAIL_300'],
+      [1000, 'READY_FAIL_1000', 'DIAG_FAIL_1000'], [1001, 'READY_FAIL_1001', 'DIAG_FAIL_1001'],
+      [1006, 'READY_FAIL_1006', 'DIAG_FAIL_1006'],
+    ]) {
+      const r = queryRig(capability); r.transport.start();
+      r.requests[0].fail('private-detail', value);
+      assert.equal(r.events.at(-1).code, capability === 'ready' ? readyCode : diagnosisCode);
+      assert.equal(r.events.at(-1).status, 'disconnected');
+      assert.equal(r.timers.size, 0);
+      assert.equal(r.transport.send(message('must-not-send')), false);
+      assert.equal(r.sent.length, 0);
+      assert.equal(r.requests.length, 1);
+      assert.ok(r.events.at(-1).code.length <= 45);
+      assert.ok(!JSON.stringify(r.events).includes('private-detail'));
+    }
+  });
+
+  test(capability + ' failure ignores opaque first arguments and accepts no code coercion', () => {
+    const opaque = Object.create(null);
+    let reads = 0;
+    for (const name of ['code', 'data', 'message', 'body', 'toJSON', 'toString', 'valueOf']) {
+      Object.defineProperty(opaque, name, { get() { reads++; throw new Error('private-detail'); } });
+    }
+    for (const value of ['1006', undefined, null, true, 123456789, NaN, Infinity,
+      1006.5, BigInt(1006), Symbol('private-detail'), new Number(1006), opaque]) {
+      const r = queryRig(capability); r.transport.start();
+      assert.doesNotThrow(() => r.requests[0].fail(opaque, value));
+      assert.equal(r.events.at(-1).code, prefix + '_FAIL_UNKNOWN');
+      assert.equal(r.events.at(-1).status, 'disconnected');
+      assert.equal(r.sent.length, 0);
+      assert.equal(reads, 0);
+      assert.ok(!JSON.stringify(r.events).includes('private-detail'));
+    }
+    const r = queryRig(capability); r.transport.start();
+    assert.doesNotThrow(() => r.requests[0].fail(opaque, 1006));
+    assert.equal(r.events.at(-1).code, prefix + '_FAIL_1006');
+    assert.equal(reads, 0);
+    const missing = queryRig(capability); missing.transport.start();
+    missing.requests[0].fail({ code: 1006 });
+    assert.equal(missing.events.at(-1).code, prefix + '_FAIL_UNKNOWN');
+    const proxy = new Proxy(opaque, { get() { reads++; throw new Error('private-detail'); } });
+    const guarded = queryRig(capability); guarded.transport.start();
+    assert.doesNotThrow(() => guarded.requests[0].fail(proxy, 1006));
+    assert.equal(guarded.events.at(-1).code, prefix + '_FAIL_1006');
+    assert.equal(reads, 0);
+  });
+
+  test(capability + ' completed or retired query cannot replace the current diagnostic', () => {
+    const r = queryRig(capability); r.transport.start();
+    const first = r.requests[0]; first.fail({}, 203);
+    const count = r.events.length;
+    first.fail({}, 1006); first.success({ status: capability === 'ready' ? 1 : 0 });
+    assert.equal(r.events.length, count);
+    assert.equal(r.events.at(-1).code, prefix + '_FAIL_203');
+    r.transport.stop(); r.transport.start();
+    const currentCount = r.events.length;
+    first.fail({}, 202); first.success({ status: capability === 'ready' ? 1 : 0 });
+    assert.equal(r.events.length, currentCount);
+    assert.equal(r.events.at(-1).status, 'connecting');
+    r.requests[1].success({ status: capability === 'ready' ? 1 : 0 });
+    const connectedCount = r.events.length;
+    r.requests[1].fail({}, 1001); r.requests[1].success({ status: 2 });
+    assert.equal(r.events.length, connectedCount);
+    assert.equal(r.events.at(-1).status, 'connected');
+  });
+
+  test(capability + ' checks query ownership before reading any late result properties', () => {
+    for (const retiredBy of ['timeout', 'success', 'fail', 'onopen', 'stop', 'restart']) {
+      const r = queryRig(capability); r.transport.start(); const query = r.requests[0];
+      if (retiredBy === 'timeout') [...r.timers.values()][0]();
+      if (retiredBy === 'success') query.success({ status: capability === 'ready' ? 1 : 0 });
+      if (retiredBy === 'fail') query.fail({}, 203);
+      if (retiredBy === 'onopen') r.native.onopen();
+      if (retiredBy === 'stop' || retiredBy === 'restart') r.transport.stop();
+      if (retiredBy === 'restart') r.transport.start();
+      let reads = 0;
+      const late = Object.defineProperty({}, 'status', {
+        get() { reads++; throw new Error('private-detail'); },
+      });
+      const opaque = new Proxy({}, { get() { reads++; throw new Error('private-detail'); } });
+      const count = r.events.length;
+      assert.doesNotThrow(() => query.success(late));
+      assert.doesNotThrow(() => query.fail(opaque, opaque));
+      assert.equal(reads, 0);
+      assert.equal(r.events.length, count);
+    }
+  });
+}
+
+test('strict ready status two is disconnected with an interface-specific diagnostic', () => {
+  const r = rig(); r.transport.start(); r.requests[0].success({ status: 2 });
+  assert.equal(r.events.at(-1).code, 'READY_STATUS_2');
+  assert.equal(r.events.at(-1).status, 'disconnected');
+  assert.equal(r.timers.size, 0);
+  assert.equal(r.sent.length, 0);
+  assert.equal(r.transport.send(message('must-not-send')), false);
+});
+
+for (const [capability, prefix] of [['ready', 'READY'], ['diagnosis', 'DIAG'], ['apk', 'APK']]) {
+  test(capability + ' unknown status reveals only a fixed type without coercing or serializing values', () => {
+    const opaque = Object.create(null); let reads = 0;
+    for (const name of ['code', 'message', 'body', 'toJSON', 'toString', 'valueOf']) {
+      Object.defineProperty(opaque, name, { get() { reads++; throw new Error('private-detail'); } });
+    }
+    for (const [value, kind] of [
+      ['private-detail', 'STRING'], [undefined, 'UNDEFINED'], [opaque, 'OBJECT'], [null, 'OBJECT'],
+      [123456789, 'NUMBER'], [NaN, 'NUMBER'], [true, 'BOOLEAN'], [() => 'private-detail', 'FUNCTION'],
+      [Symbol('private-detail'), 'SYMBOL'], [BigInt(123456789), 'BIGINT'],
+      [capability === 'ready' ? '1' : '0', 'STRING'], [new Number(capability === 'ready' ? 1 : 0), 'OBJECT'],
+    ]) {
+      const r = capability === 'apk' ? compatibilityRig({ getApkStatus() { return value; } }) : queryRig(capability);
+      r.transport.start();
+      if (capability !== 'apk') r.requests[0].success({ status: value });
+      assert.equal(r.events.at(-1).code, prefix + '_STATUS_UNKNOWN_' + kind);
+      assert.equal(r.events.at(-1).status, 'disconnected');
+      assert.equal(r.timers.size, 0);
+      assert.equal(r.transport.send(message('must-not-send')), false);
+      assert.equal(r.sent.length, 0);
+      assert.ok(r.events.at(-1).code.length <= 45);
+      assert.equal(reads, 0);
+      assert.ok(!JSON.stringify(r.events).includes('private-detail'));
+    }
+  });
+}
