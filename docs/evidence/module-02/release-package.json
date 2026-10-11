@@ -1,0 +1,26 @@
+{
+  "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.band.demo.release.0.1.0.rpk",
+  "bytes": 19569,
+  "sha256": "76e5eb9b47d10e1dd59b0eaf114ac5536eaf0694571ec7bd66fa884a7674b0af",
+  "package": "com.guanyi.mirra.band.demo",
+  "version": "0.1.0",
+  "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+  "certificateSubject": "CN=Mirra Band Demo\nO=Mirra Local Prototype",
+  "certificateFingerprint256": "B9:AD:5C:30:7A:17:03:1C:3D:19:3F:8E:E2:BA:AB:2A:B5:D1:FE:38:3F:73:84:28:EB:FE:64:9E:9F:67:E9:0B",
+  "certificateValidTo": "Oct  8 06:50:55 2036 GMT",
+  "zipCRC32": "verified",
+  "sharedStyles": "present in all three compiled pages",
+  "tamperChecks": "payload, primary signature and file digest signature mutations rejected",
+  "files": [
+    "META-INF/CERT",
+    "manifest-watch.json",
+    "manifest.json",
+    "app.js",
+    "pages/Home/index.js",
+    "common/icon.png",
+    "common/icon.svg",
+    "pages/Connection/index.js",
+    "pages/States/index.js",
+    "META-INF/build.txt"
+  ]
+}

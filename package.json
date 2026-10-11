@@ -1,0 +1,16 @@
+{
+  "name": "mirra-band",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Mirra Band standalone Vela demonstration for Xiaomi Smart Band 9 Pro",
+  "scripts": {
+    "build": "node scripts/build-rpk.cjs",
+    "build:release": "node scripts/build-rpk.cjs release",
+    "test": "node --test tests/*.test.cjs",
+    "check": "node scripts/check-project.cjs",
+    "inspect:rpk": "node scripts/inspect-rpk.cjs"
+  },
+  "devDependencies": {
+    "aiot-toolkit": "2.0.5"
+  }
+}

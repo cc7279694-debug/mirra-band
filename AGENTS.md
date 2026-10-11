@@ -33,7 +33,7 @@
 
 - 手环使用 Xiaomi Vela JS Quick App，UI 为平台 `.ux` 模板、样式与脚本，交付为 RPK。
 - React / Capacitor / shadcn 是通用应用默认栈，不强行套到 Vela 设备。手机技术栈继续继承现状。
-- 业务逻辑优先 TypeScript；下一模块先核实官方编译链的 TS 支持。如果 `.ux` 必须使用 JS，只保留薄 UI / 平台桥接，记录理由，不通过 `any`、`@ts-ignore` 或全局关闭检查掩盖问题。
+- Module 02 经用户明确授权采用原生 JavaScript，状态、计时和平台诊断与 `.ux` 页面分开，并用可重复测试与语法检查验证。后续若增加 TypeScript，须有明确收益与独立范围，不为了补齐默认栈增加预编译层。
 - 不引入没有当前用途的数据库、Repository、同步字段、依赖或抽象。原型不保存真实业务数据。
 - 后续真实业务数据仍以手机 Room / SQLite 为准；任何数据层变更都需独立范围、Migration、完整性与恢复验证。
 - 主题等小偏好与核心业务数据分开；不用 localStorage 保存学习事实。

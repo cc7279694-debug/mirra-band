@@ -1,0 +1,50 @@
+
+> mirra-band@0.1.0 build:release
+> node scripts/build-rpk.cjs release
+
+🔷 [10-11 15:03:47] [toolkit]: start build:  {
+  "projectPath": "E:\\CODEX\\mirra-watch\\.local\\build-project",
+  "options": {
+    "sourceRoot": "./src",
+    "signRoot": "./sign",
+    "releasePath": "./dist",
+    "outputPath": "./build",
+    "enableJsc": false,
+    "enableProtobuf": false,
+    "enableE2e": false,
+    "enableStats": false,
+    "optimizeCssAttr": false,
+    "completeFeature": false,
+    "dropConsole": false,
+    "mode": "production"
+  },
+  "watch": false,
+  "node": "v24.18.1",
+  "platform": "win32",
+  "arch": "x64",
+  "toolkit": "2.0.5"
+}
+🔷 [10-11 15:03:48] [toolkit]: afterCompile: undefined
+🔷 [10-11 15:03:48] [toolkit]: afterCompile: Create a soft link to the node_modules folder
+🔷 [10-11 15:03:48] [toolkit]: afterCompile: Compile javascript project
+🔷 [10-11 15:03:48] [toolkit]: webpack complete
+🔷 [10-11 15:03:48] [toolkit]: afterCompile: Copy resource files
+🔷 [10-11 15:03:48] [toolkit]: afterCompile: Compress resource files
+🔷 [10-11 15:03:48] [toolkit]: afterCompile: Generate jsc bytecode
+🔷 [10-11 15:03:48] [toolkit]: afterCompile: Generate protobuf json
+🔷 [10-11 15:03:48] [toolkit]: afterCompile: compile lite card
+🔷 [10-11 15:03:48] [toolkit]: afterCompile: Package the project into an RPK file
+🔷 [10-11 15:03:48] [toolkit]: privatekeyPath is  E:\CODEX\mirra-watch\.local\.temp_build-project\sign\private.pem 
+certificatePath is  E:\CODEX\mirra-watch\.local\.temp_build-project\sign\certificate.pem
+✅ [10-11 15:03:49] [toolkit]: Project build and generate files：E:\CODEX\mirra-watch\.local\.temp_build-project\dist\com.guanyi.mirra.band.demo.release.0.1.0.rpk
+🔷 [10-11 15:03:49] [toolkit]: afterCompile: Generate diff json
+🔷 [10-11 15:03:49] [toolkit]: afterCompile: Migrate temporary project
+🔷 [10-11 15:03:49] [toolkit]: afterCompile: Check resource
+✅ [10-11 15:03:49] [toolkit]: build success: 1231ms
+🟠 [10-11 15:03:49] [toolkit]: please use AIoT-IDE: https://iot.mi.com/vela/quickapp/zh/guide/start/use-ide.html
+{
+  "artifact": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.band.demo.release.0.1.0.rpk",
+  "bytes": 19569,
+  "sha256": "76e5eb9b47d10e1dd59b0eaf114ac5536eaf0694571ec7bd66fa884a7674b0af",
+  "signature": "RSA-SHA256 verified; content SHA-256 verified"
+}

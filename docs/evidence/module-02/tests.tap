@@ -1,0 +1,382 @@
+TAP version 13
+# Subtest: builder delivers a fresh validated staged package without scanning the whole workspace
+ok 1 - builder delivers a fresh validated staged package without scanning the whole workspace
+  ---
+  duration_ms: 5.9275
+  type: 'test'
+  ...
+# Subtest: compiler failure preserves the previous delivery and releases this builder lock
+ok 2 - compiler failure preserves the previous delivery and releases this builder lock
+  ---
+  duration_ms: 2.8173
+  type: 'test'
+  ...
+# Subtest: zero compiler exit cannot deliver an old root or staged package when fresh output is missing
+ok 3 - zero compiler exit cannot deliver an old root or staged package when fresh output is missing
+  ---
+  duration_ms: 2.5915
+  type: 'test'
+  ...
+# Subtest: a competing builder preserves the owner lock and staging without launching the compiler
+ok 4 - a competing builder preserves the owner lock and staging without launching the compiler
+  ---
+  duration_ms: 1.5291
+  type: 'test'
+  ...
+# Subtest: fresh startup is an idle simulation with no focus timer
+ok 5 - fresh startup is an idle simulation with no focus timer
+  ---
+  duration_ms: 3.6526
+  type: 'test'
+  ...
+# Subtest: all seven selectable states remain visibly simulated
+ok 6 - all seven selectable states remain visibly simulated
+  ---
+  duration_ms: 1.4852
+  type: 'test'
+  ...
+# Subtest: focus time comes from its anchor, including hidden-page gaps
+ok 7 - focus time comes from its anchor, including hidden-page gaps
+  ---
+  duration_ms: 0.4473
+  type: 'test'
+  ...
+# Subtest: a clock rollback cannot create negative or decreasing elapsed time
+ok 8 - a clock rollback cannot create negative or decreasing elapsed time
+  ---
+  duration_ms: 0.3237
+  type: 'test'
+  ...
+# Subtest: selecting a timer state starts a fresh demonstration
+ok 9 - selecting a timer state starts a fresh demonstration
+  ---
+  duration_ms: 0.4069
+  type: 'test'
+  ...
+# Subtest: break countdown uses seconds rounded up and stays at zero
+ok 10 - break countdown uses seconds rounded up and stays at zero
+  ---
+  duration_ms: 0.4191
+  type: 'test'
+  ...
+# Subtest: clock rollback cannot make break remaining time increase
+ok 11 - clock rollback cannot make break remaining time increase
+  ---
+  duration_ms: 0.2785
+  type: 'test'
+  ...
+# Subtest: reset restores the selected break duration and its elapsed anchor
+ok 12 - reset restores the selected break duration and its elapsed anchor
+  ---
+  duration_ms: 0.3764
+  type: 'test'
+  ...
+# Subtest: a new break selection defaults to five minutes after a short test
+ok 13 - a new break selection defaults to five minutes after a short test
+  ---
+  duration_ms: 0.4584
+  type: 'test'
+  ...
+# Subtest: reset restarts elapsed time without changing the selected state
+ok 14 - reset restarts elapsed time without changing the selected state
+  ---
+  duration_ms: 0.2917
+  type: 'test'
+  ...
+# Subtest: completion enters focus only from preparation with a fresh timer
+ok 15 - completion enters focus only from preparation with a fresh timer
+  ---
+  duration_ms: 0.2739
+  type: 'test'
+  ...
+# Subtest: recovery and unmonitored timers explicitly deny verified focus
+ok 16 - recovery and unmonitored timers explicitly deny verified focus
+  ---
+  duration_ms: 0.6281
+  type: 'test'
+  ...
+# Subtest: disconnected state exposes no updating live phone timer
+ok 17 - disconnected state exposes no updating live phone timer
+  ---
+  duration_ms: 0.3639
+  type: 'test'
+  ...
+# Subtest: time beyond 99 hours has an explicit bounded display
+ok 18 - time beyond 99 hours has an explicit bounded display
+  ---
+  duration_ms: 0.2435
+  type: 'test'
+  ...
+# Subtest: book names trim, fall back when unusable, and cap long display text
+ok 19 - book names trim, fall back when unusable, and cap long display text
+  ---
+  duration_ms: 0.5169
+  type: 'test'
+  ...
+# Subtest: invalid selection inputs cannot replace the active demonstration
+ok 20 - invalid selection inputs cannot replace the active demonstration
+  ---
+  duration_ms: 1.0807
+  type: 'test'
+  ...
+# Subtest: bad clock values are rejected instead of rendered as corrupted time
+ok 21 - bad clock values are rejected instead of rendered as corrupted time
+  ---
+  duration_ms: 1.7068
+  type: 'test'
+  ...
+# Subtest: mutating a returned snapshot cannot alter the model
+ok 22 - mutating a returned snapshot cannot alter the model
+  ---
+  duration_ms: 0.3573
+  type: 'test'
+  ...
+# Subtest: truncating a title never leaves a split Unicode surrogate
+ok 23 - truncating a title never leaves a split Unicode surrogate
+  ---
+  duration_ms: 0.1999
+  type: 'test'
+  ...
+# Subtest: module loading failure stays unknown and does not expose external errors
+ok 24 - module loading failure stays unknown and does not expose external errors
+  ---
+  duration_ms: 2.9575
+  type: 'test'
+  ...
+# Subtest: invalid module shape null cannot claim platform support
+ok 25 - invalid module shape null cannot claim platform support
+  ---
+  duration_ms: 0.3467
+  type: 'test'
+  ...
+# Subtest: invalid module shape {} cannot claim platform support
+ok 26 - invalid module shape {} cannot claim platform support
+  ---
+  duration_ms: 0.139
+  type: 'test'
+  ...
+# Subtest: invalid module shape {} cannot claim platform support
+ok 27 - invalid module shape {} cannot claim platform support
+  ---
+  duration_ms: 0.1562
+  type: 'test'
+  ...
+# Subtest: invalid module shape {} cannot claim platform support
+ok 28 - invalid module shape {} cannot claim platform support
+  ---
+  duration_ms: 0.2572
+  type: 'test'
+  ...
+# Subtest: instance creation failure is safely reported without a timer
+ok 29 - instance creation failure is safely reported without a timer
+  ---
+  duration_ms: 0.2635
+  type: 'test'
+  ...
+# Subtest: ready status 1 only describes connected transport
+ok 30 - ready status 1 only describes connected transport
+  ---
+  duration_ms: 0.4831
+  type: 'test'
+  ...
+# Subtest: ready status 2 only describes disconnected transport
+ok 31 - ready status 2 only describes disconnected transport
+  ---
+  duration_ms: 0.1351
+  type: 'test'
+  ...
+# Subtest: malformed ready status remains unknown instead of treating truthy data as connected
+ok 32 - malformed ready status remains unknown instead of treating truthy data as connected
+  ---
+  duration_ms: 0.3787
+  type: 'test'
+  ...
+# Subtest: documented query error 1006 reports disconnected while all other query errors stay unknown
+ok 33 - documented query error 1006 reports disconnected while all other query errors stay unknown
+  ---
+  duration_ms: 1.0079
+  type: 'test'
+  ...
+# Subtest: timeout ends the pending query and ignores its late response
+ok 34 - timeout ends the pending query and ignores its late response
+  ---
+  duration_ms: 0.4732
+  type: 'test'
+  ...
+# Subtest: connection events supersede the pending ready query and never expose platform messages
+ok 35 - connection events supersede the pending ready query and never expose platform messages
+  ---
+  duration_ms: 0.5236
+  type: 'test'
+  ...
+# Subtest: dispose detaches owned callbacks and blocks pending query and saved event callbacks
+ok 36 - dispose detaches owned callbacks and blocks pending query and saved event callbacks
+  ---
+  duration_ms: 0.248
+  type: 'test'
+  ...
+# Subtest: a hidden page can resume and only the latest probe is allowed to update it
+ok 37 - a hidden page can resume and only the latest probe is allowed to update it
+  ---
+  duration_ms: 0.2047
+  type: 'test'
+  ...
+# Subtest: reprobing without disposal also releases the old timeout and ignores the old query
+ok 38 - reprobing without disposal also releases the old timeout and ignores the old query
+  ---
+  duration_ms: 0.1349
+  type: 'test'
+  ...
+# Subtest: existing singleton callbacks are not stolen or cleared by the diagnostic
+ok 39 - existing singleton callbacks are not stolen or cleared by the diagnostic
+  ---
+  duration_ms: 0.9301
+  type: 'test'
+  ...
+# Subtest: dispose never clears a callback that another consumer installed after the probe
+ok 40 - dispose never clears a callback that another consumer installed after the probe
+  ---
+  duration_ms: 0.1324
+  type: 'test'
+  ...
+# Subtest: synchronous query success wins over a subsequent platform throw
+ok 41 - synchronous query success wins over a subsequent platform throw
+  ---
+  duration_ms: 0.2856
+  type: 'test'
+  ...
+# Subtest: synchronous query throw becomes unknown and releases the timeout
+ok 42 - synchronous query throw becomes unknown and releases the timeout
+  ---
+  duration_ms: 0.2756
+  type: 'test'
+  ...
+# Subtest: callback disposal during the first update stops platform loading
+ok 43 - callback disposal during the first update stops platform loading
+  ---
+  duration_ms: 0.2065
+  type: 'test'
+  ...
+# Subtest: consumer mutations cannot forge the next returned snapshot
+ok 44 - consumer mutations cannot forge the next returned snapshot
+  ---
+  duration_ms: 0.1939
+  type: 'test'
+  ...
+# Subtest: app startup owns one idle demo and a new startup resets only simulation
+ok 45 - app startup owns one idle demo and a new startup resets only simulation
+  ---
+  duration_ms: 5.3094
+  type: 'test'
+  ...
+# Subtest: Home hide, show, and destroy own one interval and restore anchored time
+ok 46 - Home hide, show, and destroy own one interval and restore anchored time
+  ---
+  duration_ms: 3.8447
+  type: 'test'
+  ...
+# Subtest: States selection returns through the router and preserves the app demo
+ok 47 - States selection returns through the router and preserves the app demo
+  ---
+  duration_ms: 2.1548
+  type: 'test'
+  ...
+# Subtest: Home preparation action enters simulated focus and reset restarts its anchor
+ok 48 - Home preparation action enters simulated focus and reset restarts its anchor
+  ---
+  duration_ms: 1.8165
+  type: 'test'
+  ...
+# Subtest: States quickBreak reaches zero on Home and stays in break until reset
+ok 49 - States quickBreak reaches zero on Home and stays in break until reset
+  ---
+  duration_ms: 2.7268
+  type: 'test'
+  ...
+# Subtest: States long-title action reaches Home with bounded simulated book text
+ok 50 - States long-title action reaches Home with bounded simulated book text
+  ---
+  duration_ms: 1.6872
+  type: 'test'
+  ...
+# Subtest: Connection hide disposes callbacks and show reprobes without sending
+ok 51 - Connection hide disposes callbacks and show reprobes without sending
+  ---
+  duration_ms: 2.8818
+  type: 'test'
+  ...
+# Subtest: Connection manual reprobe cancels the old query and destroy blocks late updates
+ok 52 - Connection manual reprobe cancels the old query and destroy blocks late updates
+  ---
+  duration_ms: 1.7092
+  type: 'test'
+  ...
+# Subtest: show immediately refreshes and repeated show owns only one interval
+ok 53 - show immediately refreshes and repeated show owns only one interval
+  ---
+  duration_ms: 2.1869
+  type: 'test'
+  ...
+# Subtest: hide clears even a zero-valued timer handle and blocks queued callbacks
+ok 54 - hide clears even a zero-valued timer handle and blocks queued callbacks
+  ---
+  duration_ms: 0.2585
+  type: 'test'
+  ...
+# Subtest: a returning page refreshes once and stale callbacks stay guarded
+ok 55 - a returning page refreshes once and stale callbacks stay guarded
+  ---
+  duration_ms: 0.1643
+  type: 'test'
+  ...
+# Subtest: destroy clears the active interval and permanently prevents refresh
+ok 56 - destroy clears the active interval and permanently prevents refresh
+  ---
+  duration_ms: 1.028
+  type: 'test'
+  ...
+# Subtest: destroy before show allocates no interval
+ok 57 - destroy before show allocates no interval
+  ---
+  duration_ms: 0.1814
+  type: 'test'
+  ...
+# Subtest: a refresh that hides the page cannot leak a new timer
+ok 58 - a refresh that hides the page cannot leak a new timer
+  ---
+  duration_ms: 0.1911
+  type: 'test'
+  ...
+# Subtest: a refresh that destroys the page cannot leak a new timer
+ok 59 - a refresh that destroys the page cannot leak a new timer
+  ---
+  duration_ms: 0.2205
+  type: 'test'
+  ...
+# Subtest: invalid scheduling inputs fail before allocating resources
+ok 60 - invalid scheduling inputs fail before allocating resources
+  ---
+  duration_ms: 0.8889
+  type: 'test'
+  ...
+# Subtest: the requested interval controls scheduling cadence
+ok 61 - the requested interval controls scheduling cadence
+  ---
+  duration_ms: 0.2829
+  type: 'test'
+  ...
+# Subtest: a failed immediate refresh can be retried without losing scheduling
+ok 62 - a failed immediate refresh can be retried without losing scheduling
+  ---
+  duration_ms: 0.359
+  type: 'test'
+  ...
+1..62
+# tests 62
+# suites 0
+# pass 62
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 368.9152

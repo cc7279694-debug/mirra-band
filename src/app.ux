@@ -1,0 +1,14 @@
+<script>
+import demoLib from './lib/demo'
+
+export default {
+  demo: null,
+  onCreate() {
+    this.demo = demoLib.createDemo()
+  },
+  getDemo() {
+    if (!this.demo) this.demo = demoLib.createDemo()
+    return this.demo
+  }
+}
+</script>

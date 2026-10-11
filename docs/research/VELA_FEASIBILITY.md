@@ -1,6 +1,6 @@
 # Vela 平台、构建与手机通信核查
 
-核查日期：2026-10-11。范围为 Module 01 只读研究；没有安装 SDK、修改手机、生成 RPK 或操作用户真机。
+核查日期：2026-10-11。原始记录范围为 Module 01 只读研究；工具现状和 Proposed 方案属于当时快照。Module 02 的实际变化见末尾增补和 [验证记录](../evidence/module-02/VERIFICATION.md)，原始“未构建”等措辞不能当作当前状态。
 
 标签含义：**Verified** 为本轮源码/命令/官方材料直接证实；**User-reported** 为用户提供的设备事实；**Proposed** 为待实施方案；**Unknown / Not Run** 不可表述为已支持或已通过。
 
@@ -82,3 +82,13 @@ Module 02 只做能力加载与连接状态的只读探测。Module 03 经单独
 公开官方资料可证明接口存在与约束；不能证明用户设备实际运行、未来稳定性或生产级兼容。社区 README 的“支持”属于项目作者声明，应与许可证、分支、代码和用户真机结果分别记录。
 
 研究使用 agent-reach 的 GitHub CLI 路由及官方网页核查。`agent-reach` 主命令未检出，因此其版本更新检查 Not Run；这不影响现有 GitHub/官方网页读取，也未安装或升级该工具。
+
+## Module 02 实编译增补
+
+- **Verified**：局部安装 `aiot-toolkit@2.0.5`；其实际 `lib/bin.js` 要求 Node >=18.0.0。Node 24.18.1 已实际完成 debug/release RPK，不再仅凭版本推断兼容；没有改全局运行时。
+- **Verified**：原生 JS / `.ux` 已进入实际 RPK；TS 预编译方案按本轮用户授权替换，见 [决定](../DECISIONS.md)。
+- **Verified**：实际签名解析表明 development 优先 sign/debug，其次 sign 根目录，再回落工具默认；production 优先 sign/release，其次根目录。构建隔离输入只复制根目录独立演示证书，两个包使用同一公开指纹，经 RSA 与内容摘要检验。
+- **Verified**：`<style src>` 在本版本没有带入公共规则；改单个 style 内 `@import` 后，三个编译页面均包含公共主题。[官方样式导入](https://iot.mi.com/vela/quickapp/zh/guide/framework/style/)
+- **Verified**：CLI 全目录扫描会把局部模拟器复制到临时工程；本项目用小型构建包装隔离应用输入，未修改官方依赖源码。曾遇到 Windows EPERM，生成临时目录清理被自动策略拒绝，保留该生成目录，不纳入产品或 Git。
+- **Verified**：RPK 内为应用脚本、manifest、图标和签名元信息；不含 Node 开发依赖或私钥。开发依赖审计风险与手环包内运行时分别记录。
+- **Unknown / Not Run**：目标国行 9 Pro 实际安装与固件兼容、中文/触控、息屏生命周期、性能和正式通信仍待用户验收；模拟器记录不能替代这些证据。

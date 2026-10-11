@@ -1,0 +1,71 @@
+{
+  "verifiedAt": "2026-10-11",
+  "status": "Blocked before application loading",
+  "applicationLoaded": false,
+  "screenshotCount": 0,
+  "uiInteraction": "Not Run",
+  "host": "Windows x64; Node v24.18.1",
+  "toolkit": "aiot-toolkit@2.0.5 / @aiot-toolkit/emulator@2.0.5",
+  "engine": "Android emulator 32.1.15.0, build_id 20241202, Vela mode",
+  "profile": {
+    "name": "Vela_Mirra_Band_336x480",
+    "width": 336,
+    "height": 480,
+    "density": 320,
+    "shape": "rect",
+    "flavor": "band",
+    "imageId": "vela-pre-4.0",
+    "imageLabel": "vela-watch-4.0",
+    "imageVersion": "20250225",
+    "preparation": "Passed via official VvdManager with explicit sdkHome and vvdHome"
+  },
+  "resources": [
+    {
+      "url": "https://vela-ide.cnbj3-fusion.mi-fds.com/vela-ide/emulator/v0.1.0/windows-x86_64.zip",
+      "archiveBytes": 333196663,
+      "extractedBytes": 829610111,
+      "sha256": "c4cf7af67ac37d404a312181ea8b80ace93f904002bebe97c96636b1efd8f034"
+    },
+    {
+      "url": "https://vela-ide.cnbj3-fusion.mi-fds.com/vela-ide/system-images/vela-pre-4.0/20250225/vela-pre-4.0.zip",
+      "archiveBytes": 221529710,
+      "extractedBytes": 927802212,
+      "sha256": "fd2c184a27da5a2ca73ab46704ae96ba6434e36fae1feb49994d6ca788eb6b31",
+      "officialContentMd5": "15a51426821494f624e66a68fe30c023",
+      "contentMd5Verification": "Passed"
+    }
+  ],
+  "attempts": [
+    {
+      "route": "Official launcher with Vela VVD and local Android directory overrides",
+      "result": "Exit 1; Unknown VVD name / Unknown AVD name",
+      "notes": "The same local ini is visible to -list-avds. Local runtime/vvd and runtime/.vela/vvd aliases plus a child-only USERPROFILE override did not resolve Vela lookup."
+    },
+    {
+      "route": "Official qemu-system-armel engine with the same local profile",
+      "result": "Exit 1; unknown virtual device name",
+      "notes": "Initial 0xC0000135 DLL loading failure was traced through PE imports. Supplying the bundled lib64, qt/lib and gles_swiftshader directories only in the child environment resolved DLL loading; Vela profile lookup still failed."
+    },
+    {
+      "route": "Official out-of-tree recipe with local ANDROID_PRODUCT_OUT, build.prop, explicit kernel/system/data and 336x480 skin",
+      "result": "Exit 0xC0000005; no gRPC registration",
+      "notes": "Both the documented ANDROID_EMULATOR_VELA route and explicit -vela invocation were tried. The application was never loaded."
+    }
+  ],
+  "checkedBoundaries": {
+    "sdkPath": ".local/vela-sdk",
+    "vvdPath": ".local/vela-vvd",
+    "phoneActionsByThisVerification": "None",
+    "globalEnvironmentChangesByThisVerification": "None",
+    "userVelaHomeChangesByThisVerification": "None",
+    "runningOwnedEmulatorAfterAttempts": "None"
+  },
+  "upstreamEvidence": [
+    "https://iot.mi.com/vela/quickapp/zh/tools/debug/multi-screens.html",
+    "https://raw.githubusercontent.com/open-vela/prebuilts_emulator_tools/dev/emulator.sh",
+    "https://android.googlesource.com/platform/external/qemu/+/refs/heads/emu-32-release/android/android-emu-base/android/base/system/System.cpp",
+    "https://android.googlesource.com/platform/external/qemu/+/refs/heads/emu-master-dev/android/emu/files/src/android/emulation/ConfigDirs.cpp"
+  ],
+  "interpretation": "The tested vendor Windows Vela lookup could not be isolated with the available Android directory overrides. Upstream Windows home lookup uses SHGetFolderPathW(CSIDL_PROFILE), which explains why USERPROFILE alone is ineffective; this is an inference from upstream code, not a claim to have the vendor Vela path implementation.",
+  "nextRequirement": "Resolve a supported isolated native profile route or explicitly authorize a separate SDK setup scope, then verify the built RPK on the engine or target band. No runtime screenshot or touch result is claimed."
+}

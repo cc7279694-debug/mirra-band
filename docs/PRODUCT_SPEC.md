@@ -1,6 +1,6 @@
 # 首版手环原型规格
 
-状态：Module 01 形成的实施方案，等待用户模块验收；应用功能尚未实现。
+状态：Module 01 已由用户报告通过 ChatGPT 独立验收（PASS WITH NOTES）；Module 02 已授权实施。本文件约束实际原型，构建与运行证据见当前状态和 Module 02 checkpoint。
 
 ## 目标与范围
 
@@ -45,7 +45,7 @@
 
 只读探测 `system.interconnect` 模块加载、连接查询与错误回调；不向手机发送业务命令。仅在 API / 错误码有明确依据时显示具体原因；其余显示“未连接 / 原因未知”或“连接状态未知”，不能从一次失败推断未配对或不兼容。模块加载失败可以报告“通信接口不可用”，保留适当的非敏感错误信息。
 
-原型拟使用独立演示包名 `com.guanyi.mirra.band.demo` 和本地开发签名。它与正式手机 `com.guanyi.mirra` 不匹配，因此不期待能连通正式 Mirra。探测只能证明 API 在当前环境中的表现，不能解决真实通信条件。
+原型使用独立演示包名 `com.guanyi.mirra.band.demo` 和本地开发签名。它与正式手机 `com.guanyi.mirra` 不匹配，因此不期待能连通正式 Mirra。探测只能证明 API 在当前环境中的表现，不能解决真实通信条件。
 
 ## Module 02 Task Contract
 
@@ -57,11 +57,11 @@
 | Constraints | 离线、模拟标识、Mirra Blue、秘密不入 Git、先验证再声称完成 |
 | Dependencies | 经验证的官方 CLI、Node 兼容性、目标固件与用户现有安装工具；IDE/模拟器按需要使用 |
 | Acceptance Criteria | 七种情形、时间边界、返回与重进、中文与长文本、模拟/真实隔离通过；RPK 有大小/哈希/构建日志；安装说明与截图注明运行环境 |
-| Verification | TS/静态检查与状态/时间测试；实际 RPK 构建及包内配置检查；官方模拟器运行（可用时）；用户目标真机安装/触控/退出/重进验收 |
+| Verification | JavaScript 语法与配置检查、状态/时间/诊断/页面脚本测试；实际 RPK 构建及包内配置与签名检查；官方模拟器运行（可用时）；用户目标真机安装/触控/退出/重进验收 |
 
 开发交付和真机验收分开记录。RPK 构建成功不能替代真机运行；网页示意图不能当作 Vela 模拟器或手环截图。缺少工具或设备验证时列明 Not Run，不提前宣布兼容。
 
-实施顺序：固定局部 aiot-toolkit 2.0.5 并验证 Node → 原创最小 `.ux` 与 TS 预编译 → 状态/时间模型与检查 → 七种情形和返回流程 → 只读平台探测 → 实际 debug RPK 与包内容/签名检查 → 运行截图、安装交接与项目 checkpoint。公开版本信息与 reference 见 [平台核查](research/VELA_FEASIBILITY.md)。
+实施顺序：固定局部 aiot-toolkit 2.0.5 并验证 Node → 原创最小 `.ux` 与原生 JavaScript → 状态/时间模型与检查 → 七种情形和返回流程 → 只读平台探测 → 实际 debug/release RPK 与包内容/签名检查 → 运行截图、安装交接与项目 checkpoint。公开版本信息与 reference 见 [平台核查](research/VELA_FEASIBILITY.md)。
 
 ## 真机检查清单（尚未执行）
 

@@ -1,0 +1,82 @@
+<template>
+  <div class="page connection">
+    <text class="brand">连接信息</text>
+    <text class="badge">测试模式 · 只读探测</text>
+    <list class="diagnostic-list">
+      <list-item type="status" class="status-item">
+        <text class="connection-title">{{title}}</text>
+      </list-item>
+      <list-item type="detail" class="detail-item">
+        <text class="detail">{{detail}}</text>
+      </list-item>
+      <list-item if="{{code !== null}}" type="code" class="code-item">
+        <text class="muted">平台代码：{{code}}</text>
+      </list-item>
+      <list-item type="identity" class="identity-item">
+        <div class="identity-lines">
+          <text class="identity-line">独立演示签名</text>
+          <text class="identity-line">未接入正式手机 Mirra</text>
+          <text class="identity-line">不会发送学习控制命令</text>
+        </div>
+      </list-item>
+      <list-item type="probe" class="control-item">
+        <div class="button" onclick="probe"><text class="button-label">重新探测</text></div>
+      </list-item>
+      <list-item type="back" class="control-item">
+        <div class="secondary" onclick="back"><text class="secondary-label">返回首页</text></div>
+      </list-item>
+    </list>
+  </div>
+</template>
+<script>
+import router from '@system.router'
+import diagnosticLib from '../../lib/interconnect-diagnostic'
+
+export default {
+  private: {
+    title: '连接状态未知',
+    detail: '尚未进行只读探测',
+    code: null
+  },
+  onInit() {
+    this._diagnostic = diagnosticLib.createDiagnostic({
+      loadModule: () => require('@system.interconnect'),
+      setTimeout: (fn, ms) => setTimeout(fn, ms),
+      clearTimeout: handle => clearTimeout(handle)
+    })
+  },
+  onShow() {
+    this.probe()
+  },
+  onHide() {
+    if (this._diagnostic) this._diagnostic.dispose()
+  },
+  onDestroy() {
+    if (this._diagnostic) this._diagnostic.dispose()
+  },
+  probe() {
+    this._diagnostic.probe(view => {
+      this.title = view.title
+      this.detail = view.detail
+      this.code = view.code
+    })
+  },
+  back() {
+    router.back()
+  }
+}
+</script>
+<style>
+@import '../../common/theme.css';
+.connection { padding-top: 10px; }
+.diagnostic-list { width: 144px; height: 192px; margin-top: 5px; }
+.status-item { height: 32px; width: 144px; align-items: center; justify-content: center; }
+.connection-title { font-size: 15px; font-weight: bold; color: #181A1D; text-align: center; }
+.detail-item { width: 144px; height: 128px; }
+.detail { width: 144px; height: 128px; lines: 8; text-overflow: ellipsis; font-size: 11px; line-height: 15px; color: #626873; }
+.code-item { width: 144px; height: 20px; }
+.identity-item { width: 144px; height: 53px; }
+.identity-lines { width: 144px; flex-direction: column; }
+.identity-line { width: 144px; height: 15px; font-size: 11px; color: #626873; }
+.control-item { width: 144px; height: 34px; align-items: center; justify-content: center; }
+</style>

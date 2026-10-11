@@ -1,0 +1,29 @@
+{
+  "package": "com.guanyi.mirra.band.demo",
+  "name": "Mirra演示",
+  "versionName": "0.1.0",
+  "versionCode": 1,
+  "minPlatformVersion": 1000,
+  "minAPILevel": 1,
+  "icon": "/common/icon.png",
+  "deviceTypeList": ["watch"],
+  "features": [
+    { "name": "system.router" },
+    { "name": "system.interconnect" }
+  ],
+  "config": {
+    "designWidth": 168,
+    "logLevel": "error"
+  },
+  "display": {
+    "backgroundColor": "#F2F4F7"
+  },
+  "router": {
+    "entry": "pages/Home",
+    "pages": {
+      "pages/Home": { "component": "index", "launchMode": "singleTask" },
+      "pages/States": { "component": "index" },
+      "pages/Connection": { "component": "index" }
+    }
+  }
+}

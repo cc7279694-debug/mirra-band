@@ -19,7 +19,7 @@
 ## Tech / Architecture
 
 - 手环：Xiaomi Vela JS Quick App，平台 `.ux` UI，RPK 分发。
-- 业务逻辑优先 TypeScript；工具链兼容性须在实施时实际验证。
+- 原型采用原生 JavaScript，独立状态、计时与诊断模块；官方 `aiot-toolkit` 作为局部开发依赖，真实 RPK 构建验证兼容性。
 - 手机：继承现有 Kotlin / Jetpack Compose / Room / SQLite / DataStore / App-owned Files，不在本仓库迁移。
 - 原型：本地模拟状态 → 呈现模型 → 手环 UI；不保存真实学习数据。
 - 未来只读通信：手机真实状态 → 经验证的 Interconnect 通道 → 校验后的手环展示。该路径是方向，尚非实现。

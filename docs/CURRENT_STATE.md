@@ -4,46 +4,44 @@
 
 ## Current Stage / Module
 
-Module 01 — Foundation：仓库初始化、HR-Codex 项目记忆、平台核查与首版实施合同已形成经检查的交付；等待用户验收。Module 02 尚未开始。
+Module 01 已由用户报告通过 ChatGPT 独立验收：PASS WITH NOTES。Module 02 — Standalone Prototype 的应用、debug/release RPK 与自动化证据已形成开发交付，等待用户真机安装验收。官方 Windows 模拟器在加载应用前启动受阻，没有运行截图。
 
-分支：`codex/module-01-foundation`。继承远端初始提交：`942bb7b515f384375ecb9a87ebb8a0bd08709b5f`（只有 README）。
+分支：`codex/module-02-standalone-prototype`。准确继承已验证提交 `3805f542596c24a7a8c71590971ef78d794a4d54`，没有从旧 main 重新开发。
 
 ## Verified
 
-- 用户指定的独立仓库已克隆到当前工作区；实施发生在功能分支。
-- 已读取引用对话。国行 9 Pro 与第三方 RPK 可安装属于 User-reported。
-- 手机项目只读核查了定位、包名与 Palette：Kotlin / Compose / Room，`com.guanyi.mirra`，Mirra Blue `#6598E8` / `#386FBE`。手机工作区有既有未提交变更，本轮未修改或清理。
-- 已建立身份、状态、路线图、决定、原型规格和来源明确的平台研究记录。
-- 官方资料确认目标 336 × 480、Vela UI/RPK 形式、Interconnect 同包名/同签名条件、fetch 和后台限制；详情见 [平台核查](research/VELA_FEASIBILITY.md)。
-- 本地 Node/npm/Git/gh/OpenSSL 可用；Vela CLI 未检出，IDE 常规登记未查到；产品依赖和模拟器未安装。
+- 原生 Vela `.ux` + JavaScript 应用，七种状态、明确测试/模拟标识、Mirra Blue、状态列表与只读连接页。
+- 锚点演示计时、休息倒计时归零保持、准备转演示专注、重置、长书名降级；页面隐藏清理任务、返回重算、新进程恢复未开始。
+- Interconnect 只读模块加载、连接状态/事件、三秒超时、旧回调隔离、已有回调所有权保护；没有发送消息或真实学习控制。
+- 局部 `aiot-toolkit@2.0.5` 与 lockfile；Node 24.18.1 实际构建 debug/release 成功，无全局环境更改。
+- 两种实际 RPK 均通过 RSA-SHA256、内容摘要、ZIP CRC32、manifest/资源/公共主题/测试标识检查；负载与签名篡改被拒绝。
+- 62 项模型/计时/诊断/实际页面脚本/构建交付边界测试通过。16 个脚本与三个页面的语法/配置检查通过；页面 harness 不是 Vela 渲染证据。
+- 演示签名独立，私钥在忽略目录；应用不含开发工具依赖。没有修改手机代码/数据库/APK/正式签名或引入云服务。
 
-## In Progress / Pending
+## Current Delivery / Evidence
 
-- Module 01 用户验收。
-- Module 02 应用实现、局部工具链、状态/时间验证、RPK 与运行截图。
-- 目标真机的固件/APILevel、安装、中文/触控/生命周期表现尚未验证。
-- 正式手机签名、SDK、服务授权、只读通信、后台与提醒尚未验证。
+实际大小、SHA-256、公开证书指纹与原始构建输出见 [验证记录](evidence/module-02/VERIFICATION.md)。安装步骤见 [README](../README.md#安装与体验)，当前架构见 [ARCHITECTURE](ARCHITECTURE.md)。
 
-## Capabilities Not Implemented
+推荐安装：`E:\CODEX\mirra-watch\dist\com.guanyi.mirra.band.demo.release.0.1.0.rpk`。开发诊断备选同目录 debug 包；RPK 不进入 Git。
 
-当前没有应用代码、package.json、SQLite/Repository/Migration、备份实现、RPK 或实际界面截图。原型流程与演示包名为 Proposed；不得视为已运行功能。
+## Pending / Not Run
 
-## Verification / Git
-
-- 已检查 9 份 Markdown 的 18 个本地文档链接，缺失为 0。
-- 已检查 10 个拟提交文件，未检出私钥块、常见 Token 模式或敏感文件；7 类依赖/签名/设备凭据/产物路径的 Git 忽略检查通过。模式扫描并非任意秘密的完备检测，提交内容另经人工审阅。
-- 文档审阅发现的诊断原因推断与事实/计划措辞已修正；当前源码与文档没有冲突。
-- `git diff --check` 通过。Conventional Commit 与功能分支 push 的最终 SHA/远端一致性以真实 Git 和本次交付报告为准，不在文档预写自引用哈希。
-- TypeScript / ESLint / 产品单元测试 / RPK Build / 模拟器 / Android Build / 真机：Not Run；本模块仅文档与核查，无应用工程，也未进入工具安装或设备实施。
+- 模拟器：局部 SDK、镜像和 336 × 480 配置准备通过；原生启动受阻，应用加载/截图/触控 Not Run。实际尝试见 [模拟器报告](evidence/module-02/EMULATOR.md)。
+- 国行 9 Pro 实际安装、固件/APILevel、中文/触控、息屏/退出/重进、性能和耗电：等待用户设备验收。
+- 正式手机 SDK、同身份签名、授权、真实双向消息与学习数据：未实施，后续另行授权。
+- TypeScript / ESLint：Not Run；当前为授权 JS，以语法、配置、单元测试与官方编译验证。
+- Android Build：Not Run；本轮无手机变更。
 
 ## Known Risks / Technical Debt
 
-- 官方 manifest 示例和属性表有差异，Module 02 实编译与设备信息查询后再锁定兼容配置。
-- Node 24 能运行，不代表工具链兼容；当前未执行 Vela 构建。
-- 独立演示身份不匹配正式 Mirra，原型不会因此获得真实手机数据。
-- 模拟器不代替量产固件证据；未承诺后台消息或振动提醒。
-- 无产品代码层技术债务可评估；当前没有独立 ChatGPT 源码审阅，研究子代理不替代该审阅。
+- 独立演示身份不匹配正式 Mirra，因此原型不会得到真实学习数据。真实传输回调也不等于业务数据已验证。
+- 工具链开发依赖审计 22 个受影响节点（3 Critical / 16 High / 3 Low），生产依赖审计零；没有自动升级/回退。不是 RPK 内 22 个运行时漏洞。
+- 官方 CLI 全目录扫描局部 SDK 导致复制/EPERM，已用隔离输入修复构建路径；工作区外生成目录清理被自动策略拒绝，保留临时复制文件。
+- 模拟器不能证明量产固件兼容；不承诺后台常驻、消息/振动或耗电表现。
+- Module 02 尚没有 ChatGPT 独立验收；本地代码审查不能代替该验收。
 
-## Next Recommended Task
+## Git / Next Recommended Task
 
-接受 Module 01 后，执行 [Module 02 Task Contract](PRODUCT_SPEC.md)：独立 Vela 原型与 RPK 开发交付；真实手机通信留给另行授权的 Module 03。
+模块提交与功能分支 push 的 SHA/远端一致性以真实 Git 与最终交付报告为准；不预写自引用提交哈希。不创建 PR、不合并 main。
+
+下一步仅为用户安装并执行 [真机清单](PRODUCT_SPEC.md#真机检查清单尚未执行)。反馈固件和安装/操作结果后再决定修复或验收；未授权前停止，不自行实施 Module 03。

@@ -2,8 +2,8 @@
 
 | 模块 | 交付 | 状态 |
 | --- | --- | --- |
-| Module 01 — Foundation | 独立仓库、长期记忆、官方平台/通信/工具链核查、首版范围与验收 | 已形成交付，待用户验收 |
-| Module 02 — Standalone Prototype | 七种演示情形、测试模式、计时、只读能力探测、实际 RPK、安装说明与运行截图 | Planned；待 Module 01 验收 |
+| Module 01 — Foundation | 独立仓库、长期记忆、官方平台/通信/工具链核查、首版范围与验收 | Accepted；用户报告 ChatGPT PASS WITH NOTES |
+| Module 02 — Standalone Prototype | 七种演示情形、测试模式、计时、只读能力探测、实际 RPK、安装说明与运行证据 | Delivered；待用户真机验收，模拟器启动受阻 |
 | Module 03 — Read-only Companion | 核实目标固件、Android SDK 与签名，最小双向诊断，手机真实状态只读展示与过期处理 | Planned；另行授权手机变更与签名处理 |
 | 后续方向 | 第一动作确认、休息/恢复控制、分心振动提示 | Deferred；取决于真机后台/通信证据及独立产品决定 |
 
