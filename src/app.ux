@@ -1,14 +1,34 @@
 <script>
 import demoLib from './lib/demo'
+import demoCompanionLib from './lib/demo-companion'
+import storeLib from './lib/companion-store'
+import transportLib from './platform/interconnect-transport'
+import profile from './profile'
 
 export default {
   demo: null,
+  companion: null,
   onCreate() {
-    this.demo = demoLib.createDemo()
+    this.getCompanion()
   },
   getDemo() {
     if (!this.demo) this.demo = demoLib.createDemo()
     return this.demo
+  },
+  getCompanion() {
+    if (!this.companion) {
+      this.companion = profile.mode === 'demo'
+        ? demoCompanionLib.createDemoCompanion({ demo: this.getDemo() })
+        : storeLib.createCompanionStore({ transport: transportLib.createTransport({
+          loadModule: () => require('@system.interconnect')
+        }) })
+    }
+    return this.companion
+  },
+  onDestroy() {
+    if (this.companion) this.companion.destroy()
+    this.companion = null
+    this.demo = null
   }
 }
 </script>

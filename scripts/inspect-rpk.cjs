@@ -6,6 +6,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const crypto = require('node:crypto')
 const assert = require('node:assert/strict')
+const { identity } = require('./build-profiles.cjs')
 const { createRequire } = require('node:module')
 const toolkitRequire = createRequire(require.resolve('aiot-toolkit/package.json'))
 const packRequire = createRequire(toolkitRequire.resolve('@aiot-toolkit/aiotpack/package.json'))
@@ -110,9 +111,11 @@ function verifyBuffer(buffer) {
   }
 }
 
-async function inspect(filePath, certificatePath) {
+async function inspect(filePath, certificatePath, mode = 'demo') {
+  const profile = identity(mode)
   const buffer = fs.readFileSync(filePath)
   const verified = verifyBuffer(buffer)
+  assert.equal(verified.certificate.fingerprint256, profile.fingerprint, 'Unexpected profile signing identity')
   if (certificatePath) assert.equal(verified.certificate.fingerprint256, new crypto.X509Certificate(fs.readFileSync(certificatePath)).fingerprint256, 'Unexpected signing identity')
   const zip = await JSZip.loadAsync(buffer, { checkCRC32: true })
   const names = Object.keys(zip.files).filter(name => !name.endsWith('/'))
@@ -122,7 +125,9 @@ async function inspect(filePath, certificatePath) {
     const content = await zip.file(name).async('nodebuffer')
     assert(expected && crypto.createHash('sha256').update(content).digest().equals(expected), 'Signed file digest differs: ' + name)
   }
-  const required = ['manifest.json', 'app.js', 'pages/Home/index.js', 'pages/States/index.js', 'pages/Connection/index.js', 'common/icon.png', 'META-INF/CERT']
+  const required = ['manifest.json', 'app.js', 'pages/Home/index.js', 'pages/Detail/index.js', 'pages/Connection/index.js', 'common/icon.png', 'META-INF/CERT']
+  if (mode === 'demo') required.push('pages/States/index.js')
+  else assert(!zip.file('pages/States/index.js'), 'Demo page included in live package')
   for (const name of required) assert(zip.file(name), 'Missing RPK resource: ' + name)
   const metaBuffer = await zip.file('META-INF/CERT').async('nodebuffer')
   const meta = verifyBuffer(metaBuffer)
@@ -146,10 +151,13 @@ async function inspect(filePath, certificatePath) {
     for (const style of ['page', 'badge', 'button']) {
       assert(new RegExp('\\[\\s*0,\\s*["\x27]' + style + '["\x27]').test(script), 'Compiled shared style missing: ' + name + '/' + style)
     }
-    assert(script.includes('测试模式'), 'Compiled test-mode label missing: ' + name)
+    assert(script.includes('演示数据'), 'Shared demo badge missing: ' + name)
   }
   const manifest = JSON.parse(await zip.file('manifest.json').async('string'))
-  assert.equal(manifest.package, 'com.guanyi.mirra.band.demo')
+  assert.equal(manifest.package, profile.package)
+  assert.equal(manifest.versionName, '0.2.0')
+  assert.equal(manifest.versionCode, 2)
+  assert.deepEqual(Object.keys(manifest.router.pages).sort(), (mode === 'live' ? ['pages/Home','pages/Detail','pages/Connection'] : ['pages/Home','pages/Detail','pages/Connection','pages/States']).sort())
   assert.equal(manifest.config.designWidth, 168)
   assert.equal(manifest.router.entry, 'pages/Home')
   assert.deepEqual(manifest.features.map(feature => feature.name).sort(), ['system.interconnect', 'system.router'])
@@ -165,18 +173,18 @@ async function inspect(filePath, certificatePath) {
   return {
     path: path.resolve(filePath), bytes: buffer.length,
     sha256: crypto.createHash('sha256').update(buffer).digest('hex'),
-    package: manifest.package, version: manifest.versionName,
+    package: manifest.package, version: manifest.versionName, profile: mode,
     signature: 'RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified',
     certificateSubject: verified.certificate.subject,
     certificateFingerprint256: verified.certificate.fingerprint256,
     certificateValidTo: verified.certificate.validTo,
-    zipCRC32: 'verified', sharedStyles: 'present in all three compiled pages', tamperChecks: 'payload, primary signature and file digest signature mutations rejected',
+    zipCRC32: 'verified', sharedStyles: 'present in all compiled pages', tamperChecks: 'payload, primary signature and file digest signature mutations rejected',
     files: Object.keys(zip.files).filter(name => !name.endsWith('/'))
   }
 }
 
 if (require.main === module) {
-  const file = process.argv[2] || path.join(__dirname, '../dist/com.guanyi.mirra.band.demo.release.0.1.0.rpk')
-  inspect(file, process.argv[3]).then(result => process.stdout.write(JSON.stringify(result, null, 2) + '\n')).catch(error => { process.stderr.write(error.message + '\n'); process.exitCode = 1 })
+  const file = process.argv[2] || path.join(__dirname, '../dist/com.guanyi.mirra.band.demo.release.0.2.0.rpk')
+  inspect(file, process.argv[3], process.argv[4] || 'demo').then(result => process.stdout.write(JSON.stringify(result, null, 2) + '\n')).catch(error => { process.stderr.write(error.message + '\n'); process.exitCode = 1 })
 }
 module.exports = { inspect, verifyBuffer }

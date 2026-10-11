@@ -1,54 +1,59 @@
 <template>
   <div class="page states">
-    <text class="brand">测试状态</text>
-    <text class="badge">测试模式 · 模拟数据</text>
+    <text class="brand">演示状态</text>
+    <text class="badge">演示数据</text>
     <list class="state-list">
       <list-item for="{{states}}" type="state" class="state-item" onclick="selectState($item.id)">
-        <text class="state-name">{{$item.label}}</text>
-        <text class="state-arrow">›</text>
+        <text class="state-name">{{$item.label}}</text><text class="state-arrow">›</text>
       </list-item>
-      <list-item type="quick-break" class="state-item" onclick="quickBreak">
-        <text class="state-name">休息倒计时 · 5 秒</text>
-      </list-item>
-      <list-item type="long-title" class="state-item" onclick="longTitle">
-        <text class="state-name">长书名显示测试</text>
-      </list-item>
-      <list-item type="back" class="state-item" onclick="back">
-        <text class="state-name">返回首页</text>
-      </list-item>
+      <list-item type="quick-break" class="state-item" onclick="quickBreak"><text class="state-name">休息倒计时 · 5 秒</text></list-item>
+      <list-item type="long-title" class="state-item" onclick="longTitle"><text class="state-name">长书名与 emoji</text></list-item>
+      <list-item type="long-action" class="state-item" onclick="longAction"><text class="state-name">长准备动作</text></list-item>
+      <list-item type="back" class="state-item" onclick="back"><text class="state-name">返回</text></list-item>
     </list>
   </div>
 </template>
 <script>
 import router from '@system.router'
-import demoLib from '../../lib/demo'
+import demoCompanionLib from '../../lib/demo-companion'
 
 export default {
-  private: { states: demoLib.STATES },
+  private: { states: demoCompanionLib.STATES },
+  onInit() {
+    if (!this.isDemo()) router.back()
+  },
+  isDemo() { return this.$app.$def.getCompanion().snapshot().mode === 'demo' },
   selectState(id) {
-    this.$app.$def.getDemo().select(id)
+    if (!this.isDemo()) return
+    this.$app.$def.getCompanion().select(id)
     router.back()
   },
   quickBreak() {
-    this.$app.$def.getDemo().select('break', { breakDurationMs: 5000 })
+    if (!this.isDemo()) return
+    this.$app.$def.getCompanion().select('break', { breakDurationMs: 5000 })
     router.back()
   },
   longTitle() {
-    this.$app.$def.getDemo().select('focus', {
-      bookTitle: '一本用于验证中文长书名显示与截断行为的模拟学习书籍'
+    if (!this.isDemo()) return
+    this.$app.$def.getCompanion().select('focus', {
+      bookTitle: '一本验证中文📚英文 Reading 与长书名截断行为的演示学习书籍'
     })
     router.back()
   },
-  back() {
+  longAction() {
+    if (!this.isDemo()) return
+    this.$app.$def.getCompanion().select('preparing', {
+      firstAction: '打开书本📖，翻到第 32 页，从第一段开始阅读。只需完成这一小步，其余内容可以继续在详情页查看'
+    })
     router.back()
-  }
+  },
+  back() { router.back() }
 }
 </script>
 <style>
 @import '../../common/theme.css';
-.states { padding-top: 10px; }
-.state-list { width: 144px; height: 192px; margin-top: 5px; }
-.state-item { width: 144px; height: 34px; border-bottom-width: 1px; border-bottom-color: #E1E5EA; align-items: center; justify-content: space-between; }
-.state-name { font-size: 12px; color: #181A1D; }
-.state-arrow { font-size: 16px; color: #386FBE; }
+.state-list { width: 144px; flex: 1; margin-top: 5px; }
+.state-item { width: 144px; height: 36px; border-bottom-width: 1px; border-bottom-color: #151C25; align-items: center; justify-content: space-between; }
+.state-name { font-size: 12px; color: #EEF3F8; }
+.state-arrow { font-size: 16px; color: #6598E8; }
 </style>

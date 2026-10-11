@@ -1,8 +1,8 @@
 {
-  "package": "com.guanyi.mirra.band.demo",
-  "name": "Mirra演示",
-  "versionName": "0.1.0",
-  "versionCode": 1,
+  "package": "com.guanyi.mirra",
+  "name": "Mirra",
+  "versionName": "0.2.0",
+  "versionCode": 2,
   "minPlatformVersion": 1000,
   "minAPILevel": 1,
   "icon": "/common/icon.png",
@@ -16,13 +16,13 @@
     "logLevel": "error"
   },
   "display": {
-    "backgroundColor": "#F2F4F7"
+    "backgroundColor": "#0B0F14"
   },
   "router": {
     "entry": "pages/Home",
     "pages": {
       "pages/Home": { "component": "index", "launchMode": "singleTask" },
-      "pages/States": { "component": "index" },
+      "pages/Detail": { "component": "index" },
       "pages/Connection": { "component": "index" }
     }
   }

@@ -1,0 +1,86 @@
+<template>
+  <div class="page">
+    <text class="brand">阅读详情</text>
+    <text if="{{showDemo}}" class="badge">{{demoLabel}}</text>
+    <list class="detail-list">
+      <list-item type="state" class="summary-row"><text class="summary">{{title}}</text><text class="row-note">{{syncText}}</text></list-item>
+      <list-item if="{{fullBookTitle}}" type="book-title" class="label-row"><text class="section-label">当前书籍</text></list-item>
+      <list-item for="{{bookRows}}" type="book-row" class="long-row"><text class="long-text">{{$item}}</text></list-item>
+      <list-item if="{{pageText}}" type="page" class="note-row"><text class="row-note">{{pageText}}</text></list-item>
+      <list-item if="{{bookNotice}}" type="book-notice" class="help-row"><text class="help-text">{{bookNotice}}</text></list-item>
+      <list-item if="{{hasFirstAction}}" type="action-label" class="label-row"><text class="section-label">第一步动作</text></list-item>
+      <list-item for="{{firstActionRows}}" type="action-row" class="long-row"><text class="long-text">{{$item}}</text></list-item>
+      <list-item if="{{actionNotice}}" type="action-notice" class="help-row"><text class="help-text">{{actionNotice}}</text></list-item>
+      <list-item if="{{detailTimerText}}" type="time" class="summary-row"><text class="section-label">{{detailTimerLabel}}</text><text class="time-value">{{detailTimerText}}</text></list-item>
+      <list-item if="{{precisionText}}" type="precision" class="note-row"><text class="row-note">{{precisionText}}</text></list-item>
+      <list-item type="monitor" class="summary-row"><text class="section-label">监测情况</text><text class="long-text">{{monitorText}}</text></list-item>
+      <list-item type="help" class="help-row"><text class="help-text">{{helpText}}</text></list-item>
+      <list-item type="connection" class="control-row"><div class="secondary" onclick="openConnection"><text class="secondary-label">连接与帮助</text></div></list-item>
+      <list-item if="{{showDemo}}" type="demo" class="control-row"><div class="secondary" onclick="openStates"><text class="secondary-label">选择演示状态</text></div></list-item>
+      <list-item type="back" class="control-row"><div class="secondary" onclick="back"><text class="secondary-label">返回</text></div></list-item>
+    </list>
+  </div>
+</template>
+<script>
+import router from '@system.router'
+import tickerLib from '../../lib/ticker'
+import presentationLib from '../../lib/companion-presentation'
+
+export default {
+  private: presentationLib.present({}),
+  onInit() {
+    this._visible = false
+    this._destroyed = false
+    this._companion = this.$app.$def.getCompanion()
+    this._ticker = tickerLib.createTicker({ refresh: () => this.refresh() })
+    this.refresh()
+  },
+  onShow() {
+    if (this._destroyed || this._visible) return
+    this._visible = true
+    this._off = this._companion.subscribe(() => {
+      if (this._visible && !this._destroyed) this.refresh()
+    })
+    this._companion.start(this)
+    this._ticker.show()
+  },
+  onHide() {
+    if (!this._visible) return
+    this._visible = false
+    if (this._off) this._off()
+    this._off = null
+    this._ticker.hide()
+    this._companion.stop(this)
+  },
+  onDestroy() {
+    this.onHide()
+    this._destroyed = true
+    if (this._ticker) this._ticker.destroy()
+  },
+  refresh() {
+    if (this._destroyed) return
+    const view = presentationLib.present(this._companion.snapshot())
+    Object.keys(view).forEach(key => { this[key] = view[key] })
+  },
+  openConnection() { router.push({ uri: '/pages/Connection' }) },
+  openStates() {
+    if (this.showDemo) router.push({ uri: '/pages/States' })
+  },
+  back() { router.back() }
+}
+</script>
+<style>
+@import '../../common/theme.css';
+.detail-list { width: 144px; flex: 1; margin-top: 7px; }
+.summary-row { width: 144px; height: 46px; flex-direction: column; justify-content: center; }
+.summary { width: 144px; height: 20px; font-size: 13px; color: #EEF3F8; lines: 1; text-overflow: ellipsis; }
+.row-note { width: 144px; height: 16px; font-size: 10px; color: #A6B2C3; }
+.label-row { width: 144px; height: 24px; align-items: flex-end; }
+.long-row { width: 144px; height: 34px; align-items: center; }
+.long-text { width: 144px; height: 32px; font-size: 12px; line-height: 16px; lines: 2; color: #EEF3F8; }
+.note-row { width: 144px; height: 22px; align-items: center; }
+.time-value { width: 144px; height: 26px; font-size: 20px; color: #6598E8; }
+.help-row { width: 144px; height: 44px; align-items: center; }
+.help-text { width: 144px; height: 36px; font-size: 10px; line-height: 12px; lines: 3; color: #A6B2C3; }
+.control-row { width: 144px; height: 40px; align-items: center; }
+</style>

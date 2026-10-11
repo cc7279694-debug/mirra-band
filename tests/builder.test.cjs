@@ -9,14 +9,14 @@ const scriptPath = path.join(root, 'scripts/build-rpk.cjs');
 const source = fs.readFileSync(scriptPath, 'utf8');
 const staging = path.join(root, '.local/build-project');
 const lock = path.join(root, '.local/build.lock');
-const artifactName = 'com.guanyi.mirra.band.demo.release.0.1.0.rpk';
+const artifactName = 'com.guanyi.mirra.band.demo.release.0.2.0.rpk';
 const deliveryPath = path.join(root, 'dist', artifactName);
 const stagedArtifact = path.join(staging, 'dist', artifactName);
 
 // Only external file/build/signature boundaries are substituted. The actual
 // wrapper decides what to delete, launch, validate, deliver, and unlock.
 async function runBuilder({ compilerStatus = 0, produceArtifact = true, locked = false } = {}) {
-  const manifest = JSON.stringify({ package: 'com.guanyi.mirra.band.demo', versionName: '0.1.0' });
+  const manifest = fs.readFileSync(path.join(root, 'src/manifest.json'), 'utf8');
   const files = new Map([
     [path.join(root, 'src/manifest.json'), manifest],
     [path.join(root, 'package.json'), '{"private":true}'],
@@ -77,6 +77,7 @@ async function runBuilder({ compilerStatus = 0, produceArtifact = true, locked =
       return files.has(file);
     },
     readFileSync: readFile,
+    writeFileSync(file, content) { files.set(file, content); },
     symlinkSync(from, to, type) {
       assert.equal(type, 'junction');
       files.set(to, { junction: from });
@@ -92,6 +93,7 @@ async function runBuilder({ compilerStatus = 0, produceArtifact = true, locked =
   const requireBoundary = (name) => {
     if (name === 'node:fs') return memoryFs;
     if (name === 'node:path') return path;
+    if (name === './build-profiles.cjs') return require('../scripts/build-profiles.cjs');
     if (name === 'node:child_process') {
       return {
         spawnSync(command, args, options) {
@@ -131,7 +133,7 @@ test('builder delivers a fresh validated staged package without scanning the who
   const result = await runBuilder();
   assert.equal(result.exitCode, 0);
   assert.equal(result.files.get(deliveryPath), 'fresh verified package');
-  assert.equal(result.files.get(path.join(root, 'build/runtime/app.js')), 'fresh compiled runtime');
+  assert.equal(result.files.get(path.join(root, 'build/runtime/demo/app.js')), 'fresh compiled runtime');
   assert.equal(result.files.get(path.join(root, 'node_modules/keep.txt')), 'dependencies stay intact');
   assert.deepEqual(result.removed, [staging]);
   assert.equal(result.launched.length, 1);

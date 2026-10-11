@@ -1,82 +1,72 @@
 <template>
-  <div class="page connection">
-    <text class="brand">连接信息</text>
-    <text class="badge">测试模式 · 只读探测</text>
-    <list class="diagnostic-list">
-      <list-item type="status" class="status-item">
-        <text class="connection-title">{{title}}</text>
-      </list-item>
-      <list-item type="detail" class="detail-item">
-        <text class="detail">{{detail}}</text>
-      </list-item>
-      <list-item if="{{code !== null}}" type="code" class="code-item">
-        <text class="muted">平台代码：{{code}}</text>
-      </list-item>
-      <list-item type="identity" class="identity-item">
-        <div class="identity-lines">
-          <text class="identity-line">独立演示签名</text>
-          <text class="identity-line">未接入正式手机 Mirra</text>
-          <text class="identity-line">不会发送学习控制命令</text>
-        </div>
-      </list-item>
-      <list-item type="probe" class="control-item">
-        <div class="button" onclick="probe"><text class="button-label">重新探测</text></div>
-      </list-item>
-      <list-item type="back" class="control-item">
-        <div class="secondary" onclick="back"><text class="secondary-label">返回首页</text></div>
-      </list-item>
+  <div class="page">
+    <text class="brand">连接与帮助</text>
+    <text if="{{showDemo}}" class="badge">{{demoLabel}}</text>
+    <list class="connection-list">
+      <list-item type="status" class="status-row"><text class="connection-title">{{title}}</text><text class="row-note">{{syncText}}</text></list-item>
+      <list-item type="channel" class="info-row"><text class="body-text">{{connectionText}}</text></list-item>
+      <list-item type="guidance" class="help-row"><text class="help-text">{{helpText}}</text></list-item>
+      <list-item type="lifecycle" class="help-row"><text class="help-text">打开手环应用时更新。息屏或退出后，重新进入会再次获取状态。</text></list-item>
+      <list-item type="privacy" class="help-row"><text class="help-text">仅查看当前阅读信息。开始、休息与结束请在手机操作。</text></list-item>
+      <list-item if="{{errorText}}" type="error" class="help-row"><text class="help-text">诊断代码：{{errorText}}</text></list-item>
+      <list-item type="retry" class="control-row"><div class="button" onclick="retry"><text class="button-label">重新连接</text></div></list-item>
+      <list-item type="back" class="control-row"><div class="secondary" onclick="back"><text class="secondary-label">返回</text></div></list-item>
     </list>
   </div>
 </template>
 <script>
 import router from '@system.router'
-import diagnosticLib from '../../lib/interconnect-diagnostic'
+import tickerLib from '../../lib/ticker'
+import presentationLib from '../../lib/companion-presentation'
 
 export default {
-  private: {
-    title: '连接状态未知',
-    detail: '尚未进行只读探测',
-    code: null
-  },
+  private: presentationLib.present({}),
   onInit() {
-    this._diagnostic = diagnosticLib.createDiagnostic({
-      loadModule: () => require('@system.interconnect'),
-      setTimeout: (fn, ms) => setTimeout(fn, ms),
-      clearTimeout: handle => clearTimeout(handle)
-    })
+    this._visible = false
+    this._destroyed = false
+    this._companion = this.$app.$def.getCompanion()
+    this._ticker = tickerLib.createTicker({ refresh: () => this.refresh() })
+    this.refresh()
   },
   onShow() {
-    this.probe()
+    if (this._destroyed || this._visible) return
+    this._visible = true
+    this._off = this._companion.subscribe(() => {
+      if (this._visible && !this._destroyed) this.refresh()
+    })
+    this._companion.start(this)
+    this._ticker.show()
   },
   onHide() {
-    if (this._diagnostic) this._diagnostic.dispose()
+    if (!this._visible) return
+    this._visible = false
+    if (this._off) this._off()
+    this._off = null
+    this._ticker.hide()
+    this._companion.stop(this)
   },
   onDestroy() {
-    if (this._diagnostic) this._diagnostic.dispose()
+    this.onHide()
+    this._destroyed = true
+    if (this._ticker) this._ticker.destroy()
   },
-  probe() {
-    this._diagnostic.probe(view => {
-      this.title = view.title
-      this.detail = view.detail
-      this.code = view.code
-    })
+  refresh() {
+    if (this._destroyed) return
+    const view = presentationLib.present(this._companion.snapshot())
+    Object.keys(view).forEach(key => { this[key] = view[key] })
   },
-  back() {
-    router.back()
-  }
+  retry() { this._companion.requestRefresh() },
+  back() { router.back() }
 }
 </script>
 <style>
 @import '../../common/theme.css';
-.connection { padding-top: 10px; }
-.diagnostic-list { width: 144px; height: 192px; margin-top: 5px; }
-.status-item { height: 32px; width: 144px; align-items: center; justify-content: center; }
-.connection-title { font-size: 15px; font-weight: bold; color: #181A1D; text-align: center; }
-.detail-item { width: 144px; height: 128px; }
-.detail { width: 144px; height: 128px; lines: 8; text-overflow: ellipsis; font-size: 11px; line-height: 15px; color: #626873; }
-.code-item { width: 144px; height: 20px; }
-.identity-item { width: 144px; height: 53px; }
-.identity-lines { width: 144px; flex-direction: column; }
-.identity-line { width: 144px; height: 15px; font-size: 11px; color: #626873; }
-.control-item { width: 144px; height: 34px; align-items: center; justify-content: center; }
+.connection-list { width: 144px; flex: 1; margin-top: 7px; }
+.status-row { width: 144px; height: 48px; flex-direction: column; justify-content: center; }
+.connection-title { width: 144px; height: 22px; font-size: 13px; color: #EEF3F8; lines: 1; text-overflow: ellipsis; }
+.row-note { width: 144px; height: 16px; font-size: 10px; color: #A6B2C3; }
+.info-row { width: 144px; height: 28px; align-items: center; }
+.help-row { width: 144px; height: 51px; align-items: center; }
+.help-text { width: 144px; height: 45px; font-size: 11px; line-height: 15px; lines: 3; text-overflow: ellipsis; color: #A6B2C3; }
+.control-row { width: 144px; height: 40px; align-items: center; }
 </style>

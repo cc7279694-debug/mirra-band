@@ -1,102 +1,87 @@
 <template>
   <div class="page home">
-    <text class="brand">Mirra Band</text>
-    <text class="badge">测试模式 · 模拟数据</text>
-    <text class="state">{{stateLabel}}</text>
-    <text if="{{hasTimer}}" class="timer">{{timerText}}</text>
-    <text if="{{hasTimer}}" class="timer-label">{{timerLabel}}</text>
-    <text if="{{stateId !== 'idle'}}" class="book">模拟书籍 · {{bookTitle}}</text>
-    <text class="message">{{message}}</text>
-    <div if="{{canAct}}" class="button action" onclick="act">
-      <text class="button-label">{{actionLabel}}</text>
+    <text if="{{showDemo}}" class="badge">{{demoLabel}}</text>
+    <text class="{{titleClass}}">{{title}}</text>
+    <text class="{{canRetry ? 'sync sync-warning' : 'sync'}}">{{syncText}}</text>
+    <div class="hero">
+      <text if="{{hasTimer}}" class="{{timerClass}}">{{timerText}}</text>
+      <text if="{{hasTimer}}" class="timer-label">{{timerLabel}}</text>
+      <text if="{{!hasTimer}}" class="hero-text">{{heroText}}</text>
+      <text if="{{hint}}" class="hint">{{hint}}</text>
     </div>
-    <div if="{{!canAct}}" class="button action" onclick="openStates">
-      <text class="button-label">选择测试状态</text>
+    <div if="{{bookTitle}}" class="book-context">
+      <text class="book">{{bookTitle}}</text>
+      <text if="{{pageText}}" class="page-number">{{pageText}}</text>
     </div>
     <div class="navigation">
-      <div class="nav-item" onclick="openStates"><text class="nav-label">切换状态</text></div>
-      <div class="nav-item" onclick="openConnection"><text class="nav-label">连接信息</text></div>
+      <div if="{{canRetry}}" class="retry" onclick="retry"><text class="button-label">重试连接</text></div>
+      <div class="{{canRetry ? 'detail-link compact' : 'detail-link'}}" onclick="openDetail"><text class="secondary-label">详情</text></div>
     </div>
-    <text class="footer">未接入手机 Mirra</text>
   </div>
 </template>
-
 <script>
 import router from '@system.router'
 import tickerLib from '../../lib/ticker'
+import presentationLib from '../../lib/companion-presentation'
 
 export default {
-  private: {
-    stateId: 'idle',
-    stateLabel: '未开始',
-    timerText: '00:00',
-    timerLabel: '演示时长',
-    bookTitle: '怪诞行为学',
-    message: '选择一种状态开始测试',
-    actionLabel: '',
-    canAct: false,
-    hasTimer: false
-  },
+  private: presentationLib.present({}),
   onInit() {
-    this._ticker = tickerLib.createTicker({
-      refresh: () => this.refresh(),
-      setInterval: (fn, ms) => setInterval(fn, ms),
-      clearInterval: handle => clearInterval(handle)
-    })
+    this._visible = false
+    this._destroyed = false
+    this._companion = this.$app.$def.getCompanion()
+    this._ticker = tickerLib.createTicker({ refresh: () => this.refresh() })
     this.refresh()
   },
   onShow() {
+    if (this._destroyed || this._visible) return
+    this._visible = true
+    this._off = this._companion.subscribe(() => {
+      if (this._visible && !this._destroyed) this.refresh()
+    })
+    this._companion.start(this)
     this._ticker.show()
   },
-  onRefresh() {
-    this.refresh()
-  },
+  onRefresh() { this.refresh() },
   onHide() {
-    if (this._ticker) this._ticker.hide()
+    if (!this._visible) return
+    this._visible = false
+    if (this._off) this._off()
+    this._off = null
+    this._ticker.hide()
+    this._companion.stop(this)
   },
   onDestroy() {
+    this.onHide()
+    this._destroyed = true
     if (this._ticker) this._ticker.destroy()
   },
   refresh() {
-    const view = this.$app.$def.getDemo().snapshot()
-    this.stateId = view.stateId
-    this.stateLabel = view.stateLabel
-    this.timerText = view.timerText
-    this.timerLabel = view.timerLabel
-    this.bookTitle = view.bookTitle
-    this.message = view.message
-    this.actionLabel = view.actionLabel
-    this.canAct = view.canAct
-    this.hasTimer = view.hasTimer
+    if (this._destroyed) return
+    const view = presentationLib.present(this._companion.snapshot())
+    Object.keys(view).forEach(key => { this[key] = view[key] })
   },
-  act() {
-    const demo = this.$app.$def.getDemo()
-    if (this.stateId === 'preparing') demo.completePreparation()
-    else demo.reset()
-    this.refresh()
-  },
-  openStates() {
-    router.push({ uri: '/pages/States' })
-  },
-  openConnection() {
-    router.push({ uri: '/pages/Connection' })
-  }
+  retry() { this._companion.requestRefresh() },
+  openDetail() { router.push({ uri: '/pages/Detail' }) }
 }
 </script>
-
 <style>
 @import '../../common/theme.css';
-.home { padding-top: 8px; padding-bottom: 5px; }
-.brand { height: 15px; }
-.badge { height: 13px; }
-.state { width: 144px; height: 22px; margin-top: 4px; font-size: 18px; font-weight: bold; color: #181A1D; text-align: center; }
-.timer { width: 144px; height: 32px; font-size: 28px; color: #386FBE; text-align: center; }
-.timer-label { width: 144px; height: 12px; font-size: 10px; color: #626873; text-align: center; }
-.book { width: 144px; height: 14px; margin-top: 2px; font-size: 11px; color: #181A1D; lines: 1; text-overflow: ellipsis; text-align: center; }
-.message { width: 144px; height: 26px; margin-top: 2px; font-size: 11px; line-height: 13px; lines: 2; text-overflow: ellipsis; color: #626873; text-align: center; }
-.action { margin-top: 4px; }
-.navigation { width: 144px; height: 28px; margin-top: 4px; flex-direction: row; justify-content: space-between; }
-.nav-item { width: 70px; height: 28px; border-radius: 7px; background-color: #DCE9FA; justify-content: center; align-items: center; }
-.nav-label { font-size: 11px; color: #386FBE; }
-.footer { width: 144px; height: 11px; margin-top: 2px; font-size: 9px; color: #626873; text-align: center; }
+.state { width: 144px; height: 22px; font-size: 15px; font-weight: bold; color: #EEF3F8; text-align: center; lines: 1; text-overflow: ellipsis; }
+.state-small { font-size: 12px; }
+.sync { width: 144px; height: 14px; font-size: 10px; color: #A6B2C3; text-align: center; lines: 1; }
+.sync-warning { color: #D7B77A; }
+.hero { width: 144px; flex: 1; flex-direction: column; justify-content: center; align-items: center; }
+.timer { width: 144px; height: 48px; font-size: 40px; color: #6598E8; text-align: center; lines: 1; }
+.timer-long { font-size: 26px; }
+.timer-label { width: 144px; height: 15px; font-size: 11px; color: #A6B2C3; text-align: center; }
+.hero-text { width: 144px; height: 66px; font-size: 16px; line-height: 22px; lines: 3; text-overflow: ellipsis; color: #EEF3F8; text-align: center; }
+.hint { width: 144px; height: 16px; font-size: 10px; line-height: 14px; lines: 1; text-overflow: ellipsis; color: #A6B2C3; text-align: center; }
+.book-context { width: 144px; height: 49px; padding: 3px 8px; border-radius: 9px; background-color: #151C25; flex-direction: column; justify-content: center; }
+.book { width: 128px; height: 30px; font-size: 12px; line-height: 15px; lines: 2; text-overflow: ellipsis; color: #EEF3F8; }
+.page-number { width: 128px; height: 13px; font-size: 10px; color: #A6B2C3; }
+.navigation { width: 144px; height: 32px; margin-top: 8px; flex-direction: row; justify-content: space-between; }
+.detail-link { width: 144px; height: 32px; border-radius: 9px; background-color: #151C25; align-items: center; justify-content: center; }
+.compact { width: 68px; }
+.retry { width: 68px; height: 32px; border-radius: 9px; background-color: #6598E8; align-items: center; justify-content: center; }
 </style>

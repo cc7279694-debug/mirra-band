@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
+const { configureManifest, identity } = require('./build-profiles.cjs');
 const root = path.resolve(__dirname, '..');
 const manifest = JSON.parse(fs.readFileSync(path.join(root, 'src/manifest.json'), 'utf8'));
 const errors = [];
@@ -24,7 +25,7 @@ function walk(directory) {
       const scripts = [...source.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)];
       if (scripts.length !== 1) errors.push(file + ': expected exactly one script');
       for (const script of scripts) syntax(script[1], file, true);
-      if (file.includes(path.sep + 'pages' + path.sep) && !source.includes('测试模式')) errors.push(file + ': missing test-mode label');
+      if (file.includes(path.sep + 'pages' + path.sep) && !source.includes('showDemo') && !source.includes('演示数据')) errors.push(file + ': missing conditional or explicit demo badge');
     }
   }
 }
@@ -32,9 +33,14 @@ function walk(directory) {
 walk(path.join(root, 'src'));
 walk(path.join(root, 'scripts'));
 walk(path.join(root, 'tests'));
-if (manifest.package !== 'com.guanyi.mirra.band.demo') errors.push('Unexpected demonstration package');
+if (manifest.package !== identity('live').package) errors.push('Unexpected live source package');
+for (const mode of ['demo', 'live']) {
+  const selected = configureManifest(manifest, mode);
+  if (selected.package !== identity(mode).package) errors.push('Unexpected profile identity');
+  if (mode === 'live' && selected.router.pages['pages/States']) errors.push('Demo route in live');
+}
 if (manifest.config.designWidth !== 168) errors.push('Unexpected design width');
-if (manifest.config.background) errors.push('Prototype must not request background execution');
+if (manifest.config.background) errors.push('Companion must not request background execution');
 if (manifest.features.some(feature => !['system.router', 'system.interconnect'].includes(feature.name))) errors.push('Unexpected capability');
 for (const [page, route] of Object.entries(manifest.router.pages)) {
   if (!fs.existsSync(path.join(root, 'src', page, route.component + '.ux'))) errors.push('Missing route: ' + page);
