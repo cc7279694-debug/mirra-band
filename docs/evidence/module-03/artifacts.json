@@ -1,0 +1,199 @@
+{
+  "status": "MODULE_03_DEV_COMPLETE_AWAITING_DEVICE_ACCEPTANCE",
+  "observedAt": "2026-10-11T10:50:04.616Z",
+  "band": {
+    "branch": "codex/module-03-readonly-companion",
+    "implementationCommit": "88bd77b1582f268b2dda3785fd8b46dc2b2e8fec",
+    "baseCommit": "e450dc1dfb4194dfb755371eddeb740d30cb3700"
+  },
+  "phone": {
+    "branch": "codex/mirra-band-readonly-bridge",
+    "implementationCommit": "e00be0a5d59f9dad892b8c26128c8c3d17149f70",
+    "baseCommit": "1338b9a4e41788082f30bf3894a974c2ff652630"
+  },
+  "artifacts": [
+    {
+      "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.2.0.rpk",
+      "bytes": 31723,
+      "sha256": "36dde0476f55621ca5a162c9dd2efdd1876f36007ce7c8ccdc99b2b5604081bd",
+      "package": "com.guanyi.mirra",
+      "version": "0.2.0",
+      "profile": "live",
+      "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+      "certificateSubject": "CN=Android Debug\nO=Android\nC=US",
+      "certificateFingerprint256": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
+      "certificateValidTo": "Sep  2 07:14:40 2056 GMT",
+      "zipCRC32": "verified",
+      "sharedStyles": "present in all compiled pages",
+      "tamperChecks": "payload, primary signature and file digest signature mutations rejected",
+      "files": [
+        "META-INF/CERT",
+        "manifest-watch.json",
+        "manifest.json",
+        "app.js",
+        "pages/Home/index.js",
+        "common/icon.png",
+        "common/icon.svg",
+        "pages/Connection/index.js",
+        "pages/Detail/index.js",
+        "META-INF/build.txt"
+      ],
+      "versionCode": 2
+    },
+    {
+      "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.band.demo.release.0.2.0.rpk",
+      "bytes": 35574,
+      "sha256": "cdcaf03deac3e51496f9e154d119afc285c807ae3e662f7de3df548a8360aee3",
+      "package": "com.guanyi.mirra.band.demo",
+      "version": "0.2.0",
+      "profile": "demo",
+      "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+      "certificateSubject": "CN=Mirra Band Demo\nO=Mirra Local Prototype",
+      "certificateFingerprint256": "B9:AD:5C:30:7A:17:03:1C:3D:19:3F:8E:E2:BA:AB:2A:B5:D1:FE:38:3F:73:84:28:EB:FE:64:9E:9F:67:E9:0B",
+      "certificateValidTo": "Oct  8 06:50:55 2036 GMT",
+      "zipCRC32": "verified",
+      "sharedStyles": "present in all compiled pages",
+      "tamperChecks": "payload, primary signature and file digest signature mutations rejected",
+      "files": [
+        "META-INF/CERT",
+        "manifest-watch.json",
+        "manifest.json",
+        "app.js",
+        "pages/Home/index.js",
+        "common/icon.png",
+        "common/icon.svg",
+        "pages/Connection/index.js",
+        "pages/Detail/index.js",
+        "pages/States/index.js",
+        "META-INF/build.txt"
+      ],
+      "versionCode": 2
+    },
+    {
+      "path": "E:\\CODEX\\mirra-watch\\dist\\Mirra-1.1.1-band-readonly-debug.apk",
+      "bytes": 17094969,
+      "sha256": "5a61f4bc4272b565de1181f3d16ee7b905f41e6482971560558a6cc2178a4437",
+      "package": "com.guanyi.mirra",
+      "version": "1.1.1-band-readonly",
+      "versionCode": 4,
+      "buildType": "debug, preserves the existing phone signing identity",
+      "certificateFingerprint256": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
+      "signature": "apksigner verify exit 0; v1 and v2 verified"
+    }
+  ],
+  "signing": {
+    "builtApkAndLiveRpkMatch": true,
+    "physicalInstalledApkFingerprint": null,
+    "threeWayMatch": "Not Run: physical phone not connected"
+  },
+  "protocol": {
+    "version": 1,
+    "maxUtf8Bytes": 4096,
+    "mirrors": [
+      {
+        "file": "protocol/v1/schema.json",
+        "sha256": "6c726b6beb00d345f669553192ef04f605026d45e2bb7418c838a00fbfb6fff2",
+        "androidUnitMirror": "6c726b6beb00d345f669553192ef04f605026d45e2bb7418c838a00fbfb6fff2",
+        "byteIdentical": true
+      },
+      {
+        "file": "protocol/v1/fixtures/active.json",
+        "sha256": "c6c5e4c92efbd9fdf197a3e4623931789c31cb24150c8410b4b2b208c33be0bd",
+        "androidUnitMirror": "c6c5e4c92efbd9fdf197a3e4623931789c31cb24150c8410b4b2b208c33be0bd",
+        "byteIdentical": true,
+        "androidInstrumentationMirror": "c6c5e4c92efbd9fdf197a3e4623931789c31cb24150c8410b4b2b208c33be0bd"
+      },
+      {
+        "file": "protocol/v1/fixtures/break.json",
+        "sha256": "dc09d25d59cd29dde05cbb9e288e189185e98b03af58affef197dcb9ee61ee9e",
+        "androidUnitMirror": "dc09d25d59cd29dde05cbb9e288e189185e98b03af58affef197dcb9ee61ee9e",
+        "byteIdentical": true,
+        "androidInstrumentationMirror": "dc09d25d59cd29dde05cbb9e288e189185e98b03af58affef197dcb9ee61ee9e"
+      },
+      {
+        "file": "protocol/v1/fixtures/ended.json",
+        "sha256": "aa342fecb85319b36b989511205afed37769dce03ff384446f160de436563f3f",
+        "androidUnitMirror": "aa342fecb85319b36b989511205afed37769dce03ff384446f160de436563f3f",
+        "byteIdentical": true,
+        "androidInstrumentationMirror": "aa342fecb85319b36b989511205afed37769dce03ff384446f160de436563f3f"
+      },
+      {
+        "file": "protocol/v1/fixtures/get_snapshot.json",
+        "sha256": "c94b5a064b6243cec1318397b12c46e60d01e40087e136664c242cd6bedcb587",
+        "androidUnitMirror": "c94b5a064b6243cec1318397b12c46e60d01e40087e136664c242cd6bedcb587",
+        "byteIdentical": true,
+        "androidInstrumentationMirror": "c94b5a064b6243cec1318397b12c46e60d01e40087e136664c242cd6bedcb587"
+      },
+      {
+        "file": "protocol/v1/fixtures/hello.json",
+        "sha256": "5dd4f5213cf56a328820964347c71f59f95eeccf4b411a9efa1609bba6d6027a",
+        "androidUnitMirror": "5dd4f5213cf56a328820964347c71f59f95eeccf4b411a9efa1609bba6d6027a",
+        "byteIdentical": true,
+        "androidInstrumentationMirror": "5dd4f5213cf56a328820964347c71f59f95eeccf4b411a9efa1609bba6d6027a"
+      },
+      {
+        "file": "protocol/v1/fixtures/hello_ack.json",
+        "sha256": "c2f88073efc0a78ce876daa21678e4f29c95fda7a1a4a814704fde4baf6e54c8",
+        "androidUnitMirror": "c2f88073efc0a78ce876daa21678e4f29c95fda7a1a4a814704fde4baf6e54c8",
+        "byteIdentical": true,
+        "androidInstrumentationMirror": "c2f88073efc0a78ce876daa21678e4f29c95fda7a1a4a814704fde4baf6e54c8"
+      },
+      {
+        "file": "protocol/v1/fixtures/idle.json",
+        "sha256": "14fc714e25fde81aa492f064a803cdaeabdd2340e98a17c8c4d68bed7a842527",
+        "androidUnitMirror": "14fc714e25fde81aa492f064a803cdaeabdd2340e98a17c8c4d68bed7a842527",
+        "byteIdentical": true,
+        "androidInstrumentationMirror": "14fc714e25fde81aa492f064a803cdaeabdd2340e98a17c8c4d68bed7a842527"
+      },
+      {
+        "file": "protocol/v1/fixtures/preparing.json",
+        "sha256": "2e0ffd4563a21cc3c5e3f292e891c135c28b152bbbdc08a191709521408e5b63",
+        "androidUnitMirror": "2e0ffd4563a21cc3c5e3f292e891c135c28b152bbbdc08a191709521408e5b63",
+        "byteIdentical": true,
+        "androidInstrumentationMirror": "2e0ffd4563a21cc3c5e3f292e891c135c28b152bbbdc08a191709521408e5b63"
+      },
+      {
+        "file": "protocol/v1/fixtures/saving.json",
+        "sha256": "b347bd208cae6079071e3f20b529e082800c05d2b5d93531a71f112a45260947",
+        "androidUnitMirror": "b347bd208cae6079071e3f20b529e082800c05d2b5d93531a71f112a45260947",
+        "byteIdentical": true,
+        "androidInstrumentationMirror": "b347bd208cae6079071e3f20b529e082800c05d2b5d93531a71f112a45260947"
+      },
+      {
+        "file": "protocol/v1/fixtures/status_error.json",
+        "sha256": "1b5dd5ccecdd00028f41f3a5781bd99ba78b4f907e8ea868a9d340aeb1cffca0",
+        "androidUnitMirror": "1b5dd5ccecdd00028f41f3a5781bd99ba78b4f907e8ea868a9d340aeb1cffca0",
+        "byteIdentical": true,
+        "androidInstrumentationMirror": "1b5dd5ccecdd00028f41f3a5781bd99ba78b4f907e8ea868a9d340aeb1cffca0"
+      },
+      {
+        "file": "protocol/v1/fixtures/unmonitored.json",
+        "sha256": "4716ac0ed8ef640a1754edb5c46c3feb25d506f1a3085343b76abae282bafc8a",
+        "androidUnitMirror": "4716ac0ed8ef640a1754edb5c46c3feb25d506f1a3085343b76abae282bafc8a",
+        "byteIdentical": true,
+        "androidInstrumentationMirror": "4716ac0ed8ef640a1754edb5c46c3feb25d506f1a3085343b76abae282bafc8a"
+      }
+    ]
+  },
+  "sdk": {
+    "source": "https://cdn.cnbj3-fusion.fds.api.mi-img.com/quickapp-vela/interconnect_dev_test_demo.zip",
+    "archiveSha256": "8e3d74eebda558e2bef45e32f0965c5b77ef939a06cdc55136929f9427a95ca7",
+    "aarBytes": 102453,
+    "aarSha256": "9c40fd1c5409bb948523d503af71e2978ae522c35636afe7d64f474c0f6bc195",
+    "redistribution": "No explicit license in appendix; binary retained locally and ignored"
+  },
+  "room": {
+    "version": 4,
+    "physicalSchemaFileSha256": "2124f9ea1bc8d482db8ac5af565a81865cf14a7019bb8665d6141f19e9031c99",
+    "baselineBlob": "97ae3a8a15aeb924350b4b7ecade389b314f7ebf",
+    "currentBlob": "97ae3a8a15aeb924350b4b7ecade389b314f7ebf"
+  },
+  "notRun": [
+    "Physical installed APK version/certificate",
+    "Target 9 Pro official SDK messages and 256/1024/2048/4096 byte round trips",
+    "Phone lockscreen/background with wrist reopen",
+    "Actual formal Vela/physical wrist six-state pictures",
+    "30 minute latency/disconnection/battery observation",
+    "OEM/API23-36/TalkBack/release/Play"
+  ]
+}

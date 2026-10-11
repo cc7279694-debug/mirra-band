@@ -1,0 +1,811 @@
+{
+  "observedAt": "2026-10-11T10:48:44.3366239+00:00",
+  "band": {
+    "scripts": 30,
+    "sourcePages": 3,
+    "tests": 98,
+    "passed": 98,
+    "failures": 0,
+    "typeScript": "Not Run: authorized native Vela JavaScript",
+    "eslint": "Not Run: no configured ESLint, syntax/config checks used"
+  },
+  "android": {
+    "jvm": {
+      "root": "E:\\CODEX\\mirra-watch\\.local\\android-worktree\\app\\build\\test-results\\testDebugUnitTest",
+      "discovered": 711,
+      "actualPassed": 711,
+      "failures": 0,
+      "errors": 0,
+      "assumptions": 0,
+      "nativeSkipped": 0,
+      "durationSeconds": 20.90199999999999,
+      "suites": 80,
+      "assumptionCases": [],
+      "failureCases": [],
+      "files": [
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.backup.BackupArchiveTest.xml",
+          "sha256": "1a2be382cccb8aa218a40e33b5add9dcdf1b87a38d548d9923ffee6d2b0cdc09",
+          "bytes": 2193
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.backup.BackupSearchBudgetTest.xml",
+          "sha256": "b99c44007ef45e6088c7b9f9510717e20f8623b27d1f2766baf15214d25e7617",
+          "bytes": 944
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.backup.ManagedPreferencesTest.xml",
+          "sha256": "193d0262ae49a8e99d2914609dafe0aae9961c77b5aa6d2acc21dcb1bf562a61",
+          "bytes": 1082
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.backup.RestoreJournalSafetyTest.xml",
+          "sha256": "ac460582e8ff64c3bc92618fd5c65209a290426c454d2a387684be18ac9bca3c",
+          "bytes": 677
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.backup.RestoreJournalTest.xml",
+          "sha256": "4664a1b7c4c8050c58b9e11a3de5147c6bc6091e883f131d9ffa7b41bb46548f",
+          "bytes": 1660
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.export.ExportWorkspaceTest.xml",
+          "sha256": "cabc56d97c8bf5dafc45e719ba3d1236bc701b33f14b20440555e4542f98e29c",
+          "bytes": 1954
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.export.ReadableExportWriterTest.xml",
+          "sha256": "c655ec6cf32db3b18cae2e68a4490c2d029d240f59ac3be4fb31ab7aef4370fd",
+          "bytes": 4491
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.ImageImportPolicyTest.xml",
+          "sha256": "0f7b2cda6f4c9807e5a27b2bcbb8e4df043b6e55bae02255f63ced6223b50c41",
+          "bytes": 881
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.maintenance.GateRepositoryWriterTest.xml",
+          "sha256": "e3e992249295462e7caf0478c83bebea25a7f9d9020006795eaa8d275f147d55",
+          "bytes": 886
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.maintenance.GateSessionManagerTest.xml",
+          "sha256": "17eeeb5d21ccc85ee1c7b48834905f8e07aeefbad3070fbac09358e7abef0c05",
+          "bytes": 705
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.maintenance.GateWriterAdmissionCoverageTest.xml",
+          "sha256": "d39f41bf3e81e3c8fc60b154f04e456e2824c1a57b604d626d6cf22b592d4a1c",
+          "bytes": 536
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.preferences.StrictAppPreferencesSnapshotTest.xml",
+          "sha256": "f9eeee057e09f58605ce060a91f5046674df4d7f2abda2957ceaabb730e28974",
+          "bytes": 3494
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.di.CloseoutStartupRecoveryTest.xml",
+          "sha256": "cbb5ca7ae99e6bef02e2395ad1a2effced123a21ddc4600e62cb986a7459dc6d",
+          "bytes": 1383
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.di.StorageBootstrapTest.xml",
+          "sha256": "1a28bed17704826d2a18b7c8f985b5fe0cb0d197d5fc711fcc955c4efaa44440",
+          "bytes": 1685
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.BehaviorTransitionsTest.xml",
+          "sha256": "7625ba7101fb1f6cf962e61e0057b0394e8586a535e11ac8072587d445d254d7",
+          "bytes": 748
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.CompletionPredictionServiceTest.xml",
+          "sha256": "ece509dab85c820a2f33271ad7009b07cd1a51b380d3d9593fc451afdee6c3c1",
+          "bytes": 1534
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.DndControllerTest.xml",
+          "sha256": "d6aa00ebe4a80f5894cfa4490f2519ba0d0669c3b6a833b08aa8b6a28fd5337f",
+          "bytes": 2030
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.EffectiveAnalyticsCompatibilityTest.xml",
+          "sha256": "91cb697b66919faaa69ea654069921254a2e861f63abf94e9987a65f1ac27875",
+          "bytes": 971
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.EffectiveReadingServiceTest.xml",
+          "sha256": "055e7fa6583901a644ad074c3728c8cda7f4c442a358dfd090cfa54a53efe232",
+          "bytes": 2549
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.FirstActionResolverTest.xml",
+          "sha256": "816c344a095853eb00a548fa2ceb9d41f9bb87928259f6120a9f642573771d79",
+          "bytes": 1461
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.insights.ReadingPaceInsightServiceTest.xml",
+          "sha256": "a33928d23f4e4375c7467906d3eefbdad1c6b486b99a5c3d0f4482f516818a67",
+          "bytes": 7605
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.IntentExpiryPolicyTest.xml",
+          "sha256": "4a6f5cb00d85b22e2d8968aaef4a3a29427c0c9a17027a20a28929c78c0316ea",
+          "bytes": 622
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.intervention.ExternalPromptEligibilityTest.xml",
+          "sha256": "a5486249a6add6736fc1a4b5ffdf1840c9f15bd59fc0d0eba6be7380e1ce8c30",
+          "bytes": 1117
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.intervention.InterventionNavigationTest.xml",
+          "sha256": "c85ac9c354d93f2ac5376bff3a01631bcebff24bcb2fa2f8be9edcc1febec66f",
+          "bytes": 1720
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.intervention.InterventionPresenterTest.xml",
+          "sha256": "badee9fa7f64daea7b5269f510f8cea329028252f55c7f07c8977f939aa899c0",
+          "bytes": 3044
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.intervention.PresentationEpisodeTest.xml",
+          "sha256": "e829e4b50c1bb370b69204def7d82a297a02b66a78510d2245498a7239bbff42",
+          "bytes": 805
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.maintenance.MaintenanceCoordinatorTest.xml",
+          "sha256": "db9f3169ceeeb27e2d73f8eeb05ac0f3b236b819cb7d70ce954b98abcc11677d",
+          "bytes": 4535
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.maintenance.PendingEditRegistryTest.xml",
+          "sha256": "cbe76a990bb489773f9b256b9a333769513d5f78a312410d2e5d5cea4f184fc7",
+          "bytes": 1197
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.maintenance.StorageMaintenanceGateTest.xml",
+          "sha256": "d294ddbd6fe4b7c323c216bb1ab2838bfcf2844ab6ee8b84682260bf50a67028",
+          "bytes": 1811
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.monitoring.BehaviorPolicyTest.xml",
+          "sha256": "266a907c879cf78a7ffb78ae8ee38ca7b0f8be9d9f174efdf383e36bee7043ab",
+          "bytes": 1304
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.monitoring.BoundSessionMonitoringControllerTest.xml",
+          "sha256": "8928be0b8774d8f421eccd083624d8b365b338f91312c559b5cef9738c1e490d",
+          "bytes": 2594
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.monitoring.CandidateRiskAppMachineTest.xml",
+          "sha256": "c720309ae73a592d641be5a24077c0692f456fa1be5962891481007c69d084d0",
+          "bytes": 1800
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.monitoring.FocusSessionActionsTest.xml",
+          "sha256": "6778cf37783cdf4bec8e0903f860b7152eb01cb9d613a15faf9a89dc6d1112f5",
+          "bytes": 3669
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.monitoring.ForegroundObservationReducerTest.xml",
+          "sha256": "a57607a118b1740ac964810120ab04c8211179191f41be7f1aedee78adbc536a",
+          "bytes": 2401
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.NoteTypeSuggesterTest.xml",
+          "sha256": "40086f03aebc392e2ff0c1b3f8bcb7fafab231132221e1e21dd3eeae92c137cb",
+          "bytes": 739
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.ReadingAnalyticsServiceTest.xml",
+          "sha256": "90ae04497e70e6ad7b1f1efbc7dc8a00537ddfebd80214897113a18ac666a814",
+          "bytes": 1532
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.ReadingRecordProjectionTest.xml",
+          "sha256": "56c2da57504adb8b1d31baadef17825fa9c6a73d8f8236d2077238444d58faa5",
+          "bytes": 1628
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SearchEngineTest.xml",
+          "sha256": "6fb71cf2643e0c823cea9dca7b2be3ab334f0afdc7308f0b312fb40548e771ee",
+          "bytes": 1136
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SegmentTimelinePolicyTest.xml",
+          "sha256": "0f94aefb20a2bb751f82a01dfd5cf09ce0178d13778391955957b5947e0113b2",
+          "bytes": 779
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SessionManagerCloseoutTest.xml",
+          "sha256": "2aee561a91d1ce24ef1355094d8f092765ebcb2067f78b0bcb4a3cb185263569",
+          "bytes": 2328
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SessionSegmentStateMachineTest.xml",
+          "sha256": "a59682d97055602571a7628a38eb5a3f46d89ee6dcc6fb61e54e3ea791b55e42",
+          "bytes": 1487
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SessionStartCoordinatorTest.xml",
+          "sha256": "62a9f73ae5b4cef74d1b57c48084b1277278c167a106a3133b4773c7cf8d6156",
+          "bytes": 3679
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SessionTimelineValidatorTest.xml",
+          "sha256": "54c3381aa1a4df14cb8bf0487d8178dcae7500ddd7d2e121c0e252d393405b4a",
+          "bytes": 1507
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SummaryEngineTest.xml",
+          "sha256": "1505d4bc21c71a66f1475078ae5736d7f5ee2c38e647591678ca01251c963f97",
+          "bytes": 636
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.TopicNameNormalizerTest.xml",
+          "sha256": "9366e64abb8399af687c1e43f331b268247e68be7cb87927d131d13cd581ca65",
+          "bytes": 758
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.TopicSuggesterTest.xml",
+          "sha256": "4cc6ad61d154f8bcf9612892b0680f0a8fd6aa8d159186bd9d30d20c62e79cb6",
+          "bytes": 606
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.trends.DailyTrendsServiceTest.xml",
+          "sha256": "0bc79aa873fbeef72f0b454aac2c7d99b517f5a5408031b4d36d016fd151f926",
+          "bytes": 2929
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.trends.TrendsServiceTest.xml",
+          "sha256": "31498beb053e3cd049bc1ae6a3451fb3c336e104714428d5ad14db944d71fa88",
+          "bytes": 5557
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorTest.xml",
+          "sha256": "6fbf8f0c6f527957fb9945fe6ff862189c5a094125bbe92c331127b3c0d61a58",
+          "bytes": 2380
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.wearable.WearableGoldenFixturesTest.xml",
+          "sha256": "772e97f864dd8985de37212f046a1e35846fb79dd4b7e348bd7c5749df2740bd",
+          "bytes": 505
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.wearable.WearableProjectionTest.xml",
+          "sha256": "295c3d1e966c2f210204045a664e35ec13ffae998ea5e8d60c2ab1dd306d1eeb",
+          "bytes": 1583
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.wearable.WearableProtocolTest.xml",
+          "sha256": "86b7377c77edff9030a86623a56faa2c9d9819889b0dedf488db86d6ad67aa0f",
+          "bytes": 1245
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.datamanagement.DataExportViewModelTest.xml",
+          "sha256": "4c376bb3534b75464cad693a9c66668432af766dbd7096f4edbcf032608b16fe",
+          "bytes": 2916
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.datamanagement.DataManagementViewModelTest.xml",
+          "sha256": "37b569b039514e6922c81e88a9ef94b9409956725275d3214d99033d55da3f54",
+          "bytes": 2153
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.knowledge.ImageImportMessageTest.xml",
+          "sha256": "90db08c32b4b80f0d959377fc0b2b236265ecec5458bdb363904aa89fcddbb19",
+          "bytes": 501
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.knowledge.LearningItemEffectivePaceTest.xml",
+          "sha256": "cce68e35b04250af8c44f721fdfc7c5426aac00fc0c87476638f4edae544efc4",
+          "bytes": 1736
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.knowledge.LearningItemInsightTest.xml",
+          "sha256": "9c558612100c384aedd9db33d05e2e7c0e4475ec067612af1341f5de77d80238",
+          "bytes": 1878
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.knowledge.NoteEditorMaintenanceTest.xml",
+          "sha256": "9894515ee84d785a95b3a90de0b0e6ab34c1df15500a2505cccc0b816a2db4fc",
+          "bytes": 879
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.CrossAppInterventionUserActionsTest.xml",
+          "sha256": "10efa575abaecfd5e85e6020ce7016e91cec3a7d1a34f4ac623f2f91af9f93ac",
+          "bytes": 1030
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.DndUserActionsTest.xml",
+          "sha256": "400f89f809de0740a83580f39058c42efd07ad72fd5aae748961f03ef69d2d55",
+          "bytes": 1925
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.GlobalReadingHistoryViewModelTest.xml",
+          "sha256": "40cf503cb27a202d89880b09b741860b1970a13e68833ff7ad6f02870a32820a",
+          "bytes": 1351
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.LearningProtectionProjectionTest.xml",
+          "sha256": "b93117a2a7e614ca7de5c40cf5f7c5fcb9470afb5f06e45b103ee4747f25780d",
+          "bytes": 3413
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.TrendsViewModelTest.xml",
+          "sha256": "3613f949017389bdd22b78bcb9fa50f36950fb428081abbae69768ff9bcd6615",
+          "bytes": 1211
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.WeeklyProfileViewModelTest.xml",
+          "sha256": "ed908726a162b8bd21be477b95651be8a2585bbd57ad4adfb43464acbaf23aa1",
+          "bytes": 1692
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.session.PreparationFirstActionViewModelTest.xml",
+          "sha256": "1a74f84e46951491f12092c3fb754476bea7a36ce66150a836ba73e8a21e1e7c",
+          "bytes": 1827
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.session.ReadingRecordViewModelTest.xml",
+          "sha256": "58d24676c2af5d03e81b795de0d2a09afb4f24f25f5ab81d87b0029c9e149142",
+          "bytes": 932
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.session.SessionCloseoutViewModelTest.xml",
+          "sha256": "4b98fe4a5b79a92f4d507b0ad616ecb3ad7ab11daec7fc5d40b2df37f35c2912",
+          "bytes": 5791
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.session.SessionFocusViewModelTest.xml",
+          "sha256": "bb768113cc7dedd4efdf94a812e8b8a1ae8893aed1e19cfaad5d601bbaf723b0",
+          "bytes": 1495
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.start.FirstActionEditorViewModelTest.xml",
+          "sha256": "632c23218467a68062a9864195b56fb2ecd3dd3d62581e4335beb8255b060001",
+          "bytes": 522
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.start.StartRecentReadingTest.xml",
+          "sha256": "cd5a1325e48cef81101957aaa76c8304424b4dcb2f7793d41af00152e5ca2e91",
+          "bytes": 647
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.start.StartStateResolverTest.xml",
+          "sha256": "dee7a406dacb37b5c5ef6d23e4ed071f92c4d53f4c3617e970f7ee60c06b5828",
+          "bytes": 1200
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.navigation.TopLevelDestinationTest.xml",
+          "sha256": "c97fc336525ede617735ab4d939eb312894b050818d0c1dd6a5e5bba9371c261",
+          "bytes": 620
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.platform.backup.AndroidBackupPolicyTest.xml",
+          "sha256": "1d2a9d50d8c11895def9e8af09fe974ea3a04bb55276714550f0429be2794e50",
+          "bytes": 840
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.platform.focus.AndroidCapabilityPolicyTest.xml",
+          "sha256": "004746b70e16a8cb3ab00b23dfac2a89a2cbd6e54c961e7f7f0694b84541e513",
+          "bytes": 1358
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.platform.focus.MonitoringLifecycleTest.xml",
+          "sha256": "0e87005edadaf21a724a839dd3928055e2a562be17cd1aac15e92330f7fa7977",
+          "bytes": 1342
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.platform.focus.MonitoringReadyLeaseTest.xml",
+          "sha256": "599537ae95b678c1d53fb4ef5d2e5ea7c2a1eac7f19b6dc73c3fa5b0a61632ba",
+          "bytes": 690
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.platform.focus.UsageMonitorTest.xml",
+          "sha256": "738fe7da9d7a866b30eedbf1946f583b05666ba120c40aecc68baab61c43caa5",
+          "bytes": 977
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.platform.wearable.OwnedWearTransportTest.xml",
+          "sha256": "d82eec23a4e7082dc0168e41caab9bea8a7c1a348aaf397a0810f06a96ce0738",
+          "bytes": 3424
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.ui.media.StorageImageCacheKeyTest.xml",
+          "sha256": "b0b9451584e290d6f3019ac5a3d03877049cfc6a2277986acc8ddceb7ac394c3",
+          "bytes": 626
+        },
+        {
+          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.ui.theme.MirraPaletteTest.xml",
+          "sha256": "b0efc08e18447c2cfe6de3c1e99d11c066c4c6329c0211000d3f42525a19f559",
+          "bytes": 703
+        }
+      ]
+    },
+    "connected": {
+      "root": "E:\\CODEX\\mirra-watch\\.local\\android-worktree\\app\\build\\outputs\\androidTest-results\\connected\\debug",
+      "discovered": 500,
+      "actualPassed": 491,
+      "failures": 0,
+      "errors": 0,
+      "assumptions": 9,
+      "nativeSkipped": 0,
+      "durationSeconds": 804.7299999999998,
+      "suites": 87,
+      "assumptionCases": [
+        {
+          "class": "com.guanyi.mirra.ModuleThreeDCloseoutCrashFixtureTest",
+          "name": "assertRecoveredFixture",
+          "reason": "org.junit.AssumptionViolatedException: Explicit pending_assert fixture required"
+        },
+        {
+          "class": "com.guanyi.mirra.ModuleThreeDCloseoutCrashFixtureTest",
+          "name": "preparePendingFixture",
+          "reason": "org.junit.AssumptionViolatedException: Explicit pending_prepare fixture required"
+        },
+        {
+          "class": "com.guanyi.mirra.ModuleThreeDDataPreservationTest",
+          "name": "assertPreservationFixture",
+          "reason": "org.junit.AssumptionViolatedException: Explicit data_assert fixture required"
+        },
+        {
+          "class": "com.guanyi.mirra.ModuleThreeDDataPreservationTest",
+          "name": "seedPreservationFixture",
+          "reason": "org.junit.AssumptionViolatedException: Explicit data_seed fixture required"
+        },
+        {
+          "class": "com.guanyi.mirra.data.backup.InstalledBackupJourneyFixture",
+          "name": "installedSafBackupRestoreJourney",
+          "reason": "org.junit.AssumptionViolatedException: Explicit installed SAF journey stage required"
+        },
+        {
+          "class": "com.guanyi.mirra.data.backup.InstalledRestoreBootstrapFixture",
+          "name": "assertApplicationBootstrapAndRestoreOriginalInstalledData",
+          "reason": "org.junit.AssumptionViolatedException: Explicit installed bootstrap fixture stage required"
+        },
+        {
+          "class": "com.guanyi.mirra.data.backup.InstalledRestoreBootstrapFixture",
+          "name": "prepareInstalledJournalForExternalProcessStop",
+          "reason": "org.junit.AssumptionViolatedException: Explicit installed bootstrap fixture stage required"
+        },
+        {
+          "class": "com.guanyi.mirra.data.backup.RestoreCrashProcessFixture",
+          "name": "recoverBeforeOpeningSandboxStoresInNewProcess",
+          "reason": "org.junit.AssumptionViolatedException: Explicit restore process fixture stage required"
+        },
+        {
+          "class": "com.guanyi.mirra.data.backup.RestoreCrashProcessFixture",
+          "name": "prepareDurableDecisionForExternalProcessStop",
+          "reason": "org.junit.AssumptionViolatedException: Explicit restore process fixture stage required"
+        }
+      ],
+      "failureCases": [],
+      "files": [
+        {
+          "relativePath": ".local/android-worktree/app/build/outputs/androidTest-results/connected/debug/TEST-MirraBand_Module03_API37(AVD) - 17.xml",
+          "sha256": "1ac1c15e33e2c97c25419bfa7a7901b788026e268be9ec1bba41467779f3f559",
+          "bytes": 110228
+        }
+      ]
+    },
+    "lint": {
+      "errors": 0,
+      "warnings": 20,
+      "hints": 1,
+      "newWarnings": [
+        {
+          "id": "NewerVersionAvailable",
+          "message": "A newer version of org.jetbrains.kotlinx:kotlinx-serialization-json than 1.8.1 is available: 1.11.0",
+          "file": "app/build.gradle.kts",
+          "line": "88"
+        },
+        {
+          "id": "UseTomlInstead",
+          "message": "Use version catalog instead",
+          "file": "app/build.gradle.kts",
+          "line": "88"
+        }
+      ]
+    },
+    "build": "Debug APK and AndroidTest APK build successful",
+    "device": "emulator-5580 / MirraBand_Module03_API37 / API37, 1080px / 420dpi",
+    "fullConnectedCommand": ":app:connectedDebugAndroidTest -Pandroid.injected.androidTest.leaveApksInstalledAfterRun=true --no-daemon; no class filter",
+    "firstFailedAttempt": {
+      "root": "E:\\CODEX\\mirra-watch\\.local\\module03-evidence\\connected-attempt-1-density440\\results",
+      "discovered": 500,
+      "actualPassed": 483,
+      "failures": 8,
+      "errors": 0,
+      "assumptions": 9,
+      "nativeSkipped": 0,
+      "durationSeconds": 803.2670000000003,
+      "suites": 87,
+      "assumptionCases": [
+        {
+          "class": "com.guanyi.mirra.ModuleThreeDCloseoutCrashFixtureTest",
+          "name": "assertRecoveredFixture",
+          "reason": "org.junit.AssumptionViolatedException: Explicit pending_assert fixture required"
+        },
+        {
+          "class": "com.guanyi.mirra.ModuleThreeDCloseoutCrashFixtureTest",
+          "name": "preparePendingFixture",
+          "reason": "org.junit.AssumptionViolatedException: Explicit pending_prepare fixture required"
+        },
+        {
+          "class": "com.guanyi.mirra.ModuleThreeDDataPreservationTest",
+          "name": "assertPreservationFixture",
+          "reason": "org.junit.AssumptionViolatedException: Explicit data_assert fixture required"
+        },
+        {
+          "class": "com.guanyi.mirra.ModuleThreeDDataPreservationTest",
+          "name": "seedPreservationFixture",
+          "reason": "org.junit.AssumptionViolatedException: Explicit data_seed fixture required"
+        },
+        {
+          "class": "com.guanyi.mirra.data.backup.InstalledBackupJourneyFixture",
+          "name": "installedSafBackupRestoreJourney",
+          "reason": "org.junit.AssumptionViolatedException: Explicit installed SAF journey stage required"
+        },
+        {
+          "class": "com.guanyi.mirra.data.backup.InstalledRestoreBootstrapFixture",
+          "name": "assertApplicationBootstrapAndRestoreOriginalInstalledData",
+          "reason": "org.junit.AssumptionViolatedException: Explicit installed bootstrap fixture stage required"
+        },
+        {
+          "class": "com.guanyi.mirra.data.backup.InstalledRestoreBootstrapFixture",
+          "name": "prepareInstalledJournalForExternalProcessStop",
+          "reason": "org.junit.AssumptionViolatedException: Explicit installed bootstrap fixture stage required"
+        },
+        {
+          "class": "com.guanyi.mirra.data.backup.RestoreCrashProcessFixture",
+          "name": "recoverBeforeOpeningSandboxStoresInNewProcess",
+          "reason": "org.junit.AssumptionViolatedException: Explicit restore process fixture stage required"
+        },
+        {
+          "class": "com.guanyi.mirra.data.backup.RestoreCrashProcessFixture",
+          "name": "prepareDurableDecisionForExternalProcessStop",
+          "reason": "org.junit.AssumptionViolatedException: Explicit restore process fixture stage required"
+        }
+      ],
+      "failureCases": [
+        {
+          "class": "com.guanyi.mirra.GlobalReadingHistoryUiTest",
+          "name": "historyReachableAt411dpDoubleFont",
+          "reason": "java.lang.AssertionError: expected:<411.0> but was:<392.72726>"
+        },
+        {
+          "class": "com.guanyi.mirra.GlobalReadingHistoryUiTest",
+          "name": "historyReachableAt411dpNormalFont",
+          "reason": "java.lang.AssertionError: expected:<411.0> but was:<392.72726>"
+        },
+        {
+          "class": "com.guanyi.mirra.LearningItemInsightUiTest",
+          "name": "detailReachable411Double",
+          "reason": "java.lang.AssertionError: expected:<411.0> but was:<392.72726>"
+        },
+        {
+          "class": "com.guanyi.mirra.LearningItemInsightUiTest",
+          "name": "detailReachable411Normal",
+          "reason": "java.lang.AssertionError: expected:<411.0> but was:<392.72726>"
+        },
+        {
+          "class": "com.guanyi.mirra.ReadingRecordUiTest",
+          "name": "recordActionsReachableAt411dpNormalFont",
+          "reason": "java.lang.AssertionError: test viewport must match the reported width expected:<411.0> but was:<392.72726>"
+        },
+        {
+          "class": "com.guanyi.mirra.ReadingRecordUiTest",
+          "name": "recordActionsReachableAt411dpDoubleFont",
+          "reason": "java.lang.AssertionError: test viewport must match the reported width expected:<411.0> but was:<392.72726>"
+        },
+        {
+          "class": "com.guanyi.mirra.TrendsUiTest",
+          "name": "rangesAndExitReachable411Double",
+          "reason": "java.lang.AssertionError: expected:<411.0> but was:<392.72726>"
+        },
+        {
+          "class": "com.guanyi.mirra.TrendsUiTest",
+          "name": "rangesAndExitReachable411Normal",
+          "reason": "java.lang.AssertionError: expected:<411.0> but was:<392.72726>"
+        }
+      ],
+      "files": [
+        {
+          "relativePath": ".local/module03-evidence/connected-attempt-1-density440/results/TEST-MirraBand_Module03_API37(AVD) - 17.xml",
+          "sha256": "253c7216f2dbb4449ba2f603add808c3acf911ba0b011da0158493278d414732",
+          "bytes": 114191
+        }
+      ]
+    },
+    "secondFailedAttempt": {
+      "root": "E:\\CODEX\\mirra-watch\\.local\\module03-evidence\\connected-attempt-2-lazy-row\\results",
+      "discovered": 500,
+      "actualPassed": 490,
+      "failures": 1,
+      "errors": 0,
+      "assumptions": 9,
+      "nativeSkipped": 0,
+      "durationSeconds": 853.3419999999999,
+      "suites": 87,
+      "assumptionCases": [
+        {
+          "class": "com.guanyi.mirra.ModuleThreeDCloseoutCrashFixtureTest",
+          "name": "assertRecoveredFixture",
+          "reason": "org.junit.AssumptionViolatedException: Explicit pending_assert fixture required"
+        },
+        {
+          "class": "com.guanyi.mirra.ModuleThreeDCloseoutCrashFixtureTest",
+          "name": "preparePendingFixture",
+          "reason": "org.junit.AssumptionViolatedException: Explicit pending_prepare fixture required"
+        },
+        {
+          "class": "com.guanyi.mirra.ModuleThreeDDataPreservationTest",
+          "name": "assertPreservationFixture",
+          "reason": "org.junit.AssumptionViolatedException: Explicit data_assert fixture required"
+        },
+        {
+          "class": "com.guanyi.mirra.ModuleThreeDDataPreservationTest",
+          "name": "seedPreservationFixture",
+          "reason": "org.junit.AssumptionViolatedException: Explicit data_seed fixture required"
+        },
+        {
+          "class": "com.guanyi.mirra.data.backup.InstalledBackupJourneyFixture",
+          "name": "installedSafBackupRestoreJourney",
+          "reason": "org.junit.AssumptionViolatedException: Explicit installed SAF journey stage required"
+        },
+        {
+          "class": "com.guanyi.mirra.data.backup.InstalledRestoreBootstrapFixture",
+          "name": "assertApplicationBootstrapAndRestoreOriginalInstalledData",
+          "reason": "org.junit.AssumptionViolatedException: Explicit installed bootstrap fixture stage required"
+        },
+        {
+          "class": "com.guanyi.mirra.data.backup.InstalledRestoreBootstrapFixture",
+          "name": "prepareInstalledJournalForExternalProcessStop",
+          "reason": "org.junit.AssumptionViolatedException: Explicit installed bootstrap fixture stage required"
+        },
+        {
+          "class": "com.guanyi.mirra.data.backup.RestoreCrashProcessFixture",
+          "name": "recoverBeforeOpeningSandboxStoresInNewProcess",
+          "reason": "org.junit.AssumptionViolatedException: Explicit restore process fixture stage required"
+        },
+        {
+          "class": "com.guanyi.mirra.data.backup.RestoreCrashProcessFixture",
+          "name": "prepareDurableDecisionForExternalProcessStop",
+          "reason": "org.junit.AssumptionViolatedException: Explicit restore process fixture stage required"
+        }
+      ],
+      "failureCases": [
+        {
+          "class": "com.guanyi.mirra.TrendsUiTest",
+          "name": "startShowsConversionOpenIntentAndStableCountsWithoutInventingStableRate",
+          "reason": "java.lang.AssertionError: Failed to assert the following: (Text + EditableText = [6 次])"
+        }
+      ],
+      "files": [
+        {
+          "relativePath": ".local/module03-evidence/connected-attempt-2-lazy-row/results/TEST-MirraBand_Module03_API37(AVD) - 17.xml",
+          "sha256": "d35ad3d31dd6c303d1a09002c4d1ba12c6e5bfe1cdfebc0e502859e799964e91",
+          "bytes": 111231
+        }
+      ]
+    },
+    "uiSmoke": {
+      "device": "API37 AVD emulator-5580",
+      "initialColdTotalMs": 1946,
+      "secondColdTotalMs": 1934,
+      "defaultOff": true,
+      "explicitConsentDialog": true,
+      "missingXiaomiServiceDidNotClaimAuthorizedOrSynced": true,
+      "disableSurvivedColdStart": true,
+      "wristEvidence": false
+    },
+    "uiSmokeEvidence": "Actual Android API37 AVD production UI; not wrist or physical Xiaomi SDK evidence. Cold start values are two single observations, not a performance benchmark.",
+    "screenshots": [
+      {
+        "relativePath": "docs/evidence/module-03/screenshots/android-api37-companion-off.png",
+        "bytes": 270724,
+        "sha256": "d34bd338c1e493158a60223b0b4018e70852cec76ca2dc7e5587071ec78eadbf",
+        "width": 1080,
+        "height": 2340,
+        "source": "adb screenshot of API37 AVD emulator-5580, unedited"
+      },
+      {
+        "relativePath": "docs/evidence/module-03/screenshots/android-api37-consent.png",
+        "bytes": 290636,
+        "sha256": "6cbb312eb30fcfc9b46a474ce740ccfec1613ac221dbab2aec537ef38645cd45",
+        "width": 1080,
+        "height": 2340,
+        "source": "adb screenshot of API37 AVD emulator-5580, unedited"
+      },
+      {
+        "relativePath": "docs/evidence/module-03/screenshots/android-api37-service-unavailable.png",
+        "bytes": 291334,
+        "sha256": "37f4e868533e901085d1aeda497e5a42c64d8cf69f1dfc975c6b1d174ec96c00",
+        "width": 1080,
+        "height": 2340,
+        "source": "adb screenshot of API37 AVD emulator-5580, unedited"
+      }
+    ]
+  },
+  "logs": [
+    {
+      "relativePath": ".local/module03-evidence/band-check.log",
+      "sha256": "9c7acf54267e6188bf080383978265b0e686568bef6419731321153179587de9",
+      "bytes": 126
+    },
+    {
+      "relativePath": ".local/module03-evidence/band-test.log",
+      "sha256": "544a509e3c188c29d54822aee8a8274c680bc1ebba339f02a7c31a3cc34c6e87",
+      "bytes": 8529
+    },
+    {
+      "relativePath": ".local/module03-evidence/rpk-demo-final-build.log",
+      "sha256": "3a11875547cd23e9187109a93e85dade0000b01f3163d834f84a61ac72df9ab7",
+      "bytes": 2426
+    },
+    {
+      "relativePath": ".local/module03-evidence/rpk-live-final-build.log",
+      "sha256": "cb50e70267d64b4f5d92351162b437702b7c41673ea56bb2bddcd447df0d4a6d",
+      "bytes": 2405
+    },
+    {
+      "relativePath": ".local/module03-evidence/android-final-build.log",
+      "sha256": "8f20364cec6e2abf98aaf8880e35889abaf34bb67a8bbe29b13e19cce4a24172",
+      "bytes": 5559
+    },
+    {
+      "relativePath": ".local/module03-evidence/android-final-connected.log",
+      "sha256": "1af311d0f1ad0ed73e7452b1fd54b3dc2b90d9986539fd97380eb10dc7416155",
+      "bytes": 4673
+    },
+    {
+      "relativePath": ".local/module03-evidence/apk-signature.log",
+      "sha256": "28fad69daf42326cc7a8adf56af4e5b377c53a1107b5cc7621251c882b9c810d",
+      "bytes": 17912
+    },
+    {
+      "relativePath": ".local/module03-evidence/apk-manifest.log",
+      "sha256": "3a74087c2cae4f34b3048b49526b946196a01e94b4f90e243ec1d9fbccbd7ed1",
+      "bytes": 5618
+    },
+    {
+      "relativePath": ".local/module03-evidence/band-terminal-red.log",
+      "sha256": "9a64a6838f0371064698d21099b8fd9508532565adfb33c53055e8c7f853135d",
+      "bytes": 1944
+    },
+    {
+      "relativePath": ".local/module03-evidence/band-terminal-late-red.log",
+      "sha256": "3981ef5c589b1f03d09d6265e7e07ed659b85d4ded137fd01fdf534a98f2137f",
+      "bytes": 2030
+    },
+    {
+      "relativePath": ".local/module03-evidence/android-reader-red.log",
+      "sha256": "dac3c8f93241b71d712aabbb9c5835ef7085fb42de51e581178f0483ae91a9d2",
+      "bytes": 9704
+    },
+    {
+      "relativePath": ".local/module03-evidence/android-coordinator-red.log",
+      "sha256": "6a101f17ea01167d4dca9cab114ac52751a20439c761793a681af122ba53c992",
+      "bytes": 2760
+    },
+    {
+      "relativePath": ".local/module03-evidence/android-coordinator-green.log",
+      "sha256": "32c6999cd6fd1de7bd96f6f6f7d54b83a5c4aa401316ea0488af2591b5ac3dee",
+      "bytes": 1901
+    },
+    {
+      "relativePath": ".local/module03-evidence/band-send-generation-red.log",
+      "sha256": "8ecfb4d564fc890aedca3ff2d0f400b2c389dfd1670a2bb4b03e649e18778588",
+      "bytes": 3447
+    },
+    {
+      "relativePath": ".local/module03-evidence/band-send-generation-green.log",
+      "sha256": "38fa1e7cf6286d5e565dea08edf7890aaee8642011fa1c62d80803cdfcda7980",
+      "bytes": 734
+    }
+  ],
+  "physical": "Not Run: user will connect phone later; no physical installed certificate, SDK messages or lockscreen/UI proof"
+}

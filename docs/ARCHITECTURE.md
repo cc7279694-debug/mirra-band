@@ -1,21 +1,28 @@
-# 当前原型架构
+# 当前只读伴侣架构
 
-Module 02 是独立 Vela 应用；无服务器、账号、数据库、业务文件存储或手机修改。
+Module 03 继承原生 Vela JavaScript；无服务器、账号、云端或腕端数据库。
 
 ```text
-src/app.ux：本次进程拥有一个演示模型
-  ↓
-src/lib/demo.js：七状态、示例书名、锚点时间、展示快照
-  ↓
-Home / States .ux：展示、选择、返回、模拟动作
+手机真实 Room / 监测运行时
+  → WearableSnapshotReader：捕获数据库代际，短只读事务
+  → WearableCoordinator：Application SupervisorScope、请求归属、流代际
+  → XiaomiWearTransport：官方 AAR、用户授权、单一节点监听
+  → Interconnect
+  → interconnect-transport.js：平台单例回调唯一所有者
+  → companion-protocol.js：4096 UTF-8 字节、白名单、严格 v1
+  → companion-store.js：前台请求、新鲜度、内存快照
+  → companion-timer.js / companion-presentation.js
+  → Home / Detail / Connection .ux
 ```
 
-`ticker.js` 仅驱动前台刷新：显示时立即重算并持有一个 interval，隐藏时释放，销毁后禁用。真实经过时间来自模型锚点；后台是否暂停由设备决定，重新启动回到 idle，不持久化演示。
+协议只有 HELLO 与 GET_SNAPSHOT；没有学习写命令。手机 SDK 等待与发送发生在数据库事务和维护许可之外。维护开始先暂停并排空只读请求；退役资源不重开，新代际重新握手。设置保存在手机 `noBackupFilesDir` 的独立 AtomicFile，默认关闭；不会进入 Room、四项可携带偏好或完整备份。SDK 缺失/授权失败不会阻断正常学习。
 
-连接页独立使用 `interconnect-diagnostic.js`：加载 `system.interconnect`、读取 `getReadyState`、监听连接事件；三秒查询超时，隐藏/销毁释放自己拥有的回调，旧回调无效。不会发送消息或绑定业务消息；传输连接与真实学习数据明确分开。
+腕端仅在页面可见时持有回调、轮询和定时器。页面使用所有权令牌，交叠生命周期不会被旧页面释放新页面的任务。HELLO/GET 最长 3 秒；活动 5 秒、空闲 15 秒查询；15/30 秒过期；退避 2/5/10/30 秒。迟到、重复、旧请求/旧流不刷新新鲜度。来源忙碌、关闭、授权错误清空私有展示；断连/过期冻结最后手机确认的数字。
 
-三页在单个 `<style>` 中 `@import` 公共主题。`designWidth: 168` 对应目标 336 × 480；列表有固定视口可滚动，首页最大预算 232 设计单位。目标固件的文字与触控仍须真机验收。
+计时用保守 Date 锚点，只插值近期确认且前台连续的显示时间；回退、超过 7 秒调度空档、隐藏/重开均废弃连续性。不计算有效专注，不在倒计时归零时推断手机切换状态。SAVING/ENDED 显示固定值；ENDED 仅能跟随曾收到的 Session。
 
-开发工具位于 `node_modules/` 和 `.local/`。构建脚本隔离应用输入后调用官方 CLI，再独立检查新包；`dist/` 保存 RPK，`build/` 保存编译输出。`sign/` 的本地演示证书不进入 Git。包内不包含 Node 开发工具依赖。
+构建配置互斥：正式包 `com.guanyi.mirra` / 0.2.0(code 2)，没有 States 路由；演示包 `com.guanyi.mirra.band.demo` / 同版本、独立证书，每页标识“演示数据”。正式故障不回退演示。共享 `.ux`/呈现模型以 `#0B0F14` 深墨背景、`#6598E8` 强调、168 设计宽度组织首页与可滚动详情。
 
-测试分两类：Node 模型/适配器测试和执行真实 `.ux` 脚本的注入 harness；后者不证明 Vela 渲染。模拟器证据另行记录环境、尺寸、实际产物哈希；两者都不替代国行 9 Pro 真机验收。
+`scripts/build-rpk.cjs` 隔离输入并串行调用固定 `aiot-toolkit@2.0.5`；新产物通过签名、内容/逐文件摘要、元数据签名、CRC、身份/路由和篡改检查才进入 `dist/`。正式本地 PEM 在忽略的 `sign/live`，不会进包或 Git。
+
+Node 页面 harness 运行真实页面脚本，不能证明 Vela 渲染。Android API37 模拟器证明 Android 回归，不能证明小米服务、手环消息或锁屏可达性。实际边界与产物索引见 [Module 03 checkpoint](checkpoints/2026-10-11-module-03-companion.md)。

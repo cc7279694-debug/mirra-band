@@ -4,7 +4,7 @@
 
 - 本仓库是观已 Mirra 的独立小米手环伴侣项目，目标设备为国行小米手环 9 Pro。
 - 当前产品范围与验收条件见 [产品规格](docs/PRODUCT_SPEC.md)；当前模块见 [当前状态](docs/CURRENT_STATE.md)。
-- 手机端已有 Kotlin / Compose / Room 架构。本仓库不得为了手环开发改写手机端、数据库、签名或已安装 APK。
+- 手机端已有 Kotlin / Compose / Room 架构。Module 03 已授权在独立手机功能分支新增只读桥、设置与必要生命周期接线；不得修改学习算法、Room Schema、备份格式、签名身份或用户数据。
 - Local-first、Offline-ready、No-login-first；无需服务器、云服务、Supabase、Vercel、账号或公共隧道。
 - 手环承担快速查看与有限交互；手机仍拥有真实 Intent、Session、监测和学习记录。手环演示计时不生成真实学习事实。
 
@@ -66,7 +66,7 @@
 - 保存用户未提交工作；不用 reset / checkout 覆盖未知变更，不清理相邻手机项目。
 - 本次用户规范允许模块结束后 Conventional Commit 并 push 当前功能分支。
 - 提交前检查 diff、状态及敏感信息。私钥、AuthKey、Cookie、Token、密码、Android Keystore、设备原始敏感日志不得进入 Git。
-- 快应用开发签名须独立于手机签名，存放在被 Git 忽略的本地位置；正式签名迁移需另立模块。
+- 演示包使用独立签名；正式包复用手机现有身份。用户已明确同意仅在本机、受保护且 Git 忽略的 `sign/live` 转换现有签名材料，并同意配套安装与必要授权测试；不得更换手机签名、输出或上传私钥。物理设备未连接时不宣称安装和三方指纹匹配成功。
 - 不自动创建 PR、合并 main、Force Push、重置远端、删历史或发布生产环境。
 - Windows 删除/移动必须使用同一 PowerShell 会话和 LiteralPath，先验证绝对目标；禁止为修 Bug 删除用户数据库或备份。
 
