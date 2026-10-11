@@ -80,27 +80,57 @@ function createTransport(options) {
           else publish({ kind: 'error', code: 'INVALID_PAYLOAD' });
         },
       };
+      context.pending = true;
+      context.timer = schedule(() => {
+        if (current() && context.pending) connection('disconnected', 'CHANNEL_TIMEOUT');
+      }, 3000);
+      publish({ kind: 'connection', status: 'connecting', code: null });
       slots.forEach(name => {
+        if (!current()) return;
         stage = 'READ_CALLBACK';
         context.handlers.push({ name, handler: handlers[name], previous: native[name] });
         stage = 'SET_CALLBACK';
         native[name] = handlers[name];
       });
+      // A native setter can deliver a cached onopen immediately. Preserve it.
+      if (!current() || !context.pending) return;
       stage = 'READY_CALL';
-      context.pending = true;
-      publish({ kind: 'connection', status: 'connecting', code: null });
-      context.timer = schedule(() => {
-        if (current() && context.pending) connection('disconnected', 'CHANNEL_TIMEOUT');
-      }, 3000);
       const ready = native.getReadyState;
-      if (typeof ready !== 'function') { initializationFailed('INIT_READY_CALL_API_MISSING'); return; }
-      ready.call(native, {
-        success(data) {
+      if (typeof ready === 'function') {
+        ready.call(native, {
+          success(data) {
+            if (!current() || !context.pending) return;
+            connection(data && data.status === 1 ? 'connected' : 'disconnected');
+          },
+          fail() { if (current() && context.pending) connection('disconnected', 'CHANNEL_UNAVAILABLE'); },
+        });
+      } else {
+        stage = 'DIAGNOSIS_CALL';
+        const diagnosis = native.diagnosis;
+        if (typeof diagnosis === 'function') {
+          diagnosis.call(native, {
+            timeout: 3000,
+            success(data) {
+              if (!current() || !context.pending) return;
+              const result = data && data.status;
+              const code = result === 204 ? 'CHANNEL_TIMEOUT' : result === 1001 ? 'PHONE_APP_MISSING'
+                : result === 1000 ? 'CHANNEL_ERROR' : 'CHANNEL_UNAVAILABLE';
+              connection(result === 0 ? 'connected' : 'disconnected', result === 0 ? null : code);
+            },
+            fail() { if (current() && context.pending) connection('disconnected', 'CHANNEL_UNAVAILABLE'); },
+          });
+        } else {
+          stage = 'APK_STATUS_CALL';
+          const apkStatus = native.getApkStatus;
+          if (typeof apkStatus !== 'function') { initializationFailed('INIT_READY_CALL_API_MISSING'); return; }
+          // Legacy official API is synchronous; never poll or infer success.
+          const result = apkStatus.call(native);
           if (!current() || !context.pending) return;
-          connection(data && data.status === 1 ? 'connected' : 'disconnected');
-        },
-        fail() { if (current() && context.pending) connection('disconnected', 'CHANNEL_UNAVAILABLE'); },
-      });
+          const code = result === 'UNINSTALLED' ? 'PHONE_APP_MISSING'
+            : result === 'CONNECTED' || result === 'DISCONNECTED' ? null : 'CHANNEL_UNAVAILABLE';
+          connection(result === 'CONNECTED' ? 'connected' : 'disconnected', code);
+        }
+      }
     } catch (error) { initializationFailed('INIT_' + stage + '_' + errorCategory(error)); }
   }
   function stop() {
@@ -111,16 +141,27 @@ function createTransport(options) {
   }
   function send(payload) {
     const context = owner;
-    if (!context || status !== 'connected' || typeof payload !== 'string') return false;
+    if (!context || context.failed || status !== 'connected' || typeof payload !== 'string') return false;
+    let data;
+    try { data = JSON.parse(payload); }
+    catch (error) { publish({ kind: 'error', code: 'INVALID_PAYLOAD' }); return false; }
+    if (!data || typeof data !== 'object' || Array.isArray(data)) {
+      publish({ kind: 'error', code: 'INVALID_PAYLOAD' }); return false;
+    }
     const generation = ++context.sendGeneration;
     let settled = false;
     function settle() {
-      if (owner !== context || context.sendGeneration !== generation || settled) return false;
+      if (owner !== context || context.failed || context.sendGeneration !== generation || settled) return false;
       settled = true;
       return true;
     }
     try {
-      context.native.send({ data: payload,
+      const nativeSend = context.native.send;
+      if (typeof nativeSend !== 'function') {
+        if (settle()) publish({ kind: 'connection', status: 'disconnected', code: 'SEND_API_MISSING' });
+        return false;
+      }
+      nativeSend.call(context.native, { data,
         // Native success only settles delivery. A valid business reply owns freshness.
         success() { settle(); },
         fail() {
