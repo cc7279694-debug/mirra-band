@@ -1,6 +1,6 @@
 {
   "name": "mirra-band",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "private": true,
   "description": "Mirra Band read-only Vela companion for Xiaomi Smart Band 9 Pro",
   "scripts": {

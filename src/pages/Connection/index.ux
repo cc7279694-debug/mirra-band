@@ -1,6 +1,7 @@
 <template>
   <div class="page">
     <text class="brand">连接与帮助</text>
+    <text class="build-label">{{versionText}}</text>
     <text if="{{showDemo}}" class="badge">{{demoLabel}}</text>
     <list class="connection-list">
       <list-item type="status" class="status-row"><text class="connection-title">{{title}}</text><text class="row-note">{{syncText}}</text></list-item>
@@ -18,9 +19,12 @@
 import router from '@system.router'
 import tickerLib from '../../lib/ticker'
 import presentationLib from '../../lib/companion-presentation'
+import profile from '../../profile'
 
 export default {
-  private: presentationLib.present({}),
+  private: Object.assign(presentationLib.present({}), {
+    versionText: 'Mirra ' + profile.versionName + ' / ' + profile.versionCode
+  }),
   onInit() {
     this._visible = false
     this._destroyed = false
@@ -61,6 +65,7 @@ export default {
 </script>
 <style>
 @import '../../common/theme.css';
+.build-label { width: 144px; height: 14px; font-size: 10px; color: #A6B2C3; }
 .connection-list { width: 144px; flex: 1; margin-top: 7px; }
 .status-row { width: 144px; height: 48px; flex-direction: column; justify-content: center; }
 .connection-title { width: 144px; height: 22px; font-size: 13px; color: #EEF3F8; lines: 1; text-overflow: ellipsis; }

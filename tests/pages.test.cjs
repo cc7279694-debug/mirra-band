@@ -7,6 +7,15 @@ const { createDemo } = require('../src/lib/demo');
 const { createDemoCompanion } = require('../src/lib/demo-companion');
 
 // Runs actual UX scripts with injected app boundaries; this is not Vela rendering.
+test('connection help identifies the actual build without requiring a working phone channel', () => {
+  const h = createHarness('live');
+  const page = h.page('Connection');
+  page.onInit();
+  assert.equal(page.versionText, 'Mirra 0.2.5 / 7');
+  const source = fs.readFileSync(path.resolve(__dirname, '../src/pages/Connection/index.ux'), 'utf8');
+  assert.ok(source.includes('{{versionText}}'));
+});
+
 function createHarness(mode = 'demo') {
   const root = path.resolve(__dirname, '../src');
   let time = 100000;

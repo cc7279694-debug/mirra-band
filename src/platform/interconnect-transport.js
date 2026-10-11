@@ -44,6 +44,19 @@ function createTransport(options) {
     // typeof has a fixed language-defined set; never inspect or stringify value.
     return prefix + '_STATUS_UNKNOWN_' + (typeof value).toUpperCase();
   }
+  function legacyDiagnostic(value) {
+    // This reads only the synchronous platform state, never error/message bodies.
+    // Expose a bounded ASCII state token, with case and wrapper preserved in the
+    // category. Unknown tokens remain failures, including lowercase/quoted CONNECTED.
+    if (typeof value === 'string' && value.length <= 64) {
+      const token = /^[A-Za-z0-9_]{1,32}$/;
+      if (token.test(value)) return 'APK_RAW_' + value;
+      if (/^"[A-Za-z0-9_]{1,32}"$/.test(value)) return 'APK_QUOTED_' + value.slice(1, -1);
+      const padded = value.replace(/^ +| +$/g, '');
+      if (padded !== value && token.test(padded)) return 'APK_PADDED_' + padded;
+    }
+    return unknownStatus('APK', value);
+  }
   function start() {
     if (owner) return;
     const context = { native: null, handlers: [], timer: null, pending: false, waitCode: null, sendGeneration: 0, failed: false };
@@ -143,7 +156,7 @@ function createTransport(options) {
             return;
           }
           const code = result === 'UNINSTALLED' ? 'APK_STATUS_UNINSTALLED' : result === 'DISCONNECTED'
-            ? 'APK_STATUS_DISCONNECTED' : unknownStatus('APK', result);
+            ? 'APK_STATUS_DISCONNECTED' : legacyDiagnostic(result);
           connection(result === 'CONNECTED' ? 'connected' : 'disconnected', result === 'CONNECTED' ? null : code);
         }
       }

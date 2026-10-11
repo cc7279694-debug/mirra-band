@@ -25,7 +25,7 @@ async function build() {
     fs.cpSync(path.join(root, 'src'), path.join(staging, 'src'), { recursive: true })
     const manifest = configureManifest(JSON.parse(fs.readFileSync(path.join(root, 'src/manifest.json'), 'utf8')), mode)
     fs.writeFileSync(path.join(staging, 'src/manifest.json'), JSON.stringify(manifest, null, 2))
-    fs.writeFileSync(path.join(staging, 'src/profile.js'), 'module.exports = ' + JSON.stringify({ mode }) + ';\n')
+    fs.writeFileSync(path.join(staging, 'src/profile.js'), 'module.exports = ' + JSON.stringify({ mode, versionName: profile.versionName, versionCode: profile.versionCode }) + ';\n')
     if (mode === 'live') fs.rmSync(path.join(staging, 'src/pages/States'), { recursive: true, force: true })
     fs.copyFileSync(path.join(root, 'package.json'), path.join(staging, 'package.json'))
     fs.mkdirSync(path.join(staging, 'sign'))

@@ -294,7 +294,7 @@ test('legacy getApkStatus is called once and only exact CONNECTED proves a chann
   for (const [value, status, code] of [
     ['CONNECTED', 'connected', null], ['DISCONNECTED', 'disconnected', 'APK_STATUS_DISCONNECTED'],
     ['UNINSTALLED', 'disconnected', 'APK_STATUS_UNINSTALLED'],
-    ['connected', 'disconnected', 'APK_STATUS_UNKNOWN_STRING'],
+    ['connected', 'disconnected', 'APK_RAW_connected'],
     [{ status: 'CONNECTED' }, 'disconnected', 'APK_STATUS_UNKNOWN_OBJECT'],
     [true, 'disconnected', 'APK_STATUS_UNKNOWN_BOOLEAN'],
   ]) {
@@ -307,6 +307,34 @@ test('legacy getApkStatus is called once and only exact CONNECTED proves a chann
     assert.equal(r.events.at(-1).status, status);
     assert.equal(r.events.at(-1).code, code);
     assert.equal(r.timers.size, 0);
+  }
+});
+
+test('legacy system state tokens expose exact text for diagnosis but never imply a connected channel', () => {
+  for (const [value, code] of [
+    ['UNKNOWN', 'APK_RAW_UNKNOWN'], ['NOT_CONNECTED', 'APK_RAW_NOT_CONNECTED'],
+    ['unknown', 'APK_RAW_unknown'], ['0', 'APK_RAW_0'],
+    ['"CONNECTED"', 'APK_QUOTED_CONNECTED'], [' CONNECTED ', 'APK_PADDED_CONNECTED'],
+  ]) {
+    const r = compatibilityRig({ getApkStatus() { return value; } });
+    r.transport.start();
+    assert.equal(r.events.at(-1).code, code);
+    assert.equal(r.events.at(-1).status, 'disconnected');
+    assert.equal(r.transport.send(message('must-not-send')), false);
+    assert.equal(r.sent.length, 0);
+    assert.equal(r.timers.size, 0);
+    assert.ok(code.length <= 45);
+  }
+});
+
+test('legacy diagnostic tokens are bounded ASCII identifiers, never arbitrary bodies or coerced objects', () => {
+  for (const value of ['private-detail', 'private detail', '私人内容', 'SECRET\nDETAIL',
+    'A'.repeat(33), '{"status":"CONNECTED"}', '\u0000CONNECTED', ' '.repeat(65) + 'CONNECTED']) {
+    const r = compatibilityRig({ getApkStatus() { return value; } });
+    r.transport.start();
+    assert.equal(r.events.at(-1).code, 'APK_STATUS_UNKNOWN_STRING');
+    assert.equal(r.events.at(-1).status, 'disconnected');
+    assert.ok(!JSON.stringify(r.events).includes('private-detail'));
   }
 });
 
@@ -599,7 +627,7 @@ test('strict ready status two is disconnected with an interface-specific diagnos
 });
 
 for (const [capability, prefix] of [['ready', 'READY'], ['diagnosis', 'DIAG'], ['apk', 'APK']]) {
-  test(capability + ' unknown status reveals only a fixed type without coercing or serializing values', () => {
+  test(capability + ' unknown status uses bounded state tokens or fixed types without coercing or serializing values', () => {
     const opaque = Object.create(null); let reads = 0;
     for (const name of ['code', 'message', 'body', 'toJSON', 'toString', 'valueOf']) {
       Object.defineProperty(opaque, name, { get() { reads++; throw new Error('private-detail'); } });
@@ -613,7 +641,8 @@ for (const [capability, prefix] of [['ready', 'READY'], ['diagnosis', 'DIAG'], [
       const r = capability === 'apk' ? compatibilityRig({ getApkStatus() { return value; } }) : queryRig(capability);
       r.transport.start();
       if (capability !== 'apk') r.requests[0].success({ status: value });
-      assert.equal(r.events.at(-1).code, prefix + '_STATUS_UNKNOWN_' + kind);
+      const expected = capability === 'apk' && value === '0' ? 'APK_RAW_0' : prefix + '_STATUS_UNKNOWN_' + kind;
+      assert.equal(r.events.at(-1).code, expected);
       assert.equal(r.events.at(-1).status, 'disconnected');
       assert.equal(r.timers.size, 0);
       assert.equal(r.transport.send(message('must-not-send')), false);
