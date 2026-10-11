@@ -21,7 +21,7 @@ function createTransport(options) {
   }
   function start() {
     if (owner) return;
-    const context = { native: null, handlers: [], timer: null, pending: false };
+    const context = { native: null, handlers: [], timer: null, pending: false, sendGeneration: 0 };
     owner = context;
     const current = () => owner === context;
     function connection(next, code) {
@@ -77,16 +77,25 @@ function createTransport(options) {
   function send(payload) {
     const context = owner;
     if (!context || status !== 'connected' || typeof payload !== 'string') return false;
+    const generation = ++context.sendGeneration;
+    let settled = false;
+    function settle() {
+      if (owner !== context || context.sendGeneration !== generation || settled) return false;
+      settled = true;
+      return true;
+    }
     try {
       context.native.send({ data: payload,
+        // Native success only settles delivery. A valid business reply owns freshness.
+        success() { settle(); },
         fail() {
-          if (owner !== context) return;
+          if (!settle()) return;
           publish({ kind: 'connection', status: 'disconnected', code: 'SEND_FAILED' });
         },
       });
       return true;
     } catch (error) {
-      if (owner === context) publish({ kind: 'connection', status: 'disconnected', code: 'SEND_FAILED' });
+      if (settle()) publish({ kind: 'connection', status: 'disconnected', code: 'SEND_FAILED' });
       return false;
     }
   }
