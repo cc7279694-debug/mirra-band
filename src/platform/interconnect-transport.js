@@ -46,7 +46,7 @@ function createTransport(options) {
   }
   function start() {
     if (owner) return;
-    const context = { native: null, handlers: [], timer: null, pending: false, sendGeneration: 0, failed: false };
+    const context = { native: null, handlers: [], timer: null, pending: false, waitCode: null, sendGeneration: 0, failed: false };
     owner = context;
     const current = () => owner === context && !context.failed;
     function connection(next, code) {
@@ -90,7 +90,7 @@ function createTransport(options) {
       };
       context.pending = true;
       context.timer = schedule(() => {
-        if (current() && context.pending) connection('disconnected', 'CHANNEL_TIMEOUT');
+        if (current() && context.pending) connection('disconnected', context.waitCode || 'CHANNEL_TIMEOUT');
       }, 3000);
       publish({ kind: 'connection', status: 'connecting', code: null });
       slots.forEach(name => {
@@ -133,9 +133,15 @@ function createTransport(options) {
           stage = 'APK_STATUS_CALL';
           const apkStatus = native.getApkStatus;
           if (typeof apkStatus !== 'function') { initializationFailed('INIT_READY_CALL_API_MISSING'); return; }
-          // Legacy official API is synchronous; never poll or infer success.
+          // Old official implementations also return CONNECTING for unresolved states.
+          // Query once, then keep the existing deadline for real native events.
           const result = apkStatus.call(native);
           if (!current() || !context.pending) return;
+          if (result === 'CONNECTING') {
+            context.waitCode = 'APK_CONNECTING_TIMEOUT';
+            publish({ kind: 'connection', status: 'connecting', code: 'APK_STATUS_CONNECTING' });
+            return;
+          }
           const code = result === 'UNINSTALLED' ? 'APK_STATUS_UNINSTALLED' : result === 'DISCONNECTED'
             ? 'APK_STATUS_DISCONNECTED' : unknownStatus('APK', result);
           connection(result === 'CONNECTED' ? 'connected' : 'disconnected', result === 'CONNECTED' ? null : code);

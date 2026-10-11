@@ -310,6 +310,78 @@ test('legacy getApkStatus is called once and only exact CONNECTED proves a chann
   }
 });
 
+test('legacy CONNECTING keeps the original bounded wait without another query or sending data', () => {
+  let calls = 0;
+  const r = compatibilityRig({ getApkStatus() { calls++; return 'CONNECTING'; } });
+  r.transport.start(); r.transport.start();
+  assert.equal(r.events.at(-1).status, 'connecting');
+  assert.equal(r.events.at(-1).code, 'APK_STATUS_CONNECTING');
+  assert.equal(r.timers.size, 1);
+  assert.equal(calls, 1);
+  assert.equal(r.transport.send(message('must-not-send')), false);
+  assert.equal(r.sent.length, 0);
+  r.native.onopen();
+  assert.equal(r.events.at(-1).status, 'connected');
+  assert.equal(r.events.at(-1).code, null);
+  assert.equal(r.timers.size, 0);
+  assert.equal(r.transport.send(message('hello')), true);
+  assert.equal(calls, 1);
+});
+
+test('legacy CONNECTING that never opens times out with its exact safe status category', () => {
+  const r = compatibilityRig({ getApkStatus() { return 'CONNECTING'; } });
+  r.transport.start();
+  assert.equal(r.timers.size, 1);
+  [...r.timers.values()][0]();
+  assert.equal(r.events.at(-1).status, 'disconnected');
+  assert.equal(r.events.at(-1).code, 'APK_CONNECTING_TIMEOUT');
+  assert.equal(r.timers.size, 0);
+  assert.equal(r.transport.send(message('must-not-send')), false);
+  assert.equal(r.sent.length, 0);
+});
+
+test('legacy pending wait is settled by real close or error before its deadline', () => {
+  for (const [event, code] of [['onclose', null], ['onerror', 'CHANNEL_ERROR']]) {
+    const r = compatibilityRig({ getApkStatus() { return 'CONNECTING'; } });
+    r.transport.start();
+    assert.equal(r.events.at(-1).status, 'connecting');
+    const deadline = [...r.timers.values()][0];
+    r.native[event]({ code: 1006 });
+    assert.equal(r.events.at(-1).status, 'disconnected');
+    assert.equal(r.events.at(-1).code, code);
+    assert.equal(r.timers.size, 0);
+    const count = r.events.length;
+    deadline();
+    assert.equal(r.events.length, count);
+  }
+});
+
+test('retired legacy CONNECTING callbacks cannot open or timeout a replacement owner', () => {
+  const r = compatibilityRig({ getApkStatus() { return 'CONNECTING'; } });
+  r.transport.start();
+  assert.equal(r.events.at(-1).status, 'connecting');
+  const oldOpen = r.native.onopen, deadline = [...r.timers.values()][0];
+  r.transport.stop();
+  assert.equal(r.timers.size, 0);
+  r.transport.start();
+  const count = r.events.length;
+  oldOpen(); deadline();
+  assert.equal(r.events.length, count);
+  assert.equal(r.events.at(-1).status, 'connecting');
+  assert.equal(r.timers.size, 1);
+  r.transport.stop();
+  assert.equal(r.timers.size, 0);
+});
+
+test('legacy query cannot overwrite a real native open delivered during that query', () => {
+  const r = compatibilityRig({ getApkStatus() { r.native.onopen(); return 'CONNECTING'; } });
+  r.transport.start();
+  assert.equal(r.events.at(-1).status, 'connected');
+  assert.equal(r.events.at(-1).code, null);
+  assert.equal(r.events.filter(event => event.status === 'connected').length, 1);
+  assert.equal(r.timers.size, 0);
+});
+
 for (const [method, stage] of [['diagnosis', 'DIAGNOSIS_CALL'], ['getApkStatus', 'APK_STATUS_CALL']]) {
   test(method + ' accessor exceptions retain a distinct safe diagnostic stage', () => {
     const native = Object.defineProperty({}, method, {
