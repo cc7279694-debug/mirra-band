@@ -1,0 +1,36 @@
+# Generated dependencies, builds, packages and local tooling
+node_modules/
+dist/
+build/
+out/
+coverage/
+.cache/
+.aiot/
+*.rpk
+*.apk
+*.aab
+*.log
+
+# Local signing / device credentials (never commit)
+sign/
+.local/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.cer
+*.crt
+*authkey*
+*AuthKey*
+
+# Editor / OS files
+.idea/
+.vscode/
+Thumbs.db
+Desktop.ini
+.DS_Store
