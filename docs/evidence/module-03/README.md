@@ -1,6 +1,6 @@
 # Module 03 验证与交付索引
 
-日期：2026-10-11。**MODULE_03_DEV_COMPLETE_AWAITING_DEVICE_ACCEPTANCE**；手机覆盖安装/服务授权与正式腕端错误画面已有真机证据。用户更新 `0.2.1` 后的新照片定位当前实例的 `getReadyState` 非函数；`0.2.2` 兼容实现已实际构建并通过适用门禁，待用户更新复测，完整通信及主场景验收尚未完成，仅 Module 03。
+日期：2026-10-11。**MODULE_03_DEVICE_ACCEPTANCE_BLOCKED**；`0.2.2` 用户实拍显示 `CHANNEL_UNAVAILABLE`，手机重新查询后设备/服务/授权正常但仍无握手或快照。`0.2.3` 同次查询诊断包已实际构建并验签，待用户更新取得具体原生码；诊断修正不证明连接恢复，仅 Module 03。
 
 ## 实现与身份
 
@@ -13,7 +13,7 @@
 
 手机隔离工作区 `E:\CODEX\mirra-watch\.local\android-worktree`；原工作区 `C:\Users\CDD\Documents\ChatGPT\Mirra` 未切分支/改文件。构建对应的两端实现 SHA 记录在产物清单，最终交付文档另有提交，不能用基线 SHA 冒充实现。
 
-[artifacts.json](artifacts.json) 从实际文件和公开签名生成，包含绝对路径、大小、SHA-256、版本、证书、SDK 和共享协议逐文件摘要。APK `1.1.1-band-readonly` / code 4；当前 live 兼容 RPK `0.2.2` / code 4 / `com.guanyi.mirra`；初版 live `0.2.0` / code 2 与诊断版 `0.2.1` / code 3 保留溯源；独立 demo RPK `0.2.0` / code 2 / `com.guanyi.mirra.band.demo`。安装步骤见[README](../../../README.md#配套安装与验收)。
+[artifacts.json](artifacts.json) 从实际文件和公开签名生成，包含绝对路径、大小、SHA-256、版本、证书、SDK 和协议摘要。APK 保持 `1.1.1-band-readonly` / code 4；当前 live 查询诊断 RPK `0.2.3` / code 5 / `com.guanyi.mirra`；初版、`0.2.1`、`0.2.2` 与独立 demo 保留溯源。安装步骤见[README](../../../README.md#配套安装与验收)。
 
 初版 live `0.2.0` 与 demo 构建对应代码提交：Band `88bd77b1582f268b2dda3785fd8b46dc2b2e8fec`；Phone `e00be0a5d59f9dad892b8c26128c8c3d17149f70`。live `0.2.1` 诊断包对应 Band 实现提交 `267be9aa69b1e34ac3b98a6629bdbcaa30cdfb22`，当前 live `0.2.2` 兼容包对应 `cdfc77cf44aa1f1fcb1d4fc79326e4ab86b50bcc`。下表保留历史交付，本地文件位于 `E:\CODEX\mirra-watch\dist`。
 
@@ -24,13 +24,17 @@
 | `com.guanyi.mirra.band.demo.release.0.2.0.rpk` | 35,574 | `cdcaf03deac3e51496f9e154d119afc285c807ae3e662f7de3df548a8360aee3` |
 | `Mirra-1.1.1-band-readonly-debug.apk` | 17,094,969 | `5a61f4bc4272b565de1181f3d16ee7b905f41e6482971560558a6cc2178a4437` |
 
-当前同签名正式腕端兼容版 `0.2.2` / code 4 已实际构建并验签：[正式兼容 RPK](E:/CODEX/mirra-watch/dist/com.guanyi.mirra.release.0.2.2.rpk)，32,194 bytes，SHA-256 `27807efe94915c6ed691bfecfbe809abbc898d76995a3528fd3b5129cd799015`。缺少 `getReadyState` 时优先调用 `diagnosis`，再无该接口时仅一次旧 `getApkStatus` 查询，严格成功值才确认传输状态；保留缓存 `onopen`，原生 send 改传 JSON 对象，内部协议 wire 不变。HELLO_ACK 与完整 SNAPSHOT 仍是业务新鲜度依据；手机 APK 不变，待用户更新后的真机复测，不声称通信已恢复。
+历史同签名兼容版 `0.2.2` / code 4：[RPK](E:/CODEX/mirra-watch/dist/com.guanyi.mirra.release.0.2.2.rpk)，32,194 bytes，SHA-256 `27807efe94915c6ed691bfecfbe809abbc898d76995a3528fd3b5129cd799015`。替代查询、缓存 `onopen` 和 native JSON 对象发送通过本地门禁，随后真机仍 `CHANNEL_UNAVAILABLE`，不是待首次复测或通信通过。
+
+当前同签名查询诊断版 `0.2.3` / code 5：[RPK](E:/CODEX/mirra-watch/dist/com.guanyi.mirra.release.0.2.3.rpk)，32,305 bytes，SHA-256 `cb17cc6cc156623b44fad7c9fd85908f3d5505ef683762def16871b389269d54`，实现提交 `b91de61f89f2d25c97dd11bfe39b401e8cc06cfc`。仅保留同次原生查询 fail 第二参数的数字白名单，以及接口/固定未知类型；不读取正文，不增加查询、不改成功条件或重试。已复制至目标手机 Download，远端摘要一致，待用户更新取得实际数字码。HELLO_ACK 与完整 SNAPSHOT 仍是业务新鲜度依据，手机 APK 未改。
 
 本机构建 APK/live RPK 公开证书 SHA-256 相同：`29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9`。基线本地 V1.1 APK 及两部物理手机原有 `0.2.0` / code 2 APK 均匹配，三方公开证书匹配已实际验证。APK 保留原 debug 身份，RPK 为官方 CLI release，不称为生产签名发布。
 
 用户授权转换仅在本机、Git 忽略且当前用户 ACL 保护的 `sign/live`，构建暂存同样保护；没有私钥/密码/SDK 二进制提交。
 
 ## 实际门禁与历史
+
+`0.2.3` fresh 检查 31 scripts / 3 pages / 0 errors，单次未过滤测试 146/146 PASS / 0 fail/cancel/skip/todo；实际定向 RED 53/39 PASS/14 FAIL → GREEN 53/53。构建 15,633ms / exit 0；独立 RSA-SHA256、内容/逐文件 SHA、签名 metadata、CRC32 与三项篡改拒绝通过。公开证书与配套 APK 相同。原始日志实际保存于 Git 忽略目录，摘要和边界记录在 [verification.json](verification.json) 的 `queryDiagnostic023`；本地通过不替代真机连接。
 
 `0.2.2` 兼容增量执行 fresh check-project：31 scripts / 3 pages / 0 errors；单次未过滤测试 134/134 PASS / 0 fail / 0 skip，正式 RPK 实构建与独立 inspect 成功。公开证书仍为 `29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9`，与手机 APK/真机已安装 APK 一致；没有更新后真机握手、完整同步或锁屏证据。
 
@@ -86,6 +90,8 @@
 
 用户随后确认更新 `0.2.1`，第三张新真机实拍实际显示 `INIT_READY_CALL_API_MISSING`，证明新初始化诊断代码已运行。按对应实现的阶段分支，实例取得和回调注册已经越过，当前通信实例的 `getReadyState` 不是函数；这是已定位的失败点，不证明整个平台不支持通信，也不证明消息通道已可用。没有匹配握手或完整快照；新照片同样由本地忽略证据目录保存，版本仍未独立读取腕端安装元数据。
 
+`0.2.2` 更新后的第四张实拍显示 **CHANNEL_UNAVAILABLE**。UTC 14:24 伴侣页实际为 NO_DEVICE，而 XMS 服务仍成功绑定 Mirra；用户手机重新连接后 UTC 14:30、再腕端重试后 UTC 14:33 均显示 9 Pro / 服务可用 / 已授权，仍等待握手且完整同步尚无，用户反馈腕端没反应。NO_DEVICE 是已解除的历史结果。当前适配器将原生 fail 数字码及未知 success 值折叠，尚不能归因于固件、签名、白名单或权限。四张实拍、三个同次 UI 观测及脱敏服务绑定报告的真实文件摘要列在 `verification.json#physical`；没有独立读取腕端安装 metadata/hash。
+
 电脑注入触控因 Xiaomi `INJECT_EVENTS` 安全策略被拒绝，设置与授权采用用户手动操作，不绕过系统权限。本地原始证据仅留 Git 忽略目录 `.local/module03-evidence/preinstall` 与 `.local/module03-evidence/xiaomi-device-20261011`；仓库仅记录脱敏事实和摘要。
 
 ### Android 模拟器与腕端画面边界
@@ -98,14 +104,15 @@
 
 实际操作还验证关闭后强停本模块专用 AVD 内应用、冷启动再进入设置保持关闭。两次冷启动 TotalTime 为 1946/1934ms，仅两次观测，不作为性能基准。此处强停未操作用户手机，既有用户数据未接触。
 
-**已有三张用户提供的正式腕端错误状态真机实拍（初版两张、`0.2.1` 一张）；六类业务画面仍未验证。** Windows Vela 模拟器有 Module 02 已记录的应用加载前启动阻塞；无概念图/网页/Node harness 冒充截图。保留 Module 02 临时 icon 为合同允许的视觉遗留，不称为最终批准 Logo。
+**已有四张用户提供的正式腕端错误状态真机实拍（初版两张、`0.2.1` 与 `0.2.2` 各一张）；六类业务画面仍未验证。** Windows Vela 模拟器有 Module 02 已记录的应用加载前启动阻塞；无概念图/网页/Node harness 冒充截图。保留 Module 02 临时 icon 为合同允许的视觉遗留，不称为最终批准 Logo。
 
 | 目标证据 | 状态 / 原因 |
 | --- | --- |
 | 物理手机版本/证书、安全覆盖安装 | 已验证：两机三方证书匹配，`install -r` Success；当前 Xiaomi 实际 APK 摘要与交付一致 |
 | 初版正式 RPK 腕端安装/运行 | 用户指定 `0.2.0` 正式包并提供真机实拍，正式 UI 已运行；未独立读取腕端安装元数据/文件摘要 |
 | `0.2.1` 初始化诊断增量 | 检查无错、117/117 PASS，实际构建与独立验签通过；用户更新后新实拍显示 `INIT_READY_CALL_API_MISSING`，当前实例缺少 `getReadyState` 函数 |
-| `0.2.2` 兼容增量 | 31 scripts / 3 pages 检查无错、134/134 PASS，实际构建与独立验签通过；待用户更新复测 |
+| `0.2.2` 兼容增量 | 本地 31 scripts / 3 pages 无错、134/134 PASS，构建验签通过；真机已复测且 CHANNEL_UNAVAILABLE / 无握手 |
+| `0.2.3` 同次查询诊断 | 本地检查无错、146/146 PASS，构建验签通过；仅提高错误可观察性，待用户更新取得具体码 |
 | 国行 9 Pro 三次随机请求与中文/256/1024/2048/4096 bytes 往返 | Not Run：手机服务/设备授权已成功，兼容实现已交付但真机恢复未验，没有匹配握手；编码测试不代替无线传输 |
 | 正常学习 → 手机锁屏/后台 → 腕端重开取新快照 | Not Run：主场景须实际手机与手环 |
 | 准备/专注/休息/断连/未监测/保存中六类正式腕端画面 | Not Run：已有错误状态实拍，尚未取得六类真实业务画面 |
@@ -113,4 +120,4 @@
 | 30 分钟消息数/延迟/计时误差/电量 | Not Run：不预写达标 |
 | API23–35 / API36 全面回归 / 多 OEM / TalkBack / release / Play | Not Run：自动化为隔离 API37；API36 两机仅有上述安装、启动与设置诊断 |
 
-已有本机签名转换、安装与必要授权测试同意；手机核查、覆盖安装、服务/设备授权、初版与 `0.2.1` 腕端运行已取得证据。下一步为用户更新已验证的 `0.2.2` 兼容 RPK 后复测初始化与真实往返，再继续锁屏与腕端业务画面验收。当前目标未全部验收，不进入 Module 04、不合并 main。
+已有本机签名转换、安装与必要授权测试同意；手机安全覆盖与设备授权、正式腕端错误实拍已取得证据。下一步为取得 `0.2.3` 同次原生查询码，按实际原因修复和验证往返，再继续锁屏与腕端业务画面。目标未验收，不进入 Module 04、不合并 main。

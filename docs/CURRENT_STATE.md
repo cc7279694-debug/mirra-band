@@ -4,7 +4,7 @@
 
 ## Current Stage / Module
 
-**MODULE_03_DEV_COMPLETE_AWAITING_DEVICE_ACCEPTANCE**。Module 03 — 用户更新 `0.2.1` 后的真机诊断定位到当前通信实例的 `getReadyState` 不是函数；`0.2.2` 腕端兼容实现已实际构建并通过适用门禁，可提供给用户，尚待更新后的真机复测。通信仍未通过验收，完整授权见[合同](plans/MIRRA_BAND_MODULE_03_COMPLETE_PLAN.md)。Module 01 独立验收 PASS WITH NOTES；Module 02 真机基础测试已由用户确认通过，原型 UI 不等于正式 UI 验收。
+**MODULE_03_DEVICE_ACCEPTANCE_BLOCKED**。Module 03 — 用户更新 `0.2.2` 后的真机照片显示 `CHANNEL_UNAVAILABLE`，重试仍无响应；手机重新连接后已实际识别 9 Pro、服务可用且已授权，但没有握手或完整快照。当前错误折叠了原生查询失败码，具体原因未明；`0.2.3` 只修正同次查询诊断，不宣称修好连接。完整授权见[合同](plans/MIRRA_BAND_MODULE_03_COMPLETE_PLAN.md)。Module 01 独立验收 PASS WITH NOTES；Module 02 真机基础测试已由用户确认通过，原型 UI 不等于正式 UI 验收。
 
 腕端分支 `codex/module-03-readonly-companion` 继承 Module 02 提交 `e450dc1dfb4194dfb755371eddeb740d30cb3700`。手机在隔离工作区 `E:\CODEX\mirra-watch\.local\android-worktree`，分支 `codex/mirra-band-readonly-bridge`，继承实际较新 V1.1 提交 `1338b9a4e41788082f30bf3894a974c2ff652630`；原手机工作区保持原分支和内容。
 
@@ -22,7 +22,7 @@
 
 - 初版 `0.2.0` 腕端 Node 24.18.1 / aiot-toolkit 2.0.5：30 scripts / 3 pages 检查无错，98/98 测试通过；demo/live RPK 实构建、签名/内容/CRC/篡改检查通过，保留为初版历史。
 - `0.2.1` / code 3 初始化诊断增量：fresh check-project 30 scripts / 3 pages / 0 errors，单次未过滤测试 117/117 PASS / 0 fail / 0 skip；正式 RPK 实构建成功，独立 RSA-SHA256、内容/逐文件摘要、签名 metadata、ZIP CRC32 与三项篡改拒绝检查 exit 0。公开证书与手机 APK 及真机已安装 APK 相同；这些结果不证明腕端初始化故障已修复。
-- `0.2.2` / code 4 兼容增量：fresh check-project 31 scripts / 3 pages / 0 errors，单次未过滤测试 134/134 PASS / 0 fail / 0 skip；正式 RPK 实构建与独立 inspect 通过，公开证书仍与手机 APK/真机已安装 APK 一致。更新后的真实消息、握手与完整快照尚未验证，旧 98/117 计数保留为历史。
+- `0.2.2` / code 4 兼容增量：check-project 31 scripts / 3 pages / 0 errors，单次未过滤测试 134/134 PASS / 0 fail / 0 skip；正式 RPK 实构建与独立 inspect 通过，公开证书与手机 APK/真机已安装 APK 一致。随后真机复测失败，实际错误 `CHANNEL_UNAVAILABLE`；本地门禁不等于真实通道通过，旧 98/117 计数保留为历史。
 - 手机最终 JVM 711/711（80 suites）、lint 0 errors / 20 warnings / 1 hint，APK/test APK 构建通过（3m41s）。编码失败/同步时间/源诊断回归实际 RED 12/3 FAIL → GREEN 12/12；完整 JVM 使用修复后源码。
 - 最终源码单次完整未过滤 connected：500 discovered / 491 actual PASS / 9 opt-in assumptions / 0 actual failures/errors/native skipped，14m32s，Gradle 退出 0；所有 500 项唯一。九项条件未满足不算通过。
 - 两次完整 connected 失败史保留：首次 500/483 PASS/8 FAIL/9 assumptions，修复专用 AVD 440dpi 宿主不足 411dp；第二次 500/490 PASS/1 FAIL/9 assumptions，修复既有懒加载测试缺少目标行滚动，保留原断言。最终结果来自完整重跑，未拼接定向测试。
@@ -32,6 +32,8 @@
 - 当前 Xiaomi 已安装 APK 实际 SHA-256 与交付一致；数据目录两个 inode 升级前后相同，冷启动 598ms 为单次观察，首页正常。此项是安装与启动检查，不替代数据库内容完整性或锁屏通信验收。
 - 手机最新实际设置页显示“设备：小米手环 9 Pro / 小米手机服务：可用 / 设备授权：已授权”，但腕端应用仍等待打开，最近完整同步尚无。用户两张手环真机照片证明正式界面已运行且没有演示标记；连接页确切错误为 `INTERCONNECT_UNAVAILABLE`，没有匹配握手或完整快照。
 - 用户更新 `0.2.1` 后的新真机照片实际显示 `INIT_READY_CALL_API_MISSING`，证明新诊断代码已运行：通信实例取得与回调注册已越过，失败点是当前实例的 `getReadyState` 非函数。没有匹配握手或完整快照；不能由此宣称整个平台不支持通信。
+- `0.2.2` 后的第四张用户实拍显示 `CHANNEL_UNAVAILABLE`。UTC 14:24 手机实际为 `NO_DEVICE`，小米 XMS 服务仍被 Mirra 成功绑定；用户手机重新连接后 UTC 14:30 与腕端再重试后 14:33 页面均显示设备/服务/授权正常，但握手和完整同步仍无。`NO_DEVICE` 是已解除的历史查询结果，不是当前持续错误；没有证据将腕端失败归因为白名单、签名或固件。
+- `0.2.3` / code 5 观测增量：31 scripts / 3 pages / 0 errors，单次未过滤测试 146/146 PASS / 0 fail / 0 skip；定向实际 RED 53/39 PASS/14 FAIL → GREEN 53/53。正式 RPK 实构建 15,633ms / exit 0，独立 RSA/内容/逐文件/metadata/CRC32/三项篡改拒绝通过；仅保留同次回调第二参数白名单数字及接口/固定类型，未改变成功条件或重试策略。
 
 ## Current Delivery / Evidence
 
@@ -43,12 +45,14 @@
 
 历史诊断版 `0.2.1` / code 3：[诊断 RPK](E:/CODEX/mirra-watch/dist/com.guanyi.mirra.release.0.2.1.rpk)，31,968 bytes，SHA-256 `52cc4bdb66736ed9d5fd48069d6f1b33d8f81059a74cc3db57aba77d3f6dba3f`，对应实现提交 `267be9aa69b1e34ac3b98a6629bdbcaa30cdfb22`。用户已更新并提供失败点运行照片；版本依据用户指定包与新代码实际画面，未独立读取腕端安装元数据。
 
-当前同签名正式兼容版 `0.2.2` / code 4：[正式兼容 RPK](E:/CODEX/mirra-watch/dist/com.guanyi.mirra.release.0.2.2.rpk)，32,194 bytes，SHA-256 `27807efe94915c6ed691bfecfbe809abbc898d76995a3528fd3b5129cd799015`，对应实现提交 `cdfc77cf44aa1f1fcb1d4fc79326e4ab86b50bcc`。测试、构建与独立验签通过，待用户更新后真机复测，不修改或重新安装手机 APK。
+历史同签名兼容版 `0.2.2` / code 4：[RPK](E:/CODEX/mirra-watch/dist/com.guanyi.mirra.release.0.2.2.rpk)，32,194 bytes，SHA-256 `27807efe94915c6ed691bfecfbe809abbc898d76995a3528fd3b5129cd799015`，对应实现提交 `cdfc77cf44aa1f1fcb1d4fc79326e4ab86b50bcc`。本地门禁通过，真机复测仍失败，不能标记待首次复测或已恢复通信。
+
+当前同签名查询诊断版 `0.2.3` / code 5：[RPK](E:/CODEX/mirra-watch/dist/com.guanyi.mirra.release.0.2.3.rpk)，32,305 bytes，SHA-256 `cb17cc6cc156623b44fad7c9fd85908f3d5505ef683762def16871b389269d54`，实现 `b91de61f89f2d25c97dd11bfe39b401e8cc06cfc`。已复制到目标手机 Download，远端 SHA 与本地一致；待用户更新后读取具体原生码。手机源码/APK 未改，未重新安装或重复 Android 门禁。
 
 ## Pending / Not Run
 
-- 国行 9 Pro 官方 SDK 往返/中文与字节预算、手机锁屏后腕端重进真实快照：Not Run。`0.2.1` 已在手环运行，最新真机诊断为 `INIT_READY_CALL_API_MISSING`；`0.2.2` 兼容包已实构建并验签，待用户更新复测，没有握手或完整同步。
-- 正式腕端六类业务画面、触控/圆角/长文本、息屏/断连/强停、30 分钟延迟与电量：Not Run。已有三张错误状态真机实拍，不能替代这些场景；Node harness / Android 模拟器不能替代腕端渲染。
+- 国行 9 Pro 通道已实际尝试且未通过，最新实拍诊断为 `CHANNEL_UNAVAILABLE`；匹配 HELLO/完整快照、中文与字节预算、手机锁屏后腕端重进真实快照：Not Run。需先取得 `0.2.3` 同次原生查询的接口/数字码再针对实际原因修复。
+- 正式腕端六类业务画面、触控/圆角/长文本、息屏/断连/强停、30 分钟延迟与电量：Not Run。已有四张错误状态真机实拍，不能替代这些场景；Node harness / Android 模拟器不能替代腕端渲染。
 - 官方 Windows Vela 模拟器存在 Module 02 已记录的应用加载前启动阻塞，没有用概念图充当运行证据。
 - 九个阶段式备份/恢复/数据保留 opt-in 方法在完整 connected 中是 assumptions；本轮多进程安装阶段执行 Not Run。普通备份/恢复与 Reader 维护测试另列。
 - 腕端 TypeScript / ESLint：Not Run，授权原生 JS，使用语法/配置/测试/官方编译。手机 API23–35 / API36 全面回归 / 多 OEM / TalkBack / release / Play：Not Run；API36 真机目前仅完成上述安装、启动和设置诊断。
@@ -61,4 +65,4 @@ SDK 无公开 dispose/unbind；关闭停止本应用发布/观察并清理自有
 
 旧 OnePlus 未安装小米运动健康，手环未与其配对。该机老版创建备份出现无效备份提示，用户明确因数据很少跳过备份，本次验收沿用其决定；没有宣称备份成功或已修复该问题。
 
-下一步仅为本模块已授权的真机验收：用户更新已验证的 `0.2.2` 正式兼容 RPK 后复测初始化与真实往返，再验证锁屏主场景与正式 UI。不合并 main、不进入 Module 04；无真机证据前不宣布端到端成功。
+下一步仅为本模块已授权的真机验收：取得 `0.2.3` 同次查询的具体诊断码，再按实际失败原因修复和验证真实往返，随后验证锁屏主场景与正式 UI。不合并 main、不进入 Module 04；无真机证据前不宣布端到端成功。

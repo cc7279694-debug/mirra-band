@@ -2,7 +2,7 @@
 
 日期：2026-10-11（Asia/Shanghai）。
 
-状态：**MODULE_03_DEV_COMPLETE_AWAITING_DEVICE_ACCEPTANCE**。本文件是本模块唯一滚动 checkpoint。原交付、诊断 0.2.1 与兼容修复 0.2.2 本地门禁通过；真机已推进到手机授权与正式腕端运行，0.2.1 已定位状态查询方法缺失。0.2.2 待目标设备复测，真实握手/快照尚未成功。不能宣布端到端完成或进入 Module 04。
+状态：**MODULE_03_DEVICE_ACCEPTANCE_BLOCKED**。本文件是本模块唯一滚动 checkpoint，保留下方历史验证。0.2.2 真机复测显示 CHANNEL_UNAVAILABLE；手机 fresh 查询已识别设备并授权，但没有握手/快照。0.2.3 只修正原生查询诊断，本地门禁已通过，待用户更新取得具体数字码；不能宣布连接修复、端到端完成或进入 Module 04。
 
 范围合同：[MIRRA_BAND_MODULE_03_COMPLETE_PLAN.md](../plans/MIRRA_BAND_MODULE_03_COMPLETE_PLAN.md)。产物、公开证书与协议镜像摘要：[artifacts.json](../evidence/module-03/artifacts.json)。
 
@@ -35,7 +35,8 @@
 | 演示 RPK | `com.guanyi.mirra.band.demo` / 0.2.0 / code 2 | `E:\CODEX\mirra-watch\dist\com.guanyi.mirra.band.demo.release.0.2.0.rpk` |
 | 配套 debug APK | `com.guanyi.mirra` / 1.1.1-band-readonly / code 4 | `E:\CODEX\mirra-watch\dist\Mirra-1.1.1-band-readonly-debug.apk` |
 | 正式诊断 RPK | `com.guanyi.mirra` / 0.2.1 / code 3 | `E:\CODEX\mirra-watch\dist\com.guanyi.mirra.release.0.2.1.rpk` |
-| 当前正式兼容 RPK | `com.guanyi.mirra` / 0.2.2 / code 4 | `E:\CODEX\mirra-watch\dist\com.guanyi.mirra.release.0.2.2.rpk` |
+| 历史正式兼容 RPK | `com.guanyi.mirra` / 0.2.2 / code 4 | `E:\CODEX\mirra-watch\dist\com.guanyi.mirra.release.0.2.2.rpk` |
+| 当前查询诊断 RPK | `com.guanyi.mirra` / 0.2.3 / code 5 | `E:\CODEX\mirra-watch\dist\com.guanyi.mirra.release.0.2.3.rpk` |
 
 Node 24.18.1 与固定 `aiot-toolkit@2.0.5` 实际完成最后一轮 live/demo 构建。RPK 的 RSA-SHA256、内容/文件摘要、签名元数据、ZIP CRC32 与篡改拒绝检查通过；APK 的 apksigner 验证通过。两种 RPK 串行构建，未修改全局工具链。
 
@@ -92,7 +93,7 @@ Node 24.18.1 与固定 `aiot-toolkit@2.0.5` 实际完成最后一轮 live/demo �
 | Band | `codex/module-03-readonly-companion`，基线 `e450dc1dfb4194dfb755371eddeb740d30cb3700` | 构建对应代码提交 `88bd77b1582f268b2dda3785fd8b46dc2b2e8fec`；交付文档另有提交，最终 HEAD/远端以 Git 为准 |
 | Phone | `codex/mirra-band-readonly-bridge`，隔离工作区 `E:\CODEX\mirra-watch\.local\android-worktree`，实际基线 `1338b9a4e41788082f30bf3894a974c2ff652630` | 构建对应代码提交 `e00be0a5d59f9dad892b8c26128c8c3d17149f70`；交付文档另有提交，最终 HEAD/远端以 Git 为准 |
 
-下一步仍属于 **Module 03**：用户更新 0.2.2 复测已定位的状态查询兼容与对象发送，再验证双前台握手/完整快照，随后进行锁屏主场景、六类 UI 实拍与 30 分钟观察。签名或版本冲突时保留用户数据并停止对应安装。本模块两个功能分支分别提交与普通 Push，禁止覆盖 main 或强推。
+下一步仍属于 **Module 03**：取得 0.2.3 同次原生诊断码，按具体失败原因修复，再验证双前台握手/完整快照、锁屏主场景、六类 UI 实拍与 30 分钟观察。签名或版本冲突时保留用户数据并停止对应安装。两个功能分支仅普通 Push，禁止覆盖 main 或强推。
 
 若自动化与构建均通过而必要真机项目仍未执行，停止点只能写 `MODULE_03_DEV_COMPLETE_AWAITING_DEVICE_ACCEPTANCE`。只有真实只读链路、手机锁屏主场景、正式 UI 与适用回归均有证据，才可写 `MODULE_03_COMPLETE_AWAITING_REVIEW`。未获用户验收与下一模块授权，不进入 Module 04。
 
@@ -109,6 +110,15 @@ Node 24.18.1 与固定 `aiot-toolkit@2.0.5` 实际完成最后一轮 live/demo �
 - 用户随后更新 0.2.1 并提供第三张实际照片，诊断为 **INIT_READY_CALL_API_MISSING**：实例与回调注册后 `getReadyState` 不是函数。照片未独立显示版本 metadata，关联来自用户按交付步骤更新后的反馈。
 - 同日最小兼容修复 0.2.2：有 `getReadyState` 保留原路径，否则使用官方 `diagnosis`、再否则一次同步 `getApkStatus`；严格成功值才确认通道，不增加轮询或假成功。原生 setter 缓存的实际 `onopen` 不被后续初始化覆盖。内部协议字符串在 native 边界转为非空/非数组 JSON 对象，按官方对象编码契约直接发送，不加包装、不开 listen，也不改手机协议。协议请求/流归属、旧回调与完整快照新鲜度保持原有验证。
 - 兼容 transport 定向实际 RED 41 项中 27 PASS/14 FAIL → GREEN 41/41，证据在子 agent 工具输出（没有独立日志文件）；root fresh 未过滤全量 **134/134 PASS、0 fail/cancel/skip/todo**、检查 **31 scripts/3 pages/0 errors**。新增两条真实 transport + store 的对象/JSON边界 fixture 联测，明确仅模拟原生边界，不当作目标 SDK 实测。
-- 0.2.2/code4 实际构建与独立验签通过：**32,194 bytes**，SHA-256 `27807efe94915c6ed691bfecfbe809abbc898d76995a3528fd3b5129cd799015`；同手机公开证书，RSA/内容/逐文件/metadata/CRC32/篡改拒绝均通过。实现 `cdfc77cf44aa1f1fcb1d4fc79326e4ab86b50bcc`，原交付及 0.2.1 文件保留溯源。当前等待用户更新后实际通道/握手/快照结果，不能据自动化宣布连接恢复。手机源码/APK 未改，本轮不重复 Android 构建或门禁。
+- 0.2.2/code4 实际构建与独立验签通过：**32,194 bytes**，SHA-256 `27807efe94915c6ed691bfecfbe809abbc898d76995a3528fd3b5129cd799015`；同手机公开证书，RSA/内容/逐文件/metadata/CRC32/篡改拒绝均通过。实现 `cdfc77cf44aa1f1fcb1d4fc79326e4ab86b50bcc`，原交付及 0.2.1 文件保留溯源。当时等待用户更新结果，后续实际失败记录见下方；不能据自动化宣布连接恢复。手机源码/APK 未改，没有重复 Android 构建或门禁。
+
+## 追加：0.2.2 真机重试与 0.2.3 同次查询诊断
+
+- 用户更新后第四张未经修改的真机照片显示 **CHANNEL_UNAVAILABLE**。UTC 14:24 手机同次 UI 为 NO_DEVICE，XMS 服务实际已绑定 Mirra；用户手机点重新连接后 UTC 14:30 恢复识别 9 Pro、服务可用、已授权。再让腕端重试，用户反馈没反应，UTC 14:33 手机仍无握手/完整同步。前述 NO_DEVICE 已解除，不是当前持续错误。
+- 对当前代码和官方 `fail(data, code)` 契约核对，发现查询 fail 第二参数数字及未知 success 值均被折叠。具体底层原因尚未定位，没有 primary 或真机证据支持当前故障一定来自白名单、签名或固件。0.2.3 仅修正这个已确认的观察缺口，不宣称通道修复。
+- 最小实现 `b91de61f89f2d25c97dd11bfe39b401e8cc06cfc`：仅取同次 fail 第二参数的严格数字白名单，其他值显示 UNKNOWN；未知 status 只显示接口与固定 typeof 类别，不输出正文、任意对象或私人负载。连接严格成功值、3 秒超时、重试、回调归属和完整快照新鲜度均不改。
+- 实际定向 RED **53 discovered / 39 PASS / 14 FAIL** → GREEN **53/53**；最终单次未过滤 **146/146 PASS / 0 fail/cancel/skip/todo**，31 scripts / 3 pages / 0 errors。Node 24.18.1 / aiot 2.0.5 实构建 **15,633ms / exit 0**，独立 RSA/内容/逐文件/metadata/CRC32/三项篡改拒绝通过。日志已实际落入忽略目录，摘要见 `verification.json#queryDiagnostic023`。
+- RPK **0.2.3 / code 5 / 32,305 bytes**，SHA-256 `cb17cc6cc156623b44fad7c9fd85908f3d5505ef683762def16871b389269d54`，同手机公开证书。路径 `E:\CODEX\mirra-watch\dist\com.guanyi.mirra.release.0.2.3.rpk`；已复制至当前目标手机 Download，远端 SHA 核对一致，待用户安装后的具体诊断码。手机源码/APK 未改，不重新安装或重复 Android 门禁。
+- 完整通信、六类正式业务画面、锁屏主场景及 30 分钟测试仍未通过。两个功能分支继续本模块，不合并 main、不进入 Module 04；设备必须给出真实消息与匹配快照后才能改变验收状态。
 - API依据为[官方状态查询建议](https://iot.mi.com/vela/quickapp/zh/guide/best-practice/start.html)、[官方接口](https://iot.mi.com/vela/quickapp/zh/features/network/interconnect.html)与固定 `e20440fe7d970609bd3f02e9335b1a85e4fcb148` 公开 native JIDL/CPP 与 QJS JSON编码源码，链接见统一 verification；公开源码不证明目标固件等于该 commit。
 - 证据保留 Git 忽略 `.local/module03-evidence/preinstall`、`xiaomi-device-20261011`、`resume-artifacts`；公开摘要与结果更新到统一 artifacts/verification。无线、随机请求/精确字节预算、锁屏主场景、六类正式腕端 UI 与 30 分钟观察继续待验。

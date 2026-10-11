@@ -1,12 +1,13 @@
 {
-  "status": "MODULE_03_DEV_COMPLETE_AWAITING_DEVICE_ACCEPTANCE",
-  "observedAt": "2026-10-11T10:50:04.616Z",
+  "status": "MODULE_03_DEVICE_ACCEPTANCE_BLOCKED",
+  "observedAt": "2026-10-11T14:45:30.407Z",
   "band": {
     "branch": "codex/module-03-readonly-companion",
     "implementationCommit": "88bd77b1582f268b2dda3785fd8b46dc2b2e8fec",
     "baseCommit": "e450dc1dfb4194dfb755371eddeb740d30cb3700",
     "latestDiagnosticImplementationCommit": "267be9aa69b1e34ac3b98a6629bdbcaa30cdfb22",
-    "latestCompatibilityImplementationCommit": "cdfc77cf44aa1f1fcb1d4fc79326e4ab86b50bcc"
+    "latestCompatibilityImplementationCommit": "cdfc77cf44aa1f1fcb1d4fc79326e4ab86b50bcc",
+    "latestQueryDiagnosticImplementationCommit": "b91de61f89f2d25c97dd11bfe39b401e8cc06cfc"
   },
   "phone": {
     "branch": "codex/mirra-band-readonly-bridge",
@@ -145,7 +146,38 @@
       ],
       "implementationCommit": "cdfc77cf44aa1f1fcb1d4fc79326e4ab86b50bcc",
       "purpose": "Compatible readiness APIs and documented native JSON object boundary",
-      "physicalInstallation": "Awaiting user update and retest"
+      "physicalInstallation": "User update and CHANNEL_UNAVAILABLE photo; installed wrist metadata/hash not independently read"
+    },
+    {
+      "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.2.3.rpk",
+      "bytes": 32305,
+      "sha256": "cb17cc6cc156623b44fad7c9fd85908f3d5505ef683762def16871b389269d54",
+      "package": "com.guanyi.mirra",
+      "version": "0.2.3",
+      "versionCode": 5,
+      "profile": "live",
+      "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+      "certificateSubject": "CN=Android Debug\nO=Android\nC=US",
+      "certificateFingerprint256": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
+      "certificateValidTo": "Sep  2 07:14:40 2056 GMT",
+      "zipCRC32": "verified",
+      "sharedStyles": "present in all compiled pages",
+      "tamperChecks": "payload, primary signature and file digest signature mutations rejected",
+      "files": [
+        "META-INF/CERT",
+        "manifest-watch.json",
+        "manifest.json",
+        "app.js",
+        "pages/Home/index.js",
+        "common/icon.png",
+        "common/icon.svg",
+        "pages/Connection/index.js",
+        "pages/Detail/index.js",
+        "META-INF/build.txt"
+      ],
+      "implementationCommit": "b91de61f89f2d25c97dd11bfe39b401e8cc06cfc",
+      "purpose": "Same-query native interface and fixed error/status categories; no transport-success or retry-policy change",
+      "physicalInstallation": "Awaiting user update and actual native result"
     }
   ],
   "signing": {
@@ -260,7 +292,7 @@
     "currentBlob": "97ae3a8a15aeb924350b4b7ecade389b314f7ebf"
   },
   "notRun": [
-    "Compatibility live 0.2.2 physical retest, HELLO and complete snapshot",
+    "Query diagnostic live0.2.3 actual native result, HELLO and complete snapshot",
     "Target 9 Pro official SDK HELLO/full snapshot and three random requestIds",
     "Precise 256/1024/2048/4096 byte and Chinese/emoji round trips",
     "Phone lockscreen/background with active Session and wrist reopen",
@@ -269,12 +301,12 @@
     "OEM/API23-36/TalkBack/release/Play"
   ],
   "physicalAcceptance": {
-    "status": "WRIST_COMPAT_022_AWAITING_RETEST",
+    "status": "WRIST_CHANNEL_022_FAILED_QUERY_023_AWAITING_RETEST",
     "target": "Xiaomi 23127PN0CC / Android16 API36 + user-paired China 9 Pro",
     "currentInstalledPhoneVersion": "1.1.1-band-readonly / code4",
-    "phoneSdk": "Actual UI: service available, target node selected, device authorization granted",
-    "wrist": "User-installed formal 0.2.0 running in two unedited photographs; INTERCONNECT_UNAVAILABLE; no independent installed metadata read",
-    "diagnosticDelivery": "User updated live0.2.1 and photographed INIT_READY_CALL_API_MISSING; live0.2.2 built/verified, awaiting retest",
+    "phoneSdk": "Fresh 14:30 and 14:33 UTC actual UI identifies 9 Pro, service and device authorization available; no handshake/snapshot",
+    "wrist": "Current user wrist photo CHANNEL_UNAVAILABLE and manual retry no response; native cause unknown",
+    "diagnosticDelivery": "0.2.2 physical retest failed; 0.2.3 reports existing query interface and strict numeric fail category, awaiting actual result",
     "verification": "verification.json#physical",
     "scope": "No HELLO/full snapshot or lockscreen success; no raw user database read"
   }

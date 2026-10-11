@@ -808,8 +808,8 @@
     }
   ],
   "physical": {
-    "observedAtUtc": "2026-10-11T14:02:02.851Z",
-    "status": "WRIST_COMPAT_022_AWAITING_RETEST",
+    "observedAtUtc": "2026-10-11T14:45:30.409Z",
+    "status": "WRIST_CHANNEL_022_FAILED_QUERY_023_AWAITING_RETEST",
     "evidenceBoundary": "Actual ADB/public-certificate/UI observations; no raw user database read or mutation",
     "publicCertificateSha256": "29ded26bea44f1afe4fe383a302e4b507423d16223469d7da3fe578d9a7f83b9",
     "phoneInstallations": [
@@ -875,11 +875,51 @@
           "authorizationConfirmed": true,
           "handshakeConfirmed": false,
           "lastCompleteSync": null,
-          "observedUi": ".local/module03-evidence/xiaomi-device-20261011/connection-user-report.xml",
+          "observedUi": ".local/module03-evidence/xiaomi-device-20261011/compat-022-after-wrist-fresh-retry.xml",
           "earlierError": {
             "category": "COUNTERPART_APP_MISSING",
             "current": false,
             "scope": "Historical during setup; node/service/auth subsequently confirmed, exact earlier SDK stage unknown"
+          },
+          "previousSuccessfulUi": ".local/module03-evidence/xiaomi-device-20261011/connection-user-report.xml",
+          "observedAtUtc": "2026-10-11T14:33:37.878Z",
+          "retryObservations": [
+            {
+              "observedAtUtc": "2026-10-11T14:24:52.083Z",
+              "phoneError": "NO_DEVICE",
+              "deviceSelected": false,
+              "ui": ".local/module03-evidence/xiaomi-device-20261011/compat-022-same-time-retry.xml",
+              "current": false
+            },
+            {
+              "observedAtUtc": "2026-10-11T14:30:28.908Z",
+              "action": "User phone reconnect",
+              "deviceSelected": true,
+              "serviceAvailable": true,
+              "authorizationConfirmed": true,
+              "handshaken": false,
+              "lastCompleteSync": null,
+              "ui": ".local/module03-evidence/xiaomi-device-20261011/compat-022-phone-fresh-retry.xml"
+            },
+            {
+              "observedAtUtc": "2026-10-11T14:33:37.878Z",
+              "action": "User wrist retry, reports no response",
+              "deviceSelected": true,
+              "serviceAvailable": true,
+              "authorizationConfirmed": true,
+              "handshaken": false,
+              "lastCompleteSync": null,
+              "ui": ".local/module03-evidence/xiaomi-device-20261011/compat-022-after-wrist-fresh-retry.xml"
+            }
+          ],
+          "serviceBinding": {
+            "observedAtUtc": "2026-10-11T14:38:00.793Z",
+            "scope": "Only target Xiaomi service and Mirra client; no raw service dump retained",
+            "servicePresent": true,
+            "mirraClientPresent": true,
+            "ownedBindingReceived": true,
+            "proves": "SDK service binding only; does not prove wireless message channel or protocol handshake",
+            "evidence": ".local/module03-evidence/xiaomi-device-20261011/compat-022-owned-service-binding.json"
           }
         },
         "computerInput": "tap denied by INJECT_EVENTS; use user manual navigation, no bypass"
@@ -902,11 +942,20 @@
         "versionCode": 4,
         "bytes": 32194,
         "sha256": "27807efe94915c6ed691bfecfbe809abbc898d76995a3528fd3b5129cd799015",
-        "installation": "Awaiting user update and retest"
+        "installation": "User update associated with supplied 0.2.2, CHANNEL_UNAVAILABLE photo, retry no response; no independent wrist metadata/hash read"
+      },
+      "latestQueryDiagnosticRpk": {
+        "version": "0.2.3",
+        "versionCode": 5,
+        "bytes": 32305,
+        "sha256": "cb17cc6cc156623b44fad7c9fd85908f3d5505ef683762def16871b389269d54",
+        "phoneDownloadPath": "/sdcard/Download/com.guanyi.mirra.release.0.2.3.rpk",
+        "transfer": "Target-only adb push Success; remote sha256sum equals local independent inspection",
+        "installation": "Awaiting user update and native result"
       }
     },
     "notRun": [
-      "Compatibility live 0.2.2 physical retest, HELLO and complete snapshot",
+      "Query diagnostic live0.2.3 actual native result, HELLO and complete snapshot",
       "Target 9 Pro official SDK HELLO/full snapshot and three random requestIds",
       "Precise 256/1024/2048/4096 byte and Chinese/emoji round trips",
       "Phone lockscreen/background with active Session and wrist reopen",
@@ -926,7 +975,15 @@
       ".local/module03-evidence/xiaomi-device-20261011/connection-user-report.png",
       ".local/module03-evidence/xiaomi-device-20261011/wrist-live-unsupported-user-photo.jpg",
       ".local/module03-evidence/xiaomi-device-20261011/wrist-interconnect-unavailable-user-photo.jpg",
-      ".local/module03-evidence/xiaomi-device-20261011/wrist-init-ready-api-missing-user-photo.jpg"
+      ".local/module03-evidence/xiaomi-device-20261011/wrist-init-ready-api-missing-user-photo.jpg",
+      ".local/module03-evidence/xiaomi-device-20261011/wrist-022-channel-unavailable-user-photo.jpg",
+      ".local/module03-evidence/xiaomi-device-20261011/compat-022-same-time-retry.xml",
+      ".local/module03-evidence/xiaomi-device-20261011/compat-022-same-time-retry.png",
+      ".local/module03-evidence/xiaomi-device-20261011/compat-022-phone-fresh-retry.xml",
+      ".local/module03-evidence/xiaomi-device-20261011/compat-022-phone-fresh-retry.png",
+      ".local/module03-evidence/xiaomi-device-20261011/compat-022-after-wrist-fresh-retry.xml",
+      ".local/module03-evidence/xiaomi-device-20261011/compat-022-after-wrist-fresh-retry.png",
+      ".local/module03-evidence/xiaomi-device-20261011/compat-022-owned-service-binding.json"
     ],
     "localEvidence": [
       {
@@ -993,18 +1050,59 @@
         "relativePath": ".local/module03-evidence/xiaomi-device-20261011/wrist-init-ready-api-missing-user-photo.jpg",
         "bytes": 599222,
         "sha256": "2482ee995af9909898a28f2ef9bb861739c26f67c4b30dc8cd52bad584594fd5"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/wrist-022-channel-unavailable-user-photo.jpg",
+        "bytes": 561823,
+        "sha256": "d31fb08755432c6bde2d0245c0c24e4d66025c988a6778fae62e61285937a4bf"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/compat-022-same-time-retry.xml",
+        "bytes": 10331,
+        "sha256": "a4c7bfb423014716d0c63ff891252640e7f856648d69626deaa3b5de58d7d16c"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/compat-022-same-time-retry.png",
+        "bytes": 354596,
+        "sha256": "79221b058b75c551e550964c2b704fc24cadf9763d2ede3cfda15a9a221d8164"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/compat-022-phone-fresh-retry.xml",
+        "bytes": 10281,
+        "sha256": "6f0f01ad6b038764876f5ffa360753d8aa629fda4e882a8c8f725ac1fdaf9a22"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/compat-022-phone-fresh-retry.png",
+        "bytes": 352388,
+        "sha256": "602ec190ddc63adc60f0122d6e17cedfdb9823905d425432f81521748aaf9d83"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/compat-022-after-wrist-fresh-retry.xml",
+        "bytes": 10281,
+        "sha256": "6f0f01ad6b038764876f5ffa360753d8aa629fda4e882a8c8f725ac1fdaf9a22"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/compat-022-after-wrist-fresh-retry.png",
+        "bytes": 351245,
+        "sha256": "82dbba94cc34d7a44124015f3c9c0dcc172e5ccbd7036ef937841e41f0df4397"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/compat-022-owned-service-binding.json",
+        "bytes": 329,
+        "sha256": "7cb098d6345dcde47a12f0dfaee257f12e107c316248e5cc1c905fb8a4ee6b72"
       }
     ],
     "wrist": {
-      "source": "Three user-provided unedited photos of the physical target wrist",
-      "diagnostic": "INIT_READY_CALL_API_MISSING",
-      "earlierDiagnostic": "INTERCONNECT_UNAVAILABLE",
-      "rootCause": "Native instance exposes no callable getReadyState after callback registration; compatible readiness path under investigation",
+      "source": "Four user-provided unedited wrist photos plus manual retry feedback",
+      "diagnostic": "CHANNEL_UNAVAILABLE",
+      "earlierDiagnostic": "INIT_READY_CALL_API_MISSING",
+      "rootCause": "Unresolved: current code folded query-fail numeric code or unknown success shape; no evidence yet for a firmware/authorization/vendor policy cause",
       "liveUiObserved": true,
       "demoFallback": false,
       "handshakeConfirmed": false,
       "lastCompleteSync": null,
-      "nextEvidence": "Live0.2.2 actual initialization, matched HELLO_ACK and complete SNAPSHOT; native query/send success never proves business freshness"
+      "nextEvidence": "Live0.2.3 same-query interface and fixed numeric fail/status category, then matched HELLO_ACK/full SNAPSHOT",
+      "previousConfirmedIssue": "Native instance exposes no callable getReadyState after callback registration; compatible readiness path under investigation"
     }
   },
   "diagnostic021": {
@@ -1115,7 +1213,7 @@
       "independentInspect": "exit0; CRC32 and payload/primary/file-signature tamper rejection verified"
     },
     "phone": "Source and delivered APK unchanged; Android tests/build not rerun for wrist-only patch",
-    "physical": "Awaiting user update and retest; no communication success claimed",
+    "physical": "User update and CHANNEL_UNAVAILABLE photo, phone selected/authorized after fresh retry; no matched handshake or full snapshot",
     "logs": [
       {
         "relativePath": ".local/module03-evidence/xiaomi-device-20261011/compat-022-check.log",
@@ -1141,6 +1239,96 @@
         "relativePath": ".local/module03-evidence/xiaomi-device-20261011/compat-022-native-boundary-green.log",
         "bytes": 321,
         "sha256": "285509c5a959085a94f9d1d915730d546ddf0a3ed42f38edef30df4f938a9804"
+      }
+    ]
+  },
+  "queryDiagnostic023": {
+    "observedAtUtc": "2026-10-11T14:45:30.531Z",
+    "implementationCommit": "b91de61f89f2d25c97dd11bfe39b401e8cc06cfc",
+    "trigger": "0.2.2 real wrist CHANNEL_UNAVAILABLE; fresh phone device/service/auth ready, still no handshake",
+    "changes": [
+      "Read only same callback fail second argument; whitelist strict numeric codes, no arbitrary error text/object getters",
+      "Attribute unknown success/legacy values to interface and fixed typeof category",
+      "Keep strict successful states, timeout, retries, ownership and matched full-snapshot freshness unchanged"
+    ],
+    "sourceBoundary": "Official public API/native sources explain callback signature, not the exact target firmware failure",
+    "sources": [
+      "https://iot.mi.com/vela/quickapp/zh/features/grammar.html",
+      "https://iot.mi.com/vela/quickapp/zh/features/network/interconnect.html",
+      "https://github.com/open-vela/frameworks_runtimes_feature/blob/e20440fe7d970609bd3f02e9335b1a85e4fcb148/src/promise_manager.cpp#L160-L190"
+    ],
+    "checks": {
+      "scripts": 31,
+      "sourcePages": 3,
+      "errors": 0
+    },
+    "tests": {
+      "discovered": 146,
+      "passed": 146,
+      "failures": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "targetedRegression": {
+      "red": {
+        "discovered": 53,
+        "passed": 39,
+        "failures": 14,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "green": {
+        "discovered": 53,
+        "passed": 53,
+        "failures": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "rpk": {
+      "version": "0.2.3",
+      "versionCode": 5,
+      "bytes": 32305,
+      "sha256": "cb17cc6cc156623b44fad7c9fd85908f3d5505ef683762def16871b389269d54",
+      "certificateFingerprint256": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
+      "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+      "independentInspect": "exit0; content/file digests, metadata, CRC32 and three tamper rejections verified"
+    },
+    "phone": "Source and delivered APK unchanged; no Android build/test or phone installation for this wrist-only diagnostic change",
+    "physical": "Awaiting user update; this observation repair does not assert communication fixed",
+    "logs": [
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/query-023-red.log",
+        "bytes": 24426,
+        "sha256": "d177b2be7e942e2f6b860b058bc95bc69eb3ae0e3680fb26ca95d97869cf4bb8"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/query-023-targeted-green.log",
+        "bytes": 12044,
+        "sha256": "8ce439319eb55731635d3daf2d6f82086cb90ec72f6e746498dae7be9b5e7f72"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/query-023-check.log",
+        "bytes": 57,
+        "sha256": "ec50f7bbda436743683c28c38071e248d94adcb538cf812e8ea6c1869a66b549"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/query-023-tests.log",
+        "bytes": 12959,
+        "sha256": "d2e385b03426db70bb93b9c8c4238316e6c882b0389ede4ebf2cafa5cf09d5c3"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/query-023-build.log",
+        "bytes": 2406,
+        "sha256": "7d5fad863662c3eb6b192ce8c7dad38705373ed92be33671ab556654aef22b23"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/query-023-inspection.json",
+        "bytes": 1052,
+        "sha256": "6b6462546fb09f333b4595ab1b984c42f665d64e4ccfd57f5177f5d5aaf15dbf"
       }
     ]
   }
