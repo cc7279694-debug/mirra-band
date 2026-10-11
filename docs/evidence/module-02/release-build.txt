@@ -34,7 +34,7 @@
 🔷 [10-11 15:03:48] [toolkit]: afterCompile: Generate protobuf json
 🔷 [10-11 15:03:48] [toolkit]: afterCompile: compile lite card
 🔷 [10-11 15:03:48] [toolkit]: afterCompile: Package the project into an RPK file
-🔷 [10-11 15:03:48] [toolkit]: privatekeyPath is  E:\CODEX\mirra-watch\.local\.temp_build-project\sign\private.pem 
+🔷 [10-11 15:03:48] [toolkit]: privatekeyPath is  E:\CODEX\mirra-watch\.local\.temp_build-project\sign\private.pem
 certificatePath is  E:\CODEX\mirra-watch\.local\.temp_build-project\sign\certificate.pem
 ✅ [10-11 15:03:49] [toolkit]: Project build and generate files：E:\CODEX\mirra-watch\.local\.temp_build-project\dist\com.guanyi.mirra.band.demo.release.0.1.0.rpk
 🔷 [10-11 15:03:49] [toolkit]: afterCompile: Generate diff json

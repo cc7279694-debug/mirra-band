@@ -19,7 +19,7 @@ B9:AD:5C:30:7A:17:03:1C:3D:19:3F:8E:E2:BA:AB:2A:B5:D1:FE:38:3F:73:84:28:EB:FE:64
 
 实际校验：主签名、逐文件摘要签名与 META-INF/CERT 内层签名的 RSA-SHA256 验证，嵌入公钥与证书一致，整体与逐文件 SHA-256、内外层 ZIP CRC32、manifest/三个页面/入口/图标、公共主题与测试标识均通过。独立修改负载、主签名、文件摘要签名各一字节均被拒绝。该验证证明包的内部完整性和演示身份，不证明量产固件接受或商店认证。
 
-原始构建输出：[release](release-build.txt)、[debug](debug-build.txt)。独立检查报告：[release](release-package.json)、[debug](debug-package.json)。产物和私钥不进入 Git；重构建可能因工具生成的构建时间元信息产生新哈希，以实际交付文件为准。
+构建输出原始内容（仅去掉行末空白）：[release](release-build.txt)、[debug](debug-build.txt)。独立检查报告：[release](release-package.json)、[debug](debug-package.json)。产物和私钥不进入 Git；重构建可能因工具生成的构建时间元信息产生新哈希，以实际交付文件为准。
 
 ## 测试与边界
 
