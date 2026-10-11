@@ -2,7 +2,7 @@
 
 日期：2026-10-11（Asia/Shanghai）。
 
-状态：**MODULE_03_DEV_COMPLETE_AWAITING_DEVICE_ACCEPTANCE**。本文件是本模块唯一滚动 checkpoint。代码、配套构建与本轮自动化门禁已通过；必要真机验收未执行，不能宣布 Module 03 端到端完成，也不能进入 Module 04。
+状态：**MODULE_03_DEV_COMPLETE_AWAITING_DEVICE_ACCEPTANCE**。本文件是本模块唯一滚动 checkpoint。原交付、诊断 0.2.1 与兼容修复 0.2.2 本地门禁通过；真机已推进到手机授权与正式腕端运行，0.2.1 已定位状态查询方法缺失。0.2.2 待目标设备复测，真实握手/快照尚未成功。不能宣布端到端完成或进入 Module 04。
 
 范围合同：[MIRRA_BAND_MODULE_03_COMPLETE_PLAN.md](../plans/MIRRA_BAND_MODULE_03_COMPLETE_PLAN.md)。产物、公开证书与协议镜像摘要：[artifacts.json](../evidence/module-03/artifacts.json)。
 
@@ -34,10 +34,12 @@
 | 正式 RPK | `com.guanyi.mirra` / 0.2.0 / code 2 | `E:\CODEX\mirra-watch\dist\com.guanyi.mirra.release.0.2.0.rpk` |
 | 演示 RPK | `com.guanyi.mirra.band.demo` / 0.2.0 / code 2 | `E:\CODEX\mirra-watch\dist\com.guanyi.mirra.band.demo.release.0.2.0.rpk` |
 | 配套 debug APK | `com.guanyi.mirra` / 1.1.1-band-readonly / code 4 | `E:\CODEX\mirra-watch\dist\Mirra-1.1.1-band-readonly-debug.apk` |
+| 正式诊断 RPK | `com.guanyi.mirra` / 0.2.1 / code 3 | `E:\CODEX\mirra-watch\dist\com.guanyi.mirra.release.0.2.1.rpk` |
+| 当前正式兼容 RPK | `com.guanyi.mirra` / 0.2.2 / code 4 | `E:\CODEX\mirra-watch\dist\com.guanyi.mirra.release.0.2.2.rpk` |
 
 Node 24.18.1 与固定 `aiot-toolkit@2.0.5` 实际完成最后一轮 live/demo 构建。RPK 的 RSA-SHA256、内容/文件摘要、签名元数据、ZIP CRC32 与篡改拒绝检查通过；APK 的 apksigner 验证通过。两种 RPK 串行构建，未修改全局工具链。
 
-本次构建 APK 与 live RPK 的公开证书指纹相同：`29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9`。**包含已安装物理手机 APK 的三方指纹匹配尚未核对**；构建匹配不能证明可覆盖用户手机或目标固件认证。
+本次构建 APK 与 live RPK 的公开证书指纹相同：`29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9`。初次开发交付时物理三方核对未执行；同日后续对两台用户授权手机已核对并安全覆盖，见下方真机增量。证书匹配不证明目标固件通信或认证成功。
 
 ## Why / Key Decisions
 
@@ -51,7 +53,7 @@ Node 24.18.1 与固定 `aiot-toolkit@2.0.5` 实际完成最后一轮 live/demo �
 
 ## Verification / 原始结果
 
-以下结果来自本轮现有构建日志和报告；本 checkpoint 编写没有再次测试、构建或操作模拟器。
+以下表格保留原开发交付的门禁；真机安装与 0.2.1 诊断修改的新门禁单列于末尾，不混写为同一源码或同一次验证。后续未操作 Android 模拟器。
 
 | 检查 | 实际结果 | 证据边界 |
 | --- | --- | --- |
@@ -75,7 +77,7 @@ Node 24.18.1 与固定 `aiot-toolkit@2.0.5` 实际完成最后一轮 live/demo �
 ## Known Limitations / Not Run
 
 - 九个显式 opt-in 备份/恢复/数据保留阶段测试为 assumptions，不计入 PASS；本轮多进程安装阶段执行 Not Run。完整普通备份/恢复与 Reader 维护测试已执行，见统一验证索引。
-- 物理手机尚未连接：已安装 Mirra 版本与公开证书核对、安装 APK/live RPK 后数据保留与“三方签名一致”均 **Not Run**。
+- 物理手机已完成版本/公开证书核对、三方身份匹配与安全 APK 覆盖；用户更新正式 RPK 并提供实际运行照片，手机 SDK 节点/服务/授权已确认。腕端初始化状态查询失败，无线握手与完整快照仍未成功。没有独立读取腕端安装 metadata/hash；安装目录 metadata 保持原位不能代替数据库内容校验，本轮没有读取用户数据库。
 - 国行小米手环 9 Pro 真实官方 SDK 消息往返、至少三次随机 requestId、256/1024/2048/4096 字节与中文/emoji 消息预算均 **Not Run**。
 - 正常监测学习 → 手机锁屏/后台 → 腕端重开取最新状态的主场景，以及真实断连、结束重连、强停、撤权和重新授权均 **Not Run**。没有将 AVD 或 mock transport 当作成功证据。
 - 正式腕端专注、准备、休息、断连、未监测、保存中六类实际运行画面 **Not Run**；中文截断、触控、圆角、安全边距、留白与 336 × 480 可读性仍待真实 Vela/目标设备验证。浏览器设计预览不能代替截图。
@@ -90,6 +92,23 @@ Node 24.18.1 与固定 `aiot-toolkit@2.0.5` 实际完成最后一轮 live/demo �
 | Band | `codex/module-03-readonly-companion`，基线 `e450dc1dfb4194dfb755371eddeb740d30cb3700` | 构建对应代码提交 `88bd77b1582f268b2dda3785fd8b46dc2b2e8fec`；交付文档另有提交，最终 HEAD/远端以 Git 为准 |
 | Phone | `codex/mirra-band-readonly-bridge`，隔离工作区 `E:\CODEX\mirra-watch\.local\android-worktree`，实际基线 `1338b9a4e41788082f30bf3894a974c2ff652630` | 构建对应代码提交 `e00be0a5d59f9dad892b8c26128c8c3d17149f70`；交付文档另有提交，最终 HEAD/远端以 Git 为准 |
 
-下一步仍属于 **Module 03**：用户连接真实手机/手环后，核对已安装身份并完成配套覆盖安装、锁屏主场景、六类 UI 实拍与 30 分钟观察。遵守现有安装/权限授权，签名或版本冲突时保留用户数据并停止对应安装。自动化与构建已通过，失败历史和最终结果保留在统一证据索引；本模块两个功能分支分别提交与普通 Push，禁止覆盖 main 或强推。
+下一步仍属于 **Module 03**：用户更新 0.2.2 复测已定位的状态查询兼容与对象发送，再验证双前台握手/完整快照，随后进行锁屏主场景、六类 UI 实拍与 30 分钟观察。签名或版本冲突时保留用户数据并停止对应安装。本模块两个功能分支分别提交与普通 Push，禁止覆盖 main 或强推。
 
 若自动化与构建均通过而必要真机项目仍未执行，停止点只能写 `MODULE_03_DEV_COMPLETE_AWAITING_DEVICE_ACCEPTANCE`。只有真实只读链路、手机锁屏主场景、正式 UI 与适用回归均有证据，才可写 `MODULE_03_COMPLETE_AWAITING_REVIEW`。未获用户验收与下一模块授权，不进入 Module 04。
+
+## 同日真机验收增量 — 安全安装与手机授权通过，腕端初始化阻塞
+
+- 首先核对 OnePlus PKX110 / Android 16、API36：已安装 `com.guanyi.mirra` 0.2.0/code2 的公开 APK 签名、交付 APK/live RPK 三方一致；加载的首页显示“开始第一次学习 / 添加第一本书”，没有活动会话指示。用户确认后 `install -r` 实际 Success，升级至 1.1.1-band-readonly/code4，安装 APK 摘要与交付一致、应用数据目录 metadata 保持原位，冷启动正常。没有小米配套服务，用户确认手环未配对这台手机，随后要求暂停。
+- 用户换接 Xiaomi 23127PN0CC / Android 16、API36 后，重新进行独立只读核查。已安装旧 APK SHA-256 为 `76ca0ba8d03d44a22bae03d49131d7a97f3a55e9274e8402a06dbe4af7ca14c9`；实际提取公开证书并验签通过，三方一致。首页再次显示空书库状态，核查结论 SAFE_TO_INSTALL。沿用用户明确安装授权和少数据跳过备份的决定，实际 `install -r` Success 后 code4；手机已安装 APK SHA-256 与交付的 `5a61f4bc4272b565de1181f3d16ee7b905f41e6482971560558a6cc2178a4437` 相同。CE/DE 目录 inode 前后相同，单次冷启动 Status ok、598ms，首页正常；不能据此声称数据库内容已逐项核对或性能达标。
+- 新目标手机已有小米运动健康 `com.mi.health` 3.59.1/code359001，服务 `com.mi.health/com.xiaomi.xms.wearable.WearableXmsService` 可解析。用户确认国行 9 Pro 已与本机配对且连接。随后实际 Mirra 设置画面确认“小米手环9 Pro / 手机服务可用 / 设备已授权 / 最近完整同步尚无”。SDK 节点与授权通过，不代表腕端握手或业务快照成功。
+- 手机初启用曾显示 `COUNTERPART_APP_MISSING` 对应文案；这是已经被后续节点/服务/授权成功覆盖的历史设置结果，单凭文案未定位其当时失败阶段，不继续当作当前状态。
+- 小米安全策略拒绝电脑注入点击（INJECT_EVENTS），采用用户手动进入设置与授权，不绕过系统限制。正式 0.2.0 RPK 放入手机 Download 并实际 SHA-256 核对一致，同时按用户要求提供电脑原件。用户安装并打开后提供两张未经修改的真机照片，显示正式错误 UI 与 `INTERCONNECT_UNAVAILABLE`，不能由此独立确认腕端安装 metadata/hash。
+- OnePlus 的旧版本创建完整备份曾显示无效备份错误、没有进入保存页面；用户明确跳过备份，未创建成功的备份，也未修复或恢复。没有卸载、清数据、降级、重新签名、读取或修改真实用户数据库、改变原手环配对。
+- 对旧版本统一 catch 的初始化错误增加固定步骤/错误类别诊断，并使失败后的原生回调失效；不读取原生 error text、payload 或设备标识。RED 定向 25 项中 17 FAIL、额外迟到回调 1 FAIL，修改后 transport 26/26 GREEN；全量未过滤 117/117 PASS、0 failure/cancel/skip/todo，30 scripts/3 pages/0 errors。手机源码/APK 未改，本次不重复 Android 构建或测试。
+- 诊断 0.2.1/code3 在 Node24.18.1/toolkit2.0.5 下实际构建；31,968 bytes、SHA-256 `52cc4bdb66736ed9d5fd48069d6f1b33d8f81059a74cc3db57aba77d3f6dba3f`。独立 RSA、内容/文件摘要、元数据、CRC32/篡改拒绝检查通过，公开证书与手机一致；实现提交 `267be9aa69b1e34ac3b98a6629bdbcaa30cdfb22`。旧 0.2.0 和演示产物保留原构建/提交溯源。
+- 用户随后更新 0.2.1 并提供第三张实际照片，诊断为 **INIT_READY_CALL_API_MISSING**：实例与回调注册后 `getReadyState` 不是函数。照片未独立显示版本 metadata，关联来自用户按交付步骤更新后的反馈。
+- 同日最小兼容修复 0.2.2：有 `getReadyState` 保留原路径，否则使用官方 `diagnosis`、再否则一次同步 `getApkStatus`；严格成功值才确认通道，不增加轮询或假成功。原生 setter 缓存的实际 `onopen` 不被后续初始化覆盖。内部协议字符串在 native 边界转为非空/非数组 JSON 对象，按官方对象编码契约直接发送，不加包装、不开 listen，也不改手机协议。协议请求/流归属、旧回调与完整快照新鲜度保持原有验证。
+- 兼容 transport 定向实际 RED 41 项中 27 PASS/14 FAIL → GREEN 41/41，证据在子 agent 工具输出（没有独立日志文件）；root fresh 未过滤全量 **134/134 PASS、0 fail/cancel/skip/todo**、检查 **31 scripts/3 pages/0 errors**。新增两条真实 transport + store 的对象/JSON边界 fixture 联测，明确仅模拟原生边界，不当作目标 SDK 实测。
+- 0.2.2/code4 实际构建与独立验签通过：**32,194 bytes**，SHA-256 `27807efe94915c6ed691bfecfbe809abbc898d76995a3528fd3b5129cd799015`；同手机公开证书，RSA/内容/逐文件/metadata/CRC32/篡改拒绝均通过。实现 `cdfc77cf44aa1f1fcb1d4fc79326e4ab86b50bcc`，原交付及 0.2.1 文件保留溯源。当前等待用户更新后实际通道/握手/快照结果，不能据自动化宣布连接恢复。手机源码/APK 未改，本轮不重复 Android 构建或门禁。
+- API依据为[官方状态查询建议](https://iot.mi.com/vela/quickapp/zh/guide/best-practice/start.html)、[官方接口](https://iot.mi.com/vela/quickapp/zh/features/network/interconnect.html)与固定 `e20440fe7d970609bd3f02e9335b1a85e4fcb148` 公开 native JIDL/CPP 与 QJS JSON编码源码，链接见统一 verification；公开源码不证明目标固件等于该 commit。
+- 证据保留 Git 忽略 `.local/module03-evidence/preinstall`、`xiaomi-device-20261011`、`resume-artifacts`；公开摘要与结果更新到统一 artifacts/verification。无线、随机请求/精确字节预算、锁屏主场景、六类正式腕端 UI 与 30 分钟观察继续待验。

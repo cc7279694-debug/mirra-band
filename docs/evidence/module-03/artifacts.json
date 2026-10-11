@@ -4,7 +4,9 @@
   "band": {
     "branch": "codex/module-03-readonly-companion",
     "implementationCommit": "88bd77b1582f268b2dda3785fd8b46dc2b2e8fec",
-    "baseCommit": "e450dc1dfb4194dfb755371eddeb740d30cb3700"
+    "baseCommit": "e450dc1dfb4194dfb755371eddeb740d30cb3700",
+    "latestDiagnosticImplementationCommit": "267be9aa69b1e34ac3b98a6629bdbcaa30cdfb22",
+    "latestCompatibilityImplementationCommit": "cdfc77cf44aa1f1fcb1d4fc79326e4ab86b50bcc"
   },
   "phone": {
     "branch": "codex/mirra-band-readonly-bridge",
@@ -38,7 +40,8 @@
         "pages/Detail/index.js",
         "META-INF/build.txt"
       ],
-      "versionCode": 2
+      "versionCode": 2,
+      "implementationCommit": "88bd77b1582f268b2dda3785fd8b46dc2b2e8fec"
     },
     {
       "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.band.demo.release.0.2.0.rpk",
@@ -67,7 +70,8 @@
         "pages/States/index.js",
         "META-INF/build.txt"
       ],
-      "versionCode": 2
+      "versionCode": 2,
+      "implementationCommit": "88bd77b1582f268b2dda3785fd8b46dc2b2e8fec"
     },
     {
       "path": "E:\\CODEX\\mirra-watch\\dist\\Mirra-1.1.1-band-readonly-debug.apk",
@@ -78,13 +82,80 @@
       "versionCode": 4,
       "buildType": "debug, preserves the existing phone signing identity",
       "certificateFingerprint256": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
-      "signature": "apksigner verify exit 0; v1 and v2 verified"
+      "signature": "apksigner verify exit 0; v1 and v2 verified",
+      "implementationCommit": "e00be0a5d59f9dad892b8c26128c8c3d17149f70"
+    },
+    {
+      "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.2.1.rpk",
+      "bytes": 31968,
+      "sha256": "52cc4bdb66736ed9d5fd48069d6f1b33d8f81059a74cc3db57aba77d3f6dba3f",
+      "package": "com.guanyi.mirra",
+      "version": "0.2.1",
+      "versionCode": 3,
+      "profile": "live",
+      "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+      "certificateSubject": "CN=Android Debug\nO=Android\nC=US",
+      "certificateFingerprint256": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
+      "certificateValidTo": "Sep  2 07:14:40 2056 GMT",
+      "zipCRC32": "verified",
+      "sharedStyles": "present in all compiled pages",
+      "tamperChecks": "payload, primary signature and file digest signature mutations rejected",
+      "files": [
+        "META-INF/CERT",
+        "manifest-watch.json",
+        "manifest.json",
+        "app.js",
+        "pages/Home/index.js",
+        "common/icon.png",
+        "common/icon.svg",
+        "pages/Connection/index.js",
+        "pages/Detail/index.js",
+        "META-INF/build.txt"
+      ],
+      "implementationCommit": "267be9aa69b1e34ac3b98a6629bdbcaa30cdfb22",
+      "purpose": "Initialization-stage diagnostic update; no target connection success claimed",
+      "physicalInstallation": "User updated supplied package; actual INIT_READY_CALL_API_MISSING photo, installed metadata not independently read"
+    },
+    {
+      "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.2.2.rpk",
+      "bytes": 32194,
+      "sha256": "27807efe94915c6ed691bfecfbe809abbc898d76995a3528fd3b5129cd799015",
+      "package": "com.guanyi.mirra",
+      "version": "0.2.2",
+      "versionCode": 4,
+      "profile": "live",
+      "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+      "certificateSubject": "CN=Android Debug\nO=Android\nC=US",
+      "certificateFingerprint256": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
+      "certificateValidTo": "Sep  2 07:14:40 2056 GMT",
+      "zipCRC32": "verified",
+      "sharedStyles": "present in all compiled pages",
+      "tamperChecks": "payload, primary signature and file digest signature mutations rejected",
+      "files": [
+        "META-INF/CERT",
+        "manifest-watch.json",
+        "manifest.json",
+        "app.js",
+        "pages/Home/index.js",
+        "common/icon.png",
+        "common/icon.svg",
+        "pages/Connection/index.js",
+        "pages/Detail/index.js",
+        "META-INF/build.txt"
+      ],
+      "implementationCommit": "cdfc77cf44aa1f1fcb1d4fc79326e4ab86b50bcc",
+      "purpose": "Compatible readiness APIs and documented native JSON object boundary",
+      "physicalInstallation": "Awaiting user update and retest"
     }
   ],
   "signing": {
     "builtApkAndLiveRpkMatch": true,
-    "physicalInstalledApkFingerprint": null,
-    "threeWayMatch": "Not Run: physical phone not connected"
+    "physicalInstalledApkFingerprint": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
+    "threeWayMatch": "Verified on two authorized physical Android phones before code2 to code4 overwrite; not proof of target wrist communication",
+    "physicalModels": [
+      "OnePlus PKX110",
+      "Xiaomi 23127PN0CC"
+    ]
   },
   "protocol": {
     "version": 1,
@@ -189,11 +260,22 @@
     "currentBlob": "97ae3a8a15aeb924350b4b7ecade389b314f7ebf"
   },
   "notRun": [
-    "Physical installed APK version/certificate",
-    "Target 9 Pro official SDK messages and 256/1024/2048/4096 byte round trips",
-    "Phone lockscreen/background with wrist reopen",
-    "Actual formal Vela/physical wrist six-state pictures",
+    "Compatibility live 0.2.2 physical retest, HELLO and complete snapshot",
+    "Target 9 Pro official SDK HELLO/full snapshot and three random requestIds",
+    "Precise 256/1024/2048/4096 byte and Chinese/emoji round trips",
+    "Phone lockscreen/background with active Session and wrist reopen",
+    "Six formal wrist state pictures beyond the observed connection error",
     "30 minute latency/disconnection/battery observation",
     "OEM/API23-36/TalkBack/release/Play"
-  ]
+  ],
+  "physicalAcceptance": {
+    "status": "WRIST_COMPAT_022_AWAITING_RETEST",
+    "target": "Xiaomi 23127PN0CC / Android16 API36 + user-paired China 9 Pro",
+    "currentInstalledPhoneVersion": "1.1.1-band-readonly / code4",
+    "phoneSdk": "Actual UI: service available, target node selected, device authorization granted",
+    "wrist": "User-installed formal 0.2.0 running in two unedited photographs; INTERCONNECT_UNAVAILABLE; no independent installed metadata read",
+    "diagnosticDelivery": "User updated live0.2.1 and photographed INIT_READY_CALL_API_MISSING; live0.2.2 built/verified, awaiting retest",
+    "verification": "verification.json#physical",
+    "scope": "No HELLO/full snapshot or lockscreen success; no raw user database read"
+  }
 }
