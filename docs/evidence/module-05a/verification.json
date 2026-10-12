@@ -53,19 +53,34 @@
     "empty write rejected before native storage.set deletion semantics"
   ],
   "notRun": [
-    "target Band9Pro storage/file API callback and durable data",
-    "native Vela emulator/pixels and physical touch",
-    "face/screen-off/reentry and real JS exit",
+    "target Band9Pro file API callbacks and durability; detailed native storage callback measurements",
+    "native Vela emulator/pixels and physical touch inspection",
+    "face/screen-off lifetime and independent new JS owner recreation",
     "same-identity upgrade retention",
     "device reboot, clock reliability and unsupported monotonic/boot basis",
-    "physical write latency, quotas, record capacity or power-loss persistence",
+    "physical damage/failure recovery, write latency, quotas, record capacity or power-loss persistence",
     "cross-process pending native IO quiescence",
     "Standalone05B-05E learning/sync/mobile migration",
     "Android tests/build: phone unchanged"
   ],
   "deviceEvidence": {
-    "installed": false,
-    "recordedCases": []
+    "installed": true,
+    "recordedCases": [
+      {
+        "case": "default storage sample save -> exit app -> reopen -> Chinese sample and sequence retention",
+        "status": "USER_REPORTED_PASS",
+        "expectedVersion": "0.1.0/code1",
+        "actualVersion": null,
+        "actualSequence": null,
+        "actualInstanceTag": null,
+        "screenshot": false,
+        "rawFeedback": "没问题",
+        "recordedAtUtc": "2026-10-12T11:43:12.7293665Z",
+        "evidenceBasis": "User reply to immediately preceding explicit manual test steps; no direct device observation"
+      }
+    ],
+    "installationBasis": "USER_REPORTED; prior instructions supplied 0.1.0, physical version not independently inspected",
+    "developerObserved": false
   },
   "localProofRoot": "E:\\CODEX\\mirra-watch\\.local\\module05a-evidence",
   "localLogs": [
