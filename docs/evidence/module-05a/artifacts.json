@@ -72,5 +72,7 @@
     "packageMatch": true
   },
   "priorModule04Files": "both actual SHA256 unchanged from prior delivery",
-  "privateMaterials": "existing ignored experimental signing only; no new conversion or upload"
+  "privateMaterials": "existing ignored experimental signing only; no new conversion or upload",
+  "implementationCommit": "e52ca66d66d474c77faf9502bbb3227f2419e0bd",
+  "implementationPush": "verified exact origin branch SHA after push"
 }

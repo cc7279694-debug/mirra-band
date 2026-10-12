@@ -6,7 +6,7 @@
 
 **05A / DEV_COMPLETE_AWAITING_DEVICE_PROOF**。用户已明确授权 05A 自主开发、测试与构建：仅隔离腕端持久化实验；目标手环存取/重进/升级/重启通过前，不开发真实独立学习记录或修改手机数据库。[当前合同](plans/MIRRA_BAND_STANDALONE_V1.md)、[交付与验证](evidence/module-05a/README.md)。
 
-- 当前 Band 分支 `codex/module-05a-persistence-probe`，从 Module 04 最终 HEAD `92a30ad104381840702b1871140142e7874c62b0` 创建。
+- 当前 Band 分支 `codex/module-05a-persistence-probe`，从 Module 04 最终 HEAD `92a30ad104381840702b1871140142e7874c62b0` 创建。实现提交 `e52ca66d66d474c77faf9502bbb3227f2419e0bd` 已推送且远端 SHA 核对一致。
 - 手机保持 `codex/mirra-band-control-bridge@30a8af3fdea225cc96db6a360d71383a85b7ea39`，工作区干净，未修改原手机工作区。
 
 ## 当前实现

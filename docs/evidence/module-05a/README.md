@@ -49,7 +49,7 @@
 
 ## 6. 产物与 Git
 
-Band 功能分支 `codex/module-05a-persistence-probe` 从 Module 04 `92a30ad104381840702b1871140142e7874c62b0` 创建。完成门禁后提交/推送并核对远端；不合并 main/创建 PR/发布。手机保留原功能分支与 HEAD，无新增手机提交或 APK。
+Band 功能分支 `codex/module-05a-persistence-probe` 从 Module 04 `92a30ad104381840702b1871140142e7874c62b0` 创建。实现提交 `e52ca66d66d474c77faf9502bbb3227f2419e0bd` 已提交并推送，实际远端分支 SHA 与本机一致；不合并 main/创建 PR/发布。手机保留原功能分支与 HEAD，无新增手机提交或 APK。
 
 | 实验包 | bytes | SHA-256 |
 | --- | ---: | --- |
