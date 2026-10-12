@@ -80,7 +80,19 @@
       }
     ],
     "installationBasis": "USER_REPORTED; prior instructions supplied 0.1.0, physical version not independently inspected",
-    "developerObserved": false
+    "developerObserved": false,
+    "remainingRoundAuthorization": {
+      "status": "CURRENT_USER_AUTHORIZED",
+      "actions": [
+        "remaining isolated file and recovery tests",
+        "same-package/same-certificate upgrade to 0.1.1/code2 without uninstall or data clear",
+        "normal Band restart with pairing retained"
+      ],
+      "performer": "user, manual single round",
+      "rawReply": "同意升级和正常重启，一轮完成",
+      "recordedAtUtc": "2026-10-12T11:47:38.2028299Z",
+      "executionResult": "PENDING_USER_FEEDBACK"
+    }
   },
   "localProofRoot": "E:\\CODEX\\mirra-watch\\.local\\module05a-evidence",
   "localLogs": [
