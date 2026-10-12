@@ -1,0 +1,58 @@
+{
+  "status": "DEV_COMPLETE_AWAITING_NATURAL_USE",
+  "recordedAtUtc": "2026-10-12T07:57:24.6785686Z",
+  "phone": {
+    "repository": "cc7279694-debug/Self-discipline",
+    "branch": "codex/mirra-band-control-bridge",
+    "baseCommit": "3fecf50a208ddb145a67986749420b490193e903",
+    "artifact": {
+      "package": "com.guanyi.mirra",
+      "signature": "verified APK v1/v2; one retained signer",
+      "versionName": "1.2.0",
+      "path": "E:\\CODEX\\mirra-watch\\dist\\Mirra-1.2.0-band-control-debug.apk",
+      "sha256": "80ae3ae58f8263a803094c39f21b8e8e54c1d38625c47f212a7af3cc502d5077",
+      "versionCode": 7,
+      "bytes": 17377802,
+      "certificateSHA256": "29ded26bea44f1afe4fe383a302e4b507423d16223469d7da3fe578d9a7f83b9"
+    },
+    "implementationCommit": "9662164bbffe9ebafdb72b7c4f99ac8d538876d3"
+  },
+  "band": {
+    "repository": "cc7279694-debug/mirra-band",
+    "branch": "codex/module-04-wrist-controls",
+    "baseCommit": "8b14819f15682fd22752dbdf2b05e8d465e255ee",
+    "artifact": {
+      "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.3.0.rpk",
+      "bytes": 43147,
+      "sha256": "a0228f9a8bbd5180bbd120b52f7c5704173acedc0f298e8eddbe0725f81c369c",
+      "package": "com.guanyi.mirra",
+      "version": "0.3.0",
+      "versionCode": 8,
+      "profile": "live",
+      "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+      "certificateSubject": "CN=Android Debug\nO=Android\nC=US",
+      "certificateFingerprint256": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
+      "certificateValidTo": "Sep  2 07:14:40 2056 GMT",
+      "zipCRC32": "verified",
+      "sharedStyles": "present in all compiled pages",
+      "tamperChecks": "payload, primary signature and file digest signature mutations rejected",
+      "files": [
+        "META-INF/CERT",
+        "manifest-watch.json",
+        "manifest.json",
+        "app.js",
+        "pages/Home/index.js",
+        "common/icon.png",
+        "common/icon.svg",
+        "pages/Connection/index.js",
+        "pages/Control/index.js",
+        "pages/Detail/index.js",
+        "META-INF/build.txt"
+      ]
+    },
+    "implementationCommit": "c9d3f7cd4953a5f866548cc91be1b1b22b074eb9"
+  },
+  "physicalInstallation": "NOT RUN; fresh Module04 consent and target preflight required",
+  "signaturePairMatch": true,
+  "implementationPushStatus": "both implementation commits pushed and remote SHA verified"
+}

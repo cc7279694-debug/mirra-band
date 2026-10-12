@@ -1,0 +1,1113 @@
+{
+  "status": "DEV_COMPLETE_AWAITING_NATURAL_USE",
+  "recordedAtUtc": "2026-10-12T07:57:24.6785686Z",
+  "jvm": {
+    "command": "testDebugUnitTest (unfiltered)",
+    "totals": {
+      "tests": 798,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 86
+    },
+    "source": "single final-eligibility run",
+    "suites": [
+      {
+        "name": "com.guanyi.mirra.data.backup.BackupArchiveTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "68ee00f8410338b45b94bc2653bfd6ec09b70323082f45cf425c5a6a18d81049"
+      },
+      {
+        "name": "com.guanyi.mirra.data.backup.BackupSearchBudgetTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "d9e5d6f0dfe59bdd4b4fb4685df7d17f9a921e49c87632911bc06335d1db062a"
+      },
+      {
+        "name": "com.guanyi.mirra.data.backup.ManagedPreferencesTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "585916398cf8d23b8dc8f8e09d9a5508d53f558ffc03216fd07f4025b2655e03"
+      },
+      {
+        "name": "com.guanyi.mirra.data.backup.RestoreJournalSafetyTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "ecffac93e9f9892760e281b9b7c28653a34a63f5bcf6a8131e12353ae742eca9"
+      },
+      {
+        "name": "com.guanyi.mirra.data.backup.RestoreJournalTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "27735ee17cdb749377b292bbd321f8a93654baa58ab1824ce003b34f4b9a01ca"
+      },
+      {
+        "name": "com.guanyi.mirra.data.export.ExportWorkspaceTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "e7ddafb0bdbb32936263fdf748bbda6a972de9a9d2f42f24f3ba44ca09ace7cb"
+      },
+      {
+        "name": "com.guanyi.mirra.data.export.ReadableExportWriterTest",
+        "tests": 26,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "4cf2b7195748a18194460cbbc07ee5a7eecc69b26d005999b19ad2b63537209e"
+      },
+      {
+        "name": "com.guanyi.mirra.data.ImageImportPolicyTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "9c05d043ae7f1ab28899a493e4811dad562326d287c36dc78ee5924f217bab1f"
+      },
+      {
+        "name": "com.guanyi.mirra.data.maintenance.GateRepositoryWriterTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "c3661a7bcaa8975e5f8f49b7484ae49f853e907ded1f7df0b58e43422d678c70"
+      },
+      {
+        "name": "com.guanyi.mirra.data.maintenance.GateSessionManagerTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "1fb080f1293c510f5c1dd30ab38b6a761b6a0eb696ce6b26c77c21c219509f47"
+      },
+      {
+        "name": "com.guanyi.mirra.data.maintenance.GateWriterAdmissionCoverageTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "e2c1ac8d9d4f8c97e95186320bf5a25421d9459a55b89d3c6c802ddd46f9db6c"
+      },
+      {
+        "name": "com.guanyi.mirra.data.preferences.StrictAppPreferencesSnapshotTest",
+        "tests": 19,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "4f22d75a1acdf93583661bb4f3ebb56bb9a47257c5eab1a9f90671b7c09fb195"
+      },
+      {
+        "name": "com.guanyi.mirra.di.CloseoutStartupRecoveryTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "6e1093e1c9443ea3239ebb0be2dcfeafcc72091d777a3c0be8dc8d714c783ebf"
+      },
+      {
+        "name": "com.guanyi.mirra.di.StorageBootstrapTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "145a9e1d785c7b170395fc72a8ae0adcf006b5d9d446c46c4e1f06894e3ffa87"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.BehaviorTransitionsTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "b853af93cbb621341afe4700ebe61829ff91b9053f085d722975e91260be0c4e"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.CompletionPredictionServiceTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "cb645f83c554f1d344f113928fc2dd6833e0b4bb06f1f85580d7ee126c649c9e"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.DndControllerTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "cbe5d3a8692897252c0b7c458e436e5baa044fc43cafd5bb13f5f1c6976bd701"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.EffectiveAnalyticsCompatibilityTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "67124e8b7e6405bb893515d7c002d0e2777eec3815e0972d7743525a0eaab592"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.EffectiveReadingServiceTest",
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "16bb3cca8371a77b10dd5f5b7f381d9d36add794a415c30a00ac557a68915d5e"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.FirstActionResolverTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "0e3fbbacc77907217ef2e6887d877e46998fd3c8596f8903de114dd1d8f6e52d"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.insights.ReadingPaceInsightServiceTest",
+        "tests": 47,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "796ec2273390e011b89cf03ac3fd7ade630dbaa2277744f449934897f1cdc8cd"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.IntentExpiryPolicyTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "31a503a0379e6e5429698a2cc9a0850e94965db4e09b2ab629bd183cdac70dbf"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.intervention.ExternalPromptEligibilityTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "64b78e90eb308e3458f76ed7fde8c581e0ba34666012526f22180a8964d2b3e3"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.intervention.InterventionNavigationTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "5a0c94a870be96c933545c452b3ab13018d69ca93558f9391e4151ee63e0828e"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.intervention.InterventionPresenterTest",
+        "tests": 18,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "0edb30728ef6a9e2bd3c9732aa91832a92a62d5f7f8eeadb19251b2270c023fb"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.intervention.PresentationEpisodeTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "da65d122d7f2e977f6e131d5045f0eb2d6dd6b96784186772cc68e3183bb9934"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.maintenance.MaintenanceCoordinatorTest",
+        "tests": 25,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "37e97a005dd9171803de3345c80416c63c9e21de49745b51594afcf260f963b5"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.maintenance.PendingEditRegistryTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "c8ba334ec71d9883eb279f77bf44327451e14a392309d6f93ddbc2ac691b1701"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.maintenance.StorageMaintenanceGateTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "d30cc083692eeeb8b023389962620c76280aef6b7ef1ba1eb8e4159f89649db2"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.monitoring.BehaviorPolicyTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "8a7160125843117333ce301e9e0a67c03e8cc058b54b8ce716397a305f643f3e"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.monitoring.BoundSessionMonitoringControllerTest",
+        "tests": 12,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "5b20ad49ed30773c6e7fdf6ca50492e63e60d654dcd7cbe7723b24a75f133edb"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.monitoring.CandidateRiskAppMachineTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "5d79d670d84860fecd8b0df79fbb4bcbe2e2cc7b75b969522b62423ae6595416"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.monitoring.FocusSessionActionsTest",
+        "tests": 22,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "c3535d8a0e417d3ae61ce0dc1be282c890d239a53969bb9d4b59ef3ba1dcc385"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.monitoring.ForegroundObservationReducerTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "bc749db3703d0d8dafce514aa47d904423ae2fcb493a298549a56b4fe50d7943"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.NoteTypeSuggesterTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "003ee9395354d7c01544f2b5740012b4041699d5cc4e8d849161818d091be6ee"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.ReadingAnalyticsServiceTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "79d2480df4f1379faded77e30bf5922c56a108a3ea79f868d64809ba453f60d4"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.ReadingRecordProjectionTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "9ca0102f2273db279aa26b3718fd6ad111726d8b41a0fb842ae471a242d48bb5"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.SearchEngineTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "f78140e63ceef12145f14e614bb719131b50d6e46401aa759eaa46cc66757a31"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.SegmentTimelinePolicyTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "264fd626cf541ee9721cc3a7f11fe46b93f31829220bc59f19c24a7f935c1948"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.SessionManagerCloseoutTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "2d78be22f177d8be2686eb9ec72538fa90ae7a0e5ba3fcbcddb342d69fee9dfd"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.SessionSegmentStateMachineTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "bf5da4bc7c37aa213dc4754a96922b7c419fc5ce32c45e824a0478682526c849"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.SessionStartCoordinatorTest",
+        "tests": 32,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "dbbdd6c52aa345e2b5300d31490fc2bbcf88a70a061f0a5c239fc1edca7aeb35"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.SessionTimelineValidatorTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "8223bc8b3004d7eb62db80a0a12dbb72de21e7481c637d04809562c095b336ea"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.SummaryEngineTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "6d2b361781a24a613d151ef78ef07baeb95061317f0f529068ef114603652db7"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.TopicNameNormalizerTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "9d54061fcdaa1da1feb8369b2dc1cd0869c691671db8c75025a1550c1698c99e"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.TopicSuggesterTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "ce838a8f1f053d94bae0df33a6a6a112a79f4b36388b1cc36680de679f020ea0"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.trends.DailyTrendsServiceTest",
+        "tests": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "e4219a01ae31ce64cfb3ed065c4648667726a3c356ea2e0ce27ebdfe0fffef69"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.trends.TrendsServiceTest",
+        "tests": 35,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "8e58263521494ca37bbd150119ec7c3d684cd94bbdb055a80e857092086d40ea"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.wearable.WearableCommandExecutorTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "9fa634d00ede51135ad96f6712c2dd0b6280238bcb36c21695568d54a6f382c7"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.wearable.WearableControlAuthorityTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "a2824b901fe9b6a82a966dfba1c48d46472bb59605d74f228ac295211a4dba0f"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.wearable.WearableControlCoordinatorTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "f891ae7f7b31fec29a83e5579f37862d8b4cbcc10c7965c17ae58e0ce3c7692d"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.wearable.WearableCoordinatorRecoveryTest",
+        "tests": 18,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "dd87867ddbe2cf526c9f8df6f74f9cdd12c325dbf01ecb24f4a01e4a16a60d9d"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.wearable.WearableCoordinatorTest",
+        "tests": 18,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "414254874975f56f6d2ac494002cf641cf499ced90dfa900a3f788607eb413cf"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.wearable.WearableGoldenFixturesTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "3feb7cfcfbcd0e1fe858fe9ebb0005c4bb92faea39ca04e876dd71aeeb73926f"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.wearable.WearableProjectionTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "c77fa86b1eee214531ed3446a2f26007b31dc426af71fb8ce1300efc3f3aa15a"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.wearable.WearableProtocolTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "dbaa9a3a56a7f6f1684b9be8f388f775f243df52e96a7d5adf5fc8baf9ff7f92"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.wearable.WearableProtocolV2GoldenFixturesTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "83200008c54e28d962b521b35a5e78ab003d9ea56de3b626f05e10bb34fccda3"
+      },
+      {
+        "name": "com.guanyi.mirra.domain.wearable.WearableProtocolV2Test",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "46bdf8c83321079c369e446fb11d9fec0ae803b35ca4dcafdb4bd05f311348ac"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.datamanagement.DataExportViewModelTest",
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "f99d8e05f64f84b319410edee63a15fdd084789f38598d45325cb09fc4d02871"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.datamanagement.DataManagementViewModelTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "90f958c6eea340b8066453bbd72f468a38dc06a01b95f36511c9575e2906eead"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.knowledge.ImageImportMessageTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "05e157b5e88baf71ba94edb7ce4c362a34f10ac32cdb497cac3e9ede1f4e005e"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.knowledge.LearningItemEffectivePaceTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "f5a4f27264893ec0cc2e6aa303bd5530505d341ed780ca72519f83f832742370"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.knowledge.LearningItemInsightTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "573a28bcb853c5216093b2d348a7c63dede284beb4d905e9b0923f067d72b2e3"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.knowledge.NoteEditorMaintenanceTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "8513da222fed6e50c8168676fcd542ca6311d8767664e64f0cd649288d22ea05"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.profile.CrossAppInterventionUserActionsTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "5a852a826eb1d02cfdc1f80138d4441055833ee59db6c58b1d57bb8b7e92e0d6"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.profile.DndUserActionsTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "4b56af91cba36dde3a48648a6af51f3255b4fdd01225cf87da9a2ad6230b31a2"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.profile.GlobalReadingHistoryViewModelTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "cd44725ffab2f523b49d1ba042fd6a85109a7ed8c7c22ef1a72ee2035266139f"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.profile.LearningProtectionProjectionTest",
+        "tests": 19,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "470eeadc07a1720a15eb955e89f4af46e978f60254c3e5e69090b10ab893bce4"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.profile.TrendsViewModelTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "e2c07e1420c068dd16c598a82a4d146254a35f5315df37ca71244622436c8a68"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.profile.WeeklyProfileViewModelTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "c97e15e9c7b2939e500f480ab1335b4e4442437678f703db647f8b3bbd19df0a"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.session.PreparationFirstActionViewModelTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "4eba4be3f65a510fe7105237dc2254a83c154d65754a1f477864744cc9b2d25a"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.session.ReadingRecordViewModelTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "2c469923679085930edd6eb0d0b6c6f8c377bb7452d291e6f1127849cd4d8ebe"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.session.SessionCloseoutViewModelTest",
+        "tests": 32,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "5c45a325db867ded6181a3a3985766d072e413440949d1552237d9a307ec98f3"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.session.SessionFocusViewModelTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "efd9ffdf23ecd8c849677a0bd7114720fb47dfb9133d0ac31823d676beba8585"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.start.FirstActionEditorViewModelTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "effe13bf5aef1fbcc107a2c0cfc39918bfdbd068905c2c3f3fe041a601312fec"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.start.StartRecentReadingTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "b2e4a772ba7f5135f48e8b5ada4bbd1d05e50f871307e31dcd13ed99ac54e792"
+      },
+      {
+        "name": "com.guanyi.mirra.feature.start.StartStateResolverTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "6ccc8a5e5f352c99d50be2d61658132d9e3e26590cdba9b1939b96f07eb43c7e"
+      },
+      {
+        "name": "com.guanyi.mirra.navigation.TopLevelDestinationTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "cdb6f01bacbe485e04a8e3bb9e7372e4f62310e640d8ddb21a12de961dbb666d"
+      },
+      {
+        "name": "com.guanyi.mirra.platform.backup.AndroidBackupPolicyTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "abeb0b546040cc88422fc7bb2291515a8514018ee319eabaca899b1269985ab8"
+      },
+      {
+        "name": "com.guanyi.mirra.platform.focus.AndroidCapabilityPolicyTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "21887f42984c09e190c570cc892175e16dfca10253f2c266ca1287c6d3798798"
+      },
+      {
+        "name": "com.guanyi.mirra.platform.focus.MonitoringLifecycleTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "5a81ef3f7eae99c561e9d64c11da86a3b8ded6b477b31feab584d0acf8adbdc1"
+      },
+      {
+        "name": "com.guanyi.mirra.platform.focus.MonitoringReadyLeaseTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "8af0184842fa6d00937b21610ff6e370215d8b24f313543553edaa471eff3d22"
+      },
+      {
+        "name": "com.guanyi.mirra.platform.focus.UsageMonitorTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "858b0e961f10f1774418c9167e2769a3ea45c4166dc5276af89ea0aab7244a15"
+      },
+      {
+        "name": "com.guanyi.mirra.platform.wearable.OwnedWearTransportTest",
+        "tests": 26,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "6127d44105cb6e86985c0d8d8366bb6f0b092d92b725e7d29477bdcac832774d"
+      },
+      {
+        "name": "com.guanyi.mirra.ui.media.StorageImageCacheKeyTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "dd54b736788a44931e685da6f9e3558ae4149b294643388bb82dd8e5e7ca99af"
+      },
+      {
+        "name": "com.guanyi.mirra.ui.theme.MirraPaletteTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "a11ef05b3856d286f3802017c5c870ae9e2125190cb727226ec29035be1372f9"
+      }
+    ]
+  },
+  "lint": {
+    "errors": 0,
+    "warnings": 20,
+    "hints": 1,
+    "module03BaselineExactMatch": true,
+    "sha256": "ec3645cd783f4c96366cf297ad2a6142e202ee70c12f8330fa2c7ed8f21725ec"
+  },
+  "phoneBuild": {
+    "command": "testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest --max-workers=1",
+    "result": {
+      "exitCode": 0,
+      "startedUtc": "2026-10-12T07:46:21.7763799Z",
+      "endedUtc": "2026-10-12T07:50:40.4584519Z"
+    },
+    "logSha256": "0507cbfbdbfcd6217bf72b787cb11f2609070292775d09b0e490e2d038f4a8ce"
+  },
+  "androidInstrumented": {
+    "device": "owned MirraBand_Module03_API37 / emulator-5580 / API37",
+    "scope": "9 related classes, not unfiltered full connected",
+    "tests": 78,
+    "actualPass": 78,
+    "failures": 0,
+    "assumptions": 0,
+    "ignored": 0,
+    "logSha256": "199ea41531f49aba18ba5703cc283f4b0ac3f56ab0301434c43744fd4a1b8764",
+    "methods": [
+      {
+        "method": "com.guanyi.mirra.data.ConfirmedMonitoredStartRepositoryTest#revokedAdmissionCannotEnterSessionTransaction",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ConfirmedMonitoredStartRepositoryTest#wrongBookOrPageOrActionCannotBypassActualPreparation",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ConfirmedMonitoredStartRepositoryTest#pageAdvancedAfterPrecheckIsRejectedInsideSessionTransaction",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ConfirmedMonitoredStartRepositoryTest#expiredIntentIsRejectedWithoutConvertingOrDeletingIt",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ConfirmedMonitoredStartRepositoryTest#lateConfirmationCannotTouchSavingSession",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ConfirmedMonitoredStartRepositoryTest#duplicateConcurrentStartReturnsOnePersistentSession",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ConfirmedMonitoredStartRepositoryTest#abandonedIntentCannotBeRecreatedByWrist",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ConfirmedMonitoredStartRepositoryTest#revokedAdmissionAfterFactReadsIsRecheckedBeforeSessionInsert",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ConfirmedMonitoredStartRepositoryTest#pausedBookAfterPrecheckCannotStartSession",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ConfirmedMonitoredStartRepositoryTest#legacyAutomaticActionCannotBeConfirmedByWrist",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ConfirmedMonitoredStartRepositoryTest#exactConfirmedPreparationCommitsOnlyMonitoredFacts",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ConfirmedMonitoredStartRepositoryTest#actionEditedAfterPrecheckIsRejectedInsideSessionTransaction",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.WearableBreakAdmissionRepositoryTest#authorizedBreakUsesOriginalRecoveryTransitionAndPreservesCoverage",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.WearableBreakAdmissionRepositoryTest#revokedStartBreakWritesNoSegmentContextOrEvent",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.WearableBreakAdmissionRepositoryTest#revokedFinishBreakDoesNotCreateRecoveryFact",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.WearableBreakAdmissionRepositoryTest#finishBreakRechecksAdmissionAfterTransactionFactReads",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.WearableBreakAdmissionRepositoryTest#startBreakRechecksAdmissionAfterTransactionFactReads",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.wearable.WearableControlSettingsTest#controlConsentDefaultsOffAndPersistsOnlyInIsolatedNoBackupDirectory",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.wearable.WearableSnapshotReaderTest#busyAndRetiredOwnerNeverReopenOrReadReplacementDatabase",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.wearable.WearableSnapshotReaderTest#activePreparationTakesPriorityOverPreviouslyFollowedEndedSession",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.wearable.WearableSnapshotReaderTest#pendingTimeUsesFrozenBoundaryWithoutAdvancingAnyFact",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.wearable.WearableSnapshotReaderTest#readAndEveryGoldenOrMalformedRequestLeaveAllTwelveTablesExact",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.wearable.WearableSnapshotReaderTest#failedStartupAndMissingRelationsNeverBecomeIdle",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeBMonitoredStartRepositoryTest#normalFinishAndReleaseBeforeDestroyDoNotCreateUnmonitoredSegment",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeBMonitoredStartRepositoryTest#dndReleaseHookRunsAfterDurableBeginBeforeSettlementAndPreservesCoverage",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeBMonitoredStartRepositoryTest#fullStartAtomicallyUsesReadyTimestampAndSnapshots",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeBMonitoredStartRepositoryTest#duplicateMonitoredStartReturnsSameActiveSession",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeBMonitoredStartRepositoryTest#finishCannotCommitFullWhileEarlierBoundStopIsWaitingForDurableLoss",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeBMonitoredStartRepositoryTest#finishingCommittedSessionReleasesOnlyItsMonitoringBinding",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeBMonitoredStartRepositoryTest#revokedUsageAccessPersistsLossBeforeControlledServiceStop",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeBMonitoredStartRepositoryTest#changedSegmentAndUnknownRiskCannotConfirmAndBriefIsIdempotent",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeBMonitoredStartRepositoryTest#candidateAtSessionStartReclassifiesOpenSegmentWithoutZeroLengthRow",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeBMonitoredStartRepositoryTest#failedConversionRollsBackAllMonitoredFacts",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeBMonitoredStartRepositoryTest#timeoutItemStateAndInvalidPageRejectMonitoredStartWithoutPartialSession",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeBMonitoredStartRepositoryTest#riskConfirmationUsesFrozenSnapshotAndSameOpenFocusSegment",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeBMonitoredStartRepositoryTest#anotherActiveSessionRejectsMonitoredStartWithoutPartialFacts",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeBMonitoredStartRepositoryTest#boundUserStopPersistsLossBeforeNormalFinishAndDuplicateDestroyDoesNotAddFacts",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeBMonitoredStartRepositoryTest#riskAppSnapshotAndBindFailureCompensationRetainCommittedSession",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeAFocusRepositoryTest#processRecoveryPreservesTrustedPartThenRecordsUnknownGap",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeAFocusRepositoryTest#processRecoveryClosesUnknownGapAndDoesNotForgeFocus",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeAFocusRepositoryTest#transitionsAreContinuousAndRejectZeroTimeDuplicateAndEndedWrites",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeAFocusRepositoryTest#monitoringLossIsIdempotentAndCoverageCannotBecomeTrustedAgain",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeAFocusRepositoryTest#databaseUniqueSlotRejectsASecondActiveSegment",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeAFocusRepositoryTest#sessionStartsWithConservativeUnmonitoredFacts",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeAFocusRepositoryTest#eventAndHeartbeatRespectSessionTimeBounds",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.ModuleThreeAFocusRepositoryTest#stableStartAndRecoveryAreMilestonesOnlyAfterTheirTrustedWindows",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.StudyWorkflowRepositoryTest#intentCanAtomicallySetTheChosenInProgressItemAsMainline",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.StudyWorkflowRepositoryTest#settingNewMainlineAtomicallyClearsPreviousMainline",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.StudyWorkflowRepositoryTest#choosingAnItemForThisIntentDoesNotChangeMainlineByDefault",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.StudyWorkflowRepositoryTest#duplicateActiveIntentIsRejectedByDatabaseConstraint",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.StudyWorkflowRepositoryTest#sessionAndSummaryProgressNeverMoveBackward",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.StudyWorkflowRepositoryTest#abandoningIntentEndsItAndAllowsAnotherItemToCreateIntent",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.StudyWorkflowRepositoryTest#interruptedSessionBecomesAbnormalWithoutAdvancingBook",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.StudyWorkflowRepositoryTest#oldPageNoteDoesNotChangeSessionOrLearningItemProgress",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.StudyWorkflowRepositoryTest#existingActiveIntentWinsWithoutChangingMainline",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.StudyWorkflowRepositoryTest#secondActiveSessionIsRejected",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.StudyWorkflowRepositoryTest#startingSessionConvertsIntentInSameTransaction",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.StudyWorkflowRepositoryTest#latestNormalReadingExcludesAbnormalSessionsAndCountsNotes",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.StudyWorkflowRepositoryTest#expiredIntentIsPersistedAsTimeoutWhenSessionStartIsRejected",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.StudyWorkflowRepositoryTest#newIntentIsRejectedWhileSessionIsActive",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.StudyWorkflowRepositoryTest#sessionStoresAllFourIndependentNoteTypesWithPageNumbers",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.platform.backup.AndroidBackupPolicyResourceTest#installedManifestOptsOutAndResolvesCompiledExtractionRules",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.platform.backup.AndroidBackupPolicyResourceTest#installedModernRulesDoNotDefaultAnyKnownTransferModeToAllData",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.platform.backup.AndroidBackupPolicyResourceTest#installedLegacyPolicyDisablesAllDomainsAndUnsupportedDebuggerDestination",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.backup.FullBackupServiceTest#realAndroidRoundTripRestoresIdsTextMediaPreferencesAndSearch",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.backup.FullBackupServiceTest#previousProcessCleanupFailureCannotPublishAnotherBackup",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.backup.FullBackupServiceTest#preparingReclaimsPreviousProcessAndLegacyBackupCopiesOnly",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.backup.FullBackupServiceTest#legacyNormalActiveContextRoundTripPreservesFactsWithoutBackfill",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.backup.FullBackupServiceTest#priorProcessSymbolicDirectoryFailsClosedWithoutDeletingProtectedResources",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.backup.FullBackupServiceTest#activeIntentRefusesWithoutAutomaticallyClosingIt",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.backup.FullBackupServiceTest#malformedCloseoutBoundariesRemainRejectedWithoutChangingFacts",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.backup.FullBackupServiceTest#cancelledInspectionReturnCannotLeaveAnUnreachableRestoreCandidate",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.backup.FullBackupServiceTest#cancelledPrepareReturnCannotLeaveAnUnreachablePrivateBackup",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.backup.FullBackupServiceTest#activeSessionAndPendingCloseoutAreNeverAutomaticallyEndedForBackup",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.backup.FullBackupServiceTest#inspectingReclaimsPreviousProcessCandidateCopiesWithoutChangingSource",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.backup.FullBackupServiceTest#lowSpaceAndUnreadableSafNeverChangeCurrentFacts",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.backup.FullBackupServiceTest#sameProcessServicesAndReplacementGenerationDoNotDeleteCurrentHandles",
+        "code": 0
+      },
+      {
+        "method": "com.guanyi.mirra.data.backup.FullBackupServiceTest#emptyDatabaseRoundTripUsesFormalFormat",
+        "code": 0
+      }
+    ]
+  },
+  "band": {
+    "nodeTests": 184,
+    "actualPass": 184,
+    "failures": 0,
+    "skipped": 0,
+    "checkScripts": 34,
+    "checkPages": 4,
+    "checkErrors": 0,
+    "node": "24.18.1",
+    "toolkit": "2.0.5",
+    "releaseBuildMs": 35898,
+    "inspection": "signature, payload, file digests, signed metadata, CRC32 and three tamper rejection checks passed"
+  },
+  "actualRed": {
+    "preparationEligibility": "23 tests, 2 failures before fix",
+    "breakCommitAdmission": "143 JVM, 2 failures and real Room 5 tests, 4 failures before fix",
+    "strictStartAndProtocol": "33 tests, 10 failures before implementation",
+    "cancelAndPrimitiveValidation": "121 tests, 2 failures before fix",
+    "wrist": "recorded control, compatibility, unknown-result and result-context assertion failures before fix"
+  },
+  "unchanged": {
+    "roomSchemaV4GitBlob": "97ae3a8a15aeb924350b4b7ecade389b314f7ebf",
+    "protocolV1": "schema and 11 fixtures unchanged in both repositories",
+    "protocolV2": "schema and 17 fixtures mirrored byte for byte",
+    "learningTransitionPolicy": "unchanged; optional external admission guard only",
+    "backupFormat": "Full Backup v1 unchanged",
+    "dependencies": "no additions or upgrades",
+    "signingIdentity": "retained"
+  },
+  "inheritedModule03": {
+    "idleRoundtrip": "PASS with actual phone and wrist evidence",
+    "monitoredLockscreenWristReentry": "USER_REPORTED_PASS",
+    "firstNoDeviceAutomaticRecovery": "PASS with same phone process and user wrist sync confirmation",
+    "naturalUse": "approximately 5 minutes, user reported normal",
+    "thirtyMinuteObservation": "completed passive window with recorded measurement limits, not full focus or radio benchmark"
+  },
+  "notRun": [
+    "Module04 physical APK/RPK installation and three new control operations",
+    "Native Vela rendering screenshots and physical touch/layout/long-text check",
+    "New physical lockscreen strict-start OEM/FGS behavior",
+    "API23-36 and other OEM control coverage",
+    "Unfiltered full Android connected suite for Module04",
+    "Nine opt-in staged backup methods requiring special fixtures",
+    "Release APK/AAB or production signing release",
+    "ChatGPT independent Module04 review"
+  ],
+  "localEvidenceRoot": "E:\\CODEX\\mirra-watch\\.local\\module04-evidence",
+  "androidUi": {
+    "controlConsent": "scope dialog captured; cancelled via Keep read-only",
+    "controlAfterCancel": "off",
+    "screenshots": [
+      {
+        "path": "screenshots/android-api37-control-default.png",
+        "sha256": "cd9b00c6f0b475731ed34d7a23a572d84811687c94b06321cd2b8cc815877353"
+      },
+      {
+        "path": "screenshots/android-api37-control-consent.png",
+        "sha256": "f9af4deec07a8d8768d65846dfbabc942d342d9e237d48c519eca4114d79d926"
+      }
+    ],
+    "companionEnable": "explicit local dialog; missing official service, no physical link",
+    "device": "owned API37 emulator-5580",
+    "defaultControl": "off and disabled before companion enabled"
+  },
+  "implementationCommits": {
+    "band": "c9d3f7cd4953a5f866548cc91be1b1b22b074eb9",
+    "phone": "9662164bbffe9ebafdb72b7c4f99ac8d538876d3"
+  }
+}
