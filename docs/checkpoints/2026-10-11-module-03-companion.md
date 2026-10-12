@@ -1,8 +1,8 @@
 # Module 03 — 只读伴侣与腕端 UI 滚动 checkpoint
 
-日期：2026-10-11（Asia/Shanghai）。
+建立日期：2026-10-11；最新增量：2026-10-12（Asia/Shanghai）。
 
-状态：**MODULE_03_DEVICE_ACCEPTANCE_BLOCKED**。本文件是本模块唯一滚动 checkpoint，保留下方历史验证。0.2.2 真机复测显示 CHANNEL_UNAVAILABLE；手机 fresh 查询已识别设备并授权，但没有握手/快照。0.2.3 只修正原生查询诊断，本地门禁已通过，待用户更新取得具体数字码；不能宣布连接修复、端到端完成或进入 Module 04。
+状态：**MODULE_03_DEVICE_ACCEPTANCE_IN_PROGRESS / IDLE_ROUNDTRIP_PASSED_LOCKSCREEN_USER_PASS_OTHER_SCENARIOS_PENDING**。本文件是本模块唯一滚动 checkpoint，保留下方各版本历史验证。当前手机 1.1.2/code5 与腕端 0.2.5/code7 已取得真实 IDLE 往返接收证据；用户随后明确完整监测学习锁屏重进正常，主场景记为 **USER_REPORTED_PASS**，没有独立配套 Session/锁屏画面/原始消息采集。前七张失败历史保留，首查恢复缺口尚未修复。其他业务画面与 30 分钟观察未验收；不能宣布整个模块完成或进入 Module 04。最新事实见末尾追加，前文计数与产物属于明确历史版本。
 
 范围合同：[MIRRA_BAND_MODULE_03_COMPLETE_PLAN.md](../plans/MIRRA_BAND_MODULE_03_COMPLETE_PLAN.md)。产物、公开证书与协议镜像摘要：[artifacts.json](../evidence/module-03/artifacts.json)。
 
@@ -36,7 +36,10 @@
 | 配套 debug APK | `com.guanyi.mirra` / 1.1.1-band-readonly / code 4 | `E:\CODEX\mirra-watch\dist\Mirra-1.1.1-band-readonly-debug.apk` |
 | 正式诊断 RPK | `com.guanyi.mirra` / 0.2.1 / code 3 | `E:\CODEX\mirra-watch\dist\com.guanyi.mirra.release.0.2.1.rpk` |
 | 历史正式兼容 RPK | `com.guanyi.mirra` / 0.2.2 / code 4 | `E:\CODEX\mirra-watch\dist\com.guanyi.mirra.release.0.2.2.rpk` |
-| 当前查询诊断 RPK | `com.guanyi.mirra` / 0.2.3 / code 5 | `E:\CODEX\mirra-watch\dist\com.guanyi.mirra.release.0.2.3.rpk` |
+| 历史查询诊断 RPK | `com.guanyi.mirra` / 0.2.3 / code 5 | `E:\CODEX\mirra-watch\dist\com.guanyi.mirra.release.0.2.3.rpk` |
+| 历史旧 CONNECTING 兼容 RPK | `com.guanyi.mirra` / 0.2.4 / code 6 | `E:\CODEX\mirra-watch\dist\com.guanyi.mirra.release.0.2.4.rpk` |
+| 当前状态 token 诊断 RPK | `com.guanyi.mirra` / 0.2.5 / code 7 | `E:\CODEX\mirra-watch\dist\com.guanyi.mirra.release.0.2.5.rpk` |
+| 当前配套诊断 APK | `com.guanyi.mirra` / 1.1.2-band-readonly / code 5 | `E:\CODEX\mirra-watch\dist\Mirra-1.1.2-band-readonly-debug.apk` |
 
 Node 24.18.1 与固定 `aiot-toolkit@2.0.5` 实际完成最后一轮 live/demo 构建。RPK 的 RSA-SHA256、内容/文件摘要、签名元数据、ZIP CRC32 与篡改拒绝检查通过；APK 的 apksigner 验证通过。两种 RPK 串行构建，未修改全局工具链。
 
@@ -80,7 +83,7 @@ Node 24.18.1 与固定 `aiot-toolkit@2.0.5` 实际完成最后一轮 live/demo �
 - 九个显式 opt-in 备份/恢复/数据保留阶段测试为 assumptions，不计入 PASS；本轮多进程安装阶段执行 Not Run。完整普通备份/恢复与 Reader 维护测试已执行，见统一验证索引。
 - 物理手机已完成版本/公开证书核对、三方身份匹配与安全 APK 覆盖；用户更新正式 RPK 并提供实际运行照片，手机 SDK 节点/服务/授权已确认。腕端初始化状态查询失败，无线握手与完整快照仍未成功。没有独立读取腕端安装 metadata/hash；安装目录 metadata 保持原位不能代替数据库内容校验，本轮没有读取用户数据库。
 - 国行小米手环 9 Pro 真实官方 SDK 消息往返、至少三次随机 requestId、256/1024/2048/4096 字节与中文/emoji 消息预算均 **Not Run**。
-- 正常监测学习 → 手机锁屏/后台 → 腕端重开取最新状态的主场景，以及真实断连、结束重连、强停、撤权和重新授权均 **Not Run**。没有将 AVD 或 mock transport 当作成功证据。
+- 初版交付时正常监测学习锁屏重进主场景为 **Not Run**；现由后文最新用户执行确认更新为 **USER_REPORTED_PASS**。真实断连、结束重连、强停、撤权和重新授权仍 Not Run，没有将 AVD 或 mock transport 当作成功证据。
 - 正式腕端专注、准备、休息、断连、未监测、保存中六类实际运行画面 **Not Run**；中文截断、触控、圆角、安全边距、留白与 336 × 480 可读性仍待真实 Vela/目标设备验证。浏览器设计预览不能代替截图。
 - 用户已批准 Logo 的可直接复用 raster 适配素材尚缺，继续保留 Module 02 临时 icon，属于明确视觉遗留；未自画替换，也未宣称 Logo 已最终产品化。
 - 至少 30 分钟真实阅读的查询数量、延迟、重进恢复、断连和两端电量观察 **Not Run**；不承诺后台常驻、息屏连续通信、振动或续航表现。
@@ -93,7 +96,7 @@ Node 24.18.1 与固定 `aiot-toolkit@2.0.5` 实际完成最后一轮 live/demo �
 | Band | `codex/module-03-readonly-companion`，基线 `e450dc1dfb4194dfb755371eddeb740d30cb3700` | 构建对应代码提交 `88bd77b1582f268b2dda3785fd8b46dc2b2e8fec`；交付文档另有提交，最终 HEAD/远端以 Git 为准 |
 | Phone | `codex/mirra-band-readonly-bridge`，隔离工作区 `E:\CODEX\mirra-watch\.local\android-worktree`，实际基线 `1338b9a4e41788082f30bf3894a974c2ff652630` | 构建对应代码提交 `e00be0a5d59f9dad892b8c26128c8c3d17149f70`；交付文档另有提交，最终 HEAD/远端以 Git 为准 |
 
-下一步仍属于 **Module 03**：取得 0.2.3 同次原生诊断码，按具体失败原因修复，再验证双前台握手/完整快照、锁屏主场景、六类 UI 实拍与 30 分钟观察。签名或版本冲突时保留用户数据并停止对应安装。两个功能分支仅普通 Push，禁止覆盖 main 或强推。
+下一步仍属于 **Module 03**：在真实 IDLE 接收及用户确认锁屏主场景基础上，补齐其他状态、六类 UI 实拍、断连/关闭和 30 分钟观察。保留 USER_REPORTED_PASS 与独立采集的区别，首查恢复缺口与手动恢复机制继续诚实记录，不将已通过部分当成整体完成。签名或版本冲突时保留用户数据并停止对应安装。两个功能分支仅普通 Push，禁止覆盖 main 或强推。
 
 若自动化与构建均通过而必要真机项目仍未执行，停止点只能写 `MODULE_03_DEV_COMPLETE_AWAITING_DEVICE_ACCEPTANCE`。只有真实只读链路、手机锁屏主场景、正式 UI 与适用回归均有证据，才可写 `MODULE_03_COMPLETE_AWAITING_REVIEW`。未获用户验收与下一模块授权，不进入 Module 04。
 
@@ -122,3 +125,32 @@ Node 24.18.1 与固定 `aiot-toolkit@2.0.5` 实际完成最后一轮 live/demo �
 - 完整通信、六类正式业务画面、锁屏主场景及 30 分钟测试仍未通过。两个功能分支继续本模块，不合并 main、不进入 Module 04；设备必须给出真实消息与匹配快照后才能改变验收状态。
 - API依据为[官方状态查询建议](https://iot.mi.com/vela/quickapp/zh/guide/best-practice/start.html)、[官方接口](https://iot.mi.com/vela/quickapp/zh/features/network/interconnect.html)与固定 `e20440fe7d970609bd3f02e9335b1a85e4fcb148` 公开 native JIDL/CPP 与 QJS JSON编码源码，链接见统一 verification；公开源码不证明目标固件等于该 commit。
 - 证据保留 Git 忽略 `.local/module03-evidence/preinstall`、`xiaomi-device-20261011`、`resume-artifacts`；公开摘要与结果更新到统一 artifacts/verification。无线、随机请求/精确字节预算、锁屏主场景、六类正式腕端 UI 与 30 分钟观察继续待验。
+
+## 追加：0.2.3 / 0.2.4 复测失败、0.2.5 原生 TIMEOUT 与手机只读安装诊断
+
+- 本增量更新于 Asia/Shanghai 2026-10-12；UTC 15:09、15:39、15:41、15:44、15:45 均为 2026-10-11，不把时区换日改写为另一天的设备观测。
+- 用户随后两张未经修改的实拍均为 **APK_STATUS_UNKNOWN_STRING**，对应 0.2.3 / 0.2.4 交付后的实际反馈；它们未显示安装版本元数据或文件摘要。前段“待用户更新”保留为当时历史，不作为当前状态。
+- [旧官方 native 源码](https://github.com/open-vela/frameworks_runtimes_feature/blob/26e8785bd16896fd748a2db05933d03abe809406/modules/interconnect_impl.cpp#L1146-L1170) 确有第四种 CONNECTING；[后续官方修改](https://github.com/open-vela/frameworks_runtimes_feature/commit/2086a05d076ddf0a1255157c27703136c7cf3dd9) 将默认值改为 DISCONNECTED。0.2.4 仅为精确 CONNECTING 保留既有 3 秒期限内等待真实 onopen，不增加轮询或成功别名。未在目标固件观察到 CONNECTING，不能将公开历史源码当作真机返回值证据；该修补未解决故障。
+- 0.2.4/code6 实现 **`2d54d43c8f8514255c198c3d9a42a117c54a21c2`**：实际 **151/151 PASS、31 scripts / 3 pages / 0 errors**，构建 **70,978ms / exit 0**，独立签名/内容/逐文件/metadata/CRC32/三项篡改拒绝均通过。RPK 32,347 bytes，SHA-256 `50bc9273b02643cb83d4d97f68e2aa650c938674a70708fd7c5763e43302e5ee`；所有结果只对应这一源码版本。
+- 0.2.5/code7 实现 **`2be4297feb06ad42cea0a5ab1d891594866317bc`**：连接帮助 always 显示版本/code，仅对同步 getApkStatus 的有限 ASCII 状态 token 增加诊断，不输出任意正文、对象或业务 payload。精确值、大小写/包装类别可区分，未知 token 仍断连，不发送假 HELLO、不回退模拟；现代接口成功条件与业务 ACK/完整快照新鲜度规则不变。
+- 0.2.5 实际 **154/154 PASS、31 scripts / 3 pages / 0 errors**，构建 **10,521ms / exit 0**，独立 RSA-SHA256、内容/逐文件摘要、metadata、CRC32/三项篡改拒绝均通过。RPK **32,549 bytes**，SHA-256 `1f7dad9c611e2b3b39e3803226626d7d7667f1cd3f878429b134cee4fe046566`，与既有手机公开证书相同；目标 Download 远端摘要一致。
+- 第七张用户实拍实际可见 **Mirra 0.2.5 / 7、APK_RAW_TIMEOUT**。这确立当前运行诊断版本与原生同步 getApkStatus 的精确字符串 TIMEOUT，**不是**本应用握手请求计时器超时；仍未读出腕端安装文件摘要/完整平台 metadata，底层根因尚未知。0.2.5 已复测失败，不继续标为待首次复测或连接恢复。
+- 手机 1.1.2-band-readonly/code5 实现 **`fcfac1d5e5a40d823598e8894ef649d4d499b215`**：官方 SDK `isWearAppInstalled` 手动只读查询拥有独立 job/generation/state 与 3 秒期限，节点/授权/owner 前后核验；SDK 等待不占监听所有权。页面 Stop/Dispose 仅取消诊断，迟到结果不恢复旧状态；并发 state 更新使用原子 update，诊断不修改 handshake/lastSnapshotAt，不启动腕端应用，不操作学习、数据库、备份或签名配置。
+- 新手机源码单次 **testDebugUnitTest / lintDebug / assembleDebug** 完成 **10m47s / exit 0**；全量 JVM **722/722 PASS、80 suites、0 failure/error/skip**；lint **0 errors / 20 warnings / 1 hint** 与初版相同。定向第一次因测试导入错误编译失败，不计为行为 RED；随后真实行为 RED 42 项/9 FAIL、GREEN 42/42，最终并发回归后使用上述全量结果。初版 711/711 与 connected 491 actual PASS 保留旧源码历史，本轮没有重复 connected 或操作其他 Android 设备。
+- 新 APK **16,852,477 bytes**，SHA-256 `6872cda1e755b8810244c6af763abc5126de983b2b5c3511e486e4d002f4cf9f`。UTC 15:44 实际提取目标 Xiaomi 当前 code4 APK 的公开证书，与新 code5 APK / 0.2.5 RPK 三方匹配，版本递增且 minSdk 兼容，SAFE_TO_INSTALL。用户当前确认“首页空闲”；实际抓取是设置页，不声称独立观察空闲首页。沿用已有覆盖授权和用户跳过备份决定，UTC 15:45 `install -r` Success，实际安装版本与 APK 摘要匹配；没有卸载、清数据、降级或读取原始用户数据库。
+- 旧 APK UTC 15:09 / 15:39 曾 NO_DEVICE，15:41 用户手动重连后设备/服务/授权正常但无握手/完整同步。新 APK 安装后焦点 NotificationShade 时拒绝页面抓取，随后 ADB 列表为空；新只读查询尚无实际结果，当前手机状态未知。需恢复同一目标 USB 连接再读取，不操作先前 OnePlus 或其他 Android 设备。
+- 代码核查确定首查恢复缺口：数据源绑定时一次自动 connect；NO_DEVICE 后移除服务 observer，onResume/进入设置不重查，自动可用事件只恢复已有节点的 SERVICE_UNAVAILABLE。UI 任意连接失败统一置 serviceAvailable=false，不证明 AIDL 未绑定。后来“尚未选择”可能与新进程有关，缺少 PID/生命周期对应证据，仍属推断。15:41 手动重连已解除该次首查失败；它不能解释当前腕端 TIMEOUT，不据此随机扩展自动重连。
+- 现有七张实拍只能证明对应错误 UI；完整消息、六类真实业务画面、手机锁屏主场景与 30 分钟观察仍未验证。安装查询 Boolean 不证明证书、腕端版本或业务握手。保持 **WRIST025_NATIVE_TIMEOUT**，继续本模块的已授权定位，不进入 Module 04，不合并 main，不创建重复冻结文档。
+
+## 追加：同 PID 手动恢复与首次真实 IDLE 往返通过
+
+- 2026-10-12 UTC **01:53:46** 新 APK 的节点查询仍为 NO_DEVICE；UTC **01:55:03.108** 用户完成手机“重新连接设备 + 检查腕端应用”后实际 UI 显示 **9 Pro / 服务可用 / 已授权 / 已完成只读握手 / 最近完整同步09:54:44 / 小米服务报告腕端已安装**。前后均 PID **32135**，不能再把本次恢复解释为必须重启进程。实际 XML/PNG 为忽略目录 `status-025-after-phone-query.*`。
+- 手机 handshaken 来自实际收到合法 HELLO 后 ACK 发送，lastSnapshotAt 来自合法完整 SNAPSHOT 发送；发送完成并非腕端 ACK，单凭这些字段不证明腕端接收。用户随后第八张原图 **`wrist-025-idle-synced-user-photo.jpg`** 实际 Home 显示 **等待开始 / 已同步·13秒前 / 请在手机开始 / 手环会同步当前阅读 / 详情**，无演示标识；两端同次证据共同证明 **首次真实 IDLE 往返与完整快照接收 PASS**。
+- 此结果替代前段 WRIST025_NATIVE_TIMEOUT 作为当前状态，但保留第七张精确原生 TIMEOUT 和其他失败历史。手动重连与 SDK 安装检查共同触发，未隔离哪一步促成通道恢复；不把安装查询 Boolean 当证书/版本/消息握手证明，不声称底层 TIMEOUT 根因已经定位或首查恢复缺口已经修复。
+- 当时仅 **MODULE_03_DEVICE_ACCEPTANCE_IN_PROGRESS / IDLE_ROUNDTRIP_PASSED_OTHER_SCENARIOS_PENDING**，尚待用户真实 Session 锁屏主场景；后续主场景状态已由下一节明确更新。其他业务状态、断连/关闭、六类 UI 与 30 分钟观察仍待验收，不进入 Module 04，不宣称全部端到端通过。
+
+## 追加：真实监测学习锁屏重进主场景获用户确认
+
+- 用户先反馈“刚刚我测试了，没问题”，再针对完整“手机正在监测学习 → 锁屏 → 手环退出重开 → 最新学习状态”明确回答 **“包含，锁屏重进正常”**。这是用户实际执行确认，主场景更新为 **USER_REPORTED_PASS**，替代前文待首次执行 / Not Run 的当前状态。
+- 本次没有工具独立采集对应 active Session、锁屏画面或原始消息，不能写成独立工具验证。UTC 2026-10-12 **02:02:43** 实际手机回到首页，无正在 Session / 未观察到 focus service，是测试后观察；不由此反推用户此前没有进行监测学习。
+- 保留前七张故障与 IDLE 通过历史。首查恢复缺口未修复，其他状态完整画面、断连/关闭、30 分钟计时/消息/延迟/电量仍待验收；当前整体 **MODULE_03_DEVICE_ACCEPTANCE_IN_PROGRESS / IDLE_ROUNDTRIP_PASSED_LOCKSCREEN_USER_PASS_OTHER_SCENARIOS_PENDING**，不进入 Module 04、不宣称整个模块完成。

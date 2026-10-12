@@ -1,5 +1,5 @@
 {
-  "observedAt": "2026-10-11T10:48:44.3366239+00:00",
+  "observedAt": "2026-10-12T02:04:59.939Z",
   "band": {
     "scripts": 30,
     "sourcePages": 3,
@@ -11,7 +11,7 @@
   },
   "android": {
     "jvm": {
-      "root": "E:\\CODEX\\mirra-watch\\.local\\android-worktree\\app\\build\\test-results\\testDebugUnitTest",
+      "root": "E:\\CODEX\\mirra-watch\\.local\\module03-evidence\\xiaomi-device-20261011\\phone-112-before-diagnostic\\jvm\\testDebugUnitTest",
       "discovered": 711,
       "actualPassed": 711,
       "failures": 0,
@@ -24,406 +24,407 @@
       "failureCases": [],
       "files": [
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.backup.BackupArchiveTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.data.backup.BackupArchiveTest.xml",
           "sha256": "1a2be382cccb8aa218a40e33b5add9dcdf1b87a38d548d9923ffee6d2b0cdc09",
           "bytes": 2193
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.backup.BackupSearchBudgetTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.data.backup.BackupSearchBudgetTest.xml",
           "sha256": "b99c44007ef45e6088c7b9f9510717e20f8623b27d1f2766baf15214d25e7617",
           "bytes": 944
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.backup.ManagedPreferencesTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.data.backup.ManagedPreferencesTest.xml",
           "sha256": "193d0262ae49a8e99d2914609dafe0aae9961c77b5aa6d2acc21dcb1bf562a61",
           "bytes": 1082
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.backup.RestoreJournalSafetyTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.data.backup.RestoreJournalSafetyTest.xml",
           "sha256": "ac460582e8ff64c3bc92618fd5c65209a290426c454d2a387684be18ac9bca3c",
           "bytes": 677
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.backup.RestoreJournalTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.data.backup.RestoreJournalTest.xml",
           "sha256": "4664a1b7c4c8050c58b9e11a3de5147c6bc6091e883f131d9ffa7b41bb46548f",
           "bytes": 1660
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.export.ExportWorkspaceTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.data.export.ExportWorkspaceTest.xml",
           "sha256": "cabc56d97c8bf5dafc45e719ba3d1236bc701b33f14b20440555e4542f98e29c",
           "bytes": 1954
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.export.ReadableExportWriterTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.data.export.ReadableExportWriterTest.xml",
           "sha256": "c655ec6cf32db3b18cae2e68a4490c2d029d240f59ac3be4fb31ab7aef4370fd",
           "bytes": 4491
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.ImageImportPolicyTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.data.ImageImportPolicyTest.xml",
           "sha256": "0f7b2cda6f4c9807e5a27b2bcbb8e4df043b6e55bae02255f63ced6223b50c41",
           "bytes": 881
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.maintenance.GateRepositoryWriterTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.data.maintenance.GateRepositoryWriterTest.xml",
           "sha256": "e3e992249295462e7caf0478c83bebea25a7f9d9020006795eaa8d275f147d55",
           "bytes": 886
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.maintenance.GateSessionManagerTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.data.maintenance.GateSessionManagerTest.xml",
           "sha256": "17eeeb5d21ccc85ee1c7b48834905f8e07aeefbad3070fbac09358e7abef0c05",
           "bytes": 705
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.maintenance.GateWriterAdmissionCoverageTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.data.maintenance.GateWriterAdmissionCoverageTest.xml",
           "sha256": "d39f41bf3e81e3c8fc60b154f04e456e2824c1a57b604d626d6cf22b592d4a1c",
           "bytes": 536
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.data.preferences.StrictAppPreferencesSnapshotTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.data.preferences.StrictAppPreferencesSnapshotTest.xml",
           "sha256": "f9eeee057e09f58605ce060a91f5046674df4d7f2abda2957ceaabb730e28974",
           "bytes": 3494
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.di.CloseoutStartupRecoveryTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.di.CloseoutStartupRecoveryTest.xml",
           "sha256": "cbb5ca7ae99e6bef02e2395ad1a2effced123a21ddc4600e62cb986a7459dc6d",
           "bytes": 1383
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.di.StorageBootstrapTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.di.StorageBootstrapTest.xml",
           "sha256": "1a28bed17704826d2a18b7c8f985b5fe0cb0d197d5fc711fcc955c4efaa44440",
           "bytes": 1685
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.BehaviorTransitionsTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.BehaviorTransitionsTest.xml",
           "sha256": "7625ba7101fb1f6cf962e61e0057b0394e8586a535e11ac8072587d445d254d7",
           "bytes": 748
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.CompletionPredictionServiceTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.CompletionPredictionServiceTest.xml",
           "sha256": "ece509dab85c820a2f33271ad7009b07cd1a51b380d3d9593fc451afdee6c3c1",
           "bytes": 1534
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.DndControllerTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.DndControllerTest.xml",
           "sha256": "d6aa00ebe4a80f5894cfa4490f2519ba0d0669c3b6a833b08aa8b6a28fd5337f",
           "bytes": 2030
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.EffectiveAnalyticsCompatibilityTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.EffectiveAnalyticsCompatibilityTest.xml",
           "sha256": "91cb697b66919faaa69ea654069921254a2e861f63abf94e9987a65f1ac27875",
           "bytes": 971
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.EffectiveReadingServiceTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.EffectiveReadingServiceTest.xml",
           "sha256": "055e7fa6583901a644ad074c3728c8cda7f4c442a358dfd090cfa54a53efe232",
           "bytes": 2549
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.FirstActionResolverTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.FirstActionResolverTest.xml",
           "sha256": "816c344a095853eb00a548fa2ceb9d41f9bb87928259f6120a9f642573771d79",
           "bytes": 1461
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.insights.ReadingPaceInsightServiceTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.insights.ReadingPaceInsightServiceTest.xml",
           "sha256": "a33928d23f4e4375c7467906d3eefbdad1c6b486b99a5c3d0f4482f516818a67",
           "bytes": 7605
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.IntentExpiryPolicyTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.IntentExpiryPolicyTest.xml",
           "sha256": "4a6f5cb00d85b22e2d8968aaef4a3a29427c0c9a17027a20a28929c78c0316ea",
           "bytes": 622
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.intervention.ExternalPromptEligibilityTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.intervention.ExternalPromptEligibilityTest.xml",
           "sha256": "a5486249a6add6736fc1a4b5ffdf1840c9f15bd59fc0d0eba6be7380e1ce8c30",
           "bytes": 1117
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.intervention.InterventionNavigationTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.intervention.InterventionNavigationTest.xml",
           "sha256": "c85ac9c354d93f2ac5376bff3a01631bcebff24bcb2fa2f8be9edcc1febec66f",
           "bytes": 1720
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.intervention.InterventionPresenterTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.intervention.InterventionPresenterTest.xml",
           "sha256": "badee9fa7f64daea7b5269f510f8cea329028252f55c7f07c8977f939aa899c0",
           "bytes": 3044
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.intervention.PresentationEpisodeTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.intervention.PresentationEpisodeTest.xml",
           "sha256": "e829e4b50c1bb370b69204def7d82a297a02b66a78510d2245498a7239bbff42",
           "bytes": 805
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.maintenance.MaintenanceCoordinatorTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.maintenance.MaintenanceCoordinatorTest.xml",
           "sha256": "db9f3169ceeeb27e2d73f8eeb05ac0f3b236b819cb7d70ce954b98abcc11677d",
           "bytes": 4535
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.maintenance.PendingEditRegistryTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.maintenance.PendingEditRegistryTest.xml",
           "sha256": "cbe76a990bb489773f9b256b9a333769513d5f78a312410d2e5d5cea4f184fc7",
           "bytes": 1197
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.maintenance.StorageMaintenanceGateTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.maintenance.StorageMaintenanceGateTest.xml",
           "sha256": "d294ddbd6fe4b7c323c216bb1ab2838bfcf2844ab6ee8b84682260bf50a67028",
           "bytes": 1811
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.monitoring.BehaviorPolicyTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.monitoring.BehaviorPolicyTest.xml",
           "sha256": "266a907c879cf78a7ffb78ae8ee38ca7b0f8be9d9f174efdf383e36bee7043ab",
           "bytes": 1304
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.monitoring.BoundSessionMonitoringControllerTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.monitoring.BoundSessionMonitoringControllerTest.xml",
           "sha256": "8928be0b8774d8f421eccd083624d8b365b338f91312c559b5cef9738c1e490d",
           "bytes": 2594
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.monitoring.CandidateRiskAppMachineTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.monitoring.CandidateRiskAppMachineTest.xml",
           "sha256": "c720309ae73a592d641be5a24077c0692f456fa1be5962891481007c69d084d0",
           "bytes": 1800
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.monitoring.FocusSessionActionsTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.monitoring.FocusSessionActionsTest.xml",
           "sha256": "6778cf37783cdf4bec8e0903f860b7152eb01cb9d613a15faf9a89dc6d1112f5",
           "bytes": 3669
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.monitoring.ForegroundObservationReducerTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.monitoring.ForegroundObservationReducerTest.xml",
           "sha256": "a57607a118b1740ac964810120ab04c8211179191f41be7f1aedee78adbc536a",
           "bytes": 2401
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.NoteTypeSuggesterTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.NoteTypeSuggesterTest.xml",
           "sha256": "40086f03aebc392e2ff0c1b3f8bcb7fafab231132221e1e21dd3eeae92c137cb",
           "bytes": 739
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.ReadingAnalyticsServiceTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.ReadingAnalyticsServiceTest.xml",
           "sha256": "90ae04497e70e6ad7b1f1efbc7dc8a00537ddfebd80214897113a18ac666a814",
           "bytes": 1532
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.ReadingRecordProjectionTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.ReadingRecordProjectionTest.xml",
           "sha256": "56c2da57504adb8b1d31baadef17825fa9c6a73d8f8236d2077238444d58faa5",
           "bytes": 1628
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SearchEngineTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SearchEngineTest.xml",
           "sha256": "6fb71cf2643e0c823cea9dca7b2be3ab334f0afdc7308f0b312fb40548e771ee",
           "bytes": 1136
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SegmentTimelinePolicyTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SegmentTimelinePolicyTest.xml",
           "sha256": "0f94aefb20a2bb751f82a01dfd5cf09ce0178d13778391955957b5947e0113b2",
           "bytes": 779
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SessionManagerCloseoutTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SessionManagerCloseoutTest.xml",
           "sha256": "2aee561a91d1ce24ef1355094d8f092765ebcb2067f78b0bcb4a3cb185263569",
           "bytes": 2328
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SessionSegmentStateMachineTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SessionSegmentStateMachineTest.xml",
           "sha256": "a59682d97055602571a7628a38eb5a3f46d89ee6dcc6fb61e54e3ea791b55e42",
           "bytes": 1487
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SessionStartCoordinatorTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SessionStartCoordinatorTest.xml",
           "sha256": "62a9f73ae5b4cef74d1b57c48084b1277278c167a106a3133b4773c7cf8d6156",
           "bytes": 3679
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SessionTimelineValidatorTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SessionTimelineValidatorTest.xml",
           "sha256": "54c3381aa1a4df14cb8bf0487d8178dcae7500ddd7d2e121c0e252d393405b4a",
           "bytes": 1507
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SummaryEngineTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.SummaryEngineTest.xml",
           "sha256": "1505d4bc21c71a66f1475078ae5736d7f5ee2c38e647591678ca01251c963f97",
           "bytes": 636
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.TopicNameNormalizerTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.TopicNameNormalizerTest.xml",
           "sha256": "9366e64abb8399af687c1e43f331b268247e68be7cb87927d131d13cd581ca65",
           "bytes": 758
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.TopicSuggesterTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.TopicSuggesterTest.xml",
           "sha256": "4cc6ad61d154f8bcf9612892b0680f0a8fd6aa8d159186bd9d30d20c62e79cb6",
           "bytes": 606
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.trends.DailyTrendsServiceTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.trends.DailyTrendsServiceTest.xml",
           "sha256": "0bc79aa873fbeef72f0b454aac2c7d99b517f5a5408031b4d36d016fd151f926",
           "bytes": 2929
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.trends.TrendsServiceTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.trends.TrendsServiceTest.xml",
           "sha256": "31498beb053e3cd049bc1ae6a3451fb3c336e104714428d5ad14db944d71fa88",
           "bytes": 5557
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorTest.xml",
           "sha256": "6fbf8f0c6f527957fb9945fe6ff862189c5a094125bbe92c331127b3c0d61a58",
           "bytes": 2380
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.wearable.WearableGoldenFixturesTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.wearable.WearableGoldenFixturesTest.xml",
           "sha256": "772e97f864dd8985de37212f046a1e35846fb79dd4b7e348bd7c5749df2740bd",
           "bytes": 505
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.wearable.WearableProjectionTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.wearable.WearableProjectionTest.xml",
           "sha256": "295c3d1e966c2f210204045a664e35ec13ffae998ea5e8d60c2ab1dd306d1eeb",
           "bytes": 1583
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.domain.wearable.WearableProtocolTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.domain.wearable.WearableProtocolTest.xml",
           "sha256": "86b7377c77edff9030a86623a56faa2c9d9819889b0dedf488db86d6ad67aa0f",
           "bytes": 1245
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.datamanagement.DataExportViewModelTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.datamanagement.DataExportViewModelTest.xml",
           "sha256": "4c376bb3534b75464cad693a9c66668432af766dbd7096f4edbcf032608b16fe",
           "bytes": 2916
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.datamanagement.DataManagementViewModelTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.datamanagement.DataManagementViewModelTest.xml",
           "sha256": "37b569b039514e6922c81e88a9ef94b9409956725275d3214d99033d55da3f54",
           "bytes": 2153
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.knowledge.ImageImportMessageTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.knowledge.ImageImportMessageTest.xml",
           "sha256": "90db08c32b4b80f0d959377fc0b2b236265ecec5458bdb363904aa89fcddbb19",
           "bytes": 501
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.knowledge.LearningItemEffectivePaceTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.knowledge.LearningItemEffectivePaceTest.xml",
           "sha256": "cce68e35b04250af8c44f721fdfc7c5426aac00fc0c87476638f4edae544efc4",
           "bytes": 1736
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.knowledge.LearningItemInsightTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.knowledge.LearningItemInsightTest.xml",
           "sha256": "9c558612100c384aedd9db33d05e2e7c0e4475ec067612af1341f5de77d80238",
           "bytes": 1878
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.knowledge.NoteEditorMaintenanceTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.knowledge.NoteEditorMaintenanceTest.xml",
           "sha256": "9894515ee84d785a95b3a90de0b0e6ab34c1df15500a2505cccc0b816a2db4fc",
           "bytes": 879
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.CrossAppInterventionUserActionsTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.CrossAppInterventionUserActionsTest.xml",
           "sha256": "10efa575abaecfd5e85e6020ce7016e91cec3a7d1a34f4ac623f2f91af9f93ac",
           "bytes": 1030
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.DndUserActionsTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.DndUserActionsTest.xml",
           "sha256": "400f89f809de0740a83580f39058c42efd07ad72fd5aae748961f03ef69d2d55",
           "bytes": 1925
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.GlobalReadingHistoryViewModelTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.GlobalReadingHistoryViewModelTest.xml",
           "sha256": "40cf503cb27a202d89880b09b741860b1970a13e68833ff7ad6f02870a32820a",
           "bytes": 1351
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.LearningProtectionProjectionTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.LearningProtectionProjectionTest.xml",
           "sha256": "b93117a2a7e614ca7de5c40cf5f7c5fcb9470afb5f06e45b103ee4747f25780d",
           "bytes": 3413
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.TrendsViewModelTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.TrendsViewModelTest.xml",
           "sha256": "3613f949017389bdd22b78bcb9fa50f36950fb428081abbae69768ff9bcd6615",
           "bytes": 1211
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.WeeklyProfileViewModelTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.profile.WeeklyProfileViewModelTest.xml",
           "sha256": "ed908726a162b8bd21be477b95651be8a2585bbd57ad4adfb43464acbaf23aa1",
           "bytes": 1692
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.session.PreparationFirstActionViewModelTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.session.PreparationFirstActionViewModelTest.xml",
           "sha256": "1a74f84e46951491f12092c3fb754476bea7a36ce66150a836ba73e8a21e1e7c",
           "bytes": 1827
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.session.ReadingRecordViewModelTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.session.ReadingRecordViewModelTest.xml",
           "sha256": "58d24676c2af5d03e81b795de0d2a09afb4f24f25f5ab81d87b0029c9e149142",
           "bytes": 932
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.session.SessionCloseoutViewModelTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.session.SessionCloseoutViewModelTest.xml",
           "sha256": "4b98fe4a5b79a92f4d507b0ad616ecb3ad7ab11daec7fc5d40b2df37f35c2912",
           "bytes": 5791
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.session.SessionFocusViewModelTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.session.SessionFocusViewModelTest.xml",
           "sha256": "bb768113cc7dedd4efdf94a812e8b8a1ae8893aed1e19cfaad5d601bbaf723b0",
           "bytes": 1495
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.start.FirstActionEditorViewModelTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.start.FirstActionEditorViewModelTest.xml",
           "sha256": "632c23218467a68062a9864195b56fb2ecd3dd3d62581e4335beb8255b060001",
           "bytes": 522
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.start.StartRecentReadingTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.start.StartRecentReadingTest.xml",
           "sha256": "cd5a1325e48cef81101957aaa76c8304424b4dcb2f7793d41af00152e5ca2e91",
           "bytes": 647
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.feature.start.StartStateResolverTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.feature.start.StartStateResolverTest.xml",
           "sha256": "dee7a406dacb37b5c5ef6d23e4ed071f92c4d53f4c3617e970f7ee60c06b5828",
           "bytes": 1200
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.navigation.TopLevelDestinationTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.navigation.TopLevelDestinationTest.xml",
           "sha256": "c97fc336525ede617735ab4d939eb312894b050818d0c1dd6a5e5bba9371c261",
           "bytes": 620
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.platform.backup.AndroidBackupPolicyTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.platform.backup.AndroidBackupPolicyTest.xml",
           "sha256": "1d2a9d50d8c11895def9e8af09fe974ea3a04bb55276714550f0429be2794e50",
           "bytes": 840
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.platform.focus.AndroidCapabilityPolicyTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.platform.focus.AndroidCapabilityPolicyTest.xml",
           "sha256": "004746b70e16a8cb3ab00b23dfac2a89a2cbd6e54c961e7f7f0694b84541e513",
           "bytes": 1358
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.platform.focus.MonitoringLifecycleTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.platform.focus.MonitoringLifecycleTest.xml",
           "sha256": "0e87005edadaf21a724a839dd3928055e2a562be17cd1aac15e92330f7fa7977",
           "bytes": 1342
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.platform.focus.MonitoringReadyLeaseTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.platform.focus.MonitoringReadyLeaseTest.xml",
           "sha256": "599537ae95b678c1d53fb4ef5d2e5ea7c2a1eac7f19b6dc73c3fa5b0a61632ba",
           "bytes": 690
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.platform.focus.UsageMonitorTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.platform.focus.UsageMonitorTest.xml",
           "sha256": "738fe7da9d7a866b30eedbf1946f583b05666ba120c40aecc68baab61c43caa5",
           "bytes": 977
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.platform.wearable.OwnedWearTransportTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.platform.wearable.OwnedWearTransportTest.xml",
           "sha256": "d82eec23a4e7082dc0168e41caab9bea8a7c1a348aaf397a0810f06a96ce0738",
           "bytes": 3424
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.ui.media.StorageImageCacheKeyTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.ui.media.StorageImageCacheKeyTest.xml",
           "sha256": "b0b9451584e290d6f3019ac5a3d03877049cfc6a2277986acc8ddceb7ac394c3",
           "bytes": 626
         },
         {
-          "relativePath": ".local/android-worktree/app/build/test-results/testDebugUnitTest/TEST-com.guanyi.mirra.ui.theme.MirraPaletteTest.xml",
+          "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-before-diagnostic/jvm/testDebugUnitTest/TEST-com.guanyi.mirra.ui.theme.MirraPaletteTest.xml",
           "sha256": "b0efc08e18447c2cfe6de3c1e99d11c066c4c6329c0211000d3f42525a19f559",
           "bytes": 703
         }
-      ]
+      ],
+      "historicalVersion": "1.1.1-band-readonly / code4; superseded by phoneAppDiagnostic112, original result retained"
     },
     "connected": {
       "root": "E:\\CODEX\\mirra-watch\\.local\\android-worktree\\app\\build\\outputs\\androidTest-results\\connected\\debug",
@@ -808,8 +809,8 @@
     }
   ],
   "physical": {
-    "observedAtUtc": "2026-10-11T14:45:30.409Z",
-    "status": "WRIST_CHANNEL_022_FAILED_QUERY_023_AWAITING_RETEST",
+    "observedAtUtc": "2026-10-12T02:01:34.059Z",
+    "status": "IDLE_ROUNDTRIP_PASSED_LOCKSCREEN_USER_PASS_OTHER_SCENARIOS_PENDING",
     "evidenceBoundary": "Actual ADB/public-certificate/UI observations; no raw user database read or mutation",
     "publicCertificateSha256": "29ded26bea44f1afe4fe383a302e4b507423d16223469d7da3fe578d9a7f83b9",
     "phoneInstallations": [
@@ -873,16 +874,16 @@
           "deviceSelected": true,
           "serviceAvailable": true,
           "authorizationConfirmed": true,
-          "handshakeConfirmed": false,
-          "lastCompleteSync": null,
-          "observedUi": ".local/module03-evidence/xiaomi-device-20261011/compat-022-after-wrist-fresh-retry.xml",
+          "handshakeConfirmed": true,
+          "lastCompleteSync": "phone09:54:44 snapshot send; wrist synced13seconds ago received",
+          "observedUi": ".local/module03-evidence/xiaomi-device-20261011/status-025-after-phone-query.xml",
           "earlierError": {
             "category": "COUNTERPART_APP_MISSING",
             "current": false,
             "scope": "Historical during setup; node/service/auth subsequently confirmed, exact earlier SDK stage unknown"
           },
-          "previousSuccessfulUi": ".local/module03-evidence/xiaomi-device-20261011/connection-user-report.xml",
-          "observedAtUtc": "2026-10-11T14:33:37.878Z",
+          "previousSuccessfulUi": ".local/module03-evidence/xiaomi-device-20261011/compat-022-after-wrist-fresh-retry.xml",
+          "observedAtUtc": "2026-10-12T01:55:03.108Z",
           "retryObservations": [
             {
               "observedAtUtc": "2026-10-11T14:24:52.083Z",
@@ -910,6 +911,25 @@
               "handshaken": false,
               "lastCompleteSync": null,
               "ui": ".local/module03-evidence/xiaomi-device-20261011/compat-022-after-wrist-fresh-retry.xml"
+            },
+            {
+              "observedAtUtc": "2026-10-12T01:53:46.103Z",
+              "processId": "32135",
+              "phoneError": "NO_DEVICE",
+              "current": false,
+              "ui": ".local/module03-evidence/xiaomi-device-20261011/status-025-current-query.xml"
+            },
+            {
+              "observedAtUtc": "2026-10-12T01:55:03.108Z",
+              "processId": "32135",
+              "action": "User phone reconnect then SDK app check; causal variables not isolated",
+              "deviceSelected": true,
+              "serviceAvailable": true,
+              "authorizationConfirmed": true,
+              "handshaken": true,
+              "appInstalled": true,
+              "lastSnapshotSend": "09:54:44",
+              "ui": ".local/module03-evidence/xiaomi-device-20261011/status-025-after-phone-query.xml"
             }
           ],
           "serviceBinding": {
@@ -920,9 +940,39 @@
             "ownedBindingReceived": true,
             "proves": "SDK service binding only; does not prove wireless message channel or protocol handshake",
             "evidence": ".local/module03-evidence/xiaomi-device-20261011/compat-022-owned-service-binding.json"
-          }
+          },
+          "appInstalled": true
         },
-        "computerInput": "tap denied by INJECT_EVENTS; use user manual navigation, no bypass"
+        "computerInput": "tap denied by INJECT_EVENTS; use user manual navigation, no bypass",
+        "upgrades": [
+          {
+            "observedAtUtc": "2026-10-11T15:45:12.392Z",
+            "targetSerial": "3b02c005",
+            "package": "com.guanyi.mirra",
+            "versionName": "1.1.2-band-readonly",
+            "versionCode": 5,
+            "installedSha256": "6872cda1e755b8810244c6af763abc5126de983b2b5c3511e486e4d002f4cf9f",
+            "installedMatchesVerifiedDelivery": true,
+            "certificateSha256": "29ded26bea44f1afe4fe383a302e4b507423d16223469d7da3fe578d9a7f83b9",
+            "install": "adb install -r Success",
+            "uninstall": false,
+            "clearData": false,
+            "downgrade": false,
+            "rawDatabaseAccess": false,
+            "session": "User confirmed idle before approved overwrite",
+            "rpkTransfer": {
+              "phoneDownloadPath": "/sdcard/Download/com.guanyi.mirra.release.0.2.5.rpk",
+              "sha256": "1f7dad9c611e2b3b39e3803226626d7d7667f1cd3f878429b134cee4fe046566",
+              "hashMatches": true,
+              "manualWristInstall": "Awaiting user"
+            },
+            "processId": "26278",
+            "launch": "Starting: Intent { cmp=com.guanyi.mirra/.MainActivity }\r\n",
+            "threeWayCertificateMatch": true,
+            "databaseContentComparison": "Not Run; no raw database access",
+            "idleEvidence": "Current user confirmed 首页空闲; preinstall actual UI was companion settings, not independently idle home"
+          }
+        ]
       }
     ],
     "delivery": {
@@ -951,16 +1001,39 @@
         "sha256": "cb17cc6cc156623b44fad7c9fd85908f3d5505ef683762def16871b389269d54",
         "phoneDownloadPath": "/sdcard/Download/com.guanyi.mirra.release.0.2.3.rpk",
         "transfer": "Target-only adb push Success; remote sha256sum equals local independent inspection",
-        "installation": "Awaiting user update and native result"
+        "installation": "User retest photograph APK_STATUS_UNKNOWN_STRING"
+      },
+      "latestLegacyCompatibilityRpk": {
+        "version": "0.2.4",
+        "versionCode": 6,
+        "bytes": 32347,
+        "sha256": "50bc9273b02643cb83d4d97f68e2aa650c938674a70708fd7c5763e43302e5ee",
+        "installation": "User update associated repeat UNKNOWN_STRING photo; wrist metadata/hash not independently read"
+      },
+      "latestStatusDiagnosticRpk": {
+        "version": "0.2.5",
+        "versionCode": 7,
+        "bytes": 32549,
+        "sha256": "1f7dad9c611e2b3b39e3803226626d7d7667f1cd3f878429b134cee4fe046566",
+        "phoneDownloadPath": "/sdcard/Download/com.guanyi.mirra.release.0.2.5.rpk",
+        "hashMatches": true,
+        "manualWristInstall": "Visible0.2.5/7 photo confirmed; first TIMEOUT then real IDLE sync; installed hash not independently read"
+      },
+      "latestPhoneAppDiagnosticApk": {
+        "version": "1.1.2-band-readonly",
+        "versionCode": 5,
+        "bytes": 16852477,
+        "sha256": "6872cda1e755b8810244c6af763abc5126de983b2b5c3511e486e4d002f4cf9f",
+        "installed": true,
+        "installedHashMatches": true
       }
     },
     "notRun": [
-      "Query diagnostic live0.2.3 actual native result, HELLO and complete snapshot",
-      "Target 9 Pro official SDK HELLO/full snapshot and three random requestIds",
-      "Precise 256/1024/2048/4096 byte and Chinese/emoji round trips",
-      "Phone lockscreen/background with active Session and wrist reopen",
-      "Six formal wrist state pictures beyond the observed connection error",
-      "30 minute latency/disconnection/battery observation"
+      "Three explicit random requestId challenge roundtrips not separately captured; genuine HELLO/GET_SNAPSHOT/IDLE receipt already passed",
+      "Precise256/1024/2048/4096byte and Chinese/emoji physical roundtrip matrix",
+      "Independent active-session/locked-phone/re-entry evidence capture; user performed exact scenario and reported PASS",
+      "Complete non-IDLE formal wrist UI and transition/stop/disconnection acceptance matrix",
+      "30minute query/latency/disconnection/battery observation"
     ],
     "sourceFiles": [
       ".local/module03-evidence/preinstall/safe-to-install.json",
@@ -983,7 +1056,21 @@
       ".local/module03-evidence/xiaomi-device-20261011/compat-022-phone-fresh-retry.png",
       ".local/module03-evidence/xiaomi-device-20261011/compat-022-after-wrist-fresh-retry.xml",
       ".local/module03-evidence/xiaomi-device-20261011/compat-022-after-wrist-fresh-retry.png",
-      ".local/module03-evidence/xiaomi-device-20261011/compat-022-owned-service-binding.json"
+      ".local/module03-evidence/xiaomi-device-20261011/compat-022-owned-service-binding.json",
+      ".local/module03-evidence/xiaomi-device-20261011/wrist-023-apk-status-unknown-string-user-photo.jpg",
+      ".local/module03-evidence/xiaomi-device-20261011/wrist-024-apk-status-unknown-string-user-photo.jpg",
+      ".local/module03-evidence/xiaomi-device-20261011/wrist-025-apk-raw-timeout-user-photo.jpg",
+      ".local/module03-evidence/xiaomi-device-20261011/wrist-025-idle-synced-user-photo.jpg",
+      ".local/module03-evidence/xiaomi-device-20261011/phone-112-preinstall.json",
+      ".local/module03-evidence/xiaomi-device-20261011/phone-112-postinstall.json",
+      ".local/module03-evidence/xiaomi-device-20261011/phone-112-install.log",
+      ".local/module03-evidence/xiaomi-device-20261011/legacy-024-preinstall-idle.xml",
+      ".local/module03-evidence/xiaomi-device-20261011/phone-112-preinstall.xml",
+      ".local/module03-evidence/xiaomi-device-20261011/phone-112-fresh-query.xml",
+      ".local/module03-evidence/xiaomi-device-20261011/status-025-current-query.xml",
+      ".local/module03-evidence/xiaomi-device-20261011/status-025-after-phone-query.xml",
+      ".local/module03-evidence/xiaomi-device-20261011/status-025-after-phone-query.png",
+      ".local/module03-evidence/xiaomi-device-20261011/user-lockscreen-acceptance.json"
     ],
     "localEvidence": [
       {
@@ -1090,19 +1177,102 @@
         "relativePath": ".local/module03-evidence/xiaomi-device-20261011/compat-022-owned-service-binding.json",
         "bytes": 329,
         "sha256": "7cb098d6345dcde47a12f0dfaee257f12e107c316248e5cc1c905fb8a4ee6b72"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/wrist-023-apk-status-unknown-string-user-photo.jpg",
+        "bytes": 588894,
+        "sha256": "3ae98857064dfbe70f17193300b4ced5cd7fada8fcaa3c34dae205629308ebb4"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/wrist-024-apk-status-unknown-string-user-photo.jpg",
+        "bytes": 589538,
+        "sha256": "25976f9df1bb567013893cc040dec86fbfa129bdcdb944cc821cf074da9ea604"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/wrist-025-apk-raw-timeout-user-photo.jpg",
+        "bytes": 582230,
+        "sha256": "19b6d0e46e67c2dbf956fbacfb0e6ad5764b85a757cc42280e0ff95a9978c120"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/wrist-025-idle-synced-user-photo.jpg",
+        "bytes": 585942,
+        "sha256": "38ae5decfe96350bda5c3e6ba2a2a721561d5c9650d9b0bb821eaa36ea9b87cf"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-preinstall.json",
+        "bytes": 1968,
+        "sha256": "d5782a7568f8ddbb83809716157c8b55638a37362d4cc2fbc268065e129b46dc"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-postinstall.json",
+        "bytes": 946,
+        "sha256": "f2f2ddaeee62ef8cd12c4064fd9f634369b60f2b9318470564a9a522ea00509e"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-install.log",
+        "bytes": 38,
+        "sha256": "c4aa470acafcf8576c15b0f0b5ae7e852d1ec5413372d0e6a9272e788e1306d3"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/legacy-024-preinstall-idle.xml",
+        "bytes": 10331,
+        "sha256": "a4c7bfb423014716d0c63ff891252640e7f856648d69626deaa3b5de58d7d16c"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-preinstall.xml",
+        "bytes": 10331,
+        "sha256": "a4c7bfb423014716d0c63ff891252640e7f856648d69626deaa3b5de58d7d16c"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-fresh-query.xml",
+        "bytes": 10281,
+        "sha256": "6f0f01ad6b038764876f5ffa360753d8aa629fda4e882a8c8f725ac1fdaf9a22"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/status-025-current-query.xml",
+        "bytes": 11024,
+        "sha256": "dab1007fc0d446d8b00ab86fdb8ea3c7be1adda2ed8ff62341432afc9fff8ef6"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/status-025-after-phone-query.xml",
+        "bytes": 11408,
+        "sha256": "a83a568fb39913c6c8e009c96b9b2de5df62e666cb2ac0ff39a35ed9d760d45c"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/status-025-after-phone-query.png",
+        "bytes": 364795,
+        "sha256": "4089fa831782e3e8d114a412cc20849b64e612fd2a886a66cb58cb3dbf2a6659"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/user-lockscreen-acceptance.json",
+        "bytes": 723,
+        "sha256": "e417174948083510faab42525bea3773ca64bb4b80030efb2d86d67ca4a1ff08"
       }
     ],
     "wrist": {
-      "source": "Four user-provided unedited wrist photos plus manual retry feedback",
-      "diagnostic": "CHANNEL_UNAVAILABLE",
-      "earlierDiagnostic": "INIT_READY_CALL_API_MISSING",
-      "rootCause": "Unresolved: current code folded query-fail numeric code or unknown success shape; no evidence yet for a firmware/authorization/vendor policy cause",
+      "source": "Eight user-provided unedited wrist photos; latest real IDLE synced13seconds ago",
+      "diagnostic": null,
+      "earlierDiagnostic": "APK_RAW_TIMEOUT on visibly version0.2.5/7",
+      "rootCause": "Initial getReadyState API mismatch confirmed and compatible path delivered. Current successful reconnect plus SDK diagnostic does not isolate which operation restored channel; first-node-empty recovery gap remains, no evidence of signing/policy cause",
       "liveUiObserved": true,
       "demoFallback": false,
-      "handshakeConfirmed": false,
-      "lastCompleteSync": null,
-      "nextEvidence": "Live0.2.3 same-query interface and fixed numeric fail/status category, then matched HELLO_ACK/full SNAPSHOT",
-      "previousConfirmedIssue": "Native instance exposes no callable getReadyState after callback registration; compatible readiness path under investigation"
+      "handshakeConfirmed": true,
+      "lastCompleteSync": "User wrist screen 已同步13秒前 paired with phone09:54:44 full snapshot send",
+      "nextEvidence": "Independent active-learning lockscreen evidence, complete non-IDLE UI matrix and30minute usage",
+      "previousConfirmedIssue": "Native instance exposes no callable getReadyState after callback registration; compatible readiness path under investigation",
+      "completeIdleSnapshotReceived": true
+    },
+    "userLockscreenAcceptance": {
+      "recordedAtUtc": "2026-10-12T02:04:59.939Z",
+      "source": "Direct current human user reply to exact scenario question",
+      "status": "USER_REPORTED_PASS",
+      "scenario": "Normal monitored learning → phone lockscreen → wrist exit and reopen Mirra → latest learning state",
+      "reply": "包含，锁屏重进正常",
+      "additionalFeedback": "刚刚我测试了，没问题",
+      "independentActiveSessionScreenshot": false,
+      "independentLockedPhoneScreenshot": false,
+      "independentMessageCapture": false,
+      "evidenceBoundary": "User actually performed this scenario. It is not Not Run and is not an independently captured lockscreen/session test. Does not establish other business states or30minute battery/latency."
     }
   },
   "diagnostic021": {
@@ -1298,7 +1468,7 @@
       "independentInspect": "exit0; content/file digests, metadata, CRC32 and three tamper rejections verified"
     },
     "phone": "Source and delivered APK unchanged; no Android build/test or phone installation for this wrist-only diagnostic change",
-    "physical": "Awaiting user update; this observation repair does not assert communication fixed",
+    "physical": "User actual update photograph APK_STATUS_UNKNOWN_STRING; no successful channel in that attempt",
     "logs": [
       {
         "relativePath": ".local/module03-evidence/xiaomi-device-20261011/query-023-red.log",
@@ -1329,6 +1499,783 @@
         "relativePath": ".local/module03-evidence/xiaomi-device-20261011/query-023-inspection.json",
         "bytes": 1052,
         "sha256": "6b6462546fb09f333b4595ab1b984c42f665d64e4ccfd57f5177f5d5aaf15dbf"
+      }
+    ]
+  },
+  "legacyCompatibility024": {
+    "implementationCommit": "2d54d43c8f8514255c198c3d9a42a117c54a21c2",
+    "checks": {
+      "scripts": 31,
+      "pages": 3,
+      "errors": 0
+    },
+    "tests": {
+      "discovered": 151,
+      "passed": 151,
+      "failures": 0,
+      "skipped": 0
+    },
+    "targeted": {
+      "red": {
+        "discovered": 59,
+        "passed": 54,
+        "failures": 5
+      },
+      "green": {
+        "discovered": 59,
+        "passed": 59,
+        "failures": 0
+      }
+    },
+    "build": {
+      "exitCode": 0,
+      "toolkitDurationMs": 70978
+    },
+    "rpk": {
+      "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.2.4.rpk",
+      "bytes": 32347,
+      "sha256": "50bc9273b02643cb83d4d97f68e2aa650c938674a70708fd7c5763e43302e5ee",
+      "package": "com.guanyi.mirra",
+      "version": "0.2.4",
+      "versionCode": 6,
+      "profile": "live",
+      "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+      "certificateSubject": "CN=Android Debug\nO=Android\nC=US",
+      "certificateFingerprint256": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
+      "certificateValidTo": "Sep  2 07:14:40 2056 GMT",
+      "zipCRC32": "verified",
+      "sharedStyles": "present in all compiled pages",
+      "tamperChecks": "payload, primary signature and file digest signature mutations rejected",
+      "files": [
+        "META-INF/CERT",
+        "manifest-watch.json",
+        "manifest.json",
+        "app.js",
+        "pages/Home/index.js",
+        "common/icon.png",
+        "common/icon.svg",
+        "pages/Connection/index.js",
+        "pages/Detail/index.js",
+        "META-INF/build.txt"
+      ]
+    },
+    "physical": "User repeat photo still APK_STATUS_UNKNOWN_STRING; exact CONNECTING was only supported hypothesis from historical official code, never observed on target",
+    "logs": [
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/legacy-024-red.log",
+        "bytes": 10085,
+        "sha256": "78d7e2f3c6a537058c9e7f9cd0e9a3832def3c3c8446a104049195f257aa9551"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/legacy-024-green.log",
+        "bytes": 5542,
+        "sha256": "a0b32bb2602396ce52f569e34f687d4094ee213e817627f0d5a571f6a90d0f43"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/legacy-024-check.log",
+        "bytes": 126,
+        "sha256": "681717e3c22cd987fe26ba3416eb789f30803de6d77374497ee5dc4938cbba86"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/legacy-024-tests.log",
+        "bytes": 13436,
+        "sha256": "4e9deb55ea143e52c3b18b1bf27316125df2bb2e19fb74b6d9afe23a5348e532"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/legacy-024-build.log",
+        "bytes": 2406,
+        "sha256": "116dd60678746744a8c86ef61731dcbf6fcf6ff24cf2564f01b183b273019708"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/legacy-024-inspection.json",
+        "bytes": 1052,
+        "sha256": "ed9a220469e13ea2d9843605f9f03c1051185d120db0e7e258b7a0436d0646d6"
+      }
+    ]
+  },
+  "statusDiagnostic025": {
+    "implementationCommit": "2be4297feb06ad42cea0a5ab1d891594866317bc",
+    "checks": {
+      "scripts": 31,
+      "pages": 3,
+      "errors": 0
+    },
+    "tests": {
+      "discovered": 154,
+      "passed": 154,
+      "failures": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "targeted": {
+      "red": {
+        "discovered": 68,
+        "passed": 63,
+        "failures": 5
+      },
+      "green": {
+        "discovered": 68,
+        "passed": 68,
+        "failures": 0
+      }
+    },
+    "build": {
+      "exitCode": 0,
+      "toolkitDurationMs": 10521
+    },
+    "rpk": {
+      "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.2.5.rpk",
+      "bytes": 32549,
+      "sha256": "1f7dad9c611e2b3b39e3803226626d7d7667f1cd3f878429b134cee4fe046566",
+      "package": "com.guanyi.mirra",
+      "version": "0.2.5",
+      "versionCode": 7,
+      "profile": "live",
+      "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+      "certificateSubject": "CN=Android Debug\nO=Android\nC=US",
+      "certificateFingerprint256": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
+      "certificateValidTo": "Sep  2 07:14:40 2056 GMT",
+      "zipCRC32": "verified",
+      "sharedStyles": "present in all compiled pages",
+      "tamperChecks": "payload, primary signature and file digest signature mutations rejected",
+      "files": [
+        "META-INF/CERT",
+        "manifest-watch.json",
+        "manifest.json",
+        "app.js",
+        "pages/Home/index.js",
+        "common/icon.png",
+        "common/icon.svg",
+        "pages/Connection/index.js",
+        "pages/Detail/index.js",
+        "META-INF/build.txt"
+      ]
+    },
+    "changes": [
+      "Bounded ASCII synchronous getApkStatus token only; unknown, lowercased/quoted/padded successful words remain disconnected",
+      "Always visible help-page package version matches staged build profile; no new dependencies or signing identity"
+    ],
+    "physical": {
+      "versionLabelObserved": "Mirra0.2.5/7",
+      "firstNativeResult": "TIMEOUT",
+      "laterIdleSnapshotReceived": true,
+      "installedWristHashIndependentlyRead": false
+    },
+    "logs": [
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/status-025-red.log",
+        "bytes": 11006,
+        "sha256": "235e79fb64daf3a9f8d328c35d16c4d66b2827f0bb2ef4fbd7df73feab6fc264"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/status-025-green.log",
+        "bytes": 6410,
+        "sha256": "02a767cfc0272678031f9a153becfb6d942e9effcc8237e0d0b9153d32df6167"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/status-025-check.log",
+        "bytes": 126,
+        "sha256": "e676436b3b67ddf72df5e166170a56fc33b77477b969087f0f4c8fe238212223"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/status-025-tests.log",
+        "bytes": 13817,
+        "sha256": "1b0f72f1403e38f7399443180206097934a314d20a1808f6dc3f472686c7a4b8"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/status-025-build.log",
+        "bytes": 2406,
+        "sha256": "f79d371f8c675f27f753748f38490f981fd88234424a99d86b25e564e6366add"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/status-025-inspection.json",
+        "bytes": 1052,
+        "sha256": "d0cea8cf4797e7d62797ae6df8ec5bbdaafef12c91a1724b0dc1f24baa2c00c5"
+      }
+    ]
+  },
+  "phoneAppDiagnostic112": {
+    "implementationCommit": "fcfac1d5e5a40d823598e8894ef649d4d499b215",
+    "apk": {
+      "path": "E:\\CODEX\\mirra-watch\\dist\\Mirra-1.1.2-band-readonly-debug.apk",
+      "bytes": 16852477,
+      "sha256": "6872cda1e755b8810244c6af763abc5126de983b2b5c3511e486e4d002f4cf9f",
+      "package": "com.guanyi.mirra",
+      "versionCode": 5,
+      "versionName": "1.1.2-band-readonly",
+      "certificateSha256": "29ded26bea44f1afe4fe383a302e4b507423d16223469d7da3fe578d9a7f83b9",
+      "minSdk": 23,
+      "signature": "apksigner verify exit0"
+    },
+    "jvm": {
+      "suites": 80,
+      "discovered": 722,
+      "passed": 722,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "lint": {
+      "errors": 0,
+      "warnings": 20,
+      "hints": 1,
+      "newIssuesVersus111": 0
+    },
+    "build": {
+      "exitCode": 0,
+      "command": "testDebugUnitTest lintDebug assembleDebug --max-workers=1",
+      "duration": "10m47s",
+      "androidTestDeviceRun": false
+    },
+    "regression": {
+      "initialAttempt": "Compile failure due test import/call; not behavior RED",
+      "behaviorRed": {
+        "discovered": 42,
+        "failed": 9
+      },
+      "firstGreen": {
+        "discovered": 42,
+        "passed": 42
+      },
+      "finalScope": {
+        "discovered": 43,
+        "passed": 43
+      }
+    },
+    "scope": "Read-only official isWearAppInstalled; independent timeout/generation/UI result, no listener ownership changes, no Room/backup/algorithms/signing changes",
+    "safeInstall": {
+      "conclusion": "SAFE_TO_INSTALL",
+      "observedAtUtc": "2026-10-11T15:44:12.185Z",
+      "device": {
+        "serial": "3b02c005",
+        "model": "23127PN0CC",
+        "api": 36,
+        "adbAuthorized": true
+      },
+      "installed": {
+        "path": "E:\\CODEX\\mirra-watch\\.local\\module03-evidence\\xiaomi-device-20261011\\phone-112-installed-before-code4.apk",
+        "bytes": 17094969,
+        "sha256": "5a61f4bc4272b565de1181f3d16ee7b905f41e6482971560558a6cc2178a4437",
+        "package": "com.guanyi.mirra",
+        "versionCode": 4,
+        "versionName": "1.1.1-band-readonly",
+        "certificateSha256": "29ded26bea44f1afe4fe383a302e4b507423d16223469d7da3fe578d9a7f83b9",
+        "minSdk": 23,
+        "signature": "apksigner verify exit0"
+      },
+      "delivered": {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\Mirra-1.1.2-band-readonly-debug.apk",
+        "bytes": 16852477,
+        "sha256": "6872cda1e755b8810244c6af763abc5126de983b2b5c3511e486e4d002f4cf9f",
+        "package": "com.guanyi.mirra",
+        "versionCode": 5,
+        "versionName": "1.1.2-band-readonly",
+        "certificateSha256": "29ded26bea44f1afe4fe383a302e4b507423d16223469d7da3fe578d9a7f83b9",
+        "minSdk": 23,
+        "signature": "apksigner verify exit0"
+      },
+      "rpk": {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.2.5.rpk",
+        "version": "0.2.5",
+        "versionCode": 7,
+        "bytes": 32549,
+        "sha256": "1f7dad9c611e2b3b39e3803226626d7d7667f1cd3f878429b134cee4fe046566",
+        "certificateSha256": "29ded26bea44f1afe4fe383a302e4b507423d16223469d7da3fe578d9a7f83b9"
+      },
+      "checks": {
+        "threeWayCertificateMatch": true,
+        "versionCodeIncreases": true,
+        "hashesAndSignaturesVerified": true,
+        "minSdkCompatible": true
+      },
+      "session": {
+        "userConfirmedIdle": true,
+        "independentlyObservedIdleHomepage": false,
+        "evidence": "User current reply 首页空闲; actual foreground UI is companion settings, no raw database access"
+      },
+      "backup": {
+        "userWaived": true,
+        "created": false
+      },
+      "phoneMutation": false
+    },
+    "installed": {
+      "observedAtUtc": "2026-10-11T15:45:12.392Z",
+      "targetSerial": "3b02c005",
+      "package": "com.guanyi.mirra",
+      "versionName": "1.1.2-band-readonly",
+      "versionCode": 5,
+      "installedSha256": "6872cda1e755b8810244c6af763abc5126de983b2b5c3511e486e4d002f4cf9f",
+      "installedMatchesVerifiedDelivery": true,
+      "certificateSha256": "29ded26bea44f1afe4fe383a302e4b507423d16223469d7da3fe578d9a7f83b9",
+      "install": "adb install -r Success",
+      "uninstall": false,
+      "clearData": false,
+      "downgrade": false,
+      "rawDatabaseAccess": false,
+      "session": "User confirmed idle before approved overwrite",
+      "rpkTransfer": {
+        "phoneDownloadPath": "/sdcard/Download/com.guanyi.mirra.release.0.2.5.rpk",
+        "sha256": "1f7dad9c611e2b3b39e3803226626d7d7667f1cd3f878429b134cee4fe046566",
+        "hashMatches": true,
+        "manualWristInstall": "Awaiting user"
+      },
+      "processId": "26278",
+      "launch": "Starting: Intent { cmp=com.guanyi.mirra/.MainActivity }\r\n"
+    },
+    "files": [
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/output-metadata.json",
+        "bytes": 414,
+        "sha256": "cdb6a062a0ef167c7d7fd22b6d0be113e9b8d20c6e70553504484dae7c3e096a"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/phone-112-full-build.log",
+        "bytes": 3493,
+        "sha256": "23acfdeb1df717123b92879227d092b2cb03c9746da4e15fb12b223f80d3a1a7"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.data.backup.BackupArchiveTest.xml",
+        "bytes": 2194,
+        "sha256": "e8dbd63ee723795fbea91a36cefdc4c982b6aef1ea9b46d1b75a3bcc36418549"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.data.backup.BackupSearchBudgetTest.xml",
+        "bytes": 945,
+        "sha256": "23098a3c9ac28b84a3d02d46b0f0f350f9055d26a1b6b569fc8154c9ca3bf3c8"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.data.backup.ManagedPreferencesTest.xml",
+        "bytes": 1083,
+        "sha256": "62560fb02db08d828a71517ec2a7e25cb68b89ad4a891735ba9ebdad49c8e38b"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.data.backup.RestoreJournalSafetyTest.xml",
+        "bytes": 679,
+        "sha256": "47d245bf13ba7f2b9e32beea5c12c5e5d9b6bcf254dd04a266411c1426d30f47"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.data.backup.RestoreJournalTest.xml",
+        "bytes": 1661,
+        "sha256": "1746e35f9f038f76b06e30787f695ab61d8896ce2cc59350c8d3ee528ff12209"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.data.export.ExportWorkspaceTest.xml",
+        "bytes": 1955,
+        "sha256": "d6ebe1d72c303e46b29ee610f293255c7ed1d2887323ff73efa945d0f803e42c"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.data.export.ReadableExportWriterTest.xml",
+        "bytes": 4492,
+        "sha256": "e9e2ed1ecf2eb4c65249b58591eddb3fd0c50577af7a3c36603106e17e09f21e"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.data.ImageImportPolicyTest.xml",
+        "bytes": 881,
+        "sha256": "0fe21fd00837b05df589432f0fb8f3716ad25b5212129ac01ef1db09738b4683"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.data.maintenance.GateRepositoryWriterTest.xml",
+        "bytes": 886,
+        "sha256": "bcf5fbd5d3f662905bc7826fb7f634955e202d34fa1de981d7f44cfd333b7fc1"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.data.maintenance.GateSessionManagerTest.xml",
+        "bytes": 704,
+        "sha256": "25982d8a1ec0840d0eb3ce9e89692013e64b10d88217186aaaf456bd3d9973c3"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.data.maintenance.GateWriterAdmissionCoverageTest.xml",
+        "bytes": 536,
+        "sha256": "4a6df0f7833e53132179ef127955f5aa117a4d3d89eae3f84ffb11c047e07d65"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.data.preferences.StrictAppPreferencesSnapshotTest.xml",
+        "bytes": 3494,
+        "sha256": "0bf2944fd9fb99a75779014ac12abe9650b3dac6831b244f02959626c484bc31"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.di.CloseoutStartupRecoveryTest.xml",
+        "bytes": 1380,
+        "sha256": "670955ef05a8f2daf69829c1f9025261149cd975841e3f9dff298f2a819ba804"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.di.StorageBootstrapTest.xml",
+        "bytes": 1686,
+        "sha256": "480f44ff72e6c77ac275b3d076181a879b09c4e0bb866396c576a3798143245f"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.BehaviorTransitionsTest.xml",
+        "bytes": 751,
+        "sha256": "6ed3bc0a11866a3610981bcccbc67dd19272016ab37675ed0e0434ce4fe5a675"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.CompletionPredictionServiceTest.xml",
+        "bytes": 1540,
+        "sha256": "1e490a577e609e3c2c57b04d2fc040ebd71510c502cc30d1cdbb53c8e65272fa"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.DndControllerTest.xml",
+        "bytes": 2027,
+        "sha256": "3431da46fd0573fb7479e2867918f12e2a7e13a447148e222025abba81df1bc0"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.EffectiveAnalyticsCompatibilityTest.xml",
+        "bytes": 971,
+        "sha256": "efb1208638a107b1c51635cbb763b52aaa0b901b58e5352f49d20da483545e28"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.EffectiveReadingServiceTest.xml",
+        "bytes": 2557,
+        "sha256": "41b1da64db04603faa146728fd7285a2f9ca976c6d65baf6323e27c0398e55b8"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.FirstActionResolverTest.xml",
+        "bytes": 1459,
+        "sha256": "fe16f5403bd3a65e86ea751823e892c72ae2be200d88be604f4d2939df44b0fa"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.insights.ReadingPaceInsightServiceTest.xml",
+        "bytes": 7612,
+        "sha256": "4e37c6a616ffd507a5f69592262c773153bc4105ea49c86f9f51ec84f94ff69b"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.IntentExpiryPolicyTest.xml",
+        "bytes": 628,
+        "sha256": "6742f56fd7f865104268562a5ca7e4412cf0b030bd0c2c04b01fa950786c611d"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.intervention.ExternalPromptEligibilityTest.xml",
+        "bytes": 1118,
+        "sha256": "49e416d073aad334453bea24724c29babb8f4c0ff827e7bb1a790e16ba6ba080"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.intervention.InterventionNavigationTest.xml",
+        "bytes": 1719,
+        "sha256": "fca98822a498e925b23826ebd8497396d8b499d77f1367aba271f2b10d73f533"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.intervention.InterventionPresenterTest.xml",
+        "bytes": 3042,
+        "sha256": "256c740843f76e2b820af6def0f88d29939d9ea153b2070ea6833786997f5c80"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.intervention.PresentationEpisodeTest.xml",
+        "bytes": 811,
+        "sha256": "a22d09d6e195d7aedc30fe42b6c0be7a3ff83d36b32c1c863738a2949efbda4a"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.maintenance.MaintenanceCoordinatorTest.xml",
+        "bytes": 4538,
+        "sha256": "caeb4631d2510fc844352a037bcf9afc21154c06e191030db548ad5ff4a7895a"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.maintenance.PendingEditRegistryTest.xml",
+        "bytes": 1197,
+        "sha256": "7848ff7ab93e6923393b16d53d3d2405dab7275c488ffd52a1bea7fa736da60b"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.maintenance.StorageMaintenanceGateTest.xml",
+        "bytes": 1812,
+        "sha256": "ba9f626ec54aa22cef2a85c7cfe3ce4fd240822b524bc5f67ab8117330f686f6"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.monitoring.BehaviorPolicyTest.xml",
+        "bytes": 1303,
+        "sha256": "2e71e2e68ee8aefbaebc87046a9ca19e63c19764fcffa8dcad51a82ac58484a2"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.monitoring.BoundSessionMonitoringControllerTest.xml",
+        "bytes": 2594,
+        "sha256": "9509cf7948bf29d48a601a3c18738540ae32736a7fc776a43d1f8451ef250d86"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.monitoring.CandidateRiskAppMachineTest.xml",
+        "bytes": 1802,
+        "sha256": "1eaeb3160f8809836afe3d09e09748ded08f1bfe83a2080b11d4956deaa722e4"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.monitoring.FocusSessionActionsTest.xml",
+        "bytes": 3668,
+        "sha256": "9b3231428b854d44e7b9f46637baf93ec7f8ca21420cd46a9e23b37ac37fe7c1"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.monitoring.ForegroundObservationReducerTest.xml",
+        "bytes": 2402,
+        "sha256": "ee3f31892ff667a7be65e53737ad5d0d9a108818e9d3394c27324f1a63c722c6"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.NoteTypeSuggesterTest.xml",
+        "bytes": 735,
+        "sha256": "bfd2d16bd83b0d5a84324e115bd46c82ad2c0fc393b580f0d1aa802ffb0c6cd4"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.ReadingAnalyticsServiceTest.xml",
+        "bytes": 1536,
+        "sha256": "7d9a37b781ba05e000a6eeebe2b1f4f76e09d0f27f230454a1e12470c3e2a326"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.ReadingRecordProjectionTest.xml",
+        "bytes": 1634,
+        "sha256": "b76e0048b5dc65d66de64c1a406d2fdd29fe40a625d20aae12a0a004e2c62d2b"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.SearchEngineTest.xml",
+        "bytes": 1136,
+        "sha256": "a18a0f572f9a51cf92e00474a71d14dcca037b9aaefa63681993a8ce604b7d29"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.SegmentTimelinePolicyTest.xml",
+        "bytes": 779,
+        "sha256": "d52c0a5ae0a81bbe2c685f3eb7efa2f842fdb009526be3bb49ee984de0c5f1ac"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.SessionManagerCloseoutTest.xml",
+        "bytes": 2329,
+        "sha256": "d59636e9552efaebb4004377cc186a2f6adc1c4ed0b75937763575bcfc06c07a"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.SessionSegmentStateMachineTest.xml",
+        "bytes": 1487,
+        "sha256": "b993067beabfe3a87ea27988e75d2d77b6e99b8b23a17a3de16080b76c5a9423"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.SessionStartCoordinatorTest.xml",
+        "bytes": 3679,
+        "sha256": "330f4e920a98755e4fa5019676d963363e9bab522b183f36064aaa2e99b2c459"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.SessionTimelineValidatorTest.xml",
+        "bytes": 1505,
+        "sha256": "349d4d99ad272fc19e66a05a7255c63ee0c5dcefbbafdc2fcc0ac2b1802c6afa"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.SummaryEngineTest.xml",
+        "bytes": 636,
+        "sha256": "b96b2da588f22a16d83ee6c7b5312518fd2c157ae861da2e3948d18418a0ed27"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.TopicNameNormalizerTest.xml",
+        "bytes": 760,
+        "sha256": "33ab32dda3e0fe5969312d8b7203dfa0e5c58b7386b3b28200b189038aa7c85f"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.TopicSuggesterTest.xml",
+        "bytes": 606,
+        "sha256": "a7ba9526b022766a4c767c8242ed690e5b952930ad28282ccf654656620f2d1c"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.trends.DailyTrendsServiceTest.xml",
+        "bytes": 2932,
+        "sha256": "4e85d0a130baec0708f818b7db7b0525fa37af4cbf0b6b3438e4c01401e833ed"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.trends.TrendsServiceTest.xml",
+        "bytes": 5571,
+        "sha256": "31a1a35c2ca0454cf1030965de6e37468175cd4af469c016fe763f916a76cae6"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorTest.xml",
+        "bytes": 3396,
+        "sha256": "e8a74b6f15f4fe0df54f15c6a350c2a3d6f558687a2de003f322f32c0769e2a4"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.wearable.WearableGoldenFixturesTest.xml",
+        "bytes": 503,
+        "sha256": "6402433a4704314d5a42ac76a88377483b41422b07e89f3703aeaa406e181f77"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.wearable.WearableProjectionTest.xml",
+        "bytes": 1585,
+        "sha256": "5723bf96dcde8b663f5246e1c1f921c7dc6323559dcd545d5321985149303db1"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.domain.wearable.WearableProtocolTest.xml",
+        "bytes": 1245,
+        "sha256": "41f2ac2af27e136719e3d08c472a5a9e1b831dac917aba6fc31a6fd1d4030405"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.datamanagement.DataExportViewModelTest.xml",
+        "bytes": 2913,
+        "sha256": "39ff44d50b29124d66bcae1a85cb1956ab3c8816317a243ad27877954e1d503b"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.datamanagement.DataManagementViewModelTest.xml",
+        "bytes": 2148,
+        "sha256": "36181e1db1d7206379ace0e89b2fb265772ce67d01fa804120f7b1b657f1d398"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.knowledge.ImageImportMessageTest.xml",
+        "bytes": 501,
+        "sha256": "b1b76fe1a18793d32ca1ea3a73bad4639382db8eeaa4495095185da97d92b7a4"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.knowledge.LearningItemEffectivePaceTest.xml",
+        "bytes": 1738,
+        "sha256": "8e2f2c1c2b09476056eeb8fec9be547729094afb39ff49a3697865eaf48c2cf7"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.knowledge.LearningItemInsightTest.xml",
+        "bytes": 1879,
+        "sha256": "8c9a8ce654efc796cf1698526658134354d8ff5e2c87edfbc50a95287b79f637"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.knowledge.NoteEditorMaintenanceTest.xml",
+        "bytes": 879,
+        "sha256": "2ea84b187bf204c0738fcb29fb508f27bc37a2c3c1404a6ec4886f7369543112"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.profile.CrossAppInterventionUserActionsTest.xml",
+        "bytes": 1030,
+        "sha256": "5c7f2bc8c11bad9399809a6d746200136a3e3ab0ffc5d8fd2f5a50584c7b7b0a"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.profile.DndUserActionsTest.xml",
+        "bytes": 1924,
+        "sha256": "d00ba9916ae97696655e55aa5bfabccea35101b3684f728f26a8d67c5f976640"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.profile.GlobalReadingHistoryViewModelTest.xml",
+        "bytes": 1351,
+        "sha256": "4e9f3fbc9c5d122c23f379cd05b0e9149b8e030f181c983e58ae2788a0ef0803"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.profile.LearningProtectionProjectionTest.xml",
+        "bytes": 3413,
+        "sha256": "7e2030dd86a0944c3333b75389ae74e2aade3b5115efabad651371ac72d44e85"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.profile.TrendsViewModelTest.xml",
+        "bytes": 1212,
+        "sha256": "8a819e1db20052c29b79c1e8f82829c751fbce04368e5fa04c653757d3fb995a"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.profile.WeeklyProfileViewModelTest.xml",
+        "bytes": 1691,
+        "sha256": "bf67448de7ff890bc7058c570d844981e6bd52d32b305b4b13712ade5f53b6b1"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.session.PreparationFirstActionViewModelTest.xml",
+        "bytes": 1827,
+        "sha256": "b7d03bef9701697bd3e836770706ba070302f6b77b92d49759c4981e1c45db88"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.session.ReadingRecordViewModelTest.xml",
+        "bytes": 931,
+        "sha256": "7d185ab1531de83faf43168229d895d8197240326ee83f1dbd2e912e1638cc4b"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.session.SessionCloseoutViewModelTest.xml",
+        "bytes": 5791,
+        "sha256": "e4fdb2c4d77cebbecdca01607946ec991bfeecf18b6a855ef1b8378ed0665829"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.session.SessionFocusViewModelTest.xml",
+        "bytes": 1496,
+        "sha256": "eb9100537655b0baa1e793049f10abed0c572bcb78b271c6993b6c175d3eadda"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.start.FirstActionEditorViewModelTest.xml",
+        "bytes": 522,
+        "sha256": "e181d1cb5d17c84e367519190b95f3cb3d85b259881f482223dfb9e73a4fc24a"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.start.StartRecentReadingTest.xml",
+        "bytes": 649,
+        "sha256": "c7cbef687265a0d3bc703eddbde65543a616c94ee6aa6bfcf89705c7ca154857"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.feature.start.StartStateResolverTest.xml",
+        "bytes": 1204,
+        "sha256": "a09bee44f03d706ba843b4001219aafa63d4336e8cb552c841c7816ec5518ea7"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.navigation.TopLevelDestinationTest.xml",
+        "bytes": 622,
+        "sha256": "9252f2203fc5017abfe5cae71970dffa580d62a79025cc9b3e7ae185fa12bdbb"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.platform.backup.AndroidBackupPolicyTest.xml",
+        "bytes": 841,
+        "sha256": "adc587380f1fe8a60e02dd4b031f488bd2312030682cab466bc7369e3a8ff5e8"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.platform.focus.AndroidCapabilityPolicyTest.xml",
+        "bytes": 1357,
+        "sha256": "987ac4c9f75edaff1038637f7412110695e2079a8df845c1f0fe820e54ddccb8"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.platform.focus.MonitoringLifecycleTest.xml",
+        "bytes": 1344,
+        "sha256": "5ce35ff32f0839f30f246e4b17d95b939d0d93a370365a0de878068b1443194a"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.platform.focus.MonitoringReadyLeaseTest.xml",
+        "bytes": 694,
+        "sha256": "2c3102bb2f86d3855dbed9f96ac97b6291617b858c00af01ec2866841f68b594"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.platform.focus.UsageMonitorTest.xml",
+        "bytes": 978,
+        "sha256": "66b75a4ad446b00bc0629fe3d59fb661e0d952955cdf98892cae4b97813609c0"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.platform.wearable.OwnedWearTransportTest.xml",
+        "bytes": 4238,
+        "sha256": "60f02b802f20e10cfd45c166cae46861f46f5a3b84e2103725e549f84ca49bf5"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.ui.media.StorageImageCacheKeyTest.xml",
+        "bytes": 628,
+        "sha256": "70b0e9083685d7986d3b1d139d1509ab0c3c2f43169be833af19b5c8874ce378"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/jvm/TEST-com.guanyi.mirra.ui.theme.MirraPaletteTest.xml",
+        "bytes": 703,
+        "sha256": "5eab892b989590340482786e3370d0b2905a7418269b6b2af15d6e08a0c1cc2d"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/lint/lint-results-debug.html",
+        "bytes": 152977,
+        "sha256": "163bcf7abb9d52118cfeb6df22db4ee2c128d92bffc61f34eaecdfe0e8ba62ba"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/lint/lint-results-debug.sarif",
+        "bytes": 78427,
+        "sha256": "f439246c0573c559ce8ea7b9cdf374e643bce5c22372d5683352feef02573c22"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/lint/lint-results-debug.txt",
+        "bytes": 12623,
+        "sha256": "b02bcdc587675b75b8fd091856ff21b634459f4df66bba13e786967f045e10dc"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-final-results/lint/lint-results-debug.xml",
+        "bytes": 22585,
+        "sha256": "ec3645cd783f4c96366cf297ad2a6142e202ee70c12f8330fa2c7ed8f21725ec"
+      }
+    ],
+    "logs": [
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-red.log",
+        "bytes": 2814,
+        "sha256": "2b16e33fb045f507a1e3c549b2eab9a73e93f3dc457ed117668f33c25e3b8331"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-red-behavior.log",
+        "bytes": 3725,
+        "sha256": "49037b8c8b24a28904ab6c26bbd3801d9f49f7d8beee0ab3112d2a4682244e14"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-green.log",
+        "bytes": 2047,
+        "sha256": "059e5587879e2168c38cd68f04d681d6f64abb918a1137c863e52620bc190363"
+      },
+      {
+        "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-full-build.log",
+        "bytes": 3493,
+        "sha256": "23acfdeb1df717123b92879227d092b2cb03c9746da4e15fb12b223f80d3a1a7"
       }
     ]
   }

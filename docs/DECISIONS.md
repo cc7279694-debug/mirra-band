@@ -109,3 +109,37 @@ Module 02 技术原型真机基础测试已通过用户反馈，正式 UI 尚未
 ### Reason / Consequences
 
 近期 FULL+AVAILABLE 才展示专注；无有效快照不显示样例书/等待开始。断连、超时和时钟不连续冻结最后手机确认值，清楚标出上次同步；SAVING/ENDED 固定，倒计时归零不自动切换手机状态。Vela 未证明单调时钟，采用前台 Date 连续性检查；页面隐藏/重进重新握手。这是展示策略，不修改手机学习算法或有效专注计算。
+
+## 2026-10-12 — 有界原生状态诊断与实际版本标签
+
+### Decision
+
+正式 0.2.5 连接帮助页始终显示本包 versionName/code。仅对同步 getApkStatus 返回的有限 ASCII 状态 token 展示受限诊断，保留大小写与引号/空格类别；其他类型、控制字符、长文本或任意对象仍只报固定类型。现代回调错误依旧采用数字白名单，不读取任意错误正文或业务消息。未知 token 一律失败，不通过别名、大小写转换或解析包装制造成功。
+
+### Context
+
+0.2.3 / 0.2.4 两次用户实拍均只有 APK_STATUS_UNKNOWN_STRING，既无法区分原生返回值，也不能从画面确认包版本。0.2.4 按[旧官方 native 实现](https://github.com/open-vela/frameworks_runtimes_feature/blob/26e8785bd16896fd748a2db05933d03abe809406/modules/interconnect_impl.cpp#L1146-L1170) 补上精确 CONNECTING 的有界等待；目标固件并未证明返回该 token，修补未解决故障。第七张实拍随后明确显示 0.2.5/7 与 APK_RAW_TIMEOUT，得到真实原生字符串 TIMEOUT，但底层失败原因仍未知。
+
+### Alternatives / Reason
+
+继续只显示 typeof 会让真实失败信息不足；直接输出原生对象、任意错误或 payload 会越过隐私边界；把未知值当连接成功则破坏状态真实性。选择只公开这个同步状态接口的有界 token，并明确原生状态、匹配 HELLO_ACK、完整 SNAPSHOT 是三个不同证据层。
+
+### Consequences
+
+此选择补充了 0.2.3 的固定类型诊断策略，不改变连接成功条件、原有 3 秒期限、业务协议或新鲜度。可见版本标签不是独立安装文件摘要证明，原生 TIMEOUT 不是应用握手计时器结果；该次失败曾保持 WRIST025_NATIVE_TIMEOUT，随后同进程手动重连+安装检查取得真实 IDLE 接收证据。恢复触发机制未隔离，首查恢复缺口尚未修复，不能根据公开历史源码或单次成功推断目标固件/后台行为。
+
+## 2026-10-12 — 手机腕端安装查询与握手状态分开
+
+### Decision
+
+在已授权手机功能分支加入官方 SDK 只读 isWearAppInstalled 手动查询，独立 job/generation/state、3 秒期限，节点/授权/owner 前后核验。SDK 等待不占消息监听所有权；页面退出只取消诊断，晚到结果不能恢复旧状态。并发字段更新原子化，诊断不替换应用级 listener，不修改 handshake 或完整同步时间。
+
+### Context / Alternatives
+
+目标手机手动重新连接后可确认设备/服务/授权，腕端仍没有消息握手。仅重试腕端不能证明小米服务是否识别其 Mirra 包；官方 AAR 提供实际安装查询，返回 Boolean，没有证书或版本字段。选择现有 transport 内窄范围查询，不新增云端、保活、权限或 launchWearApp，也不改学习算法、Room Schema、备份格式、手机签名身份或用户数据。
+
+### Reason / Consequences
+
+将平台识别问题与业务消息问题分开，减少凭模糊错误反复换包。手机 1.1.2/code5 已通过构建/回归并经实际三方证书匹配安全覆盖，2026-10-12 UTC 01:55 实际查询为“小米服务报告已安装”。Boolean 本身不证明签名、腕端版本或消息往返；此次消息通过另有手机实际握手/完整发送和第八张真实 IDLE 接收照片相互证明。首查 NO_DEVICE 的恢复缺口已从代码确认，本次同 PID 32135 从 NO_DEVICE 到手动恢复排除了进程重启解释；重连与检查两个动作未隔离，不能将检查当作已定位的 TIMEOUT 修复或宣布恢复缺口已修复。单次 IDLE 不外推其他场景；用户随后明确完整监测学习锁屏重进正常，该主场景另记 USER_REPORTED_PASS，不冒充独立 Session/锁屏画面/原始消息采集，整个模块仍待其余验收。
+
+当前证据状态为 MODULE_03_DEVICE_ACCEPTANCE_IN_PROGRESS / IDLE_ROUNDTRIP_PASSED_LOCKSCREEN_USER_PASS_OTHER_SCENARIOS_PENDING；其余状态完整画面和 30 分钟观察仍未验收，不改变模块边界。

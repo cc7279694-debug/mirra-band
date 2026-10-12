@@ -1,18 +1,21 @@
 {
-  "status": "MODULE_03_DEVICE_ACCEPTANCE_BLOCKED",
-  "observedAt": "2026-10-11T14:45:30.407Z",
+  "status": "MODULE_03_DEVICE_ACCEPTANCE_IN_PROGRESS",
+  "observedAt": "2026-10-12T02:04:59.939Z",
   "band": {
     "branch": "codex/module-03-readonly-companion",
     "implementationCommit": "88bd77b1582f268b2dda3785fd8b46dc2b2e8fec",
     "baseCommit": "e450dc1dfb4194dfb755371eddeb740d30cb3700",
     "latestDiagnosticImplementationCommit": "267be9aa69b1e34ac3b98a6629bdbcaa30cdfb22",
     "latestCompatibilityImplementationCommit": "cdfc77cf44aa1f1fcb1d4fc79326e4ab86b50bcc",
-    "latestQueryDiagnosticImplementationCommit": "b91de61f89f2d25c97dd11bfe39b401e8cc06cfc"
+    "latestQueryDiagnosticImplementationCommit": "b91de61f89f2d25c97dd11bfe39b401e8cc06cfc",
+    "latestLegacyCompatibilityImplementationCommit": "2d54d43c8f8514255c198c3d9a42a117c54a21c2",
+    "latestStatusDiagnosticImplementationCommit": "2be4297feb06ad42cea0a5ab1d891594866317bc"
   },
   "phone": {
     "branch": "codex/mirra-band-readonly-bridge",
     "implementationCommit": "e00be0a5d59f9dad892b8c26128c8c3d17149f70",
-    "baseCommit": "1338b9a4e41788082f30bf3894a974c2ff652630"
+    "baseCommit": "1338b9a4e41788082f30bf3894a974c2ff652630",
+    "latestAppDiagnosticImplementationCommit": "fcfac1d5e5a40d823598e8894ef649d4d499b215"
   },
   "artifacts": [
     {
@@ -178,6 +181,76 @@
       "implementationCommit": "b91de61f89f2d25c97dd11bfe39b401e8cc06cfc",
       "purpose": "Same-query native interface and fixed error/status categories; no transport-success or retry-policy change",
       "physicalInstallation": "Awaiting user update and actual native result"
+    },
+    {
+      "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.2.4.rpk",
+      "bytes": 32347,
+      "sha256": "50bc9273b02643cb83d4d97f68e2aa650c938674a70708fd7c5763e43302e5ee",
+      "package": "com.guanyi.mirra",
+      "version": "0.2.4",
+      "versionCode": 6,
+      "profile": "live",
+      "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+      "certificateSubject": "CN=Android Debug\nO=Android\nC=US",
+      "certificateFingerprint256": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
+      "certificateValidTo": "Sep  2 07:14:40 2056 GMT",
+      "zipCRC32": "verified",
+      "sharedStyles": "present in all compiled pages",
+      "tamperChecks": "payload, primary signature and file digest signature mutations rejected",
+      "files": [
+        "META-INF/CERT",
+        "manifest-watch.json",
+        "manifest.json",
+        "app.js",
+        "pages/Home/index.js",
+        "common/icon.png",
+        "common/icon.svg",
+        "pages/Connection/index.js",
+        "pages/Detail/index.js",
+        "META-INF/build.txt"
+      ],
+      "implementationCommit": "2d54d43c8f8514255c198c3d9a42a117c54a21c2"
+    },
+    {
+      "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.2.5.rpk",
+      "bytes": 32549,
+      "sha256": "1f7dad9c611e2b3b39e3803226626d7d7667f1cd3f878429b134cee4fe046566",
+      "package": "com.guanyi.mirra",
+      "version": "0.2.5",
+      "versionCode": 7,
+      "profile": "live",
+      "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+      "certificateSubject": "CN=Android Debug\nO=Android\nC=US",
+      "certificateFingerprint256": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
+      "certificateValidTo": "Sep  2 07:14:40 2056 GMT",
+      "zipCRC32": "verified",
+      "sharedStyles": "present in all compiled pages",
+      "tamperChecks": "payload, primary signature and file digest signature mutations rejected",
+      "files": [
+        "META-INF/CERT",
+        "manifest-watch.json",
+        "manifest.json",
+        "app.js",
+        "pages/Home/index.js",
+        "common/icon.png",
+        "common/icon.svg",
+        "pages/Connection/index.js",
+        "pages/Detail/index.js",
+        "META-INF/build.txt"
+      ],
+      "implementationCommit": "2be4297feb06ad42cea0a5ab1d891594866317bc"
+    },
+    {
+      "path": "E:\\CODEX\\mirra-watch\\dist\\Mirra-1.1.2-band-readonly-debug.apk",
+      "bytes": 16852477,
+      "sha256": "6872cda1e755b8810244c6af763abc5126de983b2b5c3511e486e4d002f4cf9f",
+      "package": "com.guanyi.mirra",
+      "version": "1.1.2-band-readonly",
+      "versionCode": 5,
+      "buildType": "debug, preserves existing phone signing identity",
+      "certificateFingerprint256": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
+      "signature": "apksigner verify exit0",
+      "implementationCommit": "fcfac1d5e5a40d823598e8894ef649d4d499b215"
     }
   ],
   "signing": {
@@ -292,22 +365,33 @@
     "currentBlob": "97ae3a8a15aeb924350b4b7ecade389b314f7ebf"
   },
   "notRun": [
-    "Query diagnostic live0.2.3 actual native result, HELLO and complete snapshot",
-    "Target 9 Pro official SDK HELLO/full snapshot and three random requestIds",
-    "Precise 256/1024/2048/4096 byte and Chinese/emoji round trips",
-    "Phone lockscreen/background with active Session and wrist reopen",
-    "Six formal wrist state pictures beyond the observed connection error",
-    "30 minute latency/disconnection/battery observation",
+    "Three explicit random requestId challenge roundtrips not separately captured; genuine HELLO/GET_SNAPSHOT/IDLE receipt already passed",
+    "Precise256/1024/2048/4096byte and Chinese/emoji physical roundtrip matrix",
+    "Independent active-session/locked-phone/re-entry evidence capture; user performed exact scenario and reported PASS",
+    "Complete non-IDLE formal wrist UI and transition/stop/disconnection acceptance matrix",
+    "30minute query/latency/disconnection/battery observation",
     "OEM/API23-36/TalkBack/release/Play"
   ],
   "physicalAcceptance": {
-    "status": "WRIST_CHANNEL_022_FAILED_QUERY_023_AWAITING_RETEST",
+    "status": "IDLE_ROUNDTRIP_PASSED_LOCKSCREEN_USER_PASS_OTHER_SCENARIOS_PENDING",
     "target": "Xiaomi 23127PN0CC / Android16 API36 + user-paired China 9 Pro",
-    "currentInstalledPhoneVersion": "1.1.1-band-readonly / code4",
-    "phoneSdk": "Fresh 14:30 and 14:33 UTC actual UI identifies 9 Pro, service and device authorization available; no handshake/snapshot",
-    "wrist": "Current user wrist photo CHANNEL_UNAVAILABLE and manual retry no response; native cause unknown",
-    "diagnosticDelivery": "0.2.2 physical retest failed; 0.2.3 reports existing query interface and strict numeric fail category, awaiting actual result",
+    "currentInstalledPhoneVersion": "1.1.2-band-readonly / code5",
+    "phoneSdk": "2026-10-12 01:55:03 UTC actual UI: 9 Pro selected, service and authorization available, handshaken, full snapshot sent at phone09:54:44; official SDK reports wrist app installed",
+    "wrist": "Visible Mirra0.2.5/7 earlier returned exact native TIMEOUT; subsequent user unedited photo displays real IDLE waiting-to-start and synced13seconds ago, no demo",
+    "diagnosticDelivery": "0.2.5/version7 real photo and genuine IDLE reception; phone1.1.2/code5 safe overwrite and installed hash verified",
     "verification": "verification.json#physical",
-    "scope": "No HELLO/full snapshot or lockscreen success; no raw user database read"
+    "scope": "Genuine IDLE reception captured; exact monitored-reading lockscreen/re-entry user-reported PASS. Other UI/30min and independent lockscreen evidence pending; no raw database access.",
+    "userLockscreenAcceptance": {
+      "recordedAtUtc": "2026-10-12T02:04:59.939Z",
+      "source": "Direct current human user reply to exact scenario question",
+      "status": "USER_REPORTED_PASS",
+      "scenario": "Normal monitored learning → phone lockscreen → wrist exit and reopen Mirra → latest learning state",
+      "reply": "包含，锁屏重进正常",
+      "additionalFeedback": "刚刚我测试了，没问题",
+      "independentActiveSessionScreenshot": false,
+      "independentLockedPhoneScreenshot": false,
+      "independentMessageCapture": false,
+      "evidenceBoundary": "User actually performed this scenario. It is not Not Run and is not an independently captured lockscreen/session test. Does not establish other business states or30minute battery/latency."
+    }
   }
 }
