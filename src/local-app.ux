@@ -1,0 +1,52 @@
+<script>
+import ownerLib from './lib/local-owner'
+import storageLib from './platform/local-storage'
+import profile from './profile'
+
+export default {
+  localOwner: null,
+  onCreate() {
+    this._retired = false
+    this.getLocalOwner()
+  },
+  getLocalOwner() {
+    if (this._retired) throw new Error('LOCAL_OWNER_RETIRED')
+    if (!this.localOwner) {
+      const ownerId = 'local-process-' + Math.random().toString(36).slice(2, 14)
+      let identityCounter = 0
+      this.localOwner = ownerLib.createLocalOwner({
+        storageQualified: profile.storageQualified === true,
+        backendFactory: () => storageLib.createLocalBackend({
+          kind: profile.storageBackend === 'file' ? 'file' : 'storage',
+          loadModule: name => {
+            if (name === '@system.storage') return require('@system.storage')
+            if (name === '@system.file') return require('@system.file')
+            throw new Error('UNSUPPORTED_LOCAL_MODULE')
+          }
+        }),
+        clock: () => {
+          let wallMs = null
+          try {
+            const observed = Date.now()
+            if (Number.isSafeInteger(observed)) wallMs = observed
+          } catch (error) {
+            // An unavailable clock is a fact, never a fabricated zero timestamp.
+          }
+          return { wallMs, ownerId, monotonicMs: null, monotonicVerified: false }
+        },
+        installationIdFactory: () => {
+          identityCounter += 1
+          return 'local-install-' + Math.random().toString(36).slice(2, 18) + '-' + identityCounter
+        }
+      })
+    }
+    return this.localOwner
+  },
+  onDestroy() {
+    if (this._retired) return
+    this._retired = true
+    if (this.localOwner) this.localOwner.close()
+    this.localOwner = null
+  }
+}
+</script>

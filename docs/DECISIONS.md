@@ -1,5 +1,19 @@
 # 架构与产品决定
 
+## 2026-10-12 — 05B选定file准入与独立Session事实
+
+### Decision
+
+用户授权05B普通实施，并明确反馈file损坏恢复、覆盖升级0.1.1与正常重启保留全部正常。仅将这条路径记作USER_REPORTED_PASS，选择file；不要求storage同时通过，不扩展为原生时钟、容量或掉电已证明。05B使用新独立测试包/schema/命名空间，单owner持久化状态转换与pending队列，手机仍不修改。
+
+### Context / Alternatives
+
+此前05A只有默认storage保存/重进反馈，因此开发起初gate关闭；后来明确的file必要结果允许选定路径准入。可等待两后端全面通过或直接相信Date.now跨重启；选择已有一条路径且保守保留时间可信度，减少无效人工矩阵。
+
+### Reason / Consequences
+
+本地Session采用稳定installationId/counter、自包含书籍与动作快照、先读回再采纳，完成记录不自动删。双槽序列本身不证明历史延续，因此同时校验安装身份、counter、不可变pending和活动Session/旧关闭区间。CRC只检测意外损坏；原生跨进程IO、掉电、全部固件耐久性不由Node证明。运行时墙钟不贡献已验证时长，跨owner保留同Session与原始端点并提示不确定。05B自己的自然使用待新RPK安装许可；05C–05E未实施。本条取代旧“05B未授权”范围，旧05A实验及Module03/04证据保留。
+
 ## 2026-10-12 — 独立学习采用结束后同步，先验证隔离持久化
 
 ### Decision

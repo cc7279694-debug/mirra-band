@@ -1,5 +1,5 @@
 {
-  "status": "DEV_COMPLETE_AWAITING_DEVICE_PROOF",
+  "status": "SELECTED_FILE_USER_REPORTED_PASS",
   "node": {
     "tests": 274,
     "baselinePass": 184,
@@ -53,14 +53,12 @@
     "empty write rejected before native storage.set deletion semantics"
   ],
   "notRun": [
-    "target Band9Pro file API callbacks and durability; detailed native storage callback measurements",
-    "native Vela emulator/pixels and physical touch inspection",
-    "face/screen-off lifetime and independent new JS owner recreation",
-    "same-identity upgrade retention",
-    "device reboot, clock reliability and unsupported monotonic/boot basis",
-    "physical damage/failure recovery, write latency, quotas, record capacity or power-loss persistence",
-    "cross-process pending native IO quiescence",
-    "Standalone05B-05E learning/sync/mobile migration",
+    "detailed native callback/error/latency/quota and actual capacity measurements",
+    "native Vela emulator/pixels and physical layout inspection",
+    "screen-off and independent JS owner recreation inspection",
+    "monotonic/boot basis and anomalous clock behavior",
+    "native failed/interrupted writes, cross-process pending IO quiescence and power-loss durability",
+    "all storage backend upgrade/restart requirements beyond basic user feedback",
     "Android tests/build: phone unchanged"
   ],
   "deviceEvidence": {
@@ -77,6 +75,17 @@
         "rawFeedback": "没问题",
         "recordedAtUtc": "2026-10-12T11:43:12.7293665Z",
         "evidenceBasis": "User reply to immediately preceding explicit manual test steps; no direct device observation"
+      },
+      {
+        "case": "selected file: damage recovery -> same-identity upgrade 0.1.1 -> normal Band restart record retention",
+        "status": "USER_REPORTED_PASS",
+        "expectedVersion": "0.1.0/code1 -> 0.1.1/code2",
+        "actualVersion": null,
+        "actualSequence": null,
+        "screenshot": false,
+        "rawFeedback": "file 全部正常",
+        "recordedAtUtc": "2026-10-12T13:15:34.2397042Z",
+        "evidenceBasis": "Explicit user reply to 05B admission question; no direct device observation or measured capacity/time"
       }
     ],
     "installationBasis": "USER_REPORTED; prior instructions supplied 0.1.0, physical version not independently inspected",
@@ -91,8 +100,10 @@
       "performer": "user, manual single round",
       "rawReply": "同意升级和正常重启，一轮完成",
       "recordedAtUtc": "2026-10-12T11:47:38.2028299Z",
-      "executionResult": "PENDING_USER_FEEDBACK"
-    }
+      "executionResult": "FILE_NECESSARY_PATH_USER_REPORTED_PASS; other measurements remain NOT RUN"
+    },
+    "selectedBackend": "file",
+    "admissionBasis": "USER_REPORTED_PASS for necessary damage/upgrade/normal-restart retention; sufficient for isolated 05B path, not clock/power-loss proof"
   },
   "localProofRoot": "E:\\CODEX\\mirra-watch\\.local\\module05a-evidence",
   "localLogs": [

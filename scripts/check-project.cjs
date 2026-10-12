@@ -26,8 +26,10 @@ function walk(directory) {
       if (scripts.length !== 1) errors.push(file + ': expected exactly one script');
       for (const script of scripts) syntax(script[1], file, true);
       const probePage = file.includes(path.sep + 'StorageProbe' + path.sep);
+      const localPage = file.includes(path.sep + 'LocalSession' + path.sep);
       if (probePage && !source.includes('隔离测试数据')) errors.push(file + ': missing explicit probe badge');
-      if (!probePage && file.includes(path.sep + 'pages' + path.sep) && !source.includes('showDemo') && !source.includes('演示数据')) errors.push(file + ': missing conditional or explicit demo badge');
+      if (localPage && !source.includes('隔离实验')) errors.push(file + ': missing explicit local isolation badge');
+      if (!probePage && !localPage && file.includes(path.sep + 'pages' + path.sep) && !source.includes('showDemo') && !source.includes('演示数据')) errors.push(file + ': missing conditional or explicit demo badge');
     }
   }
 }
@@ -36,11 +38,21 @@ walk(path.join(root, 'src'));
 walk(path.join(root, 'scripts'));
 walk(path.join(root, 'tests'));
 if (manifest.package !== identity('live').package) errors.push('Unexpected live source package');
-for (const mode of ['demo', 'live', 'probe', 'probe-upgrade']) {
+for (const mode of ['demo', 'live', 'probe', 'probe-upgrade', 'local-session']) {
+  const profile = identity(mode);
   const selected = configureManifest(manifest, mode);
-  if (selected.package !== identity(mode).package) errors.push('Unexpected profile identity');
+  if (selected.package !== profile.package) errors.push('Unexpected profile identity');
   if (mode === 'live' && selected.router.pages['pages/States']) errors.push('Demo route in live');
-  if (identity(mode).probe && (selected.features.some(feature => feature.name === 'system.interconnect') || Object.keys(selected.router.pages).length !== 1)) errors.push('Companion capability in probe');
+  if (profile.probe && (selected.features.some(feature => feature.name === 'system.interconnect') || Object.keys(selected.router.pages).length !== 1)) errors.push('Companion capability in probe');
+  if (profile.probe || profile.localSession) {
+    const entry = profile.localSession ? 'pages/LocalSession' : 'pages/StorageProbe';
+    if (selected.router.entry !== entry || Object.keys(selected.router.pages).join(',') !== entry) errors.push('Unexpected experiment route: ' + mode);
+    if (selected.features.map(feature => feature.name).sort().join(',') !== 'system.file,system.router,system.storage') errors.push('Unexpected experiment capability: ' + mode);
+    if (selected.config.background || selected.permissions) errors.push('Unexpected experiment permission: ' + mode);
+  }
+  for (const [page, route] of Object.entries(selected.router.pages)) {
+    if (!fs.existsSync(path.join(root, 'src', page, route.component + '.ux'))) errors.push('Missing profile route: ' + mode + '/' + page);
+  }
 }
 if (manifest.config.designWidth !== 168) errors.push('Unexpected design width');
 if (manifest.config.background) errors.push('Companion must not request background execution');

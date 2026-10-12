@@ -1,5 +1,5 @@
 {
-  "status": "DEV_COMPLETE_AWAITING_DEVICE_PROOF",
+  "status": "SELECTED_FILE_USER_REPORTED_PASS",
   "recordedAtUtc": "2026-10-12T10:52:03.4078696Z",
   "bandBranch": "codex/module-05a-persistence-probe",
   "bandBase": "92a30ad104381840702b1871140142e7874c62b0",
@@ -66,10 +66,11 @@
   ],
   "upgradeIdentity": {
     "code1To2": true,
-    "physicalInstall": "NOT RUN",
-    "physicalRetention": "NOT RUN",
+    "physicalInstall": "USER_REPORTED expected 0.1.1; actual version not independently inspected",
+    "physicalRetention": "USER_REPORTED_PASS for selected file",
     "certificateMatch": true,
-    "packageMatch": true
+    "packageMatch": true,
+    "normalRebootRetention": "USER_REPORTED_PASS for selected file; not clock/power-loss proof"
   },
   "priorModule04Files": "both actual SHA256 unchanged from prior delivery",
   "privateMaterials": "existing ignored experimental signing only; no new conversion or upload",

@@ -113,6 +113,8 @@ function verifyBuffer(buffer) {
 
 async function inspect(filePath, certificatePath, mode = 'demo') {
   const profile = identity(mode)
+  const experiment = profile.probe || profile.localSession
+  const entry = profile.localSession ? 'pages/LocalSession' : profile.probe ? 'pages/StorageProbe' : 'pages/Home'
   const buffer = fs.readFileSync(filePath)
   const verified = verifyBuffer(buffer)
   assert.equal(verified.certificate.fingerprint256, profile.fingerprint, 'Unexpected profile signing identity')
@@ -125,7 +127,9 @@ async function inspect(filePath, certificatePath, mode = 'demo') {
     const content = await zip.file(name).async('nodebuffer')
     assert(expected && crypto.createHash('sha256').update(content).digest().equals(expected), 'Signed file digest differs: ' + name)
   }
-  const required = profile.probe ? ['manifest.json', 'app.js', 'pages/StorageProbe/index.js', 'common/icon.png', 'META-INF/CERT'] : ['manifest.json', 'app.js', 'pages/Home/index.js', 'pages/Detail/index.js', 'pages/Connection/index.js', 'pages/Control/index.js', 'common/icon.png', 'META-INF/CERT']
+  const required = experiment ? ['manifest.json', 'app.js', entry + '/index.js', 'common/icon.png', 'META-INF/CERT'] : ['manifest.json', 'app.js', 'pages/Home/index.js', 'pages/Detail/index.js', 'pages/Connection/index.js', 'pages/Control/index.js', 'common/icon.png', 'META-INF/CERT']
+  if (profile.localSession) assert(!names.some(name => name.startsWith('pages/') && !name.startsWith(entry + '/')), 'Foreign page bundled in local experiment')
+  else assert(!Object.keys(zip.files).some(name => /^pages\/LocalSession\//.test(name) || /(?:^|\/)local-/.test(name)), 'Local experiment resource bundled in companion or probe')
   if (mode === 'demo') required.push('pages/States/index.js')
   else assert(!zip.file('pages/States/index.js'), 'Demo page included in live package')
   for (const name of required) assert(zip.file(name), 'Missing RPK resource: ' + name)
@@ -151,20 +155,24 @@ async function inspect(filePath, certificatePath, mode = 'demo') {
     for (const style of ['page', 'badge', 'button']) {
       assert(new RegExp('\\[\\s*0,\\s*["\x27]' + style + '["\x27]').test(script), 'Compiled shared style missing: ' + name + '/' + style)
     }
-    assert(script.includes(profile.probe ? '隔离测试数据' : '演示数据'), 'Explicit mode badge missing: ' + name)
+    assert(script.includes(profile.localSession ? '隔离实验' : profile.probe ? '隔离测试数据' : '演示数据'), 'Explicit mode badge missing: ' + name)
   }
   const manifest = JSON.parse(await zip.file('manifest.json').async('string'))
   assert.equal(manifest.package, profile.package)
+  assert.equal(manifest.name, profile.name)
   assert.equal(manifest.versionName, profile.versionName)
   assert.equal(manifest.versionCode, profile.versionCode)
-  assert.deepEqual(Object.keys(manifest.router.pages).sort(), (profile.probe ? ['pages/StorageProbe'] : mode === 'live' ? ['pages/Home','pages/Detail','pages/Connection','pages/Control'] : ['pages/Home','pages/Detail','pages/Connection','pages/Control','pages/States']).sort())
+  assert.deepEqual(Object.keys(manifest.router.pages).sort(), (experiment ? [entry] : mode === 'live' ? ['pages/Home','pages/Detail','pages/Connection','pages/Control'] : ['pages/Home','pages/Detail','pages/Connection','pages/Control','pages/States']).sort())
   assert.equal(manifest.config.designWidth, 168)
-  assert.equal(manifest.router.entry, profile.probe ? 'pages/StorageProbe' : 'pages/Home')
-  assert.deepEqual(manifest.features.map(feature => feature.name).sort(), profile.probe ? ['system.file', 'system.router', 'system.storage'] : ['system.interconnect', 'system.router'])
+  assert.equal(manifest.router.entry, entry)
+  assert.deepEqual(manifest.features.map(feature => feature.name).sort(), experiment ? ['system.file', 'system.router', 'system.storage'] : ['system.interconnect', 'system.router'])
   if (profile.probe) {
     assert.equal(manifest.permissions, undefined, 'Unexpected probe permissions')
     assert(!Object.keys(zip.files).some(name => /^pages\/(Home|Detail|Connection|Control|States)\//.test(name)), 'Companion or demo page bundled in probe')
-    for (const name of Object.keys(zip.files).filter(name => name.endsWith('.js'))) assert(!(await zip.file(name).async('string')).includes('system.interconnect'), 'Communication code bundled in probe')
+  }
+  if (experiment) {
+    assert.equal(manifest.permissions, undefined, 'Unexpected experiment permissions')
+    for (const name of Object.keys(zip.files).filter(name => name.endsWith('.js'))) assert(!(await zip.file(name).async('string')).includes('system.interconnect'), 'Communication code bundled in experiment')
   }
   assert(!manifest.config.background, 'Unexpected background permission')
   const forbidden = Object.keys(zip.files).filter(name => /(?:private|authkey|\.pem$|\.key$|\.env)/i.test(name))

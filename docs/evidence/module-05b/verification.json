@@ -1,0 +1,244 @@
+{
+  "status": "DEV_COMPLETE_AWAITING_DEVICE_ACCEPTANCE",
+  "node": {
+    "command": "npm test, final unfiltered",
+    "baseline": 274,
+    "tests": 397,
+    "pass": 397,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "check": {
+    "scripts": 63,
+    "errors": 0,
+    "formalRoutes": 4,
+    "localRoutes": 1
+  },
+  "build": {
+    "command": "npm run build:local",
+    "profile": "local-session",
+    "release": true,
+    "exitCode": 0,
+    "actualToolkitMs": 12419,
+    "node": "24.18.1",
+    "aiotToolkit": "2.0.5",
+    "dependencyOrGlobalEnvironmentChanges": false
+  },
+  "compiledArtifactExecution": {
+    "status": "PASS",
+    "storageQualified": true,
+    "backend": "file",
+    "completedRecords": 1,
+    "endPage": null,
+    "trustedFocusMs": 0,
+    "nativeCalls": 26,
+    "boundary": "actual compiled app.js from final RPK executed in Node; file callbacks controlled, not firmware"
+  },
+  "review": {
+    "kind": "internal read-only core review, not ChatGPT independent acceptance",
+    "probes": 9,
+    "pass": 9,
+    "historyContinuationIssue": "reproduced then fixed and regression passed"
+  },
+  "device": {
+    "installed05B": false,
+    "nativeLearningFlow": "NOT RUN",
+    "admission05A": "selected file necessary path USER_REPORTED_PASS",
+    "physicalPixelScreenshots": 0
+  },
+  "notRun": [
+    "05B physical installation/natural short study and native layout/touch",
+    "05B real Session reentry and finished retention",
+    "real anomalous clock/boot/monotonic source",
+    "native pending IO cross-process, forced interruption and power-loss durability",
+    "actual quota/latency/capacity limits",
+    "Android tests/build: phone unchanged",
+    "05C-05E import/ACK/merge/mobile migration"
+  ],
+  "nativeEmulator": {
+    "currentStatusCheck": "prepared local336x480 profile",
+    "applicationLoadedThisModule": false,
+    "nativeRunThisModule": "NOT RUN; existing Windows engine blocked before application loading",
+    "screenshots": 0
+  },
+  "localProofRoot": "E:\\CODEX\\mirra-watch\\.local\\module05b-evidence",
+  "localLogs": [
+    {
+      "file": "baseline-node.log",
+      "bytes": 25370,
+      "sha256": "13032c780274261110f167da8775e25c41a83a9d76c38e294fd446eb1cc7683f"
+    },
+    {
+      "file": "build-file-qualified-green.log",
+      "bytes": 2724,
+      "sha256": "1c1faee1cbee62cf6cc7549b26fb42d5b30ea3c06671d896ccb98791adb0fd59"
+    },
+    {
+      "file": "build-file-qualified-red.log",
+      "bytes": 5207,
+      "sha256": "f3eda0f3bcb2b17ffdb6a4ec4b3dabf47c92e3ce81dd4d596577e7d8c510cf1b"
+    },
+    {
+      "file": "build-file-unqualified-regression.log",
+      "bytes": 436,
+      "sha256": "b0291a6c738ffaed1600d00c9abd83d12d4408759508c92f4c8b586d2f8e3d37"
+    },
+    {
+      "file": "build-local-final.log",
+      "bytes": 2460,
+      "sha256": "f6c0eef93a5b05f043bb7c97e117070314c732a4faa98a4edf76d942f8d9439a"
+    },
+    {
+      "file": "build-local-first.log",
+      "bytes": 2460,
+      "sha256": "be4870f7eeb8c7215df1863fde8d525e31247e3d598f4d384faa7f21c94b66bb"
+    },
+    {
+      "file": "build-profile-directory-red.log",
+      "bytes": 4648,
+      "sha256": "c3a6e40683d85be4fa0f2b578e6cdfc774223793ddb6934500db33d884c3ec5a"
+    },
+    {
+      "file": "build-profile-green.log",
+      "bytes": 2596,
+      "sha256": "1b1bce71a3c5c2b4b06e978fdc39436e4c120baebb99ba871f601b8a16afdcc6"
+    },
+    {
+      "file": "build-profile-red.log",
+      "bytes": 6499,
+      "sha256": "dd86c5ebdbd9414cc5ff925a370bb48ec8ee83a9b186344db815e82de4ee5824"
+    },
+    {
+      "file": "build-profile-validation-red.log",
+      "bytes": 8568,
+      "sha256": "fa15fe2ba641e5a391f67bf5d43af9a550f882c6c9dcb481d04b425708d16e46"
+    },
+    {
+      "file": "check-final.log",
+      "bytes": 126,
+      "sha256": "8b7f07c9ea44ec9ae8ae3f9979207c40986beb2e58f0fc7eeb600edacd2d5102"
+    },
+    {
+      "file": "check-prebuild.log",
+      "bytes": 126,
+      "sha256": "67a70ed142ead1ee7f61ff0da6304bf823b676a3f72dbcd456287a99d92d7413"
+    },
+    {
+      "file": "codec-extended-green.log",
+      "bytes": 682,
+      "sha256": "d8a11b45197dc575df921c1414b53b3ad1866c1e6d6d6c0c8e7588e964dbae08"
+    },
+    {
+      "file": "compiled-runtime-final.log",
+      "bytes": 434,
+      "sha256": "b3754b7a10378f579891b56d0043a0ad270c7147a82218377ded3153cdda40fd"
+    },
+    {
+      "file": "compiled-runtime-harness-failure.log",
+      "bytes": 26018,
+      "sha256": "271a6c490d79e691b354cc401baec72ea6b3c2c621064363f53770a9557d066c"
+    },
+    {
+      "file": "domain-green.log",
+      "bytes": 2485,
+      "sha256": "1123b6e5b9d6704ae30473820832d75edde55315c70e6d8765bf454f7fe79e3c"
+    },
+    {
+      "file": "domain-red.log",
+      "bytes": 21586,
+      "sha256": "6b7a602870b197d94b7104c123a49165f1d4914c9af1146bca317666ebc055d3"
+    },
+    {
+      "file": "history-continuation-red.log",
+      "bytes": 7040,
+      "sha256": "cc35d41475931050ba85c4f425b9f8b30a73e0576c771969e2a70a0bc795abe1"
+    },
+    {
+      "file": "history-red.log",
+      "bytes": 4130,
+      "sha256": "adc4426e532b0811a664d660bdf7a667d7dc117e120096ed09df7e631c280a06"
+    },
+    {
+      "file": "journal-boundary-green.log",
+      "bytes": 220,
+      "sha256": "90686ab3d839e7adb80f08163193504a742433366cb72e42ad57eb2baa6a3a07"
+    },
+    {
+      "file": "journal-boundary-red.log",
+      "bytes": 936,
+      "sha256": "796696617df538c98cd18f9f6e174909da655829497933666bf4bf5a7e620135"
+    },
+    {
+      "file": "journal-red.log",
+      "bytes": 10904,
+      "sha256": "959d11dbe5eb49dc0d36061281dc2203bd9c21c89d3c2c73bd822cb1f37d94b9"
+    },
+    {
+      "file": "node-final.log",
+      "bytes": 37508,
+      "sha256": "22fd6c7ae1e7d97763f49258faeef48f5fb8eb7a1df9e98bf57536f48e003a67"
+    },
+    {
+      "file": "node-prebuild.log",
+      "bytes": 35787,
+      "sha256": "29d8aacc961fc60a3d1874ccf9e7a1a53fd0542d8faf4cbbf5824b1280659e35"
+    },
+    {
+      "file": "owner-green.log",
+      "bytes": 5308,
+      "sha256": "372f97bf25de71eebb44768a17d6251b72644400e1b286f46805d1e312168782"
+    },
+    {
+      "file": "owner-invalid-clock-red.log",
+      "bytes": 898,
+      "sha256": "4f1a169a142183a2136febb62ccaaec666816f3efe1dbef73da76bcf64359214"
+    },
+    {
+      "file": "owner-recovery-guard-red.log",
+      "bytes": 3117,
+      "sha256": "393a4164946dc02ce198f2e6510e4fa2720a5d74cf841540c83261af2edf2831"
+    },
+    {
+      "file": "owner-red.log",
+      "bytes": 12623,
+      "sha256": "6cddc6103ee55f0189e561041554afe3095da2497240727161433b4575bbc426"
+    },
+    {
+      "file": "page-green.log",
+      "bytes": 2926,
+      "sha256": "f750eec552f1cd780946b61eee32a87bc74267d265cbce249859403169116c0c"
+    },
+    {
+      "file": "page-invalid-clock-red.log",
+      "bytes": 3871,
+      "sha256": "7c0b7c49dfa3972fb4dae0c339a5c21042803a5eec2818a64179f9e323e72a42"
+    },
+    {
+      "file": "page-owner-exception-red.log",
+      "bytes": 3771,
+      "sha256": "5f96c7c576b377aa87d3228f788e9f1ced990f16a78ff39f9ba502effb9dd97a"
+    },
+    {
+      "file": "page-red.log",
+      "bytes": 18416,
+      "sha256": "87c075d095a1370ae2b02c7c2560017a99bb0ffea37f2ebe8f87f419ae959aa4"
+    },
+    {
+      "file": "page-timing-catalog-integration-red.log",
+      "bytes": 4980,
+      "sha256": "ee716c3cf7ea4ecca0b433661297ed5e7f3930d90c20e9dda7572163bfded65d"
+    },
+    {
+      "file": "storage-green.log",
+      "bytes": 2701,
+      "sha256": "95d94ccbfd4b133675270a089b984e1b44180430804bd140689826eb9eeed640"
+    },
+    {
+      "file": "storage-red.log",
+      "bytes": 7119,
+      "sha256": "eac52dbce1ee30fab1d65f8baa32dcc393299dd58a31ed9164dbf4ecb097cad5"
+    }
+  ]
+}

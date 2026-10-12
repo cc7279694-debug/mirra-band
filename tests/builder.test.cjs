@@ -25,8 +25,13 @@ async function runBuilder({ compilerStatus = 0, produceArtifact = true, locked =
     [path.join(root, 'src/manifest.json'), manifest],
     [path.join(root, 'src/app.ux'), 'phone companion entry'],
     [path.join(root, 'src/probe-app.ux'), 'isolated probe entry'],
+    [path.join(root, 'src/local-app.ux'), 'isolated local session entry'],
     [path.join(root, 'src/pages/Home/index.ux'), 'phone page'],
     [path.join(root, 'src/pages/StorageProbe/index.ux'), 'isolated page'],
+    [path.join(root, 'src/pages/LocalSession/index.ux'), 'isolated local session page'],
+    [path.join(root, 'src/lib/local-owner.js'), 'local owner'],
+    [path.join(root, 'src/platform/local-storage.js'), 'local storage'],
+    [path.join(root, 'src/secret/private.pem'), 'must not be staged'],
     [path.join(root, 'src/lib/probe-controller.js'), 'isolated controller'],
     [path.join(root, 'src/platform/interconnect-transport.js'), 'phone transport'],
     [path.join(root, 'package.json'), '{"private":true}'],
@@ -76,8 +81,14 @@ async function runBuilder({ compilerStatus = 0, produceArtifact = true, locked =
       }
     },
     cpSync(from, to, options) {
+      if (options && options.filter && !options.filter(from, to)) return;
       for (const [file, value] of [...files]) {
-        if (file.startsWith(from + path.sep) && (!options || !options.filter || options.filter(file))) files.set(path.join(to, path.relative(from, file)), value);
+        if (!file.startsWith(from + path.sep)) continue;
+        const destination = path.join(to, path.relative(from, file));
+        const ancestors = [];
+        for (let directory = path.dirname(file); directory !== from; directory = path.dirname(directory)) ancestors.push(directory);
+        if (options && options.filter && ![...ancestors, file].every(input => options.filter(input, path.join(to, path.relative(from, input))))) continue;
+        files.set(destination, value);
       }
     },
     copyFileSync(from, to) {
@@ -200,4 +211,74 @@ test('actual wrapper stages the isolated entry and no phone transport in a probe
   assert.equal(result.files.get(path.join(staging, 'src/pages/StorageProbe/index.ux')), 'isolated page');
   assert.equal(result.files.get(path.join(root, 'src/app.ux')), 'phone companion entry');
   assert.equal(result.files.has(lock), false);
+});
+
+test('actual wrapper stages the local entry and explicitly qualified file storage without companion or probe page inputs', async () => {
+  const result = await runBuilder({ mode: 'local-session' });
+  assert.equal(result.exitCode, 0);
+  assert.equal(result.files.get(path.join(staging, 'src/app.ux')), 'isolated local session entry');
+  assert.equal(result.files.has(path.join(staging, 'src/local-app.ux')), false);
+  assert.equal(result.files.get(path.join(staging, 'src/pages/LocalSession/index.ux')), 'isolated local session page');
+  assert.equal(result.files.get(path.join(staging, 'src/lib/local-owner.js')), 'local owner');
+  assert.equal(result.files.get(path.join(staging, 'src/platform/local-storage.js')), 'local storage');
+  for (const file of ['probe-app.ux', 'pages/Home/index.ux', 'pages/StorageProbe/index.ux', 'lib/probe-controller.js',
+    'platform/interconnect-transport.js', 'secret/private.pem']) assert.equal(result.files.has(path.join(staging, 'src', file)), false, file);
+  const runtime = JSON.parse(result.files.get(path.join(staging, 'src/profile.js')).replace(/^module.exports = /, '').trim().replace(/;$/, ''));
+  assert.deepEqual(runtime, { mode: 'local-session', versionName: '0.1.0', versionCode: 1, storageQualified: true, storageBackend: 'file' });
+  const manifest = JSON.parse(result.files.get(path.join(staging, 'src/manifest.json')));
+  assert.equal(manifest.router.entry, 'pages/LocalSession');
+  assert.equal(result.files.get(path.join(root, 'src/app.ux')), 'phone companion entry');
+  assert.equal(result.files.get(path.join(root, 'src/local-app.ux')), 'isolated local session entry');
+  assert.equal(result.files.has(lock), false);
+});
+
+test('companion and probe builders never stage local session inputs or its runtime qualification flag', async () => {
+  for (const mode of ['demo', 'probe', 'probe-upgrade']) {
+    const result = await runBuilder({ mode });
+    assert.equal(result.exitCode, 0);
+    for (const file of ['local-app.ux', 'pages/LocalSession/index.ux', 'lib/local-owner.js', 'platform/local-storage.js'])
+      assert.equal(result.files.has(path.join(staging, 'src', file)), false, mode + ': ' + file);
+    const runtime = JSON.parse(result.files.get(path.join(staging, 'src/profile.js')).replace(/^module.exports = /, '').trim().replace(/;$/, ''));
+    assert.equal(runtime.storageQualified, undefined);
+    assert.equal(runtime.storageBackend, undefined);
+  }
+});
+
+test('generated local runtime profile enables the actual app owner and selects only native file test slots', async () => {
+  const result = await runBuilder({ mode: 'local-session' });
+  assert.equal(result.exitCode, 0);
+  const runtimeModule = { exports: {} };
+  vm.runInNewContext(result.files.get(path.join(staging, 'src/profile.js')), { module: runtimeModule });
+  const appPath = path.join(root, 'src/local-app.ux');
+  const appScript = fs.readFileSync(appPath, 'utf8').match(/<script\b[^>]*>([\s\S]*?)<\/script>/)[1]
+    .replace(/^import .+$/gm, '').replace(/\bexport\s+default\s+/, 'module.exports = ');
+  const values = new Map(), nativeCalls = [];
+  const nativeFile = {
+    readText(request) {
+      nativeCalls.push({ kind: 'read', uri: request.uri });
+      if (values.has(request.uri)) request.success({ text: values.get(request.uri) }); else request.fail('', 301);
+    },
+    writeText(request) {
+      nativeCalls.push({ kind: 'write', uri: request.uri });
+      values.set(request.uri, request.text); request.success();
+    }
+  };
+  const moduleBoundary = { exports: {} };
+  vm.runInNewContext(appScript, { module: moduleBoundary,
+    ownerLib: require('../src/lib/local-owner'), storageLib: require('../src/platform/local-storage'),
+    profile: runtimeModule.exports, Date, Math, Number, String,
+    require(name) { assert.equal(name, '@system.file'); return nativeFile; }
+  }, { filename: appPath });
+  const app = moduleBoundary.exports;
+  try {
+    app.onCreate(); const owner = app.getLocalOwner(); const opened = await owner.open();
+    assert.equal(opened.storageQualified, true);
+    assert.equal(opened.canWrite, true);
+    assert.equal(nativeCalls.filter(call => call.kind === 'write').length, 0);
+    const prepared = await owner.dispatch({ type: 'SELECT_BOOK', bookId: 'test-reading-1' });
+    assert.equal(prepared.document.state, 'PREPARING');
+    assert.equal(nativeCalls.filter(call => call.kind === 'write').length, 1);
+    assert.ok(nativeCalls.every(call => /^internal:\/\/files\/mirra_05b_test_sessions_[ab]\.json$/.test(call.uri)));
+    assert.equal(values.size, 1);
+  } finally { app.onDestroy(); }
 });

@@ -1,4 +1,4 @@
-// This boundary owns only the two 05A test slots. Native IO cannot be cancelled:
+// This boundary owns only the enumerated isolated test slots. Native IO cannot be cancelled:
 // a timed-out or interrupted call therefore requires a new application process.
 const MAX_BYTES = 8192;
 function failure(code) { const error = new Error(code); error.code = code; return error; }
@@ -21,6 +21,8 @@ function createProbeBackend(options) {
   options = options || {};
   const kind = options.kind;
   if (kind !== 'storage' && kind !== 'file') throw failure('INVALID_KIND');
+  const namespace = options.namespace === undefined ? 'probe' : options.namespace;
+  if (namespace !== 'probe' && namespace !== 'local-session-test') throw failure('INVALID_NAMESPACE');
   const timeoutMs = options.timeoutMs === undefined ? 5000 : options.timeoutMs;
   if (typeof timeoutMs !== 'number' || !isFinite(timeoutMs) || Math.floor(timeoutMs) !== timeoutMs
     || timeoutMs < 1 || timeoutMs > 5000) throw failure('INVALID_TIMEOUT');
@@ -108,7 +110,8 @@ function createProbeBackend(options) {
           settle(failure('NATIVE_FAIL_' + safe));
         },
       };
-      const name = slot === 0 ? 'mirra_05a_journal_a' : 'mirra_05a_journal_b';
+      const name = namespace === 'probe' ? slot === 0 ? 'mirra_05a_journal_a' : 'mirra_05a_journal_b'
+        : slot === 0 ? 'mirra_05b_test_sessions_a' : 'mirra_05b_test_sessions_b';
       if (kind === 'storage') {
         argumentsObject.key = name;
         if (writing) argumentsObject.value = text;

@@ -24,13 +24,19 @@ async function build() {
     fs.rmSync(staging, { recursive: true, force: true })
     fs.mkdirSync(staging)
     fs.cpSync(path.join(root, 'src'), path.join(staging, 'src'), { recursive: true, filter: sourceFilter(path.join(root, 'src'), mode) })
-    if (profile.probe) {
-      fs.copyFileSync(path.join(staging, 'src/probe-app.ux'), path.join(staging, 'src/app.ux'))
-      fs.unlinkSync(path.join(staging, 'src/probe-app.ux'))
+    if (profile.probe || profile.localSession) {
+      const entry = profile.localSession ? 'local-app.ux' : 'probe-app.ux'
+      fs.copyFileSync(path.join(staging, 'src', entry), path.join(staging, 'src/app.ux'))
+      fs.unlinkSync(path.join(staging, 'src', entry))
     }
     const manifest = configureManifest(JSON.parse(fs.readFileSync(path.join(root, 'src/manifest.json'), 'utf8')), mode)
     fs.writeFileSync(path.join(staging, 'src/manifest.json'), JSON.stringify(manifest, null, 2))
-    fs.writeFileSync(path.join(staging, 'src/profile.js'), 'module.exports = ' + JSON.stringify({ mode, versionName: profile.versionName, versionCode: profile.versionCode }) + ';\n')
+    const runtimeProfile = { mode, versionName: profile.versionName, versionCode: profile.versionCode }
+    if (profile.localSession) {
+      runtimeProfile.storageQualified = profile.storageQualified === true
+      runtimeProfile.storageBackend = profile.storageBackend
+    }
+    fs.writeFileSync(path.join(staging, 'src/profile.js'), 'module.exports = ' + JSON.stringify(runtimeProfile) + ';\n')
     fs.copyFileSync(path.join(root, 'package.json'), path.join(staging, 'package.json'))
     fs.mkdirSync(path.join(staging, 'sign'))
     for (const name of ['private.pem', 'certificate.pem']) {

@@ -11,6 +11,7 @@
     "build:live:debug": "node scripts/build-rpk.cjs build live",
     "build:probe": "node scripts/build-rpk.cjs release probe",
     "build:probe-upgrade": "node scripts/build-rpk.cjs release probe-upgrade",
+    "build:local": "node scripts/build-rpk.cjs release local-session",
     "test": "node --test tests/*.test.cjs",
     "check": "node scripts/check-project.cjs",
     "inspect:rpk": "node scripts/inspect-rpk.cjs"

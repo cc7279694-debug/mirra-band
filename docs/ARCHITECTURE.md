@@ -1,5 +1,13 @@
 # 当前手环伴侣架构
 
+## 05B 隔离本地Session
+
+`local-app.ux`单一owner → `local-owner`先保存后采纳 → `local-session`不可变转换/自包含测试书籍及动作快照 → `local-journal`双槽/CAS/历史延续校验 → 固定 `local-storage` file后端。页面单页切view、仅订阅与刷新投影，隐藏或退出不结束Session。独立包 `com.guanyi.mirra.band.localsessiontest`，marker `MIRRA_05B_ISOLATED`、schemaVersion1、专用05B测试Files；不加载手机SDK/协议或原伴侣页。
+
+IDLE/PREPARING在明确完成第一动作前不生成Session。FOCUS/BREAK记录原始区间，5/10分钟休息到时不自动继续。FINISH可空页码，pending只追加且不自动删；安装身份+已持久counter产生稳定ID。32interval/8pending/8192bytes均是设计上限，结束预留1024bytes，实际字节限制可更早阻止增长。恢复不能将已确认历史变空、降低counter、替换pending或重写旧活动区间；未知/冲突/读失败/原生IO不确定停止写。
+
+用户确认file必要损坏/升级/重启保留路径，当前隔离profile显式 `storageQualified:true/storageBackend:file`；owner默认仍fail closed。墙钟是未验证观察：保存wall/owner/可选mono原始端点，实际入口monotonic始终未验证；跨owner/回退/异常不造可靠时长、不清零Session。不存在后台timer学习事实或手机有效专注导入。05B自己的自然学习、退出重进与完成保存真机反馈尚待安装验收。
+
 ## 05A 隔离持久化实验
 
 实验构建使用单独入口 `probe-app.ux`，应用持有 `probe-controller` → `probe-journal` → `probe-storage` 的 owner。页面只订阅/执行实验，不释放全局存取。原正式入口、v1/v2、四个伴侣页面和协议代码不改。
