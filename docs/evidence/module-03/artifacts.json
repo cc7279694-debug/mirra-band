@@ -1,6 +1,6 @@
 {
   "status": "MODULE_03_DEVICE_ACCEPTANCE_IN_PROGRESS",
-  "observedAt": "2026-10-12T03:27:40.953Z",
+  "observedAt": "2026-10-12T04:29:13.660Z",
   "band": {
     "branch": "codex/module-03-readonly-companion",
     "implementationCommit": "88bd77b1582f268b2dda3785fd8b46dc2b2e8fec",
@@ -266,13 +266,13 @@
       "certificateFingerprint256": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
       "signature": "apksigner verify exit 0; v1 and v2 verified",
       "localIdentityMatchesAccepted112And025": true,
-      "currentDeviceIdentityRechecked": false,
-      "installed": false,
+      "currentDeviceIdentityRechecked": true,
+      "installed": true,
       "inspectionNote": "Current apksigner uses V2 Signer certificate label; digest parser adjusted, no signature or APK change",
       "buildType": "debug; preserves the accepted existing Android signing identity",
       "implementationCommit": "322fbfd0288a26ba56c7b0b02d0598ab680d5dd7",
       "purpose": "Bounded automatic recovery after transient initial device/service queries; no business or database change",
-      "physicalInstallation": "Not Run; awaiting current user confirmation and target preinstall safety check"
+      "physicalInstallation": "2026-10-12 UTC03:37 SAFE_TO_INSTALL, actual idle homepage; authorized install-r Success and actual1.1.3/code6/hash match verified. No uninstall/clear/downgrade/database access."
     }
   ],
   "signing": {
@@ -387,18 +387,17 @@
     "currentBlob": "97ae3a8a15aeb924350b4b7ecade389b314f7ebf"
   },
   "notRun": [
-    "1.1.3 target preinstall safety check, overwrite installation and automatic recovery without manual reconnect/install-check; awaiting user confirmation",
     "Three explicit random requestId challenge roundtrips not separately captured; genuine HELLO/GET_SNAPSHOT/IDLE receipt already passed",
     "Precise256/1024/2048/4096byte and Chinese/emoji physical roundtrip matrix",
     "Independent active-session/locked-phone/re-entry evidence capture; user performed exact scenario and reported PASS",
     "Complete non-IDLE formal wrist UI and transition/stop/disconnection acceptance matrix",
-    "30minute query/latency/disconnection/battery observation",
+    "30minute passive wall-clock window executed with partial fixed UI/PID/charging battery samples; total query count, precise RTT, all disconnects, wrist battery and discharge rate not measured",
     "OEM/API23-36/TalkBack/release/Play"
   ],
   "physicalAcceptance": {
     "status": "IDLE_ROUNDTRIP_PASSED_LOCKSCREEN_USER_PASS_OTHER_SCENARIOS_PENDING",
     "target": "Xiaomi 23127PN0CC / Android16 API36 + user-paired China 9 Pro",
-    "currentInstalledPhoneVersion": "1.1.2-band-readonly / code5",
+    "currentInstalledPhoneVersion": "1.1.3-band-readonly / code6",
     "phoneSdk": "2026-10-12 01:55:03 UTC actual UI: 9 Pro selected, service and authorization available, handshaken, full snapshot sent at phone09:54:44; official SDK reports wrist app installed",
     "wrist": "Visible Mirra0.2.5/7 earlier returned exact native TIMEOUT; subsequent user unedited photo displays real IDLE waiting-to-start and synced13seconds ago, no demo",
     "diagnosticDelivery": "0.2.5/version7 real photo and genuine IDLE reception; phone1.1.2/code5 safe overwrite and installed hash verified",
@@ -416,16 +415,18 @@
       "independentMessageCapture": false,
       "evidenceBoundary": "User actually performed this scenario. It is not Not Run and is not an independently captured lockscreen/session test. Does not establish other business states or30minute battery/latency."
     },
-    "recoveryDelivery": "1.1.3/code6 local code/build/signature gates passed; current verified installation and accepted IDLE/lockscreen evidence remain 1.1.2+0.2.5. New installation/recovery acceptance awaiting confirmation."
+    "recoveryDelivery": "1.1.3/code6 installed and real initialNO_DEVICE automatic recovery PASS: samePID1642, no phone reconnect/install-query, normal wrist re-entry user 已同步, actual phone new handshake/snapshot11:51:21",
+    "acceptedPriorBaseline": "Real IDLE captured and exact monitored lockscreen/re-entry USER_REPORTED_PASS were1.1.2+0.2.5 and remain passed",
+    "observation": "30minute wall-clock window ended; bounded passive samples and actual limits in verification.phoneRecovery113.deviceAcceptance.observation30Minutes, not a full radio/battery stability PASS"
   },
   "currentDelivery": {
     "phoneVersion": "1.1.3-band-readonly",
     "phoneVersionCode": 6,
     "bandVersion": "0.2.5",
     "bandVersionCode": 7,
-    "phoneInstalled": false,
+    "phoneInstalled": true,
     "bandRebuilt": false,
     "localIdentityMatch": true,
-    "currentDevicePreinstallCheck": "Not Run; awaiting user confirmation"
+    "currentDevicePreinstallCheck": "SAFE_TO_INSTALL; same certificate, code5→6, actual idle homepage"
   }
 }

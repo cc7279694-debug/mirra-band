@@ -1,5 +1,5 @@
 {
-  "observedAt": "2026-10-12T03:27:40.953Z",
+  "observedAt": "2026-10-12T04:29:13.660Z",
   "band": {
     "scripts": 30,
     "sourcePages": 3,
@@ -1029,12 +1029,11 @@
       }
     },
     "notRun": [
-      "1.1.3 target preinstall safety check, overwrite installation and automatic recovery without manual reconnect/install-check; awaiting user confirmation",
       "Three explicit random requestId challenge roundtrips not separately captured; genuine HELLO/GET_SNAPSHOT/IDLE receipt already passed",
       "Precise256/1024/2048/4096byte and Chinese/emoji physical roundtrip matrix",
       "Independent active-session/locked-phone/re-entry evidence capture; user performed exact scenario and reported PASS",
       "Complete non-IDLE formal wrist UI and transition/stop/disconnection acceptance matrix",
-      "30minute query/latency/disconnection/battery observation"
+      "30minute passive wall-clock window executed with partial fixed UI/PID/charging battery samples; total query count, precise RTT, all disconnects, wrist battery and discharge rate not measured"
     ],
     "sourceFiles": [
       ".local/module03-evidence/preinstall/safe-to-install.json",
@@ -1254,7 +1253,7 @@
       "source": "Eight user-provided unedited wrist photos; latest real IDLE synced13seconds ago",
       "diagnostic": null,
       "earlierDiagnostic": "APK_RAW_TIMEOUT on visibly version0.2.5/7",
-      "rootCause": "Initial getReadyState API mismatch confirmed and compatible path delivered. Current successful reconnect plus SDK diagnostic does not isolate which operation restored channel; first-node-empty recovery gap remains, no evidence of signing/policy cause",
+      "rootCause": "Initial getReadyState API mismatch confirmed and compatible path delivered. Historical1.1.2 manual reconnect+SDK installation query did not isolate the native TIMEOUT trigger. The separate initial-empty-node recovery gap is now fixed and physically verified in1.1.3 with samePID1642, without phone manual reconnect/installation query. No signing/policy root cause asserted.",
       "liveUiObserved": true,
       "demoFallback": false,
       "handshakeConfirmed": true,
@@ -1277,7 +1276,7 @@
     }
   },
   "diagnostic021": {
-    "observedAtUtc": "2026-10-11T14:02:02.890Z",
+    "observedAtUtc": "2026-10-11T14:02:02.89Z",
     "implementationCommit": "267be9aa69b1e34ac3b98a6629bdbcaa30cdfb22",
     "purpose": "Localize physical initialization failure, retire failed callbacks; target fix not yet established",
     "checks": {
@@ -1328,7 +1327,7 @@
     ]
   },
   "compatibility022": {
-    "observedAtUtc": "2026-10-11T14:13:03.470Z",
+    "observedAtUtc": "2026-10-11T14:13:03.47Z",
     "implementationCommit": "cdfc77cf44aa1f1fcb1d4fc79326e4ab86b50bcc",
     "trigger": "Actual physical 0.2.1 diagnostic INIT_READY_CALL_API_MISSING",
     "changes": [
@@ -2296,8 +2295,8 @@
       "certificateFingerprint256": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
       "signature": "apksigner verify exit 0; v1 and v2 verified",
       "localIdentityMatchesAccepted112And025": true,
-      "currentDeviceIdentityRechecked": false,
-      "installed": false,
+      "currentDeviceIdentityRechecked": true,
+      "installed": true,
       "inspectionNote": "Current apksigner uses V2 Signer certificate label; digest parser adjusted, no signature or APK change",
       "implementationCommit": "322fbfd0288a26ba56c7b0b02d0598ab680d5dd7"
     },
@@ -2636,14 +2635,125 @@
       }
     },
     "deviceAcceptance": {
-      "status": "AWAITING_USER_CONFIRMATION",
-      "installedVersionLastVerified": "1.1.2-band-readonly/code5",
+      "status": "INITIAL_NO_DEVICE_AUTOMATIC_RECOVERY_PASSED_OTHER_SCENARIOS_WITH_NOTES",
+      "installedVersionLastVerified": "1.1.3-band-readonly/code6",
       "acceptedEvidence": "Existing real IDLE PASS and exact lockscreen/re-entry USER_REPORTED_PASS preserved for1.1.2+0.2.5",
-      "automaticRecovery": "Not Run on physical target",
-      "additionalStates": "Preparation/Focus/Rest/Recovery/Unmonitored/Saving/Disconnect/Ended actual wrist screens pending",
-      "observation30Minutes": "Not Run; report obtainable sync lower-bound, failures, observable latency, battery with charging caveat. No invented total count/RTT.",
-      "systemActions": "Seek explicit confirmation at installation/authorization/device-operation steps",
-      "nextModule": "Module04 not started"
+      "automaticRecovery": {
+        "recordedAtUtc": "2026-10-12T03:54:29.471Z",
+        "status": "PASS",
+        "scenario": "Initial NO_DEVICE after approved idle cold restart with Bluetooth off → paired device available → same process auto reconnects → normal wrist exit/re-entry receives real new snapshot",
+        "phoneVersion": "1.1.3-band-readonly/code6",
+        "bandVersion": "0.2.5/code7",
+        "initialNoDeviceObservedAtUtc": "2026-10-12T03:47:23.875Z",
+        "initialFailurePid": "1642",
+        "restoredFirstObservationUtc": "2026-10-12T03:49:03.091Z",
+        "restoredFirstObservation": "Bluetooth enabled but still NO_DEVICE, handshake absent, no snapshot",
+        "sdkReadyObservedAtUtc": "2026-10-12T03:49:51.341Z",
+        "sdkReadyObservation": "9 Pro/service/authorization recovered; handshake and full snapshot still absent",
+        "phoneCompleteSyncObservedAtUtc": "2026-10-12T03:52:40.892Z",
+        "lastFullSnapshotPhoneTime": "11:51:21",
+        "lastFullSnapshotUtc": "2026-10-12T03:51:21Z",
+        "finalPid": "1642",
+        "sameProcessVerified": true,
+        "phoneHandshakeAndCompleteSendCaptured": true,
+        "wristReception": {
+          "status": "USER_REPORTED_PASS",
+          "reply": "已同步",
+          "normalExitAndReentryRequested": true,
+          "recoveryScenarioPhotoCaptured": false
+        },
+        "actions": {
+          "bluetoothOffAndOn": "user explicitly consented and performed; independently read disabled/enabled",
+          "idleProcessStopAndRestart": "one explicitly consented Mirra-only restart before initial failure",
+          "phoneManualReconnect": "user confirmed not used",
+          "phoneWearAppInstalledCheck": "not used; actual UI still 尚未检查",
+          "newAuthorizationDialog": "not independently captured; automatic SDK calls are requestAuthorization=false by verified code/tests"
+        },
+        "latency": {
+          "sdkReadinessTransitionWindowSeconds": 48.25,
+          "basis": "not-ready observation03:49:03.091 → ready observation03:49:51.341; Bluetooth restoration exact instant and exact SDK callback time unavailable",
+          "fullMessageRttAvailable": false,
+          "totalAttemptCounterAvailable": false
+        },
+        "scope": "One real initial NO_DEVICE recovery, foreground target process; does not claim all transient categories, OEM/process survival or 30minute observation",
+        "rawDatabaseAccess": false
+      },
+      "additionalStates": "Actual phone PREPARATION and reading UI captured; wrist preparation first-action user-confirmed. Rest/Recovery/Unmonitored/Saving/Ended full wrist images not captured. User general trial normal without per-state scope confirmation.",
+      "observation30Minutes": {
+        "status": "PASSIVE_WINDOW_FINISHED_WITH_MEASUREMENT_LIMITATIONS",
+        "normalUseStartUtc": "2026-10-12T03:57:28.0770927Z",
+        "completedAtUtc": "2026-10-12T04:27:28.934Z",
+        "plannedDeadlineUtc": "2026-10-12T04:27:28.0770927Z",
+        "elapsedMinutes": 30.014283333333335,
+        "passiveCollectorStartedAtUtc": "2026-10-12T04:09:51.854Z",
+        "samples": 5,
+        "adbReadFailures": 0,
+        "mirraUiSamples": 1,
+        "distinctCompleteSyncTimeSamples": 0,
+        "completeSyncTimeLabels": [],
+        "fullMessageCountAvailable": false,
+        "preciseRttAvailable": false,
+        "allConnectionFailuresObservable": false,
+        "firstBattery": {
+          "level": 100,
+          "scale": 100,
+          "status": 2,
+          "acPowered": true,
+          "usbPowered": false
+        },
+        "lastBattery": {
+          "level": 100,
+          "scale": 100,
+          "status": 5,
+          "acPowered": true,
+          "usbPowered": false
+        },
+        "chargingCaveat": "Original USB connection remains, device reports AC/USB charging. Percent changes do not prove discharge rate.",
+        "stateCoverage": "Only actually recorded fixed Mirra labels; UI not focused skipped. No wrist screen capture, no simulated states.",
+        "userWorkflow": "User prefers natural use and approximately5minute smoke feedback; no further stepwise device instructions",
+        "rawDatabaseAccess": false,
+        "deviceMutations": false,
+        "normalUseNotContinuousIndependentProof": true,
+        "wristBatteryUnavailable": true,
+        "fullWirelessStabilityVerdict": "Not independently established",
+        "baselinePhoneBattery": {
+          "level": 100,
+          "scale": 100,
+          "acPowered": true,
+          "atUtc": "2026-10-12T03:55:47.653Z"
+        },
+        "evidence": [
+          {
+            "relativePath": ".local/module03-evidence/recovery-113/device/observation-start.json",
+            "bytes": 834,
+            "sha256": "975b992728f0ff60abf0f5a5de0d98d8d63b2818c5397c795b322544e6ab8f33"
+          },
+          {
+            "relativePath": ".local/module03-evidence/recovery-113/device/passive-observations.jsonl",
+            "bytes": 1496,
+            "sha256": "9e9b89a1069b7c825a0bb67d3d62a38f56ea8b0a2202bc4b8c2b947261eef28b"
+          },
+          {
+            "relativePath": ".local/module03-evidence/recovery-113/device/passive-observation-result.json",
+            "bytes": 1267,
+            "sha256": "0485eec1d1be8519b414852bad87be42823bd2070b6cd166c308559c647f2376"
+          }
+        ]
+      },
+      "systemActions": "Installation, single idle restart and one Bluetooth off/on round explicitly authorized and performed; no permissions changed",
+      "nextModule": "Module04 not started",
+      "automaticRecoveryEvidence": {
+        "relativePath": ".local/module03-evidence/recovery-113/device/recovery-result.json",
+        "bytes": 2205,
+        "sha256": "44e28ef8939872e4b3de256d9216ca5cae19bb4377b76deb5a13d974d3c646ba"
+      },
+      "userFeedback": {
+        "reply": "实际上我已经自己体验过一次了，没有什么问题",
+        "reportedTrialMinutes": 5,
+        "workflowPreference": "No stepwise manual acceptance; implement autonomously, user reports problems in normal use",
+        "versionInFeedbackExplicit": false,
+        "completeStateMatrixConfirmed": false
+      }
     },
     "files": [
       {
@@ -3133,6 +3243,259 @@
         "bytes": 2129,
         "sha256": "55a4f2577e2c8d15e89c67e39ef510d39b1a3630f8c45dda930a5aa65c9a1c33"
       }
-    ]
+    ],
+    "safeInstall": {
+      "conclusion": "SAFE_TO_INSTALL",
+      "observedAtUtc": "2026-10-12T03:37:07.464Z",
+      "device": {
+        "alias": "original-paired-Xiaomi",
+        "model": "23127PN0CC",
+        "api": 36,
+        "user": 0,
+        "adbAuthorized": true
+      },
+      "installed": {
+        "path": "E:\\CODEX\\mirra-watch\\.local\\module03-evidence\\recovery-113\\device\\installed-before.apk",
+        "package": "com.guanyi.mirra",
+        "versionName": "1.1.2-band-readonly",
+        "versionCode": 5,
+        "minSdk": 23,
+        "bytes": 16852477,
+        "sha256": "6872cda1e755b8810244c6af763abc5126de983b2b5c3511e486e4d002f4cf9f",
+        "certificateSha256": "29ded26bea44f1afe4fe383a302e4b507423d16223469d7da3fe578d9a7f83b9",
+        "v1Verified": true,
+        "v2Verified": true
+      },
+      "delivered": {
+        "path": "E:/CODEX/mirra-watch/dist/Mirra-1.1.3-band-readonly-debug.apk",
+        "package": "com.guanyi.mirra",
+        "versionName": "1.1.3-band-readonly",
+        "versionCode": 6,
+        "minSdk": 23,
+        "bytes": 16852478,
+        "sha256": "a7f20c1c38b416a6ece12db5f5e07db7852b2848ab7ad58a0fe91610609bac75",
+        "certificateSha256": "29ded26bea44f1afe4fe383a302e4b507423d16223469d7da3fe578d9a7f83b9",
+        "v1Verified": true,
+        "v2Verified": true
+      },
+      "rpk": {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.2.5.rpk",
+        "version": "0.2.5",
+        "versionCode": 7,
+        "bytes": 32549,
+        "sha256": "1f7dad9c611e2b3b39e3803226626d7d7667f1cd3f878429b134cee4fe046566",
+        "certificateSha256": "29ded26bea44f1afe4fe383a302e4b507423d16223469d7da3fe578d9a7f83b9"
+      },
+      "checks": {
+        "threeWayCertificateMatch": true,
+        "signaturesAndHashesVerified": true,
+        "versionCodeIncreases": true,
+        "minSdkCompatible": true,
+        "independentlyObservedIdleHomepage": true
+      },
+      "session": {
+        "userConfirmedIdle": true,
+        "independentlyObservedIdleHomepage": true,
+        "rawDatabaseAccess": false
+      },
+      "backup": {
+        "userPreviouslyWaived": true,
+        "created": false
+      },
+      "authority": "Current explicit approval for target precheck, overwrite and Mirra UI reads; no Bluetooth/system-permission changes",
+      "phoneMutation": false,
+      "evidence": {
+        "relativePath": ".local/module03-evidence/recovery-113/device/preinstall-113.json",
+        "bytes": 2087,
+        "sha256": "a74444a11cc17a506754af794a8af803bb00e05631fa4929193840aa7f5546d5"
+      }
+    },
+    "installed": {
+      "observedAtUtc": "2026-10-12T03:39:54.821Z",
+      "targetAlias": "original-paired-Xiaomi",
+      "model": "23127PN0CC",
+      "api": 36,
+      "installedVersion": "1.1.3-band-readonly",
+      "installedVersionCode": 6,
+      "installedSha256": "a7f20c1c38b416a6ece12db5f5e07db7852b2848ab7ad58a0fe91610609bac75",
+      "bytes": 16852478,
+      "certificateSha256": "29ded26bea44f1afe4fe383a302e4b507423d16223469d7da3fe578d9a7f83b9",
+      "certificateBasis": "Actual installed APK SHA256 equals the independently signature-verified delivered bytes",
+      "installation": "adb install -r reported Success",
+      "pid": "18770",
+      "backup": {
+        "previousUserWaiverRetained": true,
+        "created": false
+      },
+      "rawDatabaseAccess": false,
+      "uninstallOrClearOrDowngradeOrResign": false,
+      "evidence": {
+        "relativePath": ".local/module03-evidence/recovery-113/device/postinstall-113.json",
+        "bytes": 748,
+        "sha256": "ec822134d88a742648b253fba82b460fd389d0ac8bfa8b3376c949625853c4f3"
+      }
+    },
+    "liveEvidence": [
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/preinstall-113.json",
+        "bytes": 2087,
+        "sha256": "a74444a11cc17a506754af794a8af803bb00e05631fa4929193840aa7f5546d5"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/installed-before-signature.log",
+        "bytes": 17912,
+        "sha256": "28fad69daf42326cc7a8adf56af4e5b377c53a1107b5cc7621251c882b9c810d"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/delivered-113-signature.log",
+        "bytes": 17912,
+        "sha256": "28fad69daf42326cc7a8adf56af4e5b377c53a1107b5cc7621251c882b9c810d"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/install-113.log",
+        "bytes": 38,
+        "sha256": "c4aa470acafcf8576c15b0f0b5ae7e852d1ec5413372d0e6a9272e788e1306d3"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/postinstall-113.json",
+        "bytes": 748,
+        "sha256": "ec822134d88a742648b253fba82b460fd389d0ac8bfa8b3376c949625853c4f3"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/preinstall-home-confirmed.xml",
+        "bytes": 16328,
+        "sha256": "1c7fbef194ae962ed793b617ece9b50e48dc8b4d142e3e5843e9e34b044418dc"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/postinstall-home.xml",
+        "bytes": 16328,
+        "sha256": "1c7fbef194ae962ed793b617ece9b50e48dc8b4d142e3e5843e9e34b044418dc"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/postinstall-home.png",
+        "bytes": 543684,
+        "sha256": "fb589241c1419e7dee5a01d931594198eaa68b2bc74a46cbc975cc1619f87175"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/installed-companion-after-photo.xml",
+        "bytes": 10564,
+        "sha256": "de524db81149cb3d29df99bc59b91073676e04400623657a823b12a2e27b04ef"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/installed-companion-after-photo.png",
+        "bytes": 314350,
+        "sha256": "f388b3fef251e5619ded3241b5832b2d2ed4aded31ba99fc406f06104af16e1d"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/wrist-113-detail-synced-user-photo.jpg",
+        "bytes": 550051,
+        "sha256": "2dd4d08cf00b0a86f1ff356ec168ade67fa9e59aa60a8f04b50d43129bb3042a"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/recovery-restart-before.json",
+        "bytes": 275,
+        "sha256": "775a476584c9251508dd34315048f9983a81ff7d0fe99c85e1c3901803350fc8"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/recovery-restart-after.json",
+        "bytes": 296,
+        "sha256": "8869fadd5122ae3f5e3df8851ece7cae582e0b2a992c80a0238aeb0baae8215b"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/recovery-initial-failure.json",
+        "bytes": 659,
+        "sha256": "1c0ea3491fae037073845e5d72c3f358c95a02c6c78f8e1552d73015c482524b"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/recovery-initial-no-device.xml",
+        "bytes": 11024,
+        "sha256": "dab1007fc0d446d8b00ab86fdb8ea3c7be1adda2ed8ff62341432afc9fff8ef6"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/recovery-initial-no-device.png",
+        "bytes": 381316,
+        "sha256": "b738e5bb1ef228d73d3a5c81828b2b1e8285130cd171972388ccc533b6db339c"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/recovery-restored-process.json",
+        "bytes": 230,
+        "sha256": "b34dd67c41390180ce9c2bf310352395d6a6bf3d443e12406748ce47b7772133"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/recovery-restored-first-observation.xml",
+        "bytes": 11024,
+        "sha256": "dab1007fc0d446d8b00ab86fdb8ea3c7be1adda2ed8ff62341432afc9fff8ef6"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/recovery-restored-second-observation.xml",
+        "bytes": 11393,
+        "sha256": "2c890e441d86912f251c8a89687e85511501fe61c7c6d3f632b1c0897884be06"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/recovery-restored-second-observation.png",
+        "bytes": 339309,
+        "sha256": "79ac4069739dbfd993a9712c1b6133156c8ebc7c44007d26ca31fd92f85c89b1"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/recovery-complete-synced-confirmed.xml",
+        "bytes": 11393,
+        "sha256": "ad95c3f1005cdf42c71216f1be1060cff692a072b278f6a55fb92db8b40054f7"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/recovery-complete-synced-confirmed.png",
+        "bytes": 335791,
+        "sha256": "975b48f7147724374de45f6024674ea3dbbcf65bfe60631f1d811bee98e56e00"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/recovery-result.json",
+        "bytes": 2205,
+        "sha256": "44e28ef8939872e4b3de256d9216ca5cae19bb4377b76deb5a13d974d3c646ba"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/observation-preparation-confirmed.xml",
+        "bytes": 9390,
+        "sha256": "70a327b5672d36cc284759faca02ec72467c3e0b75633f6af4f0eee641bc3d74"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/observation-preparation-confirmed.png",
+        "bytes": 184926,
+        "sha256": "8e612fb8291e55bc257257cd1c673557c2bbe33672abe2e767218b18bd4b86f9"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/user-experience-current-state.xml",
+        "bytes": 15941,
+        "sha256": "b4490f90e536e189764c5c91415fafc92c254a62c9f73b6f9718ce0e7262d168"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/device/user-experience-current-state.png",
+        "bytes": 151077,
+        "sha256": "7e5e4205109f9dfd578b79f5fe71eddbab9f5a5d9b2d1acd09485e1de972a58a"
+      }
+    ],
+    "wristVisualNote": {
+      "actualDetailPhoto": {
+        "relativePath": ".local/module03-evidence/recovery-113/device/wrist-113-detail-synced-user-photo.jpg",
+        "bytes": 550051,
+        "sha256": "2dd4d08cf00b0a86f1ff356ec168ade67fa9e59aa60a8f04b50d43129bb3042a"
+      },
+      "observed": "Current book/page/firstAction and sync visible; leading sync row partly clipped",
+      "review": "Detail summary46high vs20+16 content; firstrow title missing and sync top clipped fits scroll offset. Initial/native anchoring defect not proven; no code change or newRPK without reproduction",
+      "idleMonitorUnknown": "Correct conservative null/UNKNOWN; not a Focus/monitor failure assertion",
+      "visualReentryNotRun": true
+    },
+    "deliveryConclusion": {
+      "engineering": "DELIVERED",
+      "coreDevice": "SAFE_INSTALL_AND_REAL_INITIAL_NO_DEVICE_RECOVERY_PASSED",
+      "fullIndependentModuleAcceptance": "NOT_YET_COMPLETED",
+      "manualWorkflow": "User prefers natural use and problem feedback; do not chase unperformed matrix",
+      "notes": [
+        "Prior1.1.2 monitored lockscreen/re-entry USER_REPORTED_PASS preserved; new1.1.3 independent locked-session capture not performed",
+        "Additional wrist-state full images, long text/scroll re-entry, saving/ended/full stop-disconnection matrix not independently captured",
+        "Three explicit random challenge and256/1024/2048/4096byte physical radio matrix not captured",
+        "30minute wall-clock window and bounded passive samples performed; no total messages, RTT, all disconnects or discharge benchmark",
+        "User approximately5minute normal trial feedback not expanded to complete matrix"
+      ],
+      "nextModule": "Module04 not started"
+    }
   }
 }
