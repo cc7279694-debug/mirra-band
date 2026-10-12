@@ -25,7 +25,9 @@ function walk(directory) {
       const scripts = [...source.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)];
       if (scripts.length !== 1) errors.push(file + ': expected exactly one script');
       for (const script of scripts) syntax(script[1], file, true);
-      if (file.includes(path.sep + 'pages' + path.sep) && !source.includes('showDemo') && !source.includes('演示数据')) errors.push(file + ': missing conditional or explicit demo badge');
+      const probePage = file.includes(path.sep + 'StorageProbe' + path.sep);
+      if (probePage && !source.includes('隔离测试数据')) errors.push(file + ': missing explicit probe badge');
+      if (!probePage && file.includes(path.sep + 'pages' + path.sep) && !source.includes('showDemo') && !source.includes('演示数据')) errors.push(file + ': missing conditional or explicit demo badge');
     }
   }
 }
@@ -34,10 +36,11 @@ walk(path.join(root, 'src'));
 walk(path.join(root, 'scripts'));
 walk(path.join(root, 'tests'));
 if (manifest.package !== identity('live').package) errors.push('Unexpected live source package');
-for (const mode of ['demo', 'live']) {
+for (const mode of ['demo', 'live', 'probe', 'probe-upgrade']) {
   const selected = configureManifest(manifest, mode);
   if (selected.package !== identity(mode).package) errors.push('Unexpected profile identity');
   if (mode === 'live' && selected.router.pages['pages/States']) errors.push('Demo route in live');
+  if (identity(mode).probe && (selected.features.some(feature => feature.name === 'system.interconnect') || Object.keys(selected.router.pages).length !== 1)) errors.push('Companion capability in probe');
 }
 if (manifest.config.designWidth !== 168) errors.push('Unexpected design width');
 if (manifest.config.background) errors.push('Companion must not request background execution');

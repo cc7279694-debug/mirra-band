@@ -1,5 +1,15 @@
 # 当前手环伴侣架构
 
+## 05A 隔离持久化实验
+
+实验构建使用单独入口 `probe-app.ux`，应用持有 `probe-controller` → `probe-journal` → `probe-storage` 的 owner。页面只订阅/执行实验，不释放全局存取。原正式入口、v1/v2、四个伴侣页面和协议代码不改。
+
+`system.storage` 两个固定 key、`system.file` 两个 `internal://files` 固定 URI 分别存放合成快照。序号决定最新有效记录；保存写另一槽后精确读回并校验，保留前一槽。未知格式、双槽损坏、读错误、序号冲突阻断；5 秒存取结果未知锁存，晚回调和切后端不能解锁。没有删除、clear、move 或文件原子性假设。
+
+实例标识只区分当前 JS owner；墙钟锚点及回调差只用于实验观察，回退或大幅 IO 时间差不报告可靠时长。没有后台 JS 计时或真实独立 Session。初始/升级实验 profile 同独立包、同实验证书，staging allowlist 与 RPK 检查排除所有伴侣/演示页面及 Interconnect。正常 live/demo staging 则排除实验代码。
+
+Node 及真实临时文件证明应用边界，不能证明目标 Vela 固件持久性或像素。当前 05A 状态和设备证据门槛见 CURRENT_STATE，产品后续方案见 Standalone V1 合同。
+
 ## Module 04 扩展
 
 v1 文件与只读报文保持原样；v2 在快照信封中加入控制事实，只允许 START_BREAK、FINISH_BREAK、CONFIRM_PREPARATION_AND_START。手机默认关闭的控制许可存放独立 no-backup AtomicFile，不进入 Room 或可携带备份偏好。

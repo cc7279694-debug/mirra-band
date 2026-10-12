@@ -1,0 +1,194 @@
+{
+  "status": "DEV_COMPLETE_AWAITING_DEVICE_PROOF",
+  "node": {
+    "tests": 274,
+    "baselinePass": 184,
+    "failure": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "pass": 274,
+    "todo": 0,
+    "command": "npm test, unfiltered single final run"
+  },
+  "check": {
+    "sourceCompanionRoutes": 4,
+    "scripts": 47,
+    "probeRoutes": 1,
+    "errors": 0
+  },
+  "builds": [
+    {
+      "version": "0.1.0",
+      "exitCode": 0,
+      "actualToolkitMs": 11625,
+      "mode": "probe",
+      "code": 1
+    },
+    {
+      "version": "0.1.1",
+      "exitCode": 0,
+      "actualToolkitMs": 1153,
+      "mode": "probe-upgrade",
+      "code": 2
+    }
+  ],
+  "tools": {
+    "globalChanges": false,
+    "dependencyChanges": false,
+    "node": "24.18.1",
+    "aiotToolkit": "2.0.5"
+  },
+  "automatedEvidence": [
+    "strict canonical record and independent UTF8 CRC32 oracle",
+    "dual-slot commit and exact readback",
+    "interrupted writes, corrupt rollback and ambiguous/unknown rejection",
+    "bounded records and 8192 UTF8 validation",
+    "native callback shape and safe errors",
+    "timeout/close retirement and late callback rejection",
+    "actual UX script lifecycle/admission/exit",
+    "real adapter+journal+controller+page delayed IO integration",
+    "real isolated computer temporary file recreation/recovery",
+    "clock rollback and invalid forward latency observation",
+    "staging and artifact isolation; existing companion regressions",
+    "empty write rejected before native storage.set deletion semantics"
+  ],
+  "notRun": [
+    "target Band9Pro storage/file API callback and durable data",
+    "native Vela emulator/pixels and physical touch",
+    "face/screen-off/reentry and real JS exit",
+    "same-identity upgrade retention",
+    "device reboot, clock reliability and unsupported monotonic/boot basis",
+    "physical write latency, quotas, record capacity or power-loss persistence",
+    "cross-process pending native IO quiescence",
+    "Standalone05B-05E learning/sync/mobile migration",
+    "Android tests/build: phone unchanged"
+  ],
+  "deviceEvidence": {
+    "installed": false,
+    "recordedCases": []
+  },
+  "localProofRoot": "E:\\CODEX\\mirra-watch\\.local\\module05a-evidence",
+  "localLogs": [
+    {
+      "file": "node-final.log",
+      "bytes": 25372,
+      "sha256": "7078617b35f5b7e3b9ed75398cc04f5afd48636d4aeb8f5e04cf0997f84f405e"
+    },
+    {
+      "file": "check-final.log",
+      "bytes": 126,
+      "sha256": "499ed3bae35a91ed6a79bd8c062ee8bbb3856548b99ade6ffcf8886e2dd1512a"
+    },
+    {
+      "file": "build-probe-final.log",
+      "bytes": 2444,
+      "sha256": "039ad248f74394d962ce5cdf57a5dbb52cf5d29c889e990612e9dfcc09d53a97"
+    },
+    {
+      "file": "build-probe-upgrade-final.log",
+      "bytes": 2459,
+      "sha256": "9d82d6ba88e61628c2858db5e01b15f2cb0641627a09be33732ccff03c161162"
+    },
+    {
+      "file": "baseline-node.log",
+      "bytes": 16841,
+      "sha256": "d73ed5f760b29be3bab040cbc04c9a7cca291fe5291f168e1b14aeef94e7cb16"
+    },
+    {
+      "file": "journal-red.log",
+      "bytes": 26850,
+      "sha256": "91b41b7dbd92c753cadcb51159abe313ab1c8d0696479edccbcca75c5fc744e8"
+    },
+    {
+      "file": "journal-sparse-red.log",
+      "bytes": 942,
+      "sha256": "5340a6ba561f9010b663bd9e5baf478f336682f2963a83a934868b81e4985b74"
+    },
+    {
+      "file": "journal-green.log",
+      "bytes": 3128,
+      "sha256": "fe595a481626c74d33f66ec8ca82087b2873420ab3a8a7e7e9f126bcebe74621"
+    },
+    {
+      "file": "platform-red.log",
+      "bytes": 14634,
+      "sha256": "af6cb3e6ad0414f991f83564db6fe0ed5dd48c381e3e870fea7f3d8069bfd17d"
+    },
+    {
+      "file": "platform-callback-security-red.log",
+      "bytes": 1188,
+      "sha256": "c9e4422b1da0df96cac0b1a8a290d5ee529a6ca8f00ff01a610cb782642e5c96"
+    },
+    {
+      "file": "platform-empty-write-red.log",
+      "bytes": 820,
+      "sha256": "4fc459b52f38e60eef9f549aee078062b08b8fcff5705e7ed8f7fb849e7ff9fd"
+    },
+    {
+      "file": "platform-green.log",
+      "bytes": 2042,
+      "sha256": "ead7951b98afbfee2018b37b502e37f29e528aaa0bb71d5737390bad3029ee7f"
+    },
+    {
+      "file": "page-red.log",
+      "bytes": 10086,
+      "sha256": "dbd9bec8586c1a2560926b9991207b7dab22894053acd2bd87ee8d4ad23969c6"
+    },
+    {
+      "file": "page-backend-red.log",
+      "bytes": 3176,
+      "sha256": "b120793a69161a5d3575299fe1362a5f329c696e33b44a47f086b6b4f11db6fc"
+    },
+    {
+      "file": "page-closed-red.log",
+      "bytes": 2192,
+      "sha256": "1d26aeffac2846bdb2274cd52ec55dae070a3aa408cc0ad9d4f709286a3342da"
+    },
+    {
+      "file": "page-exit-red.log",
+      "bytes": 4696,
+      "sha256": "aea6424bc0721e90533ccf01b9ed0d2641f1957e134cdced953a4ec603ed1a73"
+    },
+    {
+      "file": "page-green.log",
+      "bytes": 1950,
+      "sha256": "db8754dd6b9857d56b232e7c4a264f67882d279212e17f89807e1515bf7fc49d"
+    },
+    {
+      "file": "controller-red.log",
+      "bytes": 6258,
+      "sha256": "49d027915ca253fb3b260d8832f956eba09178e028c5a55340fbae091789f5cf"
+    },
+    {
+      "file": "instance-marker-red.log",
+      "bytes": 1689,
+      "sha256": "61b5e47e043633f54c7b18e3ca36ed8601eda86ff0aca2ddb822c5713e7f2677"
+    },
+    {
+      "file": "clock-and-diagnostic-red.log",
+      "bytes": 2555,
+      "sha256": "893e9748fe674fd156e5943726a1e82e6a4ccceff62dfc0b3620167d15bde300"
+    },
+    {
+      "file": "profiles-red.log",
+      "bytes": 1877,
+      "sha256": "bca7876452657de1823d8140d3bfdc89a7a60336d8935049c36016e4e8e5e5a2"
+    },
+    {
+      "file": "profiles-green.log",
+      "bytes": 529,
+      "sha256": "1cda4e0d8da3429cafb66d4d4105f29bb4ce56d25f005f21c742b03696e314e9"
+    },
+    {
+      "file": "source-isolation-mutant-red.log",
+      "bytes": 1960,
+      "sha256": "acb05fe4200911c6a13e7dbc3b3c498d1489d9c25652d1406274bd645c16d640"
+    },
+    {
+      "file": "builder-harness-boundary-failure.log",
+      "bytes": 28818,
+      "sha256": "93279a9a0dc104490ae86f88e778f3ef5859672a85d7c638f4223af94d7cbc53"
+    }
+  ],
+  "metadata": "artifacts.json contains independently inspected actual binaries"
+}

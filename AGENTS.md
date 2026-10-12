@@ -2,6 +2,9 @@
 
 ## 产品与边界
 
+- 2026-10-12 用户已授权 05A 非破坏性持久化实验的自主开发、测试与构建。当前合同见 docs/plans/MIRRA_BAND_STANDALONE_V1.md；独立实验包与专用测试槽隔离正式数据，不加载 Interconnect，不开发真实 Session，不修改手机代码/Room/备份。真机安装、升级与设备重启须在对应步骤取得当前同意。
+- 新产品方向是腕端独立完成并保存、结束后手机导入整合；当前仅验证其存储前提。05B–05E 未授权实施，不将实验或文档当成独立学习已可用。Module 04 交付与待自然使用状态保留。
+
 - 本仓库是观已 Mirra 的独立小米手环伴侣项目，目标设备为国行小米手环 9 Pro。
 - 当前产品范围与验收条件见 [产品规格](docs/PRODUCT_SPEC.md)；当前模块见 [当前状态](docs/CURRENT_STATE.md)。
 - 手机端已有 Kotlin / Compose / Room 架构。Module 04 已授权在独立手机功能分支增加受控休息、结束休息和已有 Intent 的第一步确认；合同见 docs/plans/MIRRA_BAND_MODULE_04_WRIST_CONTROLS.md。不得修改学习转换规则、Room Schema、备份格式、签名身份或绕过手机业务写用户数据。

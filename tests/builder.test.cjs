@@ -15,10 +15,20 @@ const stagedArtifact = path.join(staging, 'dist', artifactName);
 
 // Only external file/build/signature boundaries are substituted. The actual
 // wrapper decides what to delete, launch, validate, deliver, and unlock.
-async function runBuilder({ compilerStatus = 0, produceArtifact = true, locked = false } = {}) {
+async function runBuilder({ compilerStatus = 0, produceArtifact = true, locked = false, mode = 'demo' } = {}) {
+  const profile = require('../scripts/build-profiles.cjs').identity(mode);
+  const artifactName = profile.package + '.release.' + profile.versionName + '.rpk';
+  const deliveryPath = path.join(root, 'dist', artifactName);
+  const stagedArtifact = path.join(staging, 'dist', artifactName);
   const manifest = fs.readFileSync(path.join(root, 'src/manifest.json'), 'utf8');
   const files = new Map([
     [path.join(root, 'src/manifest.json'), manifest],
+    [path.join(root, 'src/app.ux'), 'phone companion entry'],
+    [path.join(root, 'src/probe-app.ux'), 'isolated probe entry'],
+    [path.join(root, 'src/pages/Home/index.ux'), 'phone page'],
+    [path.join(root, 'src/pages/StorageProbe/index.ux'), 'isolated page'],
+    [path.join(root, 'src/lib/probe-controller.js'), 'isolated controller'],
+    [path.join(root, 'src/platform/interconnect-transport.js'), 'phone transport'],
     [path.join(root, 'package.json'), '{"private":true}'],
     [path.join(root, 'sign/private.pem'), 'test signing input'],
     [path.join(root, 'sign/certificate.pem'), 'test public identity'],
@@ -65,9 +75,9 @@ async function runBuilder({ compilerStatus = 0, produceArtifact = true, locked =
         if (file === directory || file.startsWith(directory + path.sep)) files.delete(file);
       }
     },
-    cpSync(from, to) {
+    cpSync(from, to, options) {
       for (const [file, value] of [...files]) {
-        if (file.startsWith(from + path.sep)) files.set(path.join(to, path.relative(from, file)), value);
+        if (file.startsWith(from + path.sep) && (!options || !options.filter || options.filter(file))) files.set(path.join(to, path.relative(from, file)), value);
       }
     },
     copyFileSync(from, to) {
@@ -84,7 +94,7 @@ async function runBuilder({ compilerStatus = 0, produceArtifact = true, locked =
     },
   };
   const processBoundary = {
-    argv: ['node', scriptPath, 'release'],
+    argv: ['node', scriptPath, 'release', mode],
     execPath: process.execPath,
     stdout: { write: (value) => output.push(value) },
     stderr: { write: (value) => errors.push(value) },
@@ -94,6 +104,7 @@ async function runBuilder({ compilerStatus = 0, produceArtifact = true, locked =
     if (name === 'node:fs') return memoryFs;
     if (name === 'node:path') return path;
     if (name === './build-profiles.cjs') return require('../scripts/build-profiles.cjs');
+    if (name === './source-profile.cjs') return require('../scripts/source-profile.cjs');
     if (name === 'node:child_process') {
       return {
         spawnSync(command, args, options) {
@@ -177,4 +188,16 @@ test('a competing builder preserves the owner lock and staging without launching
   assert.equal(result.inspected.length, 0);
   assert.equal(result.output.length, 0);
   assert.match(result.errors[0], /lock already exists/);
+});
+
+test('actual wrapper stages the isolated entry and no phone transport in a probe build', async () => {
+  const result = await runBuilder({ mode: 'probe' });
+  assert.equal(result.exitCode, 0);
+  assert.equal(result.files.get(path.join(staging, 'src/app.ux')), 'isolated probe entry');
+  assert.equal(result.files.has(path.join(staging, 'src/probe-app.ux')), false);
+  assert.equal(result.files.has(path.join(staging, 'src/pages/Home/index.ux')), false);
+  assert.equal(result.files.has(path.join(staging, 'src/platform/interconnect-transport.js')), false);
+  assert.equal(result.files.get(path.join(staging, 'src/pages/StorageProbe/index.ux')), 'isolated page');
+  assert.equal(result.files.get(path.join(root, 'src/app.ux')), 'phone companion entry');
+  assert.equal(result.files.has(lock), false);
 });

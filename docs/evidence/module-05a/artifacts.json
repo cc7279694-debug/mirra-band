@@ -1,0 +1,76 @@
+{
+  "status": "DEV_COMPLETE_AWAITING_DEVICE_PROOF",
+  "recordedAtUtc": "2026-10-12T10:52:03.4078696Z",
+  "bandBranch": "codex/module-05a-persistence-probe",
+  "bandBase": "92a30ad104381840702b1871140142e7874c62b0",
+  "phoneUnchanged": {
+    "roomV4GitBlob": "97ae3a8a15aeb924350b4b7ecade389b314f7ebf",
+    "apkBuild": "NOT RUN, no phone changes",
+    "worktreeClean": true,
+    "commit": "30a8af3fdea225cc96db6a360d71383a85b7ea39",
+    "branch": "codex/mirra-band-control-bridge"
+  },
+  "artifacts": [
+    {
+      "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.band.storageprobe.release.0.1.0.rpk",
+      "bytes": 18590,
+      "sha256": "861e26f980aa4f8a608fed9c3e18118dfc2261832fa93e46255752e6417fbb04",
+      "package": "com.guanyi.mirra.band.storageprobe",
+      "version": "0.1.0",
+      "versionCode": 1,
+      "profile": "probe",
+      "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+      "certificateSubject": "CN=Mirra Band Demo\nO=Mirra Local Prototype",
+      "certificateFingerprint256": "B9:AD:5C:30:7A:17:03:1C:3D:19:3F:8E:E2:BA:AB:2A:B5:D1:FE:38:3F:73:84:28:EB:FE:64:9E:9F:67:E9:0B",
+      "certificateValidTo": "Oct  8 06:50:55 2036 GMT",
+      "zipCRC32": "verified",
+      "sharedStyles": "present in all compiled pages",
+      "tamperChecks": "payload, primary signature and file digest signature mutations rejected",
+      "files": [
+        "META-INF/CERT",
+        "manifest-watch.json",
+        "manifest.json",
+        "app.js",
+        "pages/StorageProbe/index.js",
+        "common/icon.png",
+        "common/icon.svg",
+        "META-INF/build.txt"
+      ]
+    },
+    {
+      "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.band.storageprobe.release.0.1.1.rpk",
+      "bytes": 18598,
+      "sha256": "b1b51540cbb7e012de6ea2842b05c39752a1653f53fc6c178a92cb36d957d7b1",
+      "package": "com.guanyi.mirra.band.storageprobe",
+      "version": "0.1.1",
+      "versionCode": 2,
+      "profile": "probe-upgrade",
+      "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+      "certificateSubject": "CN=Mirra Band Demo\nO=Mirra Local Prototype",
+      "certificateFingerprint256": "B9:AD:5C:30:7A:17:03:1C:3D:19:3F:8E:E2:BA:AB:2A:B5:D1:FE:38:3F:73:84:28:EB:FE:64:9E:9F:67:E9:0B",
+      "certificateValidTo": "Oct  8 06:50:55 2036 GMT",
+      "zipCRC32": "verified",
+      "sharedStyles": "present in all compiled pages",
+      "tamperChecks": "payload, primary signature and file digest signature mutations rejected",
+      "files": [
+        "META-INF/CERT",
+        "manifest-watch.json",
+        "manifest.json",
+        "app.js",
+        "pages/StorageProbe/index.js",
+        "common/icon.png",
+        "common/icon.svg",
+        "META-INF/build.txt"
+      ]
+    }
+  ],
+  "upgradeIdentity": {
+    "code1To2": true,
+    "physicalInstall": "NOT RUN",
+    "physicalRetention": "NOT RUN",
+    "certificateMatch": true,
+    "packageMatch": true
+  },
+  "priorModule04Files": "both actual SHA256 unchanged from prior delivery",
+  "privateMaterials": "existing ignored experimental signing only; no new conversion or upload"
+}

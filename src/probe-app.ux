@@ -1,0 +1,27 @@
+<script>
+import controllerLib from './lib/probe-controller'
+import storageLib from './platform/probe-storage'
+import profile from './profile'
+
+export default {
+  probe: null,
+  onCreate() { this.getProbe().noteLifecycle('create') },
+  getProbe() {
+    if (!this.probe) {
+      this.probe = controllerLib.createProbeController({
+        versionName: profile.versionName, versionCode: profile.versionCode,
+        backendFactory: kind => storageLib.createProbeBackend({ kind, loadModule: name => {
+          if (name === '@system.storage') return require('@system.storage')
+          if (name === '@system.file') return require('@system.file')
+          throw new Error('UNSUPPORTED_PROBE_MODULE')
+        } })
+      })
+    }
+    return this.probe
+  },
+  onDestroy() {
+    if (this.probe) this.probe.close()
+    this.probe = null
+  }
+}
+</script>

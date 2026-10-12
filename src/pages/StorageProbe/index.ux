@@ -1,0 +1,192 @@
+<template>
+  <div class="page probe-page">
+    <text class="brand">存储实验</text>
+    <text class="badge">隔离测试数据</text>
+    <list class="probe-list">
+      <list-item type="isolation" class="notice-row"><text class="notice">仅验证本地存储，不生成学习记录。</text></list-item>
+      <list-item type="version" class="value-row"><text class="caption">实验版本</text><text class="value">{{versionText}}</text></list-item>
+      <list-item type="instance" class="value-row"><text class="caption">本次内存实例</text><text class="value">{{instanceTag}}</text></list-item>
+      <list-item type="backend" class="value-row"><text class="caption">当前后端</text><text class="value">{{backendText}}</text></list-item>
+      <list-item type="status" class="status-row"><text class="caption">读写状态</text><text class="status">{{statusText}}</text></list-item>
+      <list-item type="counts" class="value-row"><text class="caption">已读回的快照</text><text class="value">序列 {{sequence}} · {{recordCount}} 条</text></list-item>
+      <list-item type="diagnostic" class="diagnostic-row"><text class="caption">校验与恢复</text><text class="diagnostic">{{diagnostic}}</text></list-item>
+      <list-item if="{{sampleText}}" type="sample" class="sample-row"><text class="caption">已读回的实验样本</text><text class="sample-text">{{sampleText}}</text></list-item>
+      <list-item type="write-time" class="value-row"><text class="caption">写入回调耗时</text><text class="value">{{lastWriteText}}</text></list-item>
+      <list-item type="read-time" class="value-row"><text class="caption">读取回调耗时</text><text class="value">{{lastReadText}}</text></list-item>
+      <list-item type="timing-boundary" class="notice-row"><text class="notice">回调与读回通过，不代表已证明掉电安全。</text></list-item>
+      <list-item type="clock" class="diagnostic-row"><text class="caption">时间边界</text><text class="diagnostic">{{clockText}}</text></list-item>
+      <list-item if="{{recoveryText}}" type="recovery" class="recovery-row"><text class="recovery-text">{{recoveryText}}</text></list-item>
+      <list-item type="save" class="action-row"><div class="action" style="background-color: {{canWrite ? '#6598E8' : '#151C25'}};" onclick="saveSample"><text class="action-label" style="color: {{canWrite ? '#0B0F14' : '#A6B2C3'}};">保存一条实验记录</text></div></list-item>
+      <list-item type="read" class="action-row"><div class="secondary" onclick="reload"><text class="secondary-label">{{busy ? '实验执行中…' : '重新读取'}} </text></div></list-item>
+      <list-item type="capacity" class="action-row"><div class="secondary" onclick="runCapacityProbe"><text class="secondary-label">记录数量试验</text></div></list-item>
+      <list-item type="damage" class="action-row"><div class="secondary" onclick="runDamageRecovery"><text class="secondary-label">实验槽损坏恢复</text></div></list-item>
+      <list-item type="failure" class="action-row"><div class="secondary" onclick="runWriteFailure"><text class="secondary-label">实验写入失败恢复</text></div></list-item>
+      <list-item type="switch" class="action-row"><div class="secondary" onclick="switchBackend"><text class="secondary-label">{{switchText}}</text></div></list-item>
+      <list-item type="history-label" class="history-label-row"><text class="caption">本次实验记录</text></list-item>
+      <list-item for="{{historyRows}}" type="history" class="history-row"><text class="history-text">{{$item}}</text></list-item>
+      <list-item type="exit-boundary" class="notice-row"><text class="notice">返回表盘、重进和重启后的保留情况需要真机核对。</text></list-item>
+      <list-item if="{{exitNotice}}" type="exit-notice" class="recovery-row"><text class="recovery-text">{{exitNotice}}</text></list-item>
+      <list-item type="exit-app" class="action-row"><div class="secondary" onclick="exitProbe"><text class="secondary-label">退出实验应用</text></div></list-item>
+    </list>
+  </div>
+</template>
+<script>
+export default {
+  private: {
+    busy: false, canWrite: false, canReload: false, requiresReopen: false,
+    backend: 'storage', backendText: '未打开', status: 'UNOPENED', statusText: '尚未读取',
+    sequence: 0, recordCount: 0, diagnostic: '尚未取得', sampleText: '',
+    lastWriteText: '未取得', lastReadText: '未取得', clockText: '尚未取得',
+    historyRows: [], versionText: '尚未取得', instanceTag: '未取得', switchText: '切换到文件试验', recoveryText: '',
+    canExit: false, exitNotice: ''
+  },
+  onInit() {
+    this._visible = false
+    this._destroyed = false
+    this._actionPending = false
+    this._exitRequested = false
+    this._probe = this.$app.$def.getProbe()
+    this.refresh()
+  },
+  onShow() {
+    if (this._destroyed || this._visible) return
+    this._visible = true
+    this._exitRequested = false
+    this._off = this._probe.subscribe(() => {
+      if (this._visible && !this._destroyed) this.refresh()
+    })
+    this._probe.noteLifecycle('show')
+    this.refresh()
+    return this.runAction('open', undefined, false)
+  },
+  onHide() {
+    if (!this._visible) return
+    this._visible = false
+    this.canExit = false
+    if (this._off) this._off()
+    this._off = null
+    this._probe.noteLifecycle('hide')
+  },
+  onDestroy() {
+    if (this._destroyed) return
+    this.onHide()
+    this._destroyed = true
+    this._probe.noteLifecycle('destroy')
+  },
+  onBackPress() { return this.busy === true },
+  refresh() {
+    if (this._destroyed) return
+    const view = this._probe.snapshot()
+    this.busy = view.busy === true || this._actionPending === true
+    this.status = view.status || 'UNOPENED'
+    this.requiresReopen = this.status === 'UNCERTAIN'
+    this.canWrite = view.canWrite === true && !this.busy && !this.requiresReopen
+    this.canReload = !this.busy && !this.requiresReopen && this.status !== 'CLOSED'
+    this.canExit = this._visible && !this.busy && this.status !== 'CLOSED' && !this._exitRequested
+    this.backend = view.backend
+    this.backendText = view.backend === 'file' ? 'system.file' : 'system.storage'
+    this.sequence = view.sequence
+    this.recordCount = view.recordCount
+    this.diagnostic = view.diagnostic || '尚未取得'
+    this.sampleText = view.sampleText || ''
+    this.versionText = view.versionName + ' / ' + view.versionCode
+    this.instanceTag = view.instanceTag || '未取得'
+    this.lastWriteText = this.durationText(view.lastWriteMs)
+    this.lastReadText = this.durationText(view.lastReadMs)
+    this.clockText = view.clockText || '尚未取得'
+    this.historyRows = this.wrapRows(view.historyRows || [])
+    const labels = {
+      UNOPENED: '尚未读取', OPENING: '正在读取', EMPTY: '空槽已核对',
+      READY: '快照已校验', RECOVERED: '已恢复有效槽', BLOCKED: '操作已停止',
+      UNCERTAIN: '写入结果不确定', CLOSED: '存储已关闭'
+    }
+    this.statusText = this.busy ? '实验执行中…' : (labels[this.status] || this.status)
+    this.switchText = view.backend === 'file' ? '切换到键值试验' : '切换到文件试验'
+    this.recoveryText = this.requiresReopen
+      ? '先退出并重新打开整个实验应用，再核对存储。当前不能继续写入。'
+      : (this.status === 'BLOCKED' ? '写入已停止。可重新读取有效槽，核对后再继续。' : '')
+  },
+  durationText(value) {
+    return typeof value === 'number' && Number.isFinite(value) && value >= 0
+      ? Math.round(value) + ' ms' : '未取得'
+  },
+  wrapRows(rows) {
+    const result = []
+    rows.forEach(row => {
+      const characters = Array.from(String(row))
+      if (!characters.length) return
+      for (let offset = 0; offset < characters.length; offset += 36) result.push(characters.slice(offset, offset + 36).join(''))
+    })
+    return result
+  },
+  runAction(method, value, writes) {
+    if (!this._visible || this._destroyed || this._actionPending || this.busy || this.requiresReopen || this.status === 'CLOSED') return Promise.resolve()
+    if (writes && !this.canWrite) return Promise.resolve()
+    this._actionPending = true
+    this.refresh()
+    const finish = () => {
+      this._actionPending = false
+      if (this._visible && !this._destroyed) this.refresh()
+    }
+    let operation
+    try {
+      operation = this._probe[method](value)
+    } catch (error) {
+      // The app service owns the diagnostic; never invent a success message.
+      finish()
+      return Promise.resolve()
+    }
+    return Promise.resolve(operation).then(finish, finish)
+  },
+  saveSample() { return this.runAction('saveSample', undefined, true) },
+  runCapacityProbe() { return this.runAction('runCapacityProbe', undefined, true) },
+  runDamageRecovery() { return this.runAction('runDamageRecovery', undefined, true) },
+  runWriteFailure() { return this.runAction('runWriteFailure', undefined, true) },
+  switchBackend() { return this.runAction('useBackend', this.backend === 'file' ? 'storage' : 'file', false) },
+  reload() { return this.runAction('open', undefined, false) },
+  exitProbe() {
+    if (!this._visible || this._destroyed || this._actionPending || this.busy || this.status === 'CLOSED' || this._exitRequested) return
+    if (typeof this.$app.exit !== 'function') {
+      this.exitNotice = '退出接口不可用，尚未结束实验应用。'
+      return
+    }
+    this._exitRequested = true
+    this.canExit = false
+    this.exitNotice = ''
+    try {
+      // Global app onDestroy owns storage cleanup; the page only requests exit.
+      this.$app.exit()
+    } catch (error) {
+      this._exitRequested = false
+      this.exitNotice = '退出调用失败，结束结果未确认。'
+      this.refresh()
+    }
+  }
+}
+</script>
+<style>
+@import '../../common/theme.css';
+.probe-page { padding-top: 10px; padding-bottom: 10px; }
+.probe-list { width: 144px; flex: 1; margin-top: 6px; }
+.notice-row { width: 144px; height: 52px; align-items: center; }
+.notice { width: 144px; height: 48px; font-size: 10px; line-height: 16px; lines: 3; color: #A6B2C3; }
+.value-row { width: 144px; height: 44px; flex-direction: column; justify-content: center; }
+.caption { width: 144px; height: 16px; font-size: 10px; color: #A6B2C3; }
+.value { width: 144px; height: 20px; font-size: 12px; color: #EEF3F8; }
+.status-row { width: 144px; height: 44px; flex-direction: column; justify-content: center; }
+.status { width: 144px; height: 20px; font-size: 12px; color: #6598E8; }
+.diagnostic-row { width: 144px; height: 76px; flex-direction: column; justify-content: center; }
+.diagnostic { width: 144px; height: 54px; font-size: 10px; line-height: 18px; lines: 3; color: #EEF3F8; }
+.sample-row { width: 144px; height: 94px; flex-direction: column; justify-content: center; }
+.sample-text { width: 144px; height: 72px; font-size: 11px; line-height: 18px; lines: 4; color: #EEF3F8; }
+.recovery-row { width: 144px; height: 76px; align-items: center; }
+.recovery-text { width: 144px; height: 72px; font-size: 11px; line-height: 18px; lines: 4; color: #D7B77A; }
+.action-row { width: 144px; height: 46px; align-items: center; }
+.action { width: 144px; height: 40px; border-radius: 9px; justify-content: center; align-items: center; }
+.action-label { width: 132px; height: 20px; font-size: 12px; text-align: center; }
+.secondary { height: 40px; }
+.secondary-label { width: 132px; height: 20px; font-size: 11px; }
+.history-label-row { width: 144px; height: 26px; align-items: flex-end; }
+.history-row { width: 144px; height: 54px; align-items: center; }
+.history-text { width: 144px; height: 48px; font-size: 10px; line-height: 16px; lines: 3; color: #EEF3F8; }
+</style>
