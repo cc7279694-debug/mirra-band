@@ -1,4 +1,16 @@
-# 当前只读伴侣架构
+# 当前手环伴侣架构
+
+## Module 04 扩展
+
+v1 文件与只读报文保持原样；v2 在快照信封中加入控制事实，只允许 START_BREAK、FINISH_BREAK、CONFIRM_PREPARATION_AND_START。手机默认关闭的控制许可存放独立 no-backup AtomicFile，不进入 Room 或可携带备份偏好。
+
+应用级 WearableCoordinator 持有当前节点、握手流和与 source 同时绑定的 WearableCommandExecutor。20 秒 opaque grant 绑定节点、client、stream、捕获的存储 owner 与业务状态，最多保留 4 个当前状态授权；状态变化、撤权、断连、维护或重新握手撤销。结果缓存最多 32 项，冲突载荷不能覆盖已证明结果。SDK 等待/发送在业务维护许可与 Room 事务外，零排队、单个在途操作，最长 12 秒。
+
+休息操作复用 FocusSessionActions 和原转换规则，只增加可选外部授权准入：业务读取后和最终 Room 首次写入前再次检查。原手机接口不要求外部控制授权。第一步确认走 SessionStartCoordinator 的严格监测入口，READY/后台 FGS 失败在提交前停止；提交事务再次验证完整动作、页码、书籍、Intent 及授权。提交后失败保留真实 Session，并沿用 DEGRADED 处理。
+
+腕端只有 v2、明确能力、新鲜完整快照和有效 grant 才启用控制。Control 页滚动展示实际第一步并显式确认；5 秒命令期限不重传，不把发送成功当业务成功。RESULT 后再读完整状态，超时/断连显示结果未确认。反馈绑定原命令与 Session，业务身份变化后清理；隐藏/销毁清理页面所有权。正式身份 com.guanyi.mirra / 0.3.0(code8)，演示身份与签名继续分离且不能发送控制。
+
+下方保留 Module 03 基线架构说明；历史版本号指该基线，当前门禁与真机范围见 CURRENT_STATE。
 
 Module 03 继承原生 Vela JavaScript；无服务器、账号、云端或腕端数据库。
 

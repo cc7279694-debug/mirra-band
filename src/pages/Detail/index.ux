@@ -15,6 +15,8 @@
       <list-item if="{{precisionText}}" type="precision" class="note-row"><text class="row-note">{{precisionText}}</text></list-item>
       <list-item type="monitor" class="summary-row"><text class="section-label">监测情况</text><text class="long-text">{{monitorText}}</text></list-item>
       <list-item type="help" class="help-row"><text class="help-text">{{helpText}}</text></list-item>
+      <list-item if="{{controlMessage}}" type="control-result" class="help-row"><text class="help-text">{{controlMessage}}</text></list-item>
+      <list-item if="{{hasControl && !controlBusy}}" type="learning-control" class="control-row"><div class="button" onclick="openControl"><text class="button-label">{{controlLabel}}</text></div></list-item>
       <list-item type="connection" class="control-row"><div class="secondary" onclick="openConnection"><text class="secondary-label">连接与帮助</text></div></list-item>
       <list-item if="{{showDemo}}" type="demo" class="control-row"><div class="secondary" onclick="openStates"><text class="secondary-label">选择演示状态</text></div></list-item>
       <list-item type="back" class="control-row"><div class="secondary" onclick="back"><text class="secondary-label">返回</text></div></list-item>
@@ -63,6 +65,10 @@ export default {
     Object.keys(view).forEach(key => { this[key] = view[key] })
   },
   openConnection() { router.push({ uri: '/pages/Connection' }) },
+  openControl() {
+    if (this._visible && !this._destroyed && !this.showDemo && !this.controlBusy
+      && (this.canStartBreak || this.canFinishBreak || this.canConfirmStart)) router.push({ uri: '/pages/Control' })
+  },
   openStates() {
     if (this.showDemo) router.push({ uri: '/pages/States' })
   },

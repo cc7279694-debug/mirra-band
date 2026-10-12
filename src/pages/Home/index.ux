@@ -8,6 +8,7 @@
       <text if="{{hasTimer}}" class="timer-label">{{timerLabel}}</text>
       <text if="{{!hasTimer}}" class="hero-text">{{heroText}}</text>
       <text if="{{hint}}" class="hint">{{hint}}</text>
+      <text if="{{controlMessage}}" class="control-note">{{controlMessage}}</text>
     </div>
     <div if="{{bookTitle}}" class="book-context">
       <text class="book">{{bookTitle}}</text>
@@ -15,7 +16,8 @@
     </div>
     <div class="navigation">
       <div if="{{canRetry}}" class="retry" onclick="retry"><text class="button-label">重试连接</text></div>
-      <div class="{{canRetry ? 'detail-link compact' : 'detail-link'}}" onclick="openDetail"><text class="secondary-label">详情</text></div>
+      <div if="{{hasControl && !canRetry}}" class="{{controlBusy ? 'control-link control-disabled' : 'control-link'}}" onclick="openControl"><text class="button-label">{{controlLabel}}</text></div>
+      <div class="{{canRetry || hasControl ? 'detail-link compact' : 'detail-link'}}" onclick="openDetail"><text class="secondary-label">详情</text></div>
     </div>
   </div>
 </template>
@@ -62,6 +64,10 @@ export default {
     Object.keys(view).forEach(key => { this[key] = view[key] })
   },
   retry() { this._companion.requestRefresh() },
+  openControl() {
+    if (this._visible && !this._destroyed && !this.showDemo && !this.controlBusy
+      && (this.canStartBreak || this.canFinishBreak || this.canConfirmStart)) router.push({ uri: '/pages/Control' })
+  },
   openDetail() { router.push({ uri: '/pages/Detail' }) }
 }
 </script>
@@ -77,6 +83,7 @@ export default {
 .timer-label { width: 144px; height: 15px; font-size: 11px; color: #A6B2C3; text-align: center; }
 .hero-text { width: 144px; height: 66px; font-size: 16px; line-height: 22px; lines: 3; text-overflow: ellipsis; color: #EEF3F8; text-align: center; }
 .hint { width: 144px; height: 16px; font-size: 10px; line-height: 14px; lines: 1; text-overflow: ellipsis; color: #A6B2C3; text-align: center; }
+.control-note { width: 144px; height: 30px; font-size: 10px; line-height: 13px; lines: 2; color: #D7B77A; text-align: center; }
 .book-context { width: 144px; height: 49px; padding: 3px 8px; border-radius: 9px; background-color: #151C25; flex-direction: column; justify-content: center; }
 .book { width: 128px; height: 30px; font-size: 12px; line-height: 15px; lines: 2; text-overflow: ellipsis; color: #EEF3F8; }
 .page-number { width: 128px; height: 13px; font-size: 10px; color: #A6B2C3; }
@@ -84,4 +91,6 @@ export default {
 .detail-link { width: 144px; height: 32px; border-radius: 9px; background-color: #151C25; align-items: center; justify-content: center; }
 .compact { width: 68px; }
 .retry { width: 68px; height: 32px; border-radius: 9px; background-color: #6598E8; align-items: center; justify-content: center; }
+.control-link { width: 68px; height: 32px; border-radius: 9px; background-color: #6598E8; align-items: center; justify-content: center; }
+.control-disabled { background-color: #314763; }
 </style>

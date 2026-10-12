@@ -43,14 +43,16 @@ for (const capability of ['diagnosis', 'getApkStatus']) {
       assert.equal(store.snapshot().body, null);
       assert.equal(store.snapshot().freshness, 'unknown');
       native.onmessage({ data: protocol.encodeMessage({ ...ackFixture,
-        clientInstanceId: hello.clientInstanceId, requestId: hello.requestId }) });
+        protocolVersion: hello.protocolVersion, clientInstanceId: hello.clientInstanceId, requestId: hello.requestId }) });
       assert.equal(sent.length, 2);
       const request = sent[1].decoded;
       assert.equal(request.type, 'GET_SNAPSHOT');
       sent[1].success();
       assert.equal(store.snapshot().body, null);
       const snapshot = { ...idleFixture, clientInstanceId: request.clientInstanceId,
-        requestId: request.requestId, streamId: request.streamId };
+        protocolVersion: request.protocolVersion, requestId: request.requestId, streamId: request.streamId,
+        control: { activeSegmentId: null, allowedActions: [], controlGrant: null,
+          grantExpiresAtUnixMs: null, expectedFirstAction: null } };
       native.onmessage({ data: protocol.encodeMessage({ ...snapshot, requestId: 'foreign-request' }) });
       assert.equal(store.snapshot().body, null);
       native.onmessage({ data: protocol.encodeMessage(snapshot) });

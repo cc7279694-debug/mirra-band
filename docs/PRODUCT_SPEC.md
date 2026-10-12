@@ -1,6 +1,6 @@
 # 首版手环原型规格
 
-本文件保留 Module 02 原型规格。用户已确认目标手环基础测试通过，视觉尚未接受为正式产品。当前 Module 03 的只读伴侣、正式 UI、手机增量授权与验收以 [完整合同](plans/MIRRA_BAND_MODULE_03_COMPLETE_PLAN.md) 为准，实际进度见 [CURRENT_STATE](CURRENT_STATE.md)。Module 01 的 ChatGPT 独立验收结论仍为 PASS WITH NOTES。
+本文件保留 Module 02 原型规格。用户已确认目标手环基础测试通过。Module 03 的真实通信成功结果继续继承；当前 Module 04 的产品范围与验收以 [学习常用控制合同](plans/MIRRA_BAND_MODULE_04_WRIST_CONTROLS.md) 为准，实际进度见 [CURRENT_STATE](CURRENT_STATE.md)。Module 01 的 ChatGPT 独立验收结论仍为 PASS WITH NOTES。
 
 ## 目标与范围
 

@@ -14,6 +14,8 @@ function rig() {
   function snap(patch = {}, sequence = 1) {
     const m = JSON.parse(fs.readFileSync('protocol/v1/fixtures/active.json', 'utf8'));
     Object.assign(m, sent.at(-1), { type: 'SNAPSHOT', sequence }); delete m.lastSeenSessionId;
+    if (m.protocolVersion === 2) m.control = { activeSegmentId: null, allowedActions: [], controlGrant: null,
+      grantExpiresAtUnixMs: null, expectedFirstAction: null };
     Object.assign(m.body, patch); reply(m); return m;
   }
   return { store, timers, intervals, sent, ack, snap, reply,
@@ -76,7 +78,7 @@ test('saving/ended do not interpolate, countdown zero retains phone phase', () =
 test('busy/disabled clears personal content, unsupported stops automatic retries', () => {
   for (const code of ['SOURCE_BUSY', 'DISABLED', 'UNSUPPORTED_PROTOCOL']) {
     const r = rig(); r.store.start(); r.ack(); r.snap(); r.store.requestRefresh();
-    const req = r.sent.at(-1); const m = { protocolVersion: 1, type: 'STATUS_ERROR', clientInstanceId: req.clientInstanceId, requestId: req.requestId, streamId: req.streamId, code };
+    const req = r.sent.at(-1); const m = { protocolVersion: req.protocolVersion, type: 'STATUS_ERROR', clientInstanceId: req.clientInstanceId, requestId: req.requestId, streamId: req.streamId, code };
     r.reply(m); assert.equal(r.store.snapshot().body, null);
     const n = r.sent.length; r.advance(2000); if (code !== 'SOURCE_BUSY') assert.equal(r.sent.length, n);
   }
@@ -91,12 +93,12 @@ test('terminal status survives native reconnect and clock gaps until explicit re
   for (const code of ['DISABLED', 'UNSUPPORTED_PROTOCOL', 'UNAUTHORIZED', 'IDENTITY_ERROR']) {
     const r = rig(); r.store.start(); r.ack(); r.snap(); r.store.requestRefresh();
     const req = r.sent.at(-1);
-    r.reply({ protocolVersion: 1, type: 'STATUS_ERROR', clientInstanceId: req.clientInstanceId,
+    r.reply({ protocolVersion: req.protocolVersion, type: 'STATUS_ERROR', clientInstanceId: req.clientInstanceId,
       requestId: req.requestId, streamId: req.streamId, code });
     const state = r.store.snapshot().connection, count = r.sent.length;
     r.event({ kind: 'connection', status: 'disconnected', code: 'CHANNEL_ERROR' });
     r.advance(2000); r.event({ kind: 'connection', status: 'connected' }); r.advance(60000);
-    r.reply({ protocolVersion: 1, type: 'STATUS_ERROR', clientInstanceId: req.clientInstanceId,
+    r.reply({ protocolVersion: req.protocolVersion, type: 'STATUS_ERROR', clientInstanceId: req.clientInstanceId,
       requestId: req.requestId, streamId: req.streamId, code: 'SOURCE_BUSY' });
     assert.equal(r.sent.length, count); assert.equal(r.store.snapshot().connection, state);
     assert.equal(r.store.snapshot().errorCode, code); assert.equal(r.store.snapshot().body, null);

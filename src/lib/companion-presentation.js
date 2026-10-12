@@ -8,6 +8,15 @@ const CONNECTION_COPY = {
   source_busy: ['手机正在处理数据', '完成后重新连接获取最新状态'],
   source_unavailable: ['暂时无法获取状态', '请打开手机 Mirra 后重试'],
 };
+const CONTROL_COPY = {
+  STALE_STATE: '手机状态已变化，请查看最新状态后再操作',
+  REQUIRES_PHONE: '请打开手机 Mirra 完成操作，准备内容已保留',
+  DISABLED: '请在手机手环伴侣页开启学习控制',
+  UNAUTHORIZED: '请在手机确认手环授权后再操作',
+  BUSY: '手机正在处理，请稍后查看最新状态',
+  FAILED: '手机未能完成操作，请在手机查看',
+  RESULT_UNKNOWN: '结果未确认，正在同步',
+};
 
 function truncate(value, limit) {
   if (typeof value !== 'string') return '';
@@ -37,19 +46,21 @@ function isDuration(value) {
 function textRows(value, limit) {
   const text = truncate(value, 200);
   const rows = [];
-  let start = 0;
-  let characters = 0;
-  for (let index = 0; index < text.length; index += 1) {
-    const code = text.charCodeAt(index);
-    if (code >= 0xD800 && code <= 0xDBFF) index += 1;
-    characters += 1;
-    if (characters === limit) {
-      rows.push(text.slice(start, index + 1));
-      start = index + 1;
-      characters = 0;
+  text.split(/\r\n|\r|\n/).forEach(line => {
+    let start = 0;
+    let characters = 0;
+    for (let index = 0; index < line.length; index += 1) {
+      const code = line.charCodeAt(index);
+      if (code >= 0xD800 && code <= 0xDBFF) index += 1;
+      characters += 1;
+      if (characters === limit) {
+        rows.push(line.slice(start, index + 1));
+        start = index + 1;
+        characters = 0;
+      }
     }
-  }
-  if (start < text.length) rows.push(text.slice(start));
+    if (start < line.length || line.length === 0 && text.length > 0) rows.push(line.slice(start));
+  });
   return rows;
 }
 
@@ -89,12 +100,19 @@ function present(input) {
     firstActionRows: [], actionNotice: '', hasFirstAction: false,
     monitorText: '', detailTimerText: '', detailTimerLabel: '', precisionText: '',
     canRetry: !fresh, helpText: '', connectionText: '', errorText: '',
+    canStartBreak: false, canFinishBreak: false, canConfirmStart: false,
+    hasControl: false, controlBusy: false, controlLabel: '', controlMessage: '',
   };
   view.syncText = fresh
     ? input.freshness === 'updating' ? '正在更新' : ageText ? '已同步 · ' + ageText : '刚刚同步'
     : ageText ? '上次同步 · ' + ageText : '尚未同步手机状态';
   view.connectionText = connected ? '手机通道已连通' : '手机通道尚未连通';
   view.errorText = typeof input.errorCode === 'string' ? truncate(input.errorCode, 45) : '';
+  const control = input.control || {};
+  view.controlBusy = !demo && control.busy === true;
+  view.controlMessage = !demo ? control.busy ? control.resultCode ? CONTROL_COPY[control.resultCode] || '手机已回复，正在同步' : '正在请求手机确认'
+    : control.monitorDegraded === true ? '已开始，但监测降级；请在手机查看'
+    : CONTROL_COPY[control.resultCode] || '' : '';
 
   const unavailable = input.connection === 'source_busy' || input.connection === 'source_unavailable'
     || input.connection === 'disabled' || input.connection === 'unauthorized'
@@ -145,6 +163,16 @@ function present(input) {
     return view;
   }
 
+  const actions = !demo && !control.busy && Array.isArray(control.availableActions) ? control.availableActions : [];
+  view.canStartBreak = body.phase === 'ACTIVE' && ['FOCUS', 'DEEP_FOCUS', 'UNMONITORED'].indexOf(body.segmentType) >= 0
+    && actions.indexOf('START_BREAK') >= 0;
+  view.canFinishBreak = body.phase === 'ACTIVE' && body.segmentType === 'BREAK' && actions.indexOf('FINISH_BREAK') >= 0;
+  view.canConfirmStart = body.phase === 'PREPARING' && !view.actionNotice && !!view.firstAction
+    && actions.indexOf('CONFIRM_PREPARATION_AND_START') >= 0;
+  view.hasControl = view.canStartBreak || view.canFinishBreak || view.canConfirmStart || view.controlBusy;
+  view.controlLabel = view.controlBusy ? '正在确认' : view.canStartBreak ? '休息'
+    : view.canFinishBreak ? '结束休息' : view.canConfirmStart ? '确认第一步' : '';
+
   if (body.phase === 'IDLE') {
     view.title = '等待开始';
     view.heroText = '请在手机开始';
@@ -152,7 +180,7 @@ function present(input) {
   } else if (body.phase === 'PREPARING') {
     view.title = '先完成这一步';
     view.heroText = truncate(body.firstAction, 27) || '请在手机查看准备动作';
-    view.hint = '完成后请在手机确认';
+    view.hint = view.canConfirmStart ? '读完详情，再明确确认' : '完成后请在手机确认';
   } else if (body.phase === 'SAVING') {
     view.title = '正在保存本次阅读';
     view.hint = '请等待手机完成保存';
@@ -192,7 +220,9 @@ function present(input) {
     view.timerText = '';
   }
   if (view.title.length > 9) view.titleClass = 'state state-small';
-  view.helpText = demo ? '当前使用演示数据，不会控制手机学习' : '只同步手机已确认的状态，不控制学习';
+  view.helpText = demo ? '当前使用演示数据，不会控制手机学习'
+    : control.negotiated ? '仅执行手机允许的操作。书籍、页码与结束阅读请在手机管理。'
+    : '当前为只读同步。学习操作请在手机完成。';
   return view;
 }
 

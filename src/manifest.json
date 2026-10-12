@@ -23,6 +23,7 @@
     "pages": {
       "pages/Home": { "component": "index", "launchMode": "singleTask" },
       "pages/Detail": { "component": "index" },
+      "pages/Control": { "component": "index" },
       "pages/Connection": { "component": "index" }
     }
   }

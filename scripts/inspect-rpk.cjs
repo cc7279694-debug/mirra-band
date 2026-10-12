@@ -125,7 +125,7 @@ async function inspect(filePath, certificatePath, mode = 'demo') {
     const content = await zip.file(name).async('nodebuffer')
     assert(expected && crypto.createHash('sha256').update(content).digest().equals(expected), 'Signed file digest differs: ' + name)
   }
-  const required = ['manifest.json', 'app.js', 'pages/Home/index.js', 'pages/Detail/index.js', 'pages/Connection/index.js', 'common/icon.png', 'META-INF/CERT']
+  const required = ['manifest.json', 'app.js', 'pages/Home/index.js', 'pages/Detail/index.js', 'pages/Connection/index.js', 'pages/Control/index.js', 'common/icon.png', 'META-INF/CERT']
   if (mode === 'demo') required.push('pages/States/index.js')
   else assert(!zip.file('pages/States/index.js'), 'Demo page included in live package')
   for (const name of required) assert(zip.file(name), 'Missing RPK resource: ' + name)
@@ -157,7 +157,7 @@ async function inspect(filePath, certificatePath, mode = 'demo') {
   assert.equal(manifest.package, profile.package)
   assert.equal(manifest.versionName, profile.versionName)
   assert.equal(manifest.versionCode, profile.versionCode)
-  assert.deepEqual(Object.keys(manifest.router.pages).sort(), (mode === 'live' ? ['pages/Home','pages/Detail','pages/Connection'] : ['pages/Home','pages/Detail','pages/Connection','pages/States']).sort())
+  assert.deepEqual(Object.keys(manifest.router.pages).sort(), (mode === 'live' ? ['pages/Home','pages/Detail','pages/Connection','pages/Control'] : ['pages/Home','pages/Detail','pages/Connection','pages/Control','pages/States']).sort())
   assert.equal(manifest.config.designWidth, 168)
   assert.equal(manifest.router.entry, 'pages/Home')
   assert.deepEqual(manifest.features.map(feature => feature.name).sort(), ['system.interconnect', 'system.router'])

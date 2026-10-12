@@ -4,7 +4,7 @@
 
 - 本仓库是观已 Mirra 的独立小米手环伴侣项目，目标设备为国行小米手环 9 Pro。
 - 当前产品范围与验收条件见 [产品规格](docs/PRODUCT_SPEC.md)；当前模块见 [当前状态](docs/CURRENT_STATE.md)。
-- 手机端已有 Kotlin / Compose / Room 架构。Module 03 已授权在独立手机功能分支新增只读桥、设置与必要生命周期接线；不得修改学习算法、Room Schema、备份格式、签名身份或用户数据。
+- 手机端已有 Kotlin / Compose / Room 架构。Module 04 已授权在独立手机功能分支增加受控休息、结束休息和已有 Intent 的第一步确认；合同见 docs/plans/MIRRA_BAND_MODULE_04_WRIST_CONTROLS.md。不得修改学习转换规则、Room Schema、备份格式、签名身份或绕过手机业务写用户数据。
 - Local-first、Offline-ready、No-login-first；无需服务器、云服务、Supabase、Vercel、账号或公共隧道。
 - 手环承担快速查看与有限交互；手机仍拥有真实 Intent、Session、监测和学习记录。手环演示计时不生成真实学习事实。
 

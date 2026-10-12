@@ -11,7 +11,7 @@ test('connection help identifies the actual build without requiring a working ph
   const h = createHarness('live');
   const page = h.page('Connection');
   page.onInit();
-  assert.equal(page.versionText, 'Mirra 0.2.5 / 7');
+  assert.equal(page.versionText, 'Mirra 0.3.0 / 8');
   const source = fs.readFileSync(path.resolve(__dirname, '../src/pages/Connection/index.ux'), 'utf8');
   assert.ok(source.includes('{{versionText}}'));
 });
@@ -28,6 +28,7 @@ function createHarness(mode = 'demo') {
   const routeActions = [];
   const modules = new Map();
   const listeners = new Set();
+  const controlCalls = [];
   const demo = createDemo({ now: () => time });
   const model = mode === 'demo' ? createDemoCompanion({ demo, now: () => time }) : null;
   let liveInput = { mode: 'live', connection: 'connecting', freshness: 'unknown', body: null, timer: {}, lastSyncedAgeMs: null };
@@ -38,6 +39,7 @@ function createHarness(mode = 'demo') {
     snapshot() { return model ? model.snapshot() : liveInput; },
     subscribe(listener) { listeners.add(listener); return () => { listeners.delete(listener); }; },
     select(id, options) { assert.ok(model); model.select(id, options); },
+    submitControl(action, values, owner) { controlCalls.push({ action, values, owner }); return true; },
   };
   const router = {
     push(options) { routeActions.push({ action: 'push', uri: options.uri }); },
@@ -80,7 +82,7 @@ function createHarness(mode = 'demo') {
     return Object.assign({}, definition, definition.private, { $app: { $def: { getCompanion: () => companion, getDemo: () => demo } } });
   }
   return {
-    page, companion, demo, intervals, savedCallbacks, routeActions, listeners,
+    page, companion, demo, intervals, savedCallbacks, routeActions, listeners, controlCalls,
     starts: () => starts, refreshes: () => refreshes, platformLoads: () => platformLoads,
     setTime(value) { time = value; },
     setLive(value) { liveInput = value; for (const listener of Array.from(listeners)) listener(value); },
@@ -100,6 +102,55 @@ test('live Home starts without demo, idle, or sample book and requests a read-on
   assert.equal(h.refreshes(), 1);
   home.onHide(); home.onDestroy();
   assert.equal(h.platformLoads(), 0);
+});
+
+function controllable(segmentType = 'FOCUS', patch = {}) {
+  return { mode: 'live', connection: 'connected', freshness: 'fresh', body: {
+    phase: 'ACTIVE', sessionId: 'session-now', segmentType, bookTitle: '观已阅读', firstAction: null,
+    currentPage: 32, totalPages: 400, elapsedMs: 5000, remainingMs: 300000,
+    timerKind: segmentType === 'BREAK' ? 'BREAK_REMAINING' : 'SESSION_ELAPSED',
+    coverage: 'FULL', monitorAvailability: 'AVAILABLE', ...patch }, timer: {},
+    control: { negotiated: true, availableActions: segmentType === 'BREAK' ? ['FINISH_BREAK'] : ['START_BREAK'], busy: false } };
+}
+
+test('wrist control page chooses only five or ten minutes and releases hidden-page operation ownership', () => {
+  const h = createHarness('live'); h.setLive(controllable());
+  const page = h.page('Control'); page.onInit(); page.onShow();
+  page.startFiveMinuteBreak(); page.startTenMinuteBreak();
+  assert.deepEqual(h.controlCalls.map(call => [call.action, call.values.breakMinutes]), [['START_BREAK', 5], ['START_BREAK', 10]]);
+  assert.equal(h.controlCalls[0].owner, page);
+  h.setLive({ ...controllable(), control: { negotiated: true, availableActions: [], busy: true } });
+  page.startFiveMinuteBreak(); assert.equal(h.controlCalls.length, 2);
+  page.onHide(); page.finishBreak(); page.confirmStart(); assert.equal(h.controlCalls.length, 2);
+  assert.equal(h.listeners.size, 0); assert.equal(h.intervals.size, 0); page.onDestroy();
+});
+
+test('preparation page shows the complete action and start requires an explicit visible confirmation', () => {
+  const h = createHarness('live'); const firstAction = '翻到第32页，阅读第一段。'.repeat(8);
+  const input = controllable(null, { phase: 'PREPARING', sessionId: null, intentId: 'intent-current', firstAction });
+  input.control.availableActions = ['CONFIRM_PREPARATION_AND_START']; h.setLive(input);
+  const page = h.page('Control'); page.onInit(); page.onShow();
+  assert.equal(h.controlCalls.length, 0); assert.equal(page.firstActionRows.join(''), firstAction);
+  page.confirmStart(); assert.equal(h.controlCalls.length, 1);
+  assert.equal(h.controlCalls[0].action, 'CONFIRM_PREPARATION_AND_START');
+  h.setLive({ ...input, body: { ...input.body, firstActionTruncated: true } });
+  page.confirmStart(); assert.equal(h.controlCalls.length, 1); page.onDestroy();
+});
+
+test('demo cannot use the control route or send learning mutations', () => {
+  const h = createHarness(); h.companion.select('focus');
+  const page = h.page('Control'); page.onInit(); page.onShow();
+  page.startFiveMinuteBreak(); page.finishBreak(); page.confirmStart();
+  assert.equal(h.controlCalls.length, 0); assert.deepEqual(h.routeActions, [{ action: 'back' }]);
+  page.onDestroy(); assert.equal(h.platformLoads(), 0);
+});
+
+test('Home directs real controls to the confirmation route and read-only/demo never opens it', () => {
+  const h = createHarness('live'); const home = h.page('Home'); home.onInit(); home.onShow();
+  assert.equal(typeof home.openControl, 'function'); home.openControl(); assert.equal(h.routeActions.length, 0);
+  h.setLive(controllable()); home.openControl(); assert.deepEqual(h.routeActions, [{ action: 'push', uri: '/pages/Control' }]);
+  h.setLive({ ...controllable(), freshness: 'expired' }); home.openControl(); assert.equal(h.routeActions.length, 1);
+  home.onDestroy();
 });
 
 test('Home hide/show/destroy own one visual ticker and no stale subscription', () => {

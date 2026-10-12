@@ -1,8 +1,8 @@
 {
   "name": "mirra-band",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "private": true,
-  "description": "Mirra Band read-only Vela companion for Xiaomi Smart Band 9 Pro",
+  "description": "Mirra Band Vela learning companion for Xiaomi Smart Band 9 Pro",
   "scripts": {
     "build": "node scripts/build-rpk.cjs build demo",
     "build:release": "node scripts/build-rpk.cjs release demo",

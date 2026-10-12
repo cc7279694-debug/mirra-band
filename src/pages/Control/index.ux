@@ -1,0 +1,102 @@
+<template>
+  <div class="page control-page">
+    <text class="brand">学习操作</text>
+    <text if="{{showDemo}}" class="badge">{{demoLabel}}</text>
+    <list class="control-list">
+      <list-item type="summary" class="summary-row"><text class="summary">{{title}}</text><text class="row-note">{{syncText}}</text></list-item>
+      <list-item if="{{fullBookTitle}}" type="book-label" class="label-row"><text class="section-label">当前书籍</text></list-item>
+      <list-item for="{{bookRows}}" type="book-row" class="long-row"><text class="long-text">{{$item}}</text></list-item>
+      <list-item if="{{bookNotice}}" type="book-notice" class="message-row"><text class="help-text">{{bookNotice}}</text></list-item>
+      <list-item if="{{pageText}}" type="page" class="note-row"><text class="row-note">{{pageText}}</text></list-item>
+      <list-item if="{{hasFirstAction}}" type="action-label" class="label-row"><text class="section-label">先完成这一步</text></list-item>
+      <list-item for="{{firstActionRows}}" type="action-row" class="long-row"><text class="long-text">{{$item}}</text></list-item>
+      <list-item if="{{actionNotice}}" type="action-notice" class="message-row"><text class="message-text">{{actionNotice}}，请在手机确认开始。</text></list-item>
+      <list-item if="{{controlMessage}}" type="result" class="message-row"><text class="message-text">{{controlMessage}}</text></list-item>
+      <list-item if="{{canStartBreak}}" type="break-five" class="control-row"><div class="button" onclick="startFiveMinuteBreak"><text class="button-label">休息 5 分钟</text></div></list-item>
+      <list-item if="{{canStartBreak}}" type="break-ten" class="control-row"><div class="button" onclick="startTenMinuteBreak"><text class="button-label">休息 10 分钟</text></div></list-item>
+      <list-item if="{{canFinishBreak}}" type="finish-break" class="control-row"><div class="button" onclick="finishBreak"><text class="button-label">提前结束休息</text></div></list-item>
+      <list-item if="{{canConfirmStart}}" type="confirm-start" class="confirm-row"><div class="confirm-button" onclick="confirmStart"><text class="confirm-label">这一步已完成，开始学习</text></div></list-item>
+      <list-item if="{{!hasControl && !controlMessage}}" type="unavailable" class="message-row"><text class="message-text">当前无法操作。请查看最新状态；需要时在手机完成。</text></list-item>
+      <list-item type="help" class="message-row"><text class="help-text">{{helpText}}</text></list-item>
+      <list-item type="back" class="control-row"><div class="secondary" onclick="back"><text class="secondary-label">返回</text></div></list-item>
+    </list>
+  </div>
+</template>
+<script>
+import router from '@system.router'
+import tickerLib from '../../lib/ticker'
+import presentationLib from '../../lib/companion-presentation'
+
+export default {
+  private: presentationLib.present({}),
+  onInit() {
+    this._visible = false
+    this._destroyed = false
+    this._blocked = false
+    this._companion = this.$app.$def.getCompanion()
+    this._ticker = tickerLib.createTicker({ refresh: () => this.refresh() })
+    this.refresh()
+    if (this.showDemo) { this._blocked = true; router.back() }
+  },
+  onShow() {
+    if (this._blocked || this._destroyed || this._visible) return
+    this._visible = true
+    this._off = this._companion.subscribe(() => {
+      if (this._visible && !this._destroyed) this.refresh()
+    })
+    this._companion.start(this)
+    this._ticker.show()
+  },
+  onHide() {
+    if (!this._visible) return
+    this._visible = false
+    if (this._off) this._off()
+    this._off = null
+    this._ticker.hide()
+    this._companion.stop(this)
+  },
+  onDestroy() {
+    this.onHide()
+    this._destroyed = true
+    if (this._ticker) this._ticker.destroy()
+  },
+  refresh() {
+    if (this._destroyed) return
+    const snapshot = this._companion.snapshot()
+    this._shownSubject = snapshot.control ? snapshot.control.subject : null
+    const view = presentationLib.present(snapshot)
+    Object.keys(view).forEach(key => { this[key] = view[key] })
+  },
+  submit(action, values, allowed) {
+    if (!this._visible || this._destroyed || this._blocked || this.showDemo || !allowed || this.controlBusy) return
+    values = values || {}
+    values.expected = this._shownSubject
+    this._companion.submitControl(action, values, this)
+    this.refresh()
+  },
+  startFiveMinuteBreak() { this.submit('START_BREAK', { breakMinutes: 5 }, this.canStartBreak) },
+  startTenMinuteBreak() { this.submit('START_BREAK', { breakMinutes: 10 }, this.canStartBreak) },
+  finishBreak() { this.submit('FINISH_BREAK', {}, this.canFinishBreak) },
+  confirmStart() { this.submit('CONFIRM_PREPARATION_AND_START', {}, this.canConfirmStart) },
+  back() { router.back() }
+}
+</script>
+<style>
+@import '../../common/theme.css';
+.control-page { padding-top: 12px; padding-bottom: 12px; }
+.control-list { width: 144px; flex: 1; margin-top: 8px; }
+.summary-row { width: 144px; height: 46px; flex-direction: column; justify-content: center; }
+.summary { width: 144px; height: 20px; font-size: 13px; color: #EEF3F8; lines: 1; text-overflow: ellipsis; }
+.row-note { width: 144px; height: 16px; font-size: 10px; color: #A6B2C3; }
+.label-row { width: 144px; height: 24px; align-items: flex-end; }
+.long-row { width: 144px; height: 34px; align-items: center; }
+.long-text { width: 144px; height: 32px; font-size: 12px; line-height: 16px; lines: 2; color: #EEF3F8; }
+.note-row { width: 144px; height: 22px; align-items: center; }
+.message-row { width: 144px; height: 54px; align-items: center; }
+.message-text { width: 144px; height: 48px; font-size: 11px; line-height: 16px; lines: 3; color: #D7B77A; }
+.help-text { width: 144px; height: 48px; font-size: 10px; line-height: 16px; lines: 3; color: #A6B2C3; }
+.control-row { width: 144px; height: 42px; align-items: center; }
+.confirm-row { width: 144px; height: 58px; align-items: center; }
+.confirm-button { width: 144px; height: 48px; border-radius: 9px; background-color: #6598E8; justify-content: center; align-items: center; }
+.confirm-label { width: 128px; height: 36px; font-size: 12px; line-height: 18px; lines: 2; text-align: center; color: #0B0F14; }
+</style>

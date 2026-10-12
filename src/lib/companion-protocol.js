@@ -1,5 +1,8 @@
 const VERSION = 1;
+const CONTROL_VERSION = 2;
 const MAX_BYTES = 4096;
+const ACTIONS = ['START_BREAK', 'FINISH_BREAK', 'CONFIRM_PREPARATION_AND_START'];
+const RESULT_CODES = ['APPLIED', 'ALREADY_APPLIED', 'STALE_STATE', 'REQUIRES_PHONE', 'DISABLED', 'UNAUTHORIZED', 'BUSY', 'FAILED', 'RESULT_UNKNOWN'];
 const BODY_KEYS = ['phase', 'intentId', 'sessionId', 'learningItemId', 'bookTitle', 'currentPage', 'totalPages', 'firstAction', 'bookTitleTruncated', 'firstActionTruncated', 'segmentType', 'coverage', 'monitorAvailability', 'elapsedMs', 'remainingMs', 'timerKind', 'endType'];
 function reject(code) { throw new Error(code); }
 function integer(value) { return typeof value === 'number' && isFinite(value) && Math.floor(value) === value && value >= 0 && value <= 9007199254740991; }
@@ -102,6 +105,48 @@ function validateBody(body) {
   if (body.phase === 'ENDED' && body.timerKind !== 'FINAL_SESSION_DURATION' && body.timerKind !== 'NONE') reject('TIMER');
   return body;
 }
+function validateCapabilities(capabilities, version) {
+  if (!Array.isArray(capabilities) || capabilities[0] !== 'READ_ONLY_SNAPSHOT' ||
+      (capabilities.length !== 1 && !(version === CONTROL_VERSION && capabilities.length === 2 && capabilities[1] === 'SESSION_CONTROL'))) reject('CAPABILITY');
+}
+function validateControl(control, body, observedAt) {
+  keys(control, ['activeSegmentId', 'allowedActions', 'controlGrant', 'grantExpiresAtUnixMs', 'expectedFirstAction']);
+  id(control.activeSegmentId, true); id(control.controlGrant, true);
+  nullableText(control.expectedFirstAction, 180);
+  if (!Array.isArray(control.allowedActions) || control.allowedActions.length > ACTIONS.length) reject('ACTION');
+  control.allowedActions.forEach((action, index) => {
+    enumeration(action, ACTIONS);
+    if (control.allowedActions.indexOf(action) !== index) reject('ACTION');
+  });
+  if (!control.allowedActions.length) {
+    if (control.controlGrant !== null || control.grantExpiresAtUnixMs !== null || control.expectedFirstAction !== null) reject('GRANT');
+  } else {
+    if (control.controlGrant === null || !integer(control.grantExpiresAtUnixMs) || control.grantExpiresAtUnixMs <= observedAt || control.grantExpiresAtUnixMs - observedAt > 30000) reject('GRANT');
+    control.allowedActions.forEach(action => {
+      if (action === 'CONFIRM_PREPARATION_AND_START') {
+        if (body.phase !== 'PREPARING' || body.firstActionTruncated || body.firstAction === null || !body.firstAction.trim() || control.expectedFirstAction !== body.firstAction || control.activeSegmentId !== null || body.currentPage === null) reject('CONTROL_STATE');
+      } else {
+        if (body.phase !== 'ACTIVE' || control.activeSegmentId === null || control.expectedFirstAction !== null) reject('CONTROL_STATE');
+        if (action === 'START_BREAK' && ['FOCUS', 'DEEP_FOCUS', 'UNMONITORED'].indexOf(body.segmentType) < 0) reject('CONTROL_STATE');
+        if (action === 'FINISH_BREAK' && body.segmentType !== 'BREAK') reject('CONTROL_STATE');
+      }
+    });
+  }
+  if (body.phase !== 'ACTIVE' && control.activeSegmentId !== null) reject('CONTROL_STATE');
+}
+function validateCommand(message) {
+  id(message.controlGrant); enumeration(message.action, ACTIONS);
+  ['expectedIntentId', 'expectedSessionId', 'expectedSegmentId', 'expectedBookId'].forEach(key => id(message[key], true));
+  nullableText(message.expectedFirstAction, 180);
+  if (message.action === 'CONFIRM_PREPARATION_AND_START') {
+    if (message.expectedIntentId === null || message.expectedBookId === null || !integer(message.expectedPage) || message.expectedPage < 1 || message.expectedPage > 2147483647 ||
+        message.expectedFirstAction === null || !message.expectedFirstAction.trim() || message.expectedSessionId !== null || message.expectedSegmentId !== null || message.breakMinutes !== null) reject('COMMAND_STATE');
+  } else {
+    if (message.expectedSessionId === null || message.expectedSegmentId === null || message.expectedBookId !== null || message.expectedPage !== null || message.expectedFirstAction !== null) reject('COMMAND_STATE');
+    if (message.action === 'START_BREAK') enumeration(message.breakMinutes, [5, 10]);
+    else if (message.breakMinutes !== null) reject('COMMAND_STATE');
+  }
+}
 function decodeMessage(payload, expected) {
   if (typeof payload !== 'string') reject('TEXT');
   if (utf8Bytes(payload) > MAX_BYTES) reject('SIZE');
@@ -109,23 +154,40 @@ function decodeMessage(payload, expected) {
   let message; try { message = JSON.parse(payload); } catch (error) { reject('JSON'); }
   safeTree(message, 0);
   const common = ['protocolVersion', 'type', 'clientInstanceId', 'requestId'];
-  if (!message || message.protocolVersion !== VERSION) reject('VERSION');
+  if (!message || (message.protocolVersion !== VERSION && message.protocolVersion !== CONTROL_VERSION)) reject('VERSION');
   id(message.clientInstanceId); id(message.requestId);
   if (message.type === 'HELLO' || message.type === 'HELLO_ACK') {
     keys(message, common.concat(message.type === 'HELLO_ACK' ? ['streamId', 'capabilities'] : ['capabilities']));
-    if (!Array.isArray(message.capabilities) || message.capabilities.length !== 1 || message.capabilities[0] !== 'READ_ONLY_SNAPSHOT') reject('CAPABILITY');
+    validateCapabilities(message.capabilities, message.protocolVersion);
   } else if (message.type === 'GET_SNAPSHOT') {
     keys(message, common.concat(['streamId', 'lastSeenSessionId'])); id(message.lastSeenSessionId, true);
   } else if (message.type === 'SNAPSHOT') {
-    keys(message, common.concat(['streamId', 'sequence', 'sourceObservedAtUnixMs', 'body']));
+    keys(message, common.concat(['streamId', 'sequence', 'sourceObservedAtUnixMs', 'body']).concat(message.protocolVersion === CONTROL_VERSION ? ['control'] : []));
     if (!integer(message.sequence) || message.sequence < 1 || !integer(message.sourceObservedAtUnixMs) || message.sourceObservedAtUnixMs < 1) reject('NUMBER');
     validateBody(message.body);
+    if (message.protocolVersion === CONTROL_VERSION) {
+      const body = message.body;
+      if (['PREPARING', 'ACTIVE', 'SAVING', 'ENDED'].indexOf(body.phase) >= 0 && body.learningItemId === null) reject('OWNERSHIP');
+      if (body.phase === 'ACTIVE' && (body.segmentType === null || body.coverage === null)) reject('OWNERSHIP');
+      if (body.phase !== 'ACTIVE' && body.segmentType !== null) reject('OWNERSHIP');
+      validateControl(message.control, body, message.sourceObservedAtUnixMs);
+    }
   } else if (message.type === 'STATUS_ERROR') {
     keys(message, common.concat(['code']), ['streamId']);
     enumeration(message.code, ['SOURCE_BUSY', 'DISABLED', 'UNSUPPORTED_PROTOCOL', 'SOURCE_UNAVAILABLE', 'UNAUTHORIZED', 'IDENTITY_ERROR']);
+  } else if (message.type === 'COMMAND' && message.protocolVersion === CONTROL_VERSION) {
+    keys(message, common.concat(['streamId', 'controlGrant', 'action', 'expectedIntentId', 'expectedSessionId', 'expectedSegmentId', 'expectedBookId', 'expectedPage', 'expectedFirstAction', 'breakMinutes']));
+    validateCommand(message);
+  } else if (message.type === 'COMMAND_RESULT' && message.protocolVersion === CONTROL_VERSION) {
+    keys(message, common.concat(['streamId', 'action', 'code', 'sessionId', 'monitorDegraded']));
+    enumeration(message.action, ACTIONS); enumeration(message.code, RESULT_CODES); id(message.sessionId, true);
+    if (typeof message.monitorDegraded !== 'boolean') reject('BOOLEAN');
+    const committed = ['APPLIED', 'ALREADY_APPLIED'].indexOf(message.code) >= 0;
+    if (committed && message.sessionId === null) reject('RESULT');
+    if (message.monitorDegraded && (!committed || message.action !== 'CONFIRM_PREPARATION_AND_START' || message.sessionId === null)) reject('RESULT');
   } else reject('COMMAND');
   if (message.streamId !== undefined) id(message.streamId);
-  if (expected) ['clientInstanceId', 'requestId', 'streamId'].forEach(key => {
+  if (expected) ['protocolVersion', 'clientInstanceId', 'requestId', 'streamId'].forEach(key => {
     if (expected[key] !== undefined && message[key] !== expected[key]) reject('CONTEXT');
   });
   return message;
@@ -135,4 +197,4 @@ function encodeMessage(message) {
   decodeMessage(payload);
   return payload;
 }
-module.exports = { VERSION, MAX_BYTES, BODY_KEYS, integer, utf8Bytes, validateBody, decodeMessage, encodeMessage };
+module.exports = { VERSION, CONTROL_VERSION, ACTIONS, RESULT_CODES, MAX_BYTES, BODY_KEYS, integer, utf8Bytes, validateBody, decodeMessage, encodeMessage };
