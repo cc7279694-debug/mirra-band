@@ -45,7 +45,7 @@ FOCUS/BREAK原始端点保存wall/owner/可选mono可信标志；真实入口只
 
 ## 6. 产物与Git
 
-Band分支 `codex/module-05b-local-session`，from `097076801ee632ee4ff727b416450136dafa7a0f`。普通门禁后提交推送并核对远端；不合并main/创建PR/发布。手机保持干净 `codex/mirra-band-control-bridge@30a8af3fdea225cc96db6a360d71383a85b7ea39`。旧正式APK/RPK与05A两RPK实际SHA全部仍与原交付一致。
+Band分支 `codex/module-05b-local-session`，from `097076801ee632ee4ff727b416450136dafa7a0f`。实现提交 `5cc9000518b73c2b86d7383faf3fb34605b42291` 已推送并核对远端；不合并main/创建PR/发布。手机保持干净 `codex/mirra-band-control-bridge@30a8af3fdea225cc96db6a360d71383a85b7ea39`。旧正式APK/RPK与05A两RPK实际SHA全部仍与原交付一致。
 
 - RPK：`E:\CODEX\mirra-watch\dist\com.guanyi.mirra.band.localsessiontest.release.0.1.0.rpk`
 - 版本：**0.1.0/code1**；大小：**27,193 bytes**。

@@ -6,7 +6,7 @@
 
 **05B / DEV_COMPLETE_AWAITING_DEVICE_ACCEPTANCE**。用户授权独立学习闭环的普通规划/开发/测试/隔离构建；仅腕端测试书籍，不改Android/Room/备份。新RPK安装和05B自然短学习尚待当前同意与实际反馈；不进入05C。[合同](plans/MIRRA_BAND_05B_LOCAL_SESSION.md)、[交付报告](evidence/module-05b/README.md)。
 
-- 当前Band分支 `codex/module-05b-local-session`，from真实干净05A HEAD `097076801ee632ee4ff727b416450136dafa7a0f`。
+- 当前Band分支 `codex/module-05b-local-session`，from真实干净05A HEAD `097076801ee632ee4ff727b416450136dafa7a0f`。实现提交 `5cc9000518b73c2b86d7383faf3fb34605b42291` 已推送且远端SHA一致。
 - 手机保持干净 `codex/mirra-band-control-bridge@30a8af3fdea225cc96db6a360d71383a85b7ea39`，原手机工作区未操作。
 
 ## 当前能力
