@@ -143,3 +143,17 @@ Module 02 技术原型真机基础测试已通过用户反馈，正式 UI 尚未
 将平台识别问题与业务消息问题分开，减少凭模糊错误反复换包。手机 1.1.2/code5 已通过构建/回归并经实际三方证书匹配安全覆盖，2026-10-12 UTC 01:55 实际查询为“小米服务报告已安装”。Boolean 本身不证明签名、腕端版本或消息往返；此次消息通过另有手机实际握手/完整发送和第八张真实 IDLE 接收照片相互证明。首查 NO_DEVICE 的恢复缺口已从代码确认，本次同 PID 32135 从 NO_DEVICE 到手动恢复排除了进程重启解释；重连与检查两个动作未隔离，不能将检查当作已定位的 TIMEOUT 修复或宣布恢复缺口已修复。单次 IDLE 不外推其他场景；用户随后明确完整监测学习锁屏重进正常，该主场景另记 USER_REPORTED_PASS，不冒充独立 Session/锁屏画面/原始消息采集，整个模块仍待其余验收。
 
 当前证据状态为 MODULE_03_DEVICE_ACCEPTANCE_IN_PROGRESS / IDLE_ROUNDTRIP_PASSED_LOCKSCREEN_USER_PASS_OTHER_SCENARIOS_PENDING；其余状态完整画面和 30 分钟观察仍未验收，不改变模块边界。
+
+## 2026-10-12 — 应用连接 owner 承担有界自动恢复
+
+### Decision
+
+首次 NO_DEVICE / 暂时 SERVICE_UNAVAILABLE / TIMEOUT 失败后，由同一个应用连接 job 按 2/5/10/30/60 秒延迟恢复，之后保持 60 秒上限；成功即停止。自动尝试 requestAuthorization=false，不新增权限弹窗、FGS、alarm 或 wake lock；系统休眠可能延迟执行，不承诺准点。身份、授权、多设备或监听清理不确定等非暂时错误停止并锁存；晚到事件/发送成功不能覆盖停止状态。关闭伴侣、维护 pause、source 退役、close 与进程 scope 取消所属重试，合法新 source owner 重新接线。SDK ready 不代表 HELLO 或 SNAPSHOT 成功。
+
+### Context / Alternatives / Reason
+
+初始空节点失败会移除 SDK service observer，单等 available/onResume 不能恢复。使用现有应用 owner 的可取消延迟和串行连接，不增加第二个消息监听、后台服务或高频查询；已持有节点的临时丢失也走同一退避。实际失败回归与全量构建支持本实现，真机恢复仍需另验。
+
+### Consequences
+
+永久错误不被可用/失联/晚到发送事件擦除；维护和进程边界停止旧任务。只在现有进程与合法数据源存在时恢复，不承诺 OEM 常驻或休眠准时通信。

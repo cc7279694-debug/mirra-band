@@ -1,5 +1,5 @@
 {
-  "observedAt": "2026-10-12T02:04:59.939Z",
+  "observedAt": "2026-10-12T03:27:40.953Z",
   "band": {
     "scripts": 30,
     "sourcePages": 3,
@@ -1029,6 +1029,7 @@
       }
     },
     "notRun": [
+      "1.1.3 target preinstall safety check, overwrite installation and automatic recovery without manual reconnect/install-check; awaiting user confirmation",
       "Three explicit random requestId challenge roundtrips not separately captured; genuine HELLO/GET_SNAPSHOT/IDLE receipt already passed",
       "Precise256/1024/2048/4096byte and Chinese/emoji physical roundtrip matrix",
       "Independent active-session/locked-phone/re-entry evidence capture; user performed exact scenario and reported PASS",
@@ -2276,6 +2277,861 @@
         "relativePath": ".local/module03-evidence/xiaomi-device-20261011/phone-112-full-build.log",
         "bytes": 3493,
         "sha256": "23acfdeb1df717123b92879227d092b2cb03c9746da4e15fb12b223f80d3a1a7"
+      }
+    ]
+  },
+  "phoneRecovery113": {
+    "status": "LOCAL_CODE_BUILD_SIGNATURE_PASSED_DEVICE_ACCEPTANCE_PENDING",
+    "implementationCommit": "322fbfd0288a26ba56c7b0b02d0598ab680d5dd7",
+    "apk": {
+      "observedAtUtc": "2026-10-12T03:25:17.9032371Z",
+      "path": "E:\\CODEX\\mirra-watch\\dist\\Mirra-1.1.3-band-readonly-debug.apk",
+      "bytes": 16852478,
+      "sha256": "a7f20c1c38b416a6ece12db5f5e07db7852b2848ab7ad58a0fe91610609bac75",
+      "package": "com.guanyi.mirra",
+      "version": "1.1.3-band-readonly",
+      "versionCode": 6,
+      "minSdk": 23,
+      "targetSdk": 37,
+      "certificateFingerprint256": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
+      "signature": "apksigner verify exit 0; v1 and v2 verified",
+      "localIdentityMatchesAccepted112And025": true,
+      "currentDeviceIdentityRechecked": false,
+      "installed": false,
+      "inspectionNote": "Current apksigner uses V2 Signer certificate label; digest parser adjusted, no signature or APK change",
+      "implementationCommit": "322fbfd0288a26ba56c7b0b02d0598ab680d5dd7"
+    },
+    "jvm": {
+      "suites": 81,
+      "discovered": 741,
+      "passed": 741,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "lint": {
+      "errors": 0,
+      "warnings": 20,
+      "hints": 1,
+      "newIssuesVersus112": 0,
+      "removedIssuesVersus112": 0,
+      "comparison": "id, severity, message, location file/line/column multiset"
+    },
+    "build": {
+      "exitCode": 0,
+      "duration": "14m 30s",
+      "durationSeconds": 870,
+      "tasks": [
+        "testDebugUnitTest",
+        "lintDebug",
+        "assembleDebug"
+      ],
+      "maxWorkers": 1,
+      "jvmTestsFiltered": false,
+      "log": "full-gate.log",
+      "newKtlcWarningPresent": false,
+      "compilerWarnings": [
+        "w: file:///E:/CODEX/mirra-watch/.local/android-worktree/app/build.gradle.kts:56:48: 'fun srcDir(srcDir: Any): Any' is deprecated. Use `directories` mutable set instead."
+      ]
+    },
+    "regression": {
+      "iterations": [
+        {
+          "tests": 37,
+          "passed": 27,
+          "failures": 10,
+          "errors": 0,
+          "skipped": 0,
+          "note": "Original initial recovery gap",
+          "log": {
+            "relativePath": ".local/module03-evidence/recovery-113/red-behavior.log",
+            "bytes": 3797,
+            "sha256": "fc0b7ccdb6325bdd4eecf46e7d377d9c518546d4dea4b7c21df823c9dedd9a88"
+          },
+          "files": [
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-initial-results/binary/output-events.bin",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-initial-results/binary/results-generic.bin",
+              "bytes": 78152,
+              "sha256": "c67c0f8af2eb9cc93105a48cae5fabe2dfd0355be4988653a1e76ed4a881bdd4"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-initial-results/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorRecoveryTest.xml",
+              "bytes": 68198,
+              "sha256": "617b0a9c303999c45b7be3d3ea90bf6b6c19c761f33e029a5a7eb8e6d59b3453"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-initial-results/TEST-com.guanyi.mirra.platform.wearable.OwnedWearTransportTest.xml",
+              "bytes": 11561,
+              "sha256": "aad96ad5248ca91ca1e3e526443f8a457f92515ad333dfa3d3d856772fa80d28"
+            }
+          ]
+        },
+        {
+          "tests": 39,
+          "passed": 27,
+          "failures": 12,
+          "errors": 0,
+          "skipped": 0,
+          "note": "Source retirement and permanent failure boundaries before implementation",
+          "log": {
+            "relativePath": ".local/module03-evidence/recovery-113/red-boundaries.log",
+            "bytes": 4210,
+            "sha256": "319cb8bacb35bbc0e8ce848d44ee83863f3cf77289655cc24cab9656add1b743"
+          },
+          "files": [
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-boundaries-results/binary/output-events.bin",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-boundaries-results/binary/results-generic.bin",
+              "bytes": 93264,
+              "sha256": "cdc11ad4f56b4daa358acc3e0cba166097ce17b92ab9583dda86602505d17e99"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-boundaries-results/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorRecoveryTest.xml",
+              "bytes": 83493,
+              "sha256": "8d5ba2233af8adf28bc6ad7574da22fe52487b255078284ef6f05a90f4f9b0a8"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-boundaries-results/TEST-com.guanyi.mirra.platform.wearable.OwnedWearTransportTest.xml",
+              "bytes": 11559,
+              "sha256": "2a8686beef309c14628ebd41ff5f0e94f5d6be6b9114f87fe1d04fb187ffe010"
+            }
+          ]
+        },
+        {
+          "tests": 57,
+          "passed": 56,
+          "failures": 1,
+          "errors": 0,
+          "skipped": 0,
+          "note": "Existing disconnect test expected no automatic reconnect; adapted only that contract, retained late-check assertions",
+          "log": {
+            "relativePath": ".local/module03-evidence/recovery-113/green-targeted.log",
+            "bytes": 2109,
+            "sha256": "7a72e91da3eb52aaa3c7104d842e704da5b640d7d6c21212c62eb558e76314dc"
+          },
+          "files": [
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/green-attempt-1-results/binary/output-events.bin",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/green-attempt-1-results/binary/results-generic.bin",
+              "bytes": 16320,
+              "sha256": "2fb384a8d0aceef7badf5474b78bd5d91ffcc6f062d628eb8defc43dc4431fcd"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/green-attempt-1-results/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorRecoveryTest.xml",
+              "bytes": 2759,
+              "sha256": "48a226e6d2ddff43b93bee8173c77679d61023d78e1a78396b1e8e3cbaf1f69c"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/green-attempt-1-results/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorTest.xml",
+              "bytes": 10782,
+              "sha256": "2a531e0420127fda7dba27add76388dbdab1a127e9474cc4c5f5fb7d1df2f4cc"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/green-attempt-1-results/TEST-com.guanyi.mirra.platform.wearable.OwnedWearTransportTest.xml",
+              "bytes": 4411,
+              "sha256": "e40dc083fdbeae06fd4322c99013eea89f30f2f5ee07d4235227d5fe230f85dd"
+            }
+          ]
+        },
+        {
+          "tests": 57,
+          "passed": 57,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "note": "Initial recovery implementation",
+          "log": {
+            "relativePath": ".local/module03-evidence/recovery-113/green-targeted-final.log",
+            "bytes": 1660,
+            "sha256": "de3300e74a53d108aff99adc5d70b6707c731716b50df653ae1b0dcae856a175"
+          },
+          "files": [
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/green-initial-results/binary/output-events.bin",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/green-initial-results/binary/results-generic.bin",
+              "bytes": 9004,
+              "sha256": "81201cf6968367afd976d8a24ff66fdb349e61a83bce2a793738a0d960e19fd0"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/green-initial-results/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorRecoveryTest.xml",
+              "bytes": 2759,
+              "sha256": "a38f018c277093e0cd1062fa82709ed820f0e48e9c35ac2ae46d7ada7d801d35"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/green-initial-results/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorTest.xml",
+              "bytes": 3393,
+              "sha256": "885462365d7c13eb66e938065d63e82cd31fba2df18dcefb81c097b927432b90"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/green-initial-results/TEST-com.guanyi.mirra.platform.wearable.OwnedWearTransportTest.xml",
+              "bytes": 4410,
+              "sha256": "59fcb4affca61a2af44558810e694806a46364d0d6f27307081a48b3fd64adcd"
+            }
+          ]
+        },
+        {
+          "tests": 60,
+          "passed": 58,
+          "failures": 2,
+          "errors": 0,
+          "skipped": 0,
+          "note": "Repeated disconnect reset and permanent-error late-event bypass reproduced",
+          "log": {
+            "relativePath": ".local/module03-evidence/recovery-113/red-review-safety.log",
+            "bytes": 2344,
+            "sha256": "45b6ad4a1a4bbbe2b00bad75dd3a0b37891483063e1c17862cf1e91a76f33a6b"
+          },
+          "files": [
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-review-safety-results/binary/output-events.bin",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-review-safety-results/binary/results-generic.bin",
+              "bytes": 24335,
+              "sha256": "d0ea4ce32b50881e804c8569fc903558c4df0d59e41e19b1e132da5ee12b93f6"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-review-safety-results/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorRecoveryTest.xml",
+              "bytes": 18290,
+              "sha256": "f3dc214320f96d61a837ceae2e46440bbf63aa49e104b9f90808cb45da666cc2"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-review-safety-results/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorTest.xml",
+              "bytes": 3392,
+              "sha256": "5407779b9dfd9c1453d07fcd04caf09ef03ca22724af2d7d33b4b1a64a006201"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-review-safety-results/TEST-com.guanyi.mirra.platform.wearable.OwnedWearTransportTest.xml",
+              "bytes": 4409,
+              "sha256": "5775799e128da9b09a68d2e430ba5a9b1deed5727a8bb266deeac680696cc47b"
+            }
+          ]
+        },
+        {
+          "tests": 62,
+          "passed": 58,
+          "failures": 4,
+          "errors": 0,
+          "skipped": 0,
+          "note": "Also reproduced late HELLO/SDK-ready publication after permanent native failure",
+          "log": {
+            "relativePath": ".local/module03-evidence/recovery-113/red-owner-publication.log",
+            "bytes": 2755,
+            "sha256": "ffc533cb7bc70f413331258ca1c53fd60d69826a07f1fa3166a1ddca9d38e7bd"
+          },
+          "files": [
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-owner-publication-results/binary/output-events.bin",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-owner-publication-results/binary/results-generic.bin",
+              "bytes": 39491,
+              "sha256": "df2756583ad437f06d819e9bb974962d5f681643596d8fc627203d2d0dd892d6"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-owner-publication-results/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorRecoveryTest.xml",
+              "bytes": 33604,
+              "sha256": "88688ad72a0240fb5dbf62ac31b0486b5be2c6e430eb867bb9ebd023e0eb3d73"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-owner-publication-results/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorTest.xml",
+              "bytes": 3392,
+              "sha256": "b91d5a14d3fad175f1acd0b4b9164cc0fbafba5e32d53fbcd051b213b6b42ce5"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/red-owner-publication-results/TEST-com.guanyi.mirra.platform.wearable.OwnedWearTransportTest.xml",
+              "bytes": 4412,
+              "sha256": "c593004dfaded4eb09312a6c5f029b6faaba16c7c432c984c5a55a10adb16344"
+            }
+          ]
+        },
+        {
+          "tests": 62,
+          "passed": 62,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "note": "Final ownership/publication regression gate before explicit Unit annotation and version bump",
+          "log": {
+            "relativePath": ".local/module03-evidence/recovery-113/green-owner-final.log",
+            "bytes": 2138,
+            "sha256": "dcdb745f5f79dfe0e7b186387f00863b37ba834b93bf040b2c1fa3e5ff4e0aa9"
+          },
+          "files": [
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/green-owner-results/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorRecoveryTest.xml",
+              "bytes": 3729,
+              "sha256": "f48deb4a96c63b1321b611960355dd5e2fb845619e53b59b47d1e53463fb530e"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/green-owner-results/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorTest.xml",
+              "bytes": 3392,
+              "sha256": "be3f40e0b541a2e5fa8ab205646c33a6a716db36708dc9bdc5045fcfdf1b87ae"
+            },
+            {
+              "relativePath": ".local/module03-evidence/recovery-113/green-owner-results/TEST-com.guanyi.mirra.platform.wearable.OwnedWearTransportTest.xml",
+              "bytes": 4412,
+              "sha256": "dd467652ae135baa2f63a35962762d4036f071339d5c3831f487487abcc91eda"
+            }
+          ]
+        }
+      ],
+      "excludedFromBehaviorRed": [
+        "Initial JUnit import compilation error",
+        "Later permanent-listener fixture checkNotNull error; replaced with assertNull plus saved retired callback, retained stop assertions"
+      ],
+      "policy": "2/5/10/30/60 second cancellable delays;60second cap thereafter while enabled/source/process remain. Only NO_DEVICE/SERVICE_UNAVAILABLE/TIMEOUT retry, all automatic SDK attempts requestAuthorization=false. Permanent categories latch, old owners/callbacks/success cannot reopen or publish. SDK readiness does not imply HELLO/SNAPSHOT.",
+      "ownedTransport": "Existing quarantine retained. Uncertain registration/removal -> CLEANUP_PENDING; no new registration or authorization."
+    },
+    "scope": {
+      "production": "WearableCoordinator only",
+      "config": "versionName 1.1.3-band-readonly/versionCode6",
+      "algorithmRoomBackupSigningDependencies": "unchanged",
+      "roomV4Blob": "97ae3a8a15aeb924350b4b7ecade389b314f7ebf",
+      "protocolUnitMirrors": 12,
+      "protocolMismatchCount": 0,
+      "newForegroundServiceAlarmWakeLock": false
+    },
+    "independentReview": "Read-only reviewer found no blockers; root independently inspected diff, parsed XML, compared lint issue multiset, verified frozen file hashes and APK binary signature/version. This is not ChatGPT final module acceptance.",
+    "bandReuse": {
+      "version": "0.2.5",
+      "versionCode": 7,
+      "sha256": "1f7dad9c611e2b3b39e3803226626d7d7667f1cd3f878429b134cee4fe046566",
+      "rebuilt": false,
+      "tests": {
+        "passed": 154,
+        "failed": 0,
+        "skipped": 0
+      },
+      "check": {
+        "scripts": 31,
+        "pages": 3,
+        "errors": 0
+      },
+      "inspection": {
+        "relativePath": ".local/module03-evidence/recovery-113/band-025-reused-inspection.json",
+        "bytes": 1052,
+        "sha256": "d0cea8cf4797e7d62797ae6df8ec5bbdaafef12c91a1724b0dc1f24baa2c00c5"
+      }
+    },
+    "deviceAcceptance": {
+      "status": "AWAITING_USER_CONFIRMATION",
+      "installedVersionLastVerified": "1.1.2-band-readonly/code5",
+      "acceptedEvidence": "Existing real IDLE PASS and exact lockscreen/re-entry USER_REPORTED_PASS preserved for1.1.2+0.2.5",
+      "automaticRecovery": "Not Run on physical target",
+      "additionalStates": "Preparation/Focus/Rest/Recovery/Unmonitored/Saving/Disconnect/Ended actual wrist screens pending",
+      "observation30Minutes": "Not Run; report obtainable sync lower-bound, failures, observable latency, battery with charging caveat. No invented total count/RTT.",
+      "systemActions": "Seek explicit confirmation at installation/authorization/device-operation steps",
+      "nextModule": "Module04 not started"
+    },
+    "files": [
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/app-debug.apk",
+        "bytes": 16852478,
+        "sha256": "a7f20c1c38b416a6ece12db5f5e07db7852b2848ab7ad58a0fe91610609bac75"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/full-gate.log",
+        "bytes": 3399,
+        "sha256": "0178345e7a7c04982f62f312cb39c8ed840cfe1db5265960d9c9669e36447ae9"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.data.backup.BackupArchiveTest.xml",
+        "bytes": 2192,
+        "sha256": "2fc7a2729751fd795173290d35f92a2831622a99c994411ded6197fd4f4527f3"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.data.backup.BackupSearchBudgetTest.xml",
+        "bytes": 944,
+        "sha256": "c43b4f433d5d596943d6a2b30ca59d80411dbb60618297d98c0b3aeac244e592"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.data.backup.ManagedPreferencesTest.xml",
+        "bytes": 1082,
+        "sha256": "caea25a0ea982b3239a0f735935dc25313d165c689dae23eaa65591e2bc42bdd"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.data.backup.RestoreJournalSafetyTest.xml",
+        "bytes": 679,
+        "sha256": "d0b0599b2123e2b32a0292abbef7601018e498991b6c4a27aaa7fbe4de682353"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.data.backup.RestoreJournalTest.xml",
+        "bytes": 1661,
+        "sha256": "3bb1ca892048ef2ace8e2102068af99405e23815b97172c545da2c685a532f6e"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.data.export.ExportWorkspaceTest.xml",
+        "bytes": 1955,
+        "sha256": "26e1633c7b68219ae0dcdda4cb3eeeed07b4ce3bc63e3873470f1a0558e88914"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.data.export.ReadableExportWriterTest.xml",
+        "bytes": 4494,
+        "sha256": "3da390d2faa65a0db09868b6aad0b224df78c63cdb221bef3b6b6a02d749a56c"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.data.ImageImportPolicyTest.xml",
+        "bytes": 882,
+        "sha256": "11f6cbf3a8283efbdfe40bf3c2fca67eeb216670c014fa27c5cf46007eb26355"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.data.maintenance.GateRepositoryWriterTest.xml",
+        "bytes": 886,
+        "sha256": "980f3f08b15c516970497c4e283068fba375e8bc61a0a66ffd7f20ba03c5c104"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.data.maintenance.GateSessionManagerTest.xml",
+        "bytes": 704,
+        "sha256": "838ce12f0cf2b6954cdb8b34b7e84ce9a8a9e6c0d86acd592d258ab3f4a9b1c4"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.data.maintenance.GateWriterAdmissionCoverageTest.xml",
+        "bytes": 538,
+        "sha256": "0cf6649b5e042262ea3eeb7d0c80d0a7020b3752c0c842d0e33061e5b2a1967f"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.data.preferences.StrictAppPreferencesSnapshotTest.xml",
+        "bytes": 3498,
+        "sha256": "0c4dab849686b44437d14a8fa8158d2260ecae8c69e2037f614c8dfdc79f7026"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.di.CloseoutStartupRecoveryTest.xml",
+        "bytes": 1383,
+        "sha256": "4863bad49f99d9a3d5b543d406b40064fe52148198df5d29b8feee40f23f04aa"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.di.StorageBootstrapTest.xml",
+        "bytes": 1685,
+        "sha256": "9cbd6c5dae73df02a5ef077a05e560d67e12b8998b2611630bbe0e43c55b32c7"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.BehaviorTransitionsTest.xml",
+        "bytes": 748,
+        "sha256": "fd07223ef39d6947a8bc217716dd5fe0e04dfccd186d7e02518240215c41a3b5"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.CompletionPredictionServiceTest.xml",
+        "bytes": 1539,
+        "sha256": "6f76931ad70908a3ee5aeddce6dd72931781dd09b5fb9763c6a6747065e46056"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.DndControllerTest.xml",
+        "bytes": 2030,
+        "sha256": "bf8e0c249eb7a48433cc3902646e1997dcfad35882c1bda5e299f896a50f7633"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.EffectiveAnalyticsCompatibilityTest.xml",
+        "bytes": 971,
+        "sha256": "f2d262a8c0acd4efe576aadc7d413736a7bea7216963fc83069d9ee5aad416f0"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.EffectiveReadingServiceTest.xml",
+        "bytes": 2554,
+        "sha256": "a2431dfef37d3fd3d9feae8d99b66ea572b633a591174d35f9d11a327e1cce02"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.FirstActionResolverTest.xml",
+        "bytes": 1465,
+        "sha256": "67be3cae10983091c626adfd3c195a3337542bb2c17ab9bc1ecb7734b0da7565"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.insights.ReadingPaceInsightServiceTest.xml",
+        "bytes": 7614,
+        "sha256": "ad11359f0763c8fd5202453c42c71393d49c44796dc1d6fe36c5c71f4744c168"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.IntentExpiryPolicyTest.xml",
+        "bytes": 626,
+        "sha256": "106f2e6ecfcfdf0e3442ef7048656a59a5db9e838ef266313653d218e2a82a05"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.intervention.ExternalPromptEligibilityTest.xml",
+        "bytes": 1119,
+        "sha256": "fa3f82fe9547e08ea43097eb93e411b4176aaaf90fab24f4cc037f5d77984e70"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.intervention.InterventionNavigationTest.xml",
+        "bytes": 1718,
+        "sha256": "b1da316f574deb9f50ec92495ea81ef7d6e4dbcd9e85eb9ecd327a271b817270"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.intervention.InterventionPresenterTest.xml",
+        "bytes": 3041,
+        "sha256": "1d42004464916a2efdb849901c022cede17f138db0e9bf76a2079341ef158c27"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.intervention.PresentationEpisodeTest.xml",
+        "bytes": 809,
+        "sha256": "c636bb9dec6218cfd6824f6f7d86e9e1038c8fc0b9a3e4119e5693dc460be199"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.maintenance.MaintenanceCoordinatorTest.xml",
+        "bytes": 4534,
+        "sha256": "8490580815f8fbb8d5eb007ad47a7f06dba37074b390007de13dc33ea7d3a282"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.maintenance.PendingEditRegistryTest.xml",
+        "bytes": 1197,
+        "sha256": "673c3818c034eaec3eaa2f3cb7b6305da4b63583eadae1adc90583ceea56b966"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.maintenance.StorageMaintenanceGateTest.xml",
+        "bytes": 1810,
+        "sha256": "9e2f0a8291c9080694528be9db14d320d79fb0e60170935bcde14c3bc1be743a"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.monitoring.BehaviorPolicyTest.xml",
+        "bytes": 1304,
+        "sha256": "ce8e23611a34cbb41c88ed81ca62ffb016dda6be26e96d817e577f33f225f4b9"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.monitoring.BoundSessionMonitoringControllerTest.xml",
+        "bytes": 2590,
+        "sha256": "f2cb3823cb45dea2584d73d5436b1abbdb366349f523b7e79a7dc94d995f5004"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.monitoring.CandidateRiskAppMachineTest.xml",
+        "bytes": 1800,
+        "sha256": "45f5b833eaaeaf48faf7ba34d0a517cf611efa3582f5ee6be057c24443ccb390"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.monitoring.FocusSessionActionsTest.xml",
+        "bytes": 3668,
+        "sha256": "4bfc7e2d68cac8b580ce76a80f1f72d38db10c680882bfe988d93788d97413af"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.monitoring.ForegroundObservationReducerTest.xml",
+        "bytes": 2402,
+        "sha256": "94352f97e63ffd3744de10cca8ffb172f97cd9f8f4b87f8503ff746f4bf2412b"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.NoteTypeSuggesterTest.xml",
+        "bytes": 735,
+        "sha256": "639064966addecae37f9b7a9feb906d1bc52c394ad54e491296bd3c69f197fc3"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.ReadingAnalyticsServiceTest.xml",
+        "bytes": 1540,
+        "sha256": "ae11bb217eedf6e4d5d5ce3c96edd0bcda0224cd74b0f6ebe6443ac85143a82f"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.ReadingRecordProjectionTest.xml",
+        "bytes": 1629,
+        "sha256": "832290187b7f392979268a7c49a02c1dabab114a3e22cd2348c6c082b61be24a"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.SearchEngineTest.xml",
+        "bytes": 1135,
+        "sha256": "4019610819615654629241972f108209cd879e4c2789d141c97fa8388059c785"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.SegmentTimelinePolicyTest.xml",
+        "bytes": 779,
+        "sha256": "80b4a9f571a427b676d656779434560e77d4a1ea55fca324d6543e82ec6394ed"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.SessionManagerCloseoutTest.xml",
+        "bytes": 2328,
+        "sha256": "2d6e14cc48c695f9d20099a6ceea7ee45c0d87fd8359a8c057d4538b88dfb2e6"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.SessionSegmentStateMachineTest.xml",
+        "bytes": 1491,
+        "sha256": "780dfbb6c5457e127a36cdb1a246430093e0a903d9f6a1a71abf44525b32b1e3"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.SessionStartCoordinatorTest.xml",
+        "bytes": 3675,
+        "sha256": "e8aa940795f63adab60538bc87f8a7ec356dad2b1f5cddfd6c4601867965eefe"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.SessionTimelineValidatorTest.xml",
+        "bytes": 1505,
+        "sha256": "60fa26d7300a82b8e2a571df0aa8454292360ea21434ab4bda0ba803ff0cb873"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.SummaryEngineTest.xml",
+        "bytes": 636,
+        "sha256": "32ee9739c0f2683a2997b9aa0a24a8261464e40a9a3d3e0cae18a869e7dca17e"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.TopicNameNormalizerTest.xml",
+        "bytes": 758,
+        "sha256": "d6c4d2cf4bb87a6e8f644cf2d99486acc2c85f77cb05710e519c815d8e90f48a"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.TopicSuggesterTest.xml",
+        "bytes": 606,
+        "sha256": "da4537f16e01d868941d4046e8c146d22bf8e29114ce271134183dc3b27d543d"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.trends.DailyTrendsServiceTest.xml",
+        "bytes": 2939,
+        "sha256": "fa5f16e229b89e4f5d411261025151ea6f1c58b91c70b506431d031913835f49"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.trends.TrendsServiceTest.xml",
+        "bytes": 5579,
+        "sha256": "9f773a31c85c5fa7fad6862861394804b01c631adaa0a41b03e3c965b38f2bd6"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorRecoveryTest.xml",
+        "bytes": 3727,
+        "sha256": "76a4c65a70b652c7f1c39e02c0942e052db9b4f932ee655cece5a72f51471819"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.wearable.WearableCoordinatorTest.xml",
+        "bytes": 3390,
+        "sha256": "d219ce86243049828f6ad3fbde82d597b6b613b0f68138903d3d04cadc42ad45"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.wearable.WearableGoldenFixturesTest.xml",
+        "bytes": 505,
+        "sha256": "13b49c7ac7e653ce48ba11d61531dfbed89fb4441ce8b5953b8dffa233131418"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.wearable.WearableProjectionTest.xml",
+        "bytes": 1583,
+        "sha256": "4f38e55ce9661141d2e2d4f3cddf45dde8b5ba8ac55870ebf449885558df35d3"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.domain.wearable.WearableProtocolTest.xml",
+        "bytes": 1247,
+        "sha256": "aa7071b59a133c4ce9d21211a066dfdd6ac95c9e1db849ce046d6fe3145182d0"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.datamanagement.DataExportViewModelTest.xml",
+        "bytes": 2914,
+        "sha256": "177dbd09b1eb1a4e00cc2aa94d9f349c42e5a33e5b845f907145f2ca76f2acc2"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.datamanagement.DataManagementViewModelTest.xml",
+        "bytes": 2148,
+        "sha256": "c6c0ddf0ff554d8a71400b11c34392aa7f78721f9e172ce3b2c401b22c77caa5"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.knowledge.ImageImportMessageTest.xml",
+        "bytes": 501,
+        "sha256": "4756cba8316324654988430bdc750ca72e89c78a69942f52c0785bd976c762ce"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.knowledge.LearningItemEffectivePaceTest.xml",
+        "bytes": 1739,
+        "sha256": "b85fe1395049c04ae6bc0d0ab1082ecbfc763dd508e0f7833c36e4a188fdaee9"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.knowledge.LearningItemInsightTest.xml",
+        "bytes": 1879,
+        "sha256": "47dea98542b1a75686ad45df22ea4d3fe3209755b182cb7bdacaf42b19aee592"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.knowledge.NoteEditorMaintenanceTest.xml",
+        "bytes": 879,
+        "sha256": "a4982ede666ff70ab9ab4ef731b01e9f3557ec8462461c0a4d0dc2b97fe8143d"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.profile.CrossAppInterventionUserActionsTest.xml",
+        "bytes": 1030,
+        "sha256": "ff8182c957e84b02b4c5e3a946fe2ff85d391c8cf973bf735ccd8c3f496e67e0"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.profile.DndUserActionsTest.xml",
+        "bytes": 1926,
+        "sha256": "de7d40bc2308741568b97607f64afa48c30467d9496e590b3d6a6eb36c152918"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.profile.GlobalReadingHistoryViewModelTest.xml",
+        "bytes": 1351,
+        "sha256": "f9d2a3ff3ed864a87b9da7efc513a3705774a1858c75657aa365b86b2286cd02"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.profile.LearningProtectionProjectionTest.xml",
+        "bytes": 3415,
+        "sha256": "424112903c087b88c35134c4d5c19ad5472d3cacf81578c6cdbdc244677b6fb9"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.profile.TrendsViewModelTest.xml",
+        "bytes": 1212,
+        "sha256": "f742c350f5196bb8be31c72f221f9515671a11e5eb696df87788d86a087d923e"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.profile.WeeklyProfileViewModelTest.xml",
+        "bytes": 1692,
+        "sha256": "4f72967c458d3daf005fe2a13ad79692a15abde50799cda2d90d03bf584b8cb3"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.session.PreparationFirstActionViewModelTest.xml",
+        "bytes": 1826,
+        "sha256": "14b5db6bfa7d8730216e4b6c2263e79f6cf1392acf8fd42e3021b1dc5ca241e4"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.session.ReadingRecordViewModelTest.xml",
+        "bytes": 930,
+        "sha256": "675db1b810247579483e3c8540e682eab34a20f812d80f05b3d3f0b80a03f027"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.session.SessionCloseoutViewModelTest.xml",
+        "bytes": 5791,
+        "sha256": "6b4d839e38b40a967d2df9dd278935c8b639a6aad1ae7e75cbfbe3edd2102402"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.session.SessionFocusViewModelTest.xml",
+        "bytes": 1495,
+        "sha256": "d0bd0fb4404aedae374f7ed88b9fbcb9cb4985aa8f5440a811b84b8a3df0f227"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.start.FirstActionEditorViewModelTest.xml",
+        "bytes": 522,
+        "sha256": "0c272170e0534893cb4fca2b441ed395ea98bf188a433305fe1b4fc0715d25cc"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.start.StartRecentReadingTest.xml",
+        "bytes": 648,
+        "sha256": "afd6fd2f4c25d8e3ff1e99cca93d684d94092cfb9731a610e0ad6e8586416552"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.feature.start.StartStateResolverTest.xml",
+        "bytes": 1205,
+        "sha256": "35e58866944a7ed04ba4e842ba88dd5ea19e05495b200be816ee479289dae133"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.navigation.TopLevelDestinationTest.xml",
+        "bytes": 620,
+        "sha256": "15f1051870890b9af9aff45b796fe4fc41f4b3c032eaef526c9f1a01a7a9c3a2"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.platform.backup.AndroidBackupPolicyTest.xml",
+        "bytes": 841,
+        "sha256": "0626139d6913fd8ac4fa1a49d6c2fe443eb1af883a7ca7cc7359cc88e10b7392"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.platform.focus.AndroidCapabilityPolicyTest.xml",
+        "bytes": 1356,
+        "sha256": "72c9b75c0aa814f293bec418e12b531c6d7bb3d83ea995a29dd6fb932fd896a0"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.platform.focus.MonitoringLifecycleTest.xml",
+        "bytes": 1344,
+        "sha256": "cb7c6b95627687fcc70022fec495c484c8d6b2de0a8522c12183b117f2f4e8f9"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.platform.focus.MonitoringReadyLeaseTest.xml",
+        "bytes": 694,
+        "sha256": "6e6714053e0906125afe2f3ff201d2a482eb523b69cfc31d4fab69faf3bf798e"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.platform.focus.UsageMonitorTest.xml",
+        "bytes": 979,
+        "sha256": "140870e069b78bbf87a6e0c08c2eb8b1095ad613df5f4f4b93e20081a25331a8"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.platform.wearable.OwnedWearTransportTest.xml",
+        "bytes": 4413,
+        "sha256": "673a5343a5f9e73cb1d28bea5bc57901af3f1b5a3b9216417f29f24458a909ad"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.ui.media.StorageImageCacheKeyTest.xml",
+        "bytes": 624,
+        "sha256": "a75c082a443a350c1edf326683f50a21a865bd86cf46cf511a6f62fdd4406d9a"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/jvm/TEST-com.guanyi.mirra.ui.theme.MirraPaletteTest.xml",
+        "bytes": 702,
+        "sha256": "666e4a88764cccea462ac26da7dc0560cfbb16f1e54c1bbc9fbb09eced17241d"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/lint-results-debug.html",
+        "bytes": 152977,
+        "sha256": "e281b0a9b4f8538af1890a4b28ce7b56574a4467e6fad93e7172a22c922800e5"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/lint-results-debug.sarif",
+        "bytes": 78427,
+        "sha256": "f439246c0573c559ce8ea7b9cdf374e643bce5c22372d5683352feef02573c22"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/lint-results-debug.xml",
+        "bytes": 22585,
+        "sha256": "ec3645cd783f4c96366cf297ad2a6142e202ee70c12f8330fa2c7ed8f21725ec"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/manifest.json",
+        "bytes": 17412,
+        "sha256": "20b3a134a7bacfc6d3a1cf43a45490f6a48222478212181a97cb375b0a7af564"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/output-metadata.json",
+        "bytes": 414,
+        "sha256": "50ab0843cbe55411c4bbab8c3d75a45b37c9f46f7aa71605f5653c7a7f0f47f9"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/final-results/summary.json",
+        "bytes": 1851,
+        "sha256": "8d7719db7eb39b243b15bc6b5ec1ba53e321fac4ee438c4def2858be00a7523a"
+      }
+    ],
+    "logs": [
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/full-gate.log",
+        "bytes": 3399,
+        "sha256": "0178345e7a7c04982f62f312cb39c8ed840cfe1db5265960d9c9669e36447ae9"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/apk-113-signature.log",
+        "bytes": 17912,
+        "sha256": "28fad69daf42326cc7a8adf56af4e5b377c53a1107b5cc7621251c882b9c810d"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/apk-113-badging.log",
+        "bytes": 5618,
+        "sha256": "5e5f33ee5e9062efc677bcda645c54a7a4b832f2d6eb3f716a69029464a87322"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/apk-113-local-artifact.json",
+        "bytes": 807,
+        "sha256": "a2762fd523e3577450228c8a955713bf79584e85368b0b858caa7b05b715c4ba"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/band-025-check.log",
+        "bytes": 62,
+        "sha256": "aa2190f5883b5bf2d795f8707a78a4edbd81ee6a164ebe82ab39f8bec6226feb"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/band-025-tests.log",
+        "bytes": 13757,
+        "sha256": "399b0d5d27e25cecb99ccb1cdab053ea52b6bda61ce66a70d9efa16038c92f58"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/red-compile-failure.log",
+        "bytes": 2705,
+        "sha256": "30f23b87c8aa4e813d0a6b46faeef69e6692c7ba7159c258d8c90bcc57e9cfdd"
+      },
+      {
+        "relativePath": ".local/module03-evidence/recovery-113/green-policy.log",
+        "bytes": 2129,
+        "sha256": "55a4f2577e2c8d15e89c67e39ef510d39b1a3630f8c45dda930a5aa65c9a1c33"
       }
     ]
   }

@@ -154,3 +154,15 @@ Node 24.18.1 与固定 `aiot-toolkit@2.0.5` 实际完成最后一轮 live/demo �
 - 用户先反馈“刚刚我测试了，没问题”，再针对完整“手机正在监测学习 → 锁屏 → 手环退出重开 → 最新学习状态”明确回答 **“包含，锁屏重进正常”**。这是用户实际执行确认，主场景更新为 **USER_REPORTED_PASS**，替代前文待首次执行 / Not Run 的当前状态。
 - 本次没有工具独立采集对应 active Session、锁屏画面或原始消息，不能写成独立工具验证。UTC 2026-10-12 **02:02:43** 实际手机回到首页，无正在 Session / 未观察到 focus service，是测试后观察；不由此反推用户此前没有进行监测学习。
 - 保留前七张故障与 IDLE 通过历史。首查恢复缺口未修复，其他状态完整画面、断连/关闭、30 分钟计时/消息/延迟/电量仍待验收；当前整体 **MODULE_03_DEVICE_ACCEPTANCE_IN_PROGRESS / IDLE_ROUNDTRIP_PASSED_LOCKSCREEN_USER_PASS_OTHER_SCENARIOS_PENDING**，不进入 Module 04、不宣称整个模块完成。
+
+## 追加：1.1.3 首查自动恢复与永久错误保护
+
+恢复实现提交 **`322fbfd0288a26ba56c7b0b02d0598ab680d5dd7`**，本机 APK **1.1.3-band-readonly / code6**，**16,852,478 bytes**，SHA-256 `a7f20c1c38b416a6ece12db5f5e07db7852b2848ab7ad58a0fe91610609bac75`。最终定向 **62/62**；未过滤 JVM **741/741 / 81 suites / 0 failure/error/skip**，Lint **0 errors / 20 warnings / 1 hint** 与 1.1.2 逐项完全一致；单次 testDebugUnitTest / lintDebug / assembleDebug **14m30s / exit0**。APK 实际二进制版本、v1/v2 签名和 SHA 已核对，公开证书与既有 1.1.2 及正式 RPK 0.2.5 相同。1.1.3 尚未安装，当前目标手机最后核验版本仍为 1.1.2/code5。
+
+首次 NO_DEVICE / 暂时 SERVICE_UNAVAILABLE / TIMEOUT 失败后，由同一个应用连接 job 按 2/5/10/30/60 秒延迟恢复，之后保持 60 秒上限；成功即停止。自动尝试 requestAuthorization=false，不新增权限弹窗、FGS、alarm 或 wake lock；系统休眠可能延迟执行，不承诺准点。身份、授权、多设备或监听清理不确定等非暂时错误停止并锁存；晚到事件/发送成功不能覆盖停止状态。关闭伴侣、维护 pause、source 退役、close 与进程 scope 取消所属重试，合法新 source owner 重新接线。SDK ready 不代表 HELLO 或 SNAPSHOT 成功。
+
+实际 TDD：39 项/12 FAIL（原缺口）→57/57；审查追加 60 项/2 FAIL、62 项/4 FAIL→62/62。包括真实 Coordinator+OwnedTransport 集成空节点恢复、退避/并发、自动授权隔离、owner 清理/旧事件、永久拒绝及晚到 HELLO/SDK-ready 发布。原 OwnedWearTransport 的不确定清理 quarantine 保持；只改协调器、三处相关测试及版本号，共五个手机实现文件，无删除。Room v4、12 个协议 JSON 镜像、业务算法/备份/权限/依赖与签名配置保持。
+
+本轮 RPK 0.2.5 原字节重新验签/内容/CRC/三项篡改拒绝及154/154检查通过，未重建。独立代码审查无阻断，root 再解析 XML、比较21项Lint、核对88个冻结文件及新APK二进制/签名。此代码审查不冒充 ChatGPT 的最终模块独立验收。
+
+新版真机安全核查、覆盖安装和自动恢复尚待用户在对应步骤确认；不点“重新连接设备”或“检查腕端应用”进行恢复观察，避免掩盖缺口。原 1.1.2 + 0.2.5 的真实 IDLE PASS 与锁屏重进 USER_REPORTED_PASS 保留，不重复定义为待首次测试；其他状态、长文本/过期/重连与 30 分钟正常使用仍待验收。Module 03 整体未最终验收，不进入 Module 04。

@@ -7,7 +7,7 @@
 ## Users / Device
 
 - 首个目标设备：国行小米手环 9 Pro。
-- 用户已确认 Module 02 在目标手环安装与基础操作通过；正式通信、锁屏可达性与产品化 UI 尚待真机验收。
+- 用户已确认 Module 02 在目标手环安装与基础操作通过。Module 03 正式 IDLE 双端同步已有真实画面，用户已确认监测学习时手机锁屏、腕端退出重进可同步；其余状态画面与可靠性验收继续进行。
 - 目标分辨率为 336 × 480，官方来源见 [平台核查](docs/research/VELA_FEASIBILITY.md)。
 
 ## Product Direction
