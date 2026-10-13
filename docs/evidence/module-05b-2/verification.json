@@ -508,5 +508,12 @@
       "check": "physical firmware/battery/quota/clock continuity",
       "reason": "Not established by controlled callbacks or wall-clock observations"
     }
-  ]
+  ],
+  "git": {
+    "branch": "codex/module-05b-2-native-recovery",
+    "sourceCommit": "bdf8ca71d545bee0472c69a4c94689efa6c41ed0",
+    "sourcePushVerified": true,
+    "prCreated": false,
+    "mainMerged": false
+  }
 }
