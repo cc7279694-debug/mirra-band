@@ -21,7 +21,7 @@ function harness(options = {}) {
   let nextTimer = 0;
   const module = { exports: {} };
   vm.runInNewContext(script, { module, domainLib, presentationLib: options.presentation || presentationLib,
-    flowLib: options.flow || flowLib, profile: { versionName: '0.1.3' }, Promise, Array, Object, Number, String, Math, JSON,
+    flowLib: options.flow || flowLib, profile: { versionName: '0.1.4' }, Promise, Array, Object, Number, String, Math, JSON,
     setInterval(callback) { const id = ++nextTimer; timers.set(id, callback); return id; },
     clearInterval(id) { timers.delete(id); } });
   const data = {};

@@ -9,19 +9,19 @@ function flow(r) {
   return createLocalUiFlow({ owner: r.owner, catalog: TEST_BOOKS });
 }
 
-test('second start save failure stops the chain despite resolved owner Promise', async () => {
-  const r = rig(); const ui = flow(r); await ui.show(); r.failAt(2); await ui.confirmStart(ui.getState().preview);
-  assert.deepEqual(r.commands.map(a => a.type), ['SELECT_BOOK', 'SELECT_ACTION']);
-  assert.equal(r.realOwner.snapshot().document.state, 'PREPARING'); assert.notEqual(ui.getState().view, 'READING');
+test('atomic start save failure never publishes a partial preparation despite resolved owner Promise', async () => {
+  const r = rig(); const ui = flow(r); await ui.show(); r.failAt(1); await ui.confirmStart(ui.getState().preview);
+  assert.deepEqual(r.commands.map(a => a.type), ['START_CONFIRMED']);
+  assert.equal(r.realOwner.snapshot().document, null); assert.notEqual(ui.getState().view, 'READING');
   assert.equal(ui.getState().ownerSnapshot.status, 'BLOCKED'); assert.equal(ui.getState().busy, false);
 });
-test('a whole start chain remains locked while native readback awaits acknowledgement', async () => {
-  const r = rig(); const ui = flow(r); await ui.show(); const preview = ui.getState().preview; r.holdAt(2);
+test('atomic start remains locked while native readback awaits acknowledgement', async () => {
+  const r = rig(); const ui = flow(r); await ui.show(); const preview = ui.getState().preview; r.holdAt(1);
   const first = ui.confirmStart(preview); await r.untilHeld();
   await ui.confirmStart(preview); ui.openBookPicker(); ui.chooseBook('test-review-1');
-  assert.equal(ui.getState().busy, true); assert.equal(r.commands.length, 2); assert.equal(r.realOwner.snapshot().document.counter, 0);
+  assert.equal(ui.getState().busy, true); assert.equal(r.commands.length, 1); assert.equal(r.realOwner.snapshot().document, null);
   r.release(); await first; assert.equal(r.realOwner.snapshot().document.counter, 1);
-  assert.equal(r.commands.length, 3); assert.equal(ui.getState().view, 'READING');
+  assert.equal(r.commands.length, 1); assert.equal(ui.getState().view, 'READING');
 });
 test('an immutable click capture cannot be replaced during asynchronous start', async () => {
   const r = rig(); const ui = flow(r); await ui.show(); ui.openActionPicker(); ui.chooseAction('open-book');
@@ -32,18 +32,21 @@ test('an immutable click capture cannot be replaced during asynchronous start', 
   assert.equal(r.realOwner.snapshot().document.active.firstActionSnapshot.id, 'open-book');
   assert.equal(r.realOwner.snapshot().document.active.firstActionSnapshot.text, '打开这本测试书籍，找到准备阅读的一页。');
 });
-test('hide cancels only unstarted continuation and re-entry never completes preparation itself', async () => {
+test('hide suppresses stale reading navigation while the explicitly confirmed atomic save completes', async () => {
   const r = rig(); const ui = flow(r); await ui.show(); r.holdAt(1);
   const operation = ui.confirmStart(ui.getState().preview); await r.untilHeld(); ui.hide(); r.release(); await operation;
-  assert.deepEqual(r.commands.map(a => a.type), ['SELECT_BOOK']);
-  assert.equal(r.realOwner.snapshot().document.state, 'PREPARING'); assert.equal(r.closes(), 0);
-  await ui.show(); assert.equal(ui.getState().view, 'READY'); assert.equal(r.commands.length, 1);
+  assert.deepEqual(r.commands.map(a => a.type), ['START_CONFIRMED']);
+  assert.equal(r.realOwner.snapshot().document.state, 'FOCUS'); assert.equal(r.closes(), 0);
+  assert.notEqual(ui.getState().view, 'READING'); const id = r.realOwner.snapshot().document.active.id;
+  await ui.show(); assert.equal(ui.getState().view, 'READING'); assert.equal(r.commands.length, 1);
   await ui.confirmStart(ui.getState().preview); assert.equal(r.realOwner.snapshot().document.counter, 1);
+  assert.equal(r.realOwner.snapshot().document.active.id, id); assert.equal(r.writes.length, 1);
 });
-test('hide followed by show cannot revive an old in-flight command continuation', async () => {
+test('hide followed by show recovers one atomic save without a second command continuation', async () => {
   const r = rig(); const ui = flow(r); await ui.show(); r.holdAt(1);
   const operation = ui.confirmStart(ui.getState().preview); await r.untilHeld(); ui.hide(); await ui.show();
-  r.release(); await operation; assert.equal(r.commands.length, 1); assert.equal(r.realOwner.snapshot().document.state, 'PREPARING');
+  r.release(); await operation; assert.equal(r.commands.length, 1); assert.equal(r.realOwner.snapshot().document.state, 'FOCUS');
+  assert.equal(r.realOwner.snapshot().document.counter, 1); assert.equal(ui.getState().view, 'READING'); assert.equal(r.writes.length, 1);
 });
 test('unqualified storage refuses all new start writes', async () => {
   const r = rig({ storageQualified: false }); const ui = flow(r); await ui.show(); await ui.confirmStart(ui.getState().preview);
@@ -102,21 +105,25 @@ test('hidden successful native finish does not publish a stale SAVED view', asyn
   assert.notEqual(ui.getState().view, 'SAVED'); await ui.show(); assert.equal(ui.getState().view, 'READY');
   assert.equal(r.realOwner.snapshot().document.pending.length, 1);
 });
-for (const mutation of ['sequence', 'status', 'error', 'identity', 'book', 'state', 'pending']) test('invalid SELECT_BOOK acknowledgement ' + mutation + ' stops every later start command', async () => {
+for (const mutation of ['sequence', 'status', 'error', 'identity', 'book', 'state', 'pending', 'counter', 'action', 'intervals', 'sessionId']) test('invalid atomic start acknowledgement ' + mutation + ' cannot falsely show READING', async () => {
   const r = rig(); const dispatch = r.owner.dispatch;
   r.owner.dispatch = async action => {
-    const result = await dispatch(action); if (action.type !== 'SELECT_BOOK') return result;
+    const result = await dispatch(action); if (action.type !== 'START_CONFIRMED') return result;
     if (mutation === 'sequence') result.sequence--;
     if (mutation === 'status') result.status = 'BLOCKED';
     if (mutation === 'error') result.errorCode = 'SAVE_FAILED';
     if (mutation === 'identity') result.document.installationId = 'wrong-installation';
-    if (mutation === 'book') result.document.preparation.bookSnapshot.title = 'wrong book';
+    if (mutation === 'book') result.document.active.bookSnapshot.title = 'wrong book';
     if (mutation === 'state') result.document.state = 'IDLE';
     if (mutation === 'pending') result.document.pending = [{}];
+    if (mutation === 'counter') result.document.counter++;
+    if (mutation === 'action') result.document.active.firstActionSnapshot.text = 'wrong confirmed action';
+    if (mutation === 'intervals') result.document.active.intervals = [];
+    if (mutation === 'sessionId') result.document.active.id = 'wrong-installation:1';
     return result;
   };
   const ui = flow(r); await ui.show(); await ui.confirmStart(ui.getState().preview);
-  assert.deepEqual(r.commands.map(a => a.type), ['SELECT_BOOK']); assert.notEqual(ui.getState().view, 'READING');
+  assert.deepEqual(r.commands.map(a => a.type), ['START_CONFIRMED']); assert.notEqual(ui.getState().view, 'READING');
   assert.equal(ui.getState().operationUncertain, true);
 });
 for (const mutation of ['missing', 'differentId', 'differentPage', 'differentBook', 'oldPending', 'active', 'sequence']) test('FINISH acknowledgement ' + mutation + ' cannot falsely show SAVED', async () => {

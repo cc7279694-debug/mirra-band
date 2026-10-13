@@ -160,6 +160,29 @@ async function main() {
   const savedSequence = newOwner.snapshot().sequence;
   page.done(); assert.equal(view().view, 'READY'); assert.equal(newOwner.snapshot().sequence, savedSequence);
   assert.equal(newOwner.snapshot().document.pending.length, 2);
+  const pendingBeforeStart = JSON.parse(JSON.stringify(newOwner.snapshot().document.pending));
+  const counterBeforeStart = newOwner.snapshot().document.counter;
+  newOwner.performance.setEnabled(true);
+  const callsBeforeStart = nativeCalls.length;
+  const atomicStart = page.confirmStart(); const repeatedStart = page.confirmStart();
+  assert.equal(page.busy, true, 'Busy fields must be submitted before native persistence completes');
+  await atomicStart; await repeatedStart;
+  const nextStarted = newOwner.snapshot();
+  assert.equal(view().view, 'READING'); assert.equal(nextStarted.sequence, savedSequence + 1);
+  assert.equal(nextStarted.document.counter, counterBeforeStart + 1);
+  assert.equal(JSON.stringify(nextStarted.document.pending), JSON.stringify(pendingBeforeStart));
+  const startCalls = nativeCalls.slice(callsBeforeStart);
+  assert.equal(startCalls.filter(call => call.type === 'read').length, 3);
+  assert.equal(startCalls.filter(call => call.type === 'write').length, 1);
+  const diagnostic = newOwner.performance.snapshot();
+  assert.equal(diagnostic.active, false);
+  for (const mark of ['click_enter', 'busy_bound', 'state_confirmed', 'view_bound']) assert.equal(typeof diagnostic.last.marks[mark], 'number');
+  const lastActiveId = nextStarted.document.active.id;
+  page.showFinish(); await page.finishSession();
+  assert.equal(view().view, 'SAVED'); assert.equal(newOwner.snapshot().document.pending.length, 3);
+  assert.equal(JSON.stringify(newOwner.snapshot().document.pending.slice(0, -1)), JSON.stringify(pendingBeforeStart));
+  assert.equal(newOwner.snapshot().document.pending[2].id, lastActiveId);
+  assert.equal(newOwner.snapshot().document.pending[2].endPage, null);
   page.onDestroy(); newApp.onDestroy();
   assert.equal(viewTimers.size, 0);
   assert(nativeCalls.every(call => /^internal:\/\/files\/mirra_05b_test_sessions_[ab]\.json$/.test(call.uri)));
@@ -169,7 +192,9 @@ async function main() {
     crossOwnerWallReference: true, crossOwnerTrustedFocusMs: 0, wallReferenceLabel: '参考值',
     breakExcludedFromFocus: true, breakDeadlineWithoutAutoResume: true,
     compiledTemplate: 'evaluated all real conditional/repeat bindings',
-    optionalKeypadKeys: 12, nullableEnd: true, duplicateFinishRecords: 1, finalPendingRecords: 2,
+    optionalKeypadKeys: 12, nullableEnd: true, duplicateFinishRecords: 1, finalPendingRecords: 3,
+    atomicConfirmedStart: true, atomicStartReadCalls: 3, atomicStartWriteCalls: 1, atomicCounterIncrement: 1,
+    busyBeforePersistenceComplete: true, boundedNumericTimingMarks: true,
     evaluatedTextBindings, deliveredCompiledClickBindings, flatNativeTimer: true, readOnlyDetailsWithoutWrites: true,
     doneWithoutWrites: true, nativeCalls: nativeCalls.length, fileSlots: files.size, hiddenTimers: viewTimers.size };
   process.stdout.write(JSON.stringify(result, null, 2) + '\n');

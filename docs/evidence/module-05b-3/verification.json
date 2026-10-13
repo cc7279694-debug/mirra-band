@@ -1,0 +1,132 @@
+{
+  "baseline": "cf0328f5eade9427567647156d86b2503b6ad52e",
+  "previousDeviceResult": {
+    "version": "0.1.3/code4",
+    "crossApplicationReferenceTimer": "USER_REPORTED_PASS",
+    "source": "current explicit user feedback"
+  },
+  "tests": {
+    "passed": 607,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "durationMs": 7150.3466,
+    "command": "npm.cmd test"
+  },
+  "checks": {
+    "scripts": 88,
+    "sourceCompanionPages": 4,
+    "errors": 0,
+    "command": "npm.cmd run check"
+  },
+  "regressions": {
+    "atomicStartRed": {
+      "passed": 9,
+      "failed": 18
+    },
+    "atomicStartGreen": 27,
+    "flowAndFailure": 94,
+    "pagePerformance": 13,
+    "covers": [
+      "all seven legal starts",
+      "missing/false confirmation",
+      "counter/pending/capacity",
+      "duplicate taps",
+      "preview/receipt tamper",
+      "slot read/write/readback errors",
+      "exact mismatch",
+      "timeout/late callbacks",
+      "CAS",
+      "corruption/history recovery",
+      "hide/reentry/retirement",
+      "reference/clock anomalies",
+      "nullable page"
+    ]
+  },
+  "build": {
+    "command": "npm.cmd run build:local",
+    "exitCode": 0,
+    "toolkit": "2.0.5",
+    "node": "v24.18.1",
+    "toolkitReportedMs": 12669
+  },
+  "signedRpkExecution": {
+    "status": "PASS",
+    "boundary": "actual old/new signed RPK app and new page scripts in Node; firmware file callbacks controlled; no native pixels",
+    "package": "com.guanyi.mirra.band.localsessiontest",
+    "fromVersion": "0.1.3",
+    "toVersion": "0.1.4",
+    "sameCertificate": true,
+    "oldPendingRetained": true,
+    "oldActiveIdRetained": true,
+    "reentryWithoutWrites": true,
+    "crossOwnerWallReference": true,
+    "crossOwnerTrustedFocusMs": 0,
+    "wallReferenceLabel": "参考值",
+    "breakExcludedFromFocus": true,
+    "breakDeadlineWithoutAutoResume": true,
+    "compiledTemplate": "evaluated all real conditional/repeat bindings",
+    "optionalKeypadKeys": 12,
+    "nullableEnd": true,
+    "duplicateFinishRecords": 1,
+    "finalPendingRecords": 3,
+    "atomicConfirmedStart": true,
+    "atomicStartReadCalls": 3,
+    "atomicStartWriteCalls": 1,
+    "atomicCounterIncrement": 1,
+    "busyBeforePersistenceComplete": true,
+    "boundedNumericTimingMarks": true,
+    "evaluatedTextBindings": 49,
+    "deliveredCompiledClickBindings": 5,
+    "flatNativeTimer": true,
+    "readOnlyDetailsWithoutWrites": true,
+    "doneWithoutWrites": true,
+    "nativeCalls": 60,
+    "fileSlots": 2,
+    "hiddenTimers": 0
+  },
+  "preservation": {
+    "status": "PASS",
+    "baseline": "cf0328f5eade9427567647156d86b2503b6ad52e",
+    "unchangedCoreFiles": [
+      "src/lib/local-codec.js",
+      "src/platform/local-storage.js",
+      "src/platform/probe-storage.js",
+      "src/local-app.ux",
+      "src/app.ux",
+      "src/common/icon.png",
+      "src/common/icon.svg",
+      "package-lock.json"
+    ],
+    "unchangedHistoricalArtifacts": 21,
+    "sourceSchemaAndValidationUnchanged": true,
+    "timeProjectionAndHistoryFunctionsUnchanged": true,
+    "whiteThemeAndTokensUnchanged": true,
+    "frozenBuildInputCount": 45,
+    "frozenBuildInputsUnchanged": true,
+    "phoneOperations": "NONE"
+  },
+  "internalReview": {
+    "kind": "Codex internal peer review, not ChatGPT independent acceptance",
+    "openP1P2": 0,
+    "measurementStartIssue": "RED then GREEN; timer begins before initial native feedback assignments"
+  },
+  "notRun": [
+    "0.1.4 on-device installation",
+    "9 Pro stage latency",
+    "physical first painted frame",
+    "perceived device smoothness",
+    "new screenshots/emulator",
+    "trusted cross-reboot clock",
+    "Android/TS/ESLint outside scope"
+  ],
+  "git": {
+    "branch": "codex/module-05b-3-persistence-performance",
+    "designCommit": "eac744d",
+    "sourceCommit": "PENDING_COMMIT",
+    "sourcePushVerified": false,
+    "mainMerged": false,
+    "prCreated": false
+  }
+}

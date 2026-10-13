@@ -227,7 +227,7 @@ test('actual wrapper stages the local entry and explicitly qualified file storag
   for (const file of ['probe-app.ux', 'pages/Home/index.ux', 'pages/StorageProbe/index.ux', 'lib/probe-controller.js',
     'platform/interconnect-transport.js', 'secret/private.pem']) assert.equal(result.files.has(path.join(staging, 'src', file)), false, file);
   const runtime = JSON.parse(result.files.get(path.join(staging, 'src/profile.js')).replace(/^module.exports = /, '').trim().replace(/;$/, ''));
-  assert.deepEqual(runtime, { mode: 'local-session', versionName: '0.1.3', versionCode: 4, storageQualified: true, storageBackend: 'file' });
+  assert.deepEqual(runtime, { mode: 'local-session', versionName: '0.1.4', versionCode: 5, storageQualified: true, storageBackend: 'file' });
   const manifest = JSON.parse(result.files.get(path.join(staging, 'src/manifest.json')));
   assert.equal(manifest.router.entry, 'pages/LocalSession');
   assert.equal(result.files.get(path.join(root, 'src/app.ux')), 'phone companion entry');

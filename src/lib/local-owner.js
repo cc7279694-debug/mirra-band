@@ -1,6 +1,7 @@
 const { createJournal } = require('./local-journal');
-const { createDocument, transition, summarize, historyError, MAX_OBSERVED_GAP_MS } = require('./local-session');
+const { createDocument, transition, summarize, summarizeSession, historyError, MAX_OBSERVED_GAP_MS } = require('./local-session');
 const { encodeRecord, byteLength, MAX_BYTES } = require('./local-codec');
+const { createPerformance } = require('./local-performance');
 
 function errorCode(error) {
   let descriptor;
@@ -15,6 +16,7 @@ function createLocalOwner(options) {
   if (typeof options.backendFactory !== 'function' || typeof options.clock !== 'function'
     || typeof options.installationIdFactory !== 'function') throw new Error('OWNER_OPTIONS');
   const storageQualified = options.storageQualified === true;
+  const performance = createPerformance({ enabled: options.performanceEnabled === true, clock: options.performanceClock });
   let backend = null; let journal = null; let document = null; let sequence = 0;
   let status = 'UNOPENED'; let busy = false; let closed = false; let uncertain = false; let generation = 0;
   let lastError = null;
@@ -27,7 +29,7 @@ function createLocalOwner(options) {
     try { return options.clock(); }
     catch (_) { return { wallMs: null, ownerId: 'unavailable-clock', monotonicMs: null, monotonicVerified: false }; }
   }
-  function summary() {
+  function summary(timeOnly) {
     const empty = { observedFocusMs: 0, observedBreakMs: 0, breakRemainingMs: null, trustedFocusMs: null,
       timeUncertain: true, reasons: ['NO_LOCAL_SESSION'], timeConfidence: 'UNVERIFIED' };
     if (!document) return empty;
@@ -35,7 +37,7 @@ function createLocalOwner(options) {
     const selectedId = selected ? selected.id : null;
     if (selectedId !== timeSessionId) { timeSessionId = selectedId; timeLastObservation = null; timeAnomalies = []; }
     const now = observation(); let projected;
-    try { projected = summarize(document, now); }
+    try { projected = timeOnly && selected ? summarizeSession(selected, now) : summarize(document, now); }
     catch (_) { projected = Object.assign({}, empty, { observedFocusMs: null, observedBreakMs: null, trustedFocusMs: 0, reasons: ['CLOCK_SOURCE_INVALID'] }); }
     if (document.active && now && Number.isSafeInteger(now.wallMs)) {
       if (timeLastObservation && timeLastObservation.ownerId === now.ownerId && Number.isSafeInteger(timeLastObservation.wallMs)) {
@@ -78,7 +80,7 @@ function createLocalOwner(options) {
   function blocked(code) { lastError = code; return snapshot(); }
   function ensureJournal() {
     if (journal) return;
-    backend = options.backendFactory(); journal = createJournal({ backend });
+    backend = options.backendFactory(); journal = createJournal({ backend, performance });
   }
   function apply(result) {
     if (result.status === 'ready' || result.status === 'recovered' || result.status === 'empty') {
@@ -120,19 +122,20 @@ function createLocalOwner(options) {
     if (['EMPTY', 'READY', 'RECOVERED'].indexOf(status) < 0) return blocked(status === 'UNOPENED' ? 'NOT_OPEN' : 'RECOVERY_REQUIRED');
     return operation(async () => {
       const base = document || createDocument(options.installationIdFactory());
-      const next = transition(base, action, observation());
+      const next = performance.measure('transition', () => transition(base, action, observation()));
       // Reserve finishing metadata before accepting any active-state growth.
-      const raw = encodeRecord(sequence + 1, next);
+      const raw = performance.measure('capacity', () => encodeRecord(sequence + 1, next));
       if (byteLength(raw) > (action && action.type === 'FINISH' ? MAX_BYTES : MAX_BYTES - 1024)) {
         lastError = 'CAPACITY_REQUIRED'; return;
       }
       const result = await journal.save(next, { expectedSequence: sequence });
-      if (!closed) apply(result);
+      if (!closed) { performance.measure('state_confirm', () => apply(result)); if (result.status === 'ready' && status === 'READY') performance.mark('state_confirmed'); }
     });
   }
   function close() {
     if (closed) return;
     closed = true; generation++; busy = false;
+    performance.finish();
     if (journal) journal.close(); else if (backend && typeof backend.close === 'function') backend.close();
     publish(); listeners.length = 0;
   }
@@ -143,6 +146,14 @@ function createLocalOwner(options) {
     let removed = false;
     return () => { if (removed) return; removed = true; const index = listeners.indexOf(listener); if (index >= 0) listeners.splice(index, 1); };
   }
-  return { open, dispatch, snapshot, subscribe, close };
+  function timerSnapshot() {
+    const projected = summary(true);
+    return { summary: projected, timeHint: projected.timeUncertain
+      ? projected.observedFocusMs !== null && projected.observedBreakMs !== null
+        ? '按系统时间差显示参考值；未验证连续计时，休息不计入阅读。'
+        : '时间不确定；原始时间边界保留，不生成已验证时长。'
+      : '按已记录的时间边界计算；休息不计入学习。' };
+  }
+  return { open, dispatch, snapshot, timerSnapshot, performance, subscribe, close };
 }
 module.exports = { createLocalOwner };

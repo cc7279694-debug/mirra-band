@@ -1,0 +1,40 @@
+{
+  "status": "DEV_COMPLETE_AWAITING_DEVICE_NATURAL_USE",
+  "artifact": {
+    "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.band.localsessiontest.release.0.1.4.rpk",
+    "bytes": 38644,
+    "sha256": "27df0dddbb5465f1eea548be325cdde474b1174987bc15e4709b83620b3687dd",
+    "package": "com.guanyi.mirra.band.localsessiontest",
+    "version": "0.1.4",
+    "versionCode": 5,
+    "profile": "local-session",
+    "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+    "certificateSubject": "CN=Mirra Band Demo\nO=Mirra Local Prototype",
+    "certificateFingerprint256": "B9:AD:5C:30:7A:17:03:1C:3D:19:3F:8E:E2:BA:AB:2A:B5:D1:FE:38:3F:73:84:28:EB:FE:64:9E:9F:67:E9:0B",
+    "certificateValidTo": "Oct  8 06:50:55 2036 GMT",
+    "zipCRC32": "verified",
+    "sharedStyles": "present in all compiled pages",
+    "tamperChecks": "payload, primary signature and file digest signature mutations rejected",
+    "files": [
+      "META-INF/CERT",
+      "manifest-watch.json",
+      "manifest.json",
+      "app.js",
+      "pages/LocalSession/index.js",
+      "common/local-brand/icon-pending.png",
+      "META-INF/build.txt"
+    ]
+  },
+  "upgradeFrom": {
+    "package": "com.guanyi.mirra.band.localsessiontest",
+    "version": "0.1.3",
+    "versionCode": 4,
+    "sha256": "c2960d2b890cc05ddac6ffefbe8fdac3cf9199d393137b3ad11c131a7e159d7f",
+    "certificateFingerprint256": "B9:AD:5C:30:7A:17:03:1C:3D:19:3F:8E:E2:BA:AB:2A:B5:D1:FE:38:3F:73:84:28:EB:FE:64:9E:9F:67:E9:0B"
+  },
+  "samePackageAndCertificate": true,
+  "versionIncremented": true,
+  "installation": "CURRENT_AUTHORIZATION_REQUIRED",
+  "onDeviceSignatureExtraction": "NOT_RUN",
+  "phoneOperation": "NONE"
+}

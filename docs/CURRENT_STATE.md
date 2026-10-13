@@ -4,38 +4,36 @@
 
 ## Current Stage / Module
 
-**05B.2 / TIME_RECOVERY_DEV_COMPLETE_AWAITING_DEVICE_FEEDBACK**。继续腕端独立学习修复，不进入05C。[合同追加范围](plans/MIRRA_BAND_05B_2_NATIVE_RECOVERY.md)、[计时交付](evidence/module-05b-2/time-recovery/README.md)。
+**05B.3 / DEV_COMPLETE_AWAITING_DEVICE_NATURAL_USE**。仅腕端独立实验包业务延迟优化，不进入05C。基线为已交付codex/module-05b-2-time-recovery / cf0328f5eade9427567647156d86b2503b6ad52e，工作区干净后建立codex/module-05b-3-persistence-performance。见[合同](plans/MIRRA_BAND_05B_3_PERFORMANCE.md)、[交付](evidence/module-05b-3/README.md)。
 
-当前分支`codex/module-05b-2-time-recovery`，从干净真实05B.2 HEAD `427d1292ec667842a8d3e9c617d2d8fd4d2ad99e`建立。0.1.3/code4已实际构建、验签并核对旧包身份；用户已同意自行覆盖体验，尚未收到新计时反馈。实现提交da17c54889abd4b65478ed2e6aeb5fa1f48a49a5已普通push且远端SHA一致，手机/其他Android设备未操作。
+## 已接受的设备结果
 
-## 已收到的真机反馈
+用户确认0.1.3/code4真机自然使用后跨应用重进计时恢复正常、参考值问题解决，记USER_REPORTED_PASS，不能再定义为未完成。此前详情、休息选择、5分钟休息页/继续按钮反馈保留，不推定所有固件/时间/容量边界通过。05A选定file损坏、同身份升级和正常重启保留USER_REPORTED_PASS；旧05B基本体验与Module03已接受IDLE/锁屏重进/首查恢复保留；05B.1失败历史保留。
 
-用户确认05B.2详情可进入、休息5/10选项可打开、点击5分钟后进入休息页并看到继续学习，保留USER_REPORTED_PASS，不重复定义未完成。不推定10分钟执行、继续按钮点击、独立探针或全部生命周期都通过。
+## 05B.3 当前行为
 
-用户同时报告退出重进仍为--:--/时间待核对。根因已软件复现：新ownerId直接使旧duration返回null，先于墙钟合法性检查。1.3仅修参考恢复策略；已恢复页面/主题/布局/flow四文件SHA保持。
+START_CONFIRMED仅在明确完成当前第一步后，在内存复用原SELECT/NEW/CANCEL/CONFIRM转换，最终一次保存，无中间业务状态发布。合法开始3读1写、counter/sequence各增加1，pending与稳定ID规则保留。普通命令继续存在。写失败/未知/读回不符不显示成功，已开始IO不因隐藏被错误取消，重进读取真实结果。
 
-## 当前计时行为
+休息/继续/保存仍各3读1写，保留双槽/CAS/CRC/历史/容量/精确读回。先锁重复点击和提交忙碌文字，再给事件循环一次刷新机会，不能证明实际像素已绘制。普通tick只读选定已校验Session时间，变化字段才更新；保存期间不执行tick全量投影。详情与返回仍只读可用。
 
-完整、非负且单区间不超过既有6h的墙钟差可跨owner显示**参考值**；OWNER_CHANGED/WALL_ONLY、UNVERIFIED保留。跨owner单调值不比较，实际Date.now入口仍monotonicVerified:false，参考不增加可信/有效专注。FOCUS/BREAK分开累计，休息到时仍需主动继续。
+可选耗时诊断默认关闭，仅内存固定阶段名和数值，在详情启用，保留最后一次操作；不写业务日志或记录内容。记录点击→忙碌字段、转换、双槽、编码、写入、读回、确认、界面提交，诊断墙钟异常记未知。
 
-缺失、回退、跳跃或矛盾使整个参考累计/倒计时未知；Owner内存保留同Session已观察异常，正常下一tick不能忘掉，新Session有独立诊断。完成历史只依赖闭合端点，不受无关当前时钟污染。未保存的中间异常无法跨新实例证明；仍不证明跨重启可信时间或排除小幅未观察时钟调整。
+## 数据与计时边界
 
-## 数据与界面边界
+schema1、marker、双槽URI/CRC/序列/CAS/历史/未知锁存、8192bytes/8pending/32interval/结束预留、nullable页码不变。原FOCUS/BREAK时间投影及history函数逐段核对不变：跨owner仅参考、不增加可信专注；已知异常保持未知，休息到时仍需主动继续。未保存异常的跨实例证明与可信跨重启时间仍未具备。
 
-schema1、marker、双槽URI/CRC/序列/CAS/历史保护、8192bytes/8pending/32interval/结束余量、业务Owner IO/写入门禁和Session转换不变；9个保护核心文件、4个已恢复UI文件、20个历史产物SHA不变。原始端点/稳定ID、nullable页码、pending及第一步确认保留，不清数据。不修改手机Room/备份/统计/正式签名，无依赖或全局环境修改。Logo原图已保存，仍LOGO_PENDING。
-
-05A选定file损坏/同身份升级/正常重启保留USER_REPORTED_PASS；旧05B正常基本体验保留，05B.1自然验收FAIL历史保留。Module03 IDLE/锁屏重进/首查自动恢复与约5分钟使用成功、30分钟测量缺口保留；Module04源码/产物与其验证边界保留。05C–05E未实施。
+白色主题和tokens不变，Logo仍LOGO_PENDING。8个核心/正式资源与21个历史APK/RPK SHA保留；新包与0.1.3同包名/证书，版本递增。不操作手机、数据库、备份、正式签名、依赖或全局环境。
 
 ## 新鲜验证
 
-最终完整Node **558/558 PASS，0失败/取消/跳过/todo**；语法配置 **82 scripts，0 errors**。实际app/page/file适配器覆盖跨owner65秒恢复/5秒tick、息屏/重进、休息倒计时/不自动继续、原始记录保留、异常与内存记忆。Node与受控回调不代替固件证明。
+Node全量607/607 PASS，0失败/取消/跳过/todo；语法配置88 scripts / 4源伴侣pages / 0 errors。原子开始先RED18失败后GREEN27，流程/失败94项，页面性能13项通过；故障注入、历史恢复、重复点击和原生适配器受控回调不代替设备流畅度。
 
-官方release exit0，toolkit12,393ms，Node24.18.1/aiot-toolkit2.0.5。RPK **0.1.3/code4，35,722bytes**，SHA **c2960d2b890cc05ddac6ffefbe8fdac3cf9199d393137b3ad11c131a7e159d7f**。与0.1.2同包名/证书，签名/内容/每文件SHA、元数据/CRC/篡改拒绝通过；冻结输入与staging一致。
+toolkit2.0.5 / Node24.18.1实际release exit0，toolkit12,669ms。RPK0.1.4/code5、38,644bytes，SHA 27df0dddbb5465f1eea548be325cdde474b1174987bc15e4709b83620b3687dd。原实验证书匹配，RSA/内容/每文件SHA/元数据/CRC/篡改拒绝通过。实际签名0.1.3→0.1.4 app/page执行保留旧pending与active、参考计时/休息排除，新开始3读1写、重复点击单ID、最终3pending保留。45个冻结构建输入一致。
 
-实际0.1.2→0.1.3签名RPK app/page在Node执行：01:05→01:10/参考值、可信时长0、旧ID/pending保持、6分钟BREAK不计阅读/到时仍BREAK、主动继续后才累计；5编译onclick/48文本绑定、52file回调/2槽、重进与Done0写、重复结束只新增1条null页码记录。非原生像素。
+同一Node受控20ms文件回调模型：空白开始373.501→141.645ms，已有记录后开始503.113→141.512ms；休息123.031→135.107、继续125.413→139.465、保存123.928→140.176ms。后三者总耗时未下降，让出事件循环增加调度等待；忙碌反馈与冗余刷新减少，不能外推真机改善。60tick14.637→2.565ms、字段3660→120、JSON1080→0，无IO。完整模型与分段见机器记录。
 
 ## Pending / Not Run / 下一步
 
-用户已同意自行覆盖0.1.3，只需自然学习片刻后退出重开，反馈累计是否恢复并标参考值，不要求重测已通过入口。新包安装/参考计时画面待反馈；没有新截图或原生模拟器运行。可信跨重启计时、掉电、实际配额/耗电未证明。
+新0.1.4安装须当前同意，等待一次自然学习对开始/休息/继续/保存等待感的反馈。真机分段耗时、首次实际像素反馈、主观流畅度Not Run，不宣称通过。无新原生截图或模拟器运行；Android/TS/ESLint Not Run（手机未改，继承原生Vela JS检查）。
 
-Android构建/测试Not Run（手机未改），TS/ESLint Not Run（继承原生Vela JS语法/Node验证）。停05B.2等自然反馈，不自动PR/main合并、05C或手机迁移。
+停05B.3，无PR/main合并、05C–05E实施。功能分支提交push状态在交付报告记录，安装授权与设备反馈另记录。

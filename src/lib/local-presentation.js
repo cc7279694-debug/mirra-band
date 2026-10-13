@@ -65,6 +65,27 @@ function notice(title, text, level, action, actionLabel) {
   return { visible: !!title, level: level || 'info', title: title || '', text: text || '',
     action: action || '', actionLabel: actionLabel || '', canReload: action === 'reload' };
 }
+// A second tick needs only acknowledged time facts. No catalog, pending rows,
+// immutable preview or business controls are rebuilt by this projection.
+function presentTime(summary, view, state) {
+  summary = summary || {};
+  const unknownLabel = view === 'SAVED' ? '未能确定' : '时间待核对';
+  const focusTimer = formatObservedDuration(summary.observedFocusMs, { label: '阅读计时', unknownLabel });
+  const restTimer = formatObservedDuration(summary.observedBreakMs, { label: '休息计时', unknownLabel });
+  const breakTimer = formatObservedDuration(summary.breakRemainingMs, { label: '计划剩余' });
+  if (!breakTimer.isUnknown && summary.breakRemainingMs === 0) breakTimer.valueText = '休息时间已到';
+  const timer = view === 'RESTING' ? breakTimer : focusTimer;
+  const reasons = Array.isArray(summary.reasons) ? summary.reasons.filter(reason => typeof reason === 'string') : [];
+  const hardAnomaly = reasons.some(reason => reason !== 'WALL_ONLY' && reason !== 'OWNER_CHANGED' && reason !== 'NO_LOCAL_SESSION');
+  let timeNotice = notice();
+  if (hardAnomaly || ((state === 'FOCUS' || state === 'BREAK' || view === 'READING' || view === 'RESTING') && timer.isUnknown)) {
+    timeNotice = timer.isUnknown ? notice('时间待核对', '阅读状态保留，时长暂不确定。', 'warning')
+      : notice('记录含不确定区间', '当前数字为参考值；部分阅读或休息区间时长待核对。', 'warning');
+  } else if (!timer.isUnknown && reasons.indexOf('OWNER_CHANGED') >= 0) {
+    timeNotice = notice('恢复后参考计时', '按系统时钟估算，未验证；休息不计入阅读。', 'info');
+  }
+  return { timer, focusTimer, restTimer, breakTimer, reasons, reasonText: reasons.join(' / ') || '无异常原因', hardAnomaly, notice: timeNotice };
+}
 function storageProblem(snapshot, ui) {
   const status = snapshot.status || 'UNOPENED';
   if (ui.operationUncertain || status === 'UNCERTAIN') return notice('保存结果待核对', '请退出后重开查看；暂不继续写入。原记录保留。', 'danger', 'exit', '退出应用');
@@ -125,25 +146,13 @@ function presentLocal(snapshot, ui, catalog, brand) {
   const actionText = source && source.firstActionSnapshot ? source.firstActionSnapshot.text : (preview ? preview.text : '暂无可用第一步');
   const startPage = source && source.bookSnapshot ? source.bookSnapshot.startPage : (preview ? preview.startPage : null);
   const summary = snapshot.summary || {};
-  const unknownLabel = view === 'SAVED' ? '未能确定' : '时间待核对';
-  const focusTimer = formatObservedDuration(summary.observedFocusMs, { label: '阅读计时', unknownLabel });
-  const restTimer = formatObservedDuration(summary.observedBreakMs, { label: '休息计时', unknownLabel });
-  const breakTimer = formatObservedDuration(summary.breakRemainingMs, { label: '计划剩余' });
-  if (!breakTimer.isUnknown && summary.breakRemainingMs === 0) breakTimer.valueText = '休息时间已到';
-  const timer = view === 'RESTING' ? breakTimer : focusTimer;
-  const reasons = Array.isArray(summary.reasons) ? summary.reasons.filter(reason => typeof reason === 'string') : [];
-  const hasHardTimeReason = reasons.some(reason => reason !== 'WALL_ONLY' && reason !== 'OWNER_CHANGED' && reason !== 'NO_LOCAL_SESSION');
+  const time = presentTime(summary, view, state);
+  const { timer, focusTimer, restTimer, breakTimer, reasons } = time;
   let currentNotice = storageNotice.visible ? storageNotice : (recoveryRequired ? recoveryNotice : notice());
   const errorCode = ui.errorCode || snapshot.errorCode || '';
   if (!currentNotice.visible && CAPACITY_ERRORS.indexOf(errorCode) >= 0) currentNotice = notice('本地空间预算不足', '已有记录不删除；本次操作未保存。', 'warning');
   else if (!currentNotice.visible && (errorCode || ui.notice)) currentNotice = notice('操作未保存', typeof ui.notice === 'string' && ui.notice ? ui.notice : '本次操作未确认，请核对当前状态后再操作。', 'warning');
-  else if (!currentNotice.visible && (hasHardTimeReason || ((state === 'FOCUS' || state === 'BREAK') && timer.isUnknown))) {
-    currentNotice = timer.isUnknown ? notice('时间待核对', '阅读状态保留，时长暂不确定。', 'warning')
-      : notice('记录含不确定区间', '当前数字为参考值；部分阅读或休息区间时长待核对。', 'warning');
-  }
-  else if (!currentNotice.visible && !timer.isUnknown && reasons.indexOf('OWNER_CHANGED') >= 0) {
-    currentNotice = notice('恢复后参考计时', '按系统时钟估算，未验证；休息不计入阅读。', 'info');
-  }
+  else if (!currentNotice.visible && time.notice.visible) currentNotice = time.notice;
   if (!currentNotice.visible && recoveryNotice.visible) currentNotice = recoveryNotice;
   const titles = { READY: '先完成这一步', BOOK_PICKER: '选择测试书籍', ACTION_PICKER: '更换第一步', READING: '阅读中',
     BREAK_PICKER: '休息多久？', RESTING: '休息中', FINISH_REVIEW: '确认后结束', PAGE_EDITOR: '补充页码', SAVED: '已存到手环', DETAILS: '记录详情' };
@@ -172,4 +181,4 @@ function presentLocal(snapshot, ui, catalog, brand) {
       recoveryText: snapshot.recoveryHint || recoveryNotice.text, errorCode,
       records: pending.slice(-8).map(record => ({ id: record.id, bookTitle: record.bookSnapshot.title, endPage: record.endPage })) } };
 }
-module.exports = { presentLocal, resolveReadyPreview, formatObservedDuration };
+module.exports = { presentLocal, presentTime, resolveReadyPreview, formatObservedDuration };

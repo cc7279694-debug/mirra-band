@@ -1,0 +1,1205 @@
+{
+  "environment": "NODE_CONTROLLED",
+  "node": "v24.18.1",
+  "platform": "win32",
+  "modeledFileCallbackDelayMs": 20,
+  "samplesPerStart": 3,
+  "samplesPerSingleMutation": 6,
+  "ticksPerSample": 60,
+  "limitations": [
+    "File callback delays are modeled, not measured on 9 Pro.",
+    "Busy timing is a reactive property assignment, not the first painted frame.",
+    "Inclusive function measurements overlap; they must not be added together.",
+    "Instrumentation overhead affects CPU values.",
+    "Native residual includes callback scheduling and other work; it is not pure CPU time.",
+    "No device installation, data read or user session is performed."
+  ],
+  "before": {
+    "sourceRef": "cf0328f5eade9427567647156d86b2503b6ad52e",
+    "summary": [
+      {
+        "name": "START_EMPTY",
+        "samples": 3,
+        "elapsedMedianMs": 373.501,
+        "busyAssignmentMedianMs": 0.3,
+        "nativeCounts": {
+          "reads": 9,
+          "writes": 3
+        },
+        "nativeTotalMedianMs": 362.417,
+        "nonNativeResidualMedianMs": 11.118,
+        "reactiveAssignmentsMedian": 621,
+        "jsonCallsMedian": 389
+      },
+      {
+        "name": "START_AFTER_PENDING",
+        "samples": 3,
+        "elapsedMedianMs": 503.113,
+        "busyAssignmentMedianMs": 0.38,
+        "nativeCounts": {
+          "reads": 12,
+          "writes": 4
+        },
+        "nativeTotalMedianMs": 478.367,
+        "nonNativeResidualMedianMs": 26.347,
+        "reactiveAssignmentsMedian": 743,
+        "jsonCallsMedian": 1231
+      },
+      {
+        "name": "BREAK",
+        "samples": 6,
+        "elapsedMedianMs": 123.031,
+        "busyAssignmentMedianMs": 0.532,
+        "nativeCounts": {
+          "reads": 3,
+          "writes": 1
+        },
+        "nativeTotalMedianMs": 115.564,
+        "nonNativeResidualMedianMs": 7.419,
+        "reactiveAssignmentsMedian": 377,
+        "jsonCallsMedian": 475
+      },
+      {
+        "name": "RESUME",
+        "samples": 6,
+        "elapsedMedianMs": 125.413,
+        "busyAssignmentMedianMs": 0.47,
+        "nativeCounts": {
+          "reads": 3,
+          "writes": 1
+        },
+        "nativeTotalMedianMs": 117.025,
+        "nonNativeResidualMedianMs": 8.343,
+        "reactiveAssignmentsMedian": 377,
+        "jsonCallsMedian": 571
+      },
+      {
+        "name": "FINISH",
+        "samples": 6,
+        "elapsedMedianMs": 123.928,
+        "busyAssignmentMedianMs": 0.528,
+        "nativeCounts": {
+          "reads": 3,
+          "writes": 1
+        },
+        "nativeTotalMedianMs": 115.558,
+        "nonNativeResidualMedianMs": 9.372,
+        "reactiveAssignmentsMedian": 377,
+        "jsonCallsMedian": 651
+      }
+    ],
+    "tickSummary": {
+      "samples": 6,
+      "tickCountPerSample": 60,
+      "elapsedMedianMs": 14.637,
+      "reactiveAssignmentsMedian": 3660,
+      "jsonCallsMedian": 1080,
+      "nativeCalls": 0
+    },
+    "representativeStages": [
+      {
+        "name": "START_EMPTY",
+        "elapsedMs": 372.174,
+        "firstBusyMs": 1.063,
+        "nativeCounts": {
+          "reads": 9,
+          "writes": 3
+        },
+        "nativeStageMs": {
+          "dualSlotRead": 172.003,
+          "nativeWrite": 89.45,
+          "exactReadback": 90.693
+        },
+        "confirmations": [
+          122.012,
+          247.161,
+          371.022
+        ],
+        "functions": {
+          "page.updateDiagnostic": {
+            "calls": 11,
+            "totalMs": 0.21
+          },
+          "src/lib/local-owner.js.snapshot": {
+            "calls": 17,
+            "totalMs": 1.278
+          },
+          "src/lib/local-presentation.js.resolveReadyPreview": {
+            "calls": 20,
+            "totalMs": 0.23
+          },
+          "src/lib/local-ui-flow.js.getState": {
+            "calls": 10,
+            "totalMs": 0.528
+          },
+          "src/lib/local-presentation.js.presentLocal": {
+            "calls": 10,
+            "totalMs": 0.532
+          },
+          "page.refresh": {
+            "calls": 10,
+            "totalMs": 2.556
+          },
+          "page.safeRefresh": {
+            "calls": 10,
+            "totalMs": 2.666
+          },
+          "src/lib/local-session.js.createDocument": {
+            "calls": 1,
+            "totalMs": 0.087
+          },
+          "src/lib/local-session.js.transition": {
+            "calls": 3,
+            "totalMs": 1.476
+          },
+          "src/lib/local-session.js.validateDocument": {
+            "calls": 30,
+            "totalMs": 2.368
+          },
+          "src/lib/local-session.js.textInfo": {
+            "calls": 30,
+            "totalMs": 0.268
+          },
+          "src/lib/local-codec.js.encodeRecord": {
+            "calls": 9,
+            "totalMs": 2.612
+          },
+          "src/lib/local-codec.js.byteLength": {
+            "calls": 3,
+            "totalMs": 0.09
+          },
+          "src/platform/probe-storage.js.describe": {
+            "calls": 18,
+            "totalMs": 0.161
+          },
+          "src/platform/local-storage.js.describe": {
+            "calls": 18,
+            "totalMs": 0.213
+          },
+          "src/lib/local-codec.js.decodeRecord": {
+            "calls": 9,
+            "totalMs": 3.364
+          },
+          "src/platform/probe-storage.js.read": {
+            "calls": 9,
+            "totalMs": 264.481
+          },
+          "src/platform/local-storage.js.read": {
+            "calls": 9,
+            "totalMs": 264.592
+          },
+          "src/platform/probe-storage.js.write": {
+            "calls": 3,
+            "totalMs": 90.982
+          },
+          "src/platform/local-storage.js.write": {
+            "calls": 3,
+            "totalMs": 91.014
+          },
+          "src/lib/local-journal.js.save": {
+            "calls": 3,
+            "totalMs": 362.275
+          },
+          "src/lib/local-session.js.summarize": {
+            "calls": 20,
+            "totalMs": 1.772
+          },
+          "src/lib/local-owner.js.dispatch": {
+            "calls": 3,
+            "totalMs": 368.859
+          },
+          "src/lib/local-session.js.historyError": {
+            "calls": 7,
+            "totalMs": 1.167
+          },
+          "src/lib/local-ui-flow.js.confirmStart": {
+            "calls": 1,
+            "totalMs": 371.576
+          }
+        }
+      },
+      {
+        "name": "BREAK",
+        "elapsedMs": 119.127,
+        "firstBusyMs": 0.523,
+        "nativeCounts": {
+          "reads": 3,
+          "writes": 1
+        },
+        "nativeStageMs": {
+          "dualSlotRead": 53.057,
+          "nativeWrite": 29.437,
+          "exactReadback": 30.878
+        },
+        "confirmations": [
+          118.146
+        ],
+        "functions": {
+          "page.updateDiagnostic": {
+            "calls": 7,
+            "totalMs": 0.057
+          },
+          "src/lib/local-session.js.summarize": {
+            "calls": 12,
+            "totalMs": 0.724
+          },
+          "src/lib/local-owner.js.snapshot": {
+            "calls": 9,
+            "totalMs": 0.759
+          },
+          "src/lib/local-presentation.js.resolveReadyPreview": {
+            "calls": 11,
+            "totalMs": 0.144
+          },
+          "src/lib/local-ui-flow.js.getState": {
+            "calls": 6,
+            "totalMs": 0.31
+          },
+          "src/lib/local-presentation.js.presentLocal": {
+            "calls": 6,
+            "totalMs": 0.197
+          },
+          "page.refresh": {
+            "calls": 6,
+            "totalMs": 1.226
+          },
+          "page.safeRefresh": {
+            "calls": 6,
+            "totalMs": 1.245
+          },
+          "src/lib/local-session.js.transition": {
+            "calls": 1,
+            "totalMs": 0.127
+          },
+          "src/lib/local-session.js.validateDocument": {
+            "calls": 12,
+            "totalMs": 0.918
+          },
+          "src/lib/local-session.js.textInfo": {
+            "calls": 12,
+            "totalMs": 0.06
+          },
+          "src/lib/local-codec.js.encodeRecord": {
+            "calls": 3,
+            "totalMs": 0.494
+          },
+          "src/lib/local-codec.js.byteLength": {
+            "calls": 1,
+            "totalMs": 0.006
+          },
+          "src/platform/probe-storage.js.describe": {
+            "calls": 6,
+            "totalMs": 0.011
+          },
+          "src/platform/local-storage.js.describe": {
+            "calls": 6,
+            "totalMs": 0.023
+          },
+          "src/lib/local-codec.js.decodeRecord": {
+            "calls": 4,
+            "totalMs": 1.449
+          },
+          "src/platform/probe-storage.js.read": {
+            "calls": 3,
+            "totalMs": 84.357
+          },
+          "src/platform/local-storage.js.read": {
+            "calls": 3,
+            "totalMs": 84.39
+          },
+          "src/lib/local-session.js.historyError": {
+            "calls": 4,
+            "totalMs": 0.599
+          },
+          "src/platform/probe-storage.js.write": {
+            "calls": 1,
+            "totalMs": 29.525
+          },
+          "src/platform/local-storage.js.write": {
+            "calls": 1,
+            "totalMs": 29.541
+          },
+          "src/lib/local-journal.js.save": {
+            "calls": 1,
+            "totalMs": 116.197
+          },
+          "src/lib/local-owner.js.dispatch": {
+            "calls": 1,
+            "totalMs": 117.506
+          },
+          "src/lib/local-ui-flow.js.beginBreak": {
+            "calls": 1,
+            "totalMs": 118.868
+          }
+        }
+      },
+      {
+        "name": "RESUME",
+        "elapsedMs": 122.434,
+        "firstBusyMs": 0.445,
+        "nativeCounts": {
+          "reads": 3,
+          "writes": 1
+        },
+        "nativeStageMs": {
+          "dualSlotRead": 56.7,
+          "nativeWrite": 28.666,
+          "exactReadback": 30.417
+        },
+        "confirmations": [
+          121.505
+        ],
+        "functions": {
+          "page.updateDiagnostic": {
+            "calls": 7,
+            "totalMs": 0.054
+          },
+          "src/lib/local-session.js.summarize": {
+            "calls": 12,
+            "totalMs": 0.837
+          },
+          "src/lib/local-owner.js.snapshot": {
+            "calls": 9,
+            "totalMs": 0.799
+          },
+          "src/lib/local-presentation.js.resolveReadyPreview": {
+            "calls": 11,
+            "totalMs": 0.137
+          },
+          "src/lib/local-ui-flow.js.getState": {
+            "calls": 6,
+            "totalMs": 0.342
+          },
+          "src/lib/local-presentation.js.presentLocal": {
+            "calls": 6,
+            "totalMs": 0.143
+          },
+          "page.refresh": {
+            "calls": 6,
+            "totalMs": 1.21
+          },
+          "page.safeRefresh": {
+            "calls": 6,
+            "totalMs": 1.228
+          },
+          "src/lib/local-session.js.transition": {
+            "calls": 1,
+            "totalMs": 0.123
+          },
+          "src/lib/local-session.js.validateDocument": {
+            "calls": 12,
+            "totalMs": 1.09
+          },
+          "src/lib/local-session.js.textInfo": {
+            "calls": 12,
+            "totalMs": 0.082
+          },
+          "src/lib/local-codec.js.encodeRecord": {
+            "calls": 3,
+            "totalMs": 0.807
+          },
+          "src/lib/local-codec.js.byteLength": {
+            "calls": 1,
+            "totalMs": 0.005
+          },
+          "src/platform/probe-storage.js.describe": {
+            "calls": 6,
+            "totalMs": 0.022
+          },
+          "src/platform/local-storage.js.describe": {
+            "calls": 6,
+            "totalMs": 0.047
+          },
+          "src/lib/local-codec.js.decodeRecord": {
+            "calls": 4,
+            "totalMs": 1.562
+          },
+          "src/platform/probe-storage.js.read": {
+            "calls": 3,
+            "totalMs": 87.63
+          },
+          "src/platform/local-storage.js.read": {
+            "calls": 3,
+            "totalMs": 87.644
+          },
+          "src/lib/local-session.js.historyError": {
+            "calls": 4,
+            "totalMs": 0.801
+          },
+          "src/platform/probe-storage.js.write": {
+            "calls": 1,
+            "totalMs": 28.782
+          },
+          "src/platform/local-storage.js.write": {
+            "calls": 1,
+            "totalMs": 28.805
+          },
+          "src/lib/local-journal.js.save": {
+            "calls": 1,
+            "totalMs": 119.094
+          },
+          "src/lib/local-owner.js.dispatch": {
+            "calls": 1,
+            "totalMs": 120.937
+          },
+          "src/lib/local-ui-flow.js.resume": {
+            "calls": 1,
+            "totalMs": 122.182
+          }
+        }
+      },
+      {
+        "name": "FINISH",
+        "elapsedMs": 125.875,
+        "firstBusyMs": 0.534,
+        "nativeCounts": {
+          "reads": 3,
+          "writes": 1
+        },
+        "nativeStageMs": {
+          "dualSlotRead": 56.787,
+          "nativeWrite": 27.426,
+          "exactReadback": 31.033
+        },
+        "confirmations": [
+          123.492
+        ],
+        "functions": {
+          "page.updateDiagnostic": {
+            "calls": 7,
+            "totalMs": 0.076
+          },
+          "src/lib/local-session.js.summarize": {
+            "calls": 12,
+            "totalMs": 1.537
+          },
+          "src/lib/local-owner.js.snapshot": {
+            "calls": 9,
+            "totalMs": 1.528
+          },
+          "src/lib/local-presentation.js.resolveReadyPreview": {
+            "calls": 11,
+            "totalMs": 0.259
+          },
+          "src/lib/local-ui-flow.js.getState": {
+            "calls": 6,
+            "totalMs": 0.515
+          },
+          "src/lib/local-presentation.js.presentLocal": {
+            "calls": 6,
+            "totalMs": 0.32
+          },
+          "page.refresh": {
+            "calls": 6,
+            "totalMs": 2.163
+          },
+          "page.safeRefresh": {
+            "calls": 6,
+            "totalMs": 2.188
+          },
+          "src/lib/local-session.js.transition": {
+            "calls": 1,
+            "totalMs": 0.439
+          },
+          "src/lib/local-session.js.validateDocument": {
+            "calls": 12,
+            "totalMs": 2.122
+          },
+          "src/lib/local-session.js.textInfo": {
+            "calls": 12,
+            "totalMs": 0.091
+          },
+          "src/lib/local-codec.js.encodeRecord": {
+            "calls": 3,
+            "totalMs": 0.566
+          },
+          "src/lib/local-codec.js.byteLength": {
+            "calls": 1,
+            "totalMs": 0.006
+          },
+          "src/platform/probe-storage.js.describe": {
+            "calls": 6,
+            "totalMs": 0.014
+          },
+          "src/platform/local-storage.js.describe": {
+            "calls": 6,
+            "totalMs": 0.026
+          },
+          "src/lib/local-codec.js.decodeRecord": {
+            "calls": 4,
+            "totalMs": 2.426
+          },
+          "src/platform/probe-storage.js.read": {
+            "calls": 3,
+            "totalMs": 88.568
+          },
+          "src/platform/local-storage.js.read": {
+            "calls": 3,
+            "totalMs": 88.597
+          },
+          "src/lib/local-session.js.historyError": {
+            "calls": 4,
+            "totalMs": 1.45
+          },
+          "src/platform/probe-storage.js.write": {
+            "calls": 1,
+            "totalMs": 27.624
+          },
+          "src/platform/local-storage.js.write": {
+            "calls": 1,
+            "totalMs": 27.64
+          },
+          "src/lib/local-journal.js.save": {
+            "calls": 1,
+            "totalMs": 120.053
+          },
+          "src/lib/local-owner.js.dispatch": {
+            "calls": 1,
+            "totalMs": 122.821
+          },
+          "src/lib/local-ui-flow.js.finish": {
+            "calls": 1,
+            "totalMs": 125.322
+          }
+        }
+      }
+    ],
+    "preservation": [
+      {
+        "previousPendingCount": 0,
+        "previousPendingUnchanged": true,
+        "oneNewStableSession": true,
+        "nullableEndPage": true,
+        "breakDoesNotAutoResume": true
+      },
+      {
+        "previousPendingCount": 1,
+        "previousPendingUnchanged": true,
+        "oneNewStableSession": true,
+        "nullableEndPage": true,
+        "breakDoesNotAutoResume": true
+      },
+      {
+        "previousPendingCount": 0,
+        "previousPendingUnchanged": true,
+        "oneNewStableSession": true,
+        "nullableEndPage": true,
+        "breakDoesNotAutoResume": true
+      },
+      {
+        "previousPendingCount": 1,
+        "previousPendingUnchanged": true,
+        "oneNewStableSession": true,
+        "nullableEndPage": true,
+        "breakDoesNotAutoResume": true
+      },
+      {
+        "previousPendingCount": 0,
+        "previousPendingUnchanged": true,
+        "oneNewStableSession": true,
+        "nullableEndPage": true,
+        "breakDoesNotAutoResume": true
+      },
+      {
+        "previousPendingCount": 1,
+        "previousPendingUnchanged": true,
+        "oneNewStableSession": true,
+        "nullableEndPage": true,
+        "breakDoesNotAutoResume": true
+      }
+    ]
+  },
+  "after": {
+    "sourceRef": "WORKTREE",
+    "summary": [
+      {
+        "name": "START_EMPTY",
+        "samples": 3,
+        "elapsedMedianMs": 141.645,
+        "busyAssignmentMedianMs": 0.187,
+        "nativeCounts": {
+          "reads": 3,
+          "writes": 1
+        },
+        "nativeTotalMedianMs": 120.904,
+        "nonNativeResidualMedianMs": 20.645,
+        "reactiveAssignmentsMedian": 36,
+        "jsonCallsMedian": 147
+      },
+      {
+        "name": "START_AFTER_PENDING",
+        "samples": 3,
+        "elapsedMedianMs": 141.512,
+        "busyAssignmentMedianMs": 0.231,
+        "nativeCounts": {
+          "reads": 3,
+          "writes": 1
+        },
+        "nativeTotalMedianMs": 120.515,
+        "nonNativeResidualMedianMs": 20.684,
+        "reactiveAssignmentsMedian": 34,
+        "jsonCallsMedian": 368
+      },
+      {
+        "name": "BREAK",
+        "samples": 6,
+        "elapsedMedianMs": 135.107,
+        "busyAssignmentMedianMs": 0.275,
+        "nativeCounts": {
+          "reads": 3,
+          "writes": 1
+        },
+        "nativeTotalMedianMs": 120.229,
+        "nonNativeResidualMedianMs": 11.965,
+        "reactiveAssignmentsMedian": 32,
+        "jsonCallsMedian": 377.5
+      },
+      {
+        "name": "RESUME",
+        "samples": 6,
+        "elapsedMedianMs": 139.465,
+        "busyAssignmentMedianMs": 0.364,
+        "nativeCounts": {
+          "reads": 3,
+          "writes": 1
+        },
+        "nativeTotalMedianMs": 119.072,
+        "nonNativeResidualMedianMs": 20.044,
+        "reactiveAssignmentsMedian": 33,
+        "jsonCallsMedian": 467
+      },
+      {
+        "name": "FINISH",
+        "samples": 6,
+        "elapsedMedianMs": 140.176,
+        "busyAssignmentMedianMs": 0.476,
+        "nativeCounts": {
+          "reads": 3,
+          "writes": 1
+        },
+        "nativeTotalMedianMs": 119.378,
+        "nonNativeResidualMedianMs": 21.026,
+        "reactiveAssignmentsMedian": 36,
+        "jsonCallsMedian": 537
+      }
+    ],
+    "tickSummary": {
+      "samples": 6,
+      "tickCountPerSample": 60,
+      "elapsedMedianMs": 2.565,
+      "reactiveAssignmentsMedian": 120,
+      "jsonCallsMedian": 0,
+      "nativeCalls": 0
+    },
+    "representativeStages": [
+      {
+        "name": "START_EMPTY",
+        "elapsedMs": 142.59,
+        "firstBusyMs": 0.748,
+        "nativeCounts": {
+          "reads": 3,
+          "writes": 1
+        },
+        "nativeStageMs": {
+          "dualSlotRead": 58.479,
+          "nativeWrite": 30.514,
+          "exactReadback": 29.977
+        },
+        "confirmations": [
+          141.141
+        ],
+        "functions": {
+          "page.updateDiagnostic": {
+            "calls": 3,
+            "totalMs": 0.028
+          },
+          "src/lib/local-owner.js.snapshot": {
+            "calls": 4,
+            "totalMs": 0.539
+          },
+          "src/lib/local-presentation.js.resolveReadyPreview": {
+            "calls": 7,
+            "totalMs": 0.122
+          },
+          "src/lib/local-session.js.createDocument": {
+            "calls": 1,
+            "totalMs": 0.116
+          },
+          "src/lib/local-session.js.transition": {
+            "calls": 1,
+            "totalMs": 1.386
+          },
+          "src/lib/local-session.js.validateDocument": {
+            "calls": 8,
+            "totalMs": 1.35
+          },
+          "src/lib/local-session.js.textInfo": {
+            "calls": 8,
+            "totalMs": 0.296
+          },
+          "src/lib/local-codec.js.encodeRecord": {
+            "calls": 3,
+            "totalMs": 1.783
+          },
+          "src/lib/local-codec.js.byteLength": {
+            "calls": 1,
+            "totalMs": 0.108
+          },
+          "src/platform/probe-storage.js.describe": {
+            "calls": 6,
+            "totalMs": 0.036
+          },
+          "src/platform/local-storage.js.describe": {
+            "calls": 6,
+            "totalMs": 0.058
+          },
+          "src/lib/local-codec.js.decodeRecord": {
+            "calls": 2,
+            "totalMs": 1.288
+          },
+          "src/platform/probe-storage.js.read": {
+            "calls": 3,
+            "totalMs": 88.99
+          },
+          "src/platform/local-storage.js.read": {
+            "calls": 3,
+            "totalMs": 89.027
+          },
+          "src/platform/probe-storage.js.write": {
+            "calls": 1,
+            "totalMs": 30.845
+          },
+          "src/platform/local-storage.js.write": {
+            "calls": 1,
+            "totalMs": 31.174
+          },
+          "src/lib/local-journal.js.save": {
+            "calls": 1,
+            "totalMs": 123.95
+          },
+          "src/lib/local-session.js.summarize": {
+            "calls": 4,
+            "totalMs": 0.983
+          },
+          "src/lib/local-owner.js.dispatch": {
+            "calls": 1,
+            "totalMs": 128
+          },
+          "src/lib/local-ui-flow.js.getState": {
+            "calls": 1,
+            "totalMs": 0.083
+          },
+          "src/lib/local-presentation.js.presentLocal": {
+            "calls": 1,
+            "totalMs": 0.096
+          },
+          "page.refresh": {
+            "calls": 1,
+            "totalMs": 0.526
+          },
+          "page.safeRefresh": {
+            "calls": 1,
+            "totalMs": 0.541
+          },
+          "src/lib/local-ui-flow.js.confirmStart": {
+            "calls": 1,
+            "totalMs": 142.266
+          }
+        }
+      },
+      {
+        "name": "BREAK",
+        "elapsedMs": 138.905,
+        "firstBusyMs": 0.278,
+        "nativeCounts": {
+          "reads": 3,
+          "writes": 1
+        },
+        "nativeStageMs": {
+          "dualSlotRead": 60.108,
+          "nativeWrite": 30.566,
+          "exactReadback": 32.206
+        },
+        "confirmations": [
+          137.465
+        ],
+        "functions": {
+          "page.updateDiagnostic": {
+            "calls": 3,
+            "totalMs": 0.025
+          },
+          "src/lib/local-session.js.summarize": {
+            "calls": 7,
+            "totalMs": 0.995
+          },
+          "src/lib/local-owner.js.snapshot": {
+            "calls": 4,
+            "totalMs": 0.768
+          },
+          "src/lib/local-presentation.js.resolveReadyPreview": {
+            "calls": 6,
+            "totalMs": 0.112
+          },
+          "src/lib/local-session.js.transition": {
+            "calls": 1,
+            "totalMs": 0.188
+          },
+          "src/lib/local-session.js.validateDocument": {
+            "calls": 10,
+            "totalMs": 1.07
+          },
+          "src/lib/local-session.js.textInfo": {
+            "calls": 10,
+            "totalMs": 0.052
+          },
+          "src/lib/local-codec.js.encodeRecord": {
+            "calls": 3,
+            "totalMs": 0.531
+          },
+          "src/lib/local-codec.js.byteLength": {
+            "calls": 1,
+            "totalMs": 0.004
+          },
+          "src/platform/probe-storage.js.describe": {
+            "calls": 6,
+            "totalMs": 0.015
+          },
+          "src/platform/local-storage.js.describe": {
+            "calls": 6,
+            "totalMs": 0.03
+          },
+          "src/lib/local-codec.js.decodeRecord": {
+            "calls": 3,
+            "totalMs": 1.265
+          },
+          "src/platform/probe-storage.js.read": {
+            "calls": 3,
+            "totalMs": 92.885
+          },
+          "src/platform/local-storage.js.read": {
+            "calls": 3,
+            "totalMs": 92.951
+          },
+          "src/lib/local-session.js.historyError": {
+            "calls": 3,
+            "totalMs": 1.432
+          },
+          "src/platform/probe-storage.js.write": {
+            "calls": 1,
+            "totalMs": 30.744
+          },
+          "src/platform/local-storage.js.write": {
+            "calls": 1,
+            "totalMs": 30.794
+          },
+          "src/lib/local-journal.js.save": {
+            "calls": 1,
+            "totalMs": 126.344
+          },
+          "src/lib/local-owner.js.dispatch": {
+            "calls": 1,
+            "totalMs": 128.326
+          },
+          "src/lib/local-ui-flow.js.getState": {
+            "calls": 1,
+            "totalMs": 0.112
+          },
+          "src/lib/local-presentation.js.presentLocal": {
+            "calls": 1,
+            "totalMs": 0.158
+          },
+          "page.refresh": {
+            "calls": 1,
+            "totalMs": 0.5
+          },
+          "page.safeRefresh": {
+            "calls": 1,
+            "totalMs": 0.515
+          },
+          "src/lib/local-ui-flow.js.beginBreak": {
+            "calls": 1,
+            "totalMs": 138.85
+          }
+        }
+      },
+      {
+        "name": "RESUME",
+        "elapsedMs": 139.392,
+        "firstBusyMs": 0.398,
+        "nativeCounts": {
+          "reads": 3,
+          "writes": 1
+        },
+        "nativeStageMs": {
+          "dualSlotRead": 60.475,
+          "nativeWrite": 29.08,
+          "exactReadback": 31.029
+        },
+        "confirmations": [
+          138.159
+        ],
+        "functions": {
+          "page.updateDiagnostic": {
+            "calls": 3,
+            "totalMs": 0.029
+          },
+          "src/lib/local-session.js.summarize": {
+            "calls": 7,
+            "totalMs": 1.106
+          },
+          "src/lib/local-owner.js.snapshot": {
+            "calls": 4,
+            "totalMs": 0.951
+          },
+          "src/lib/local-presentation.js.resolveReadyPreview": {
+            "calls": 6,
+            "totalMs": 0.075
+          },
+          "src/lib/local-session.js.transition": {
+            "calls": 1,
+            "totalMs": 0.25
+          },
+          "src/lib/local-session.js.validateDocument": {
+            "calls": 12,
+            "totalMs": 1.837
+          },
+          "src/lib/local-session.js.textInfo": {
+            "calls": 12,
+            "totalMs": 0.107
+          },
+          "src/lib/local-codec.js.encodeRecord": {
+            "calls": 3,
+            "totalMs": 0.728
+          },
+          "src/lib/local-codec.js.byteLength": {
+            "calls": 1,
+            "totalMs": 0.008
+          },
+          "src/platform/probe-storage.js.describe": {
+            "calls": 6,
+            "totalMs": 0.018
+          },
+          "src/platform/local-storage.js.describe": {
+            "calls": 6,
+            "totalMs": 0.032
+          },
+          "src/lib/local-codec.js.decodeRecord": {
+            "calls": 4,
+            "totalMs": 2.428
+          },
+          "src/platform/probe-storage.js.read": {
+            "calls": 3,
+            "totalMs": 91.952
+          },
+          "src/platform/local-storage.js.read": {
+            "calls": 3,
+            "totalMs": 91.968
+          },
+          "src/lib/local-session.js.historyError": {
+            "calls": 4,
+            "totalMs": 0.88
+          },
+          "src/platform/probe-storage.js.write": {
+            "calls": 1,
+            "totalMs": 29.173
+          },
+          "src/platform/local-storage.js.write": {
+            "calls": 1,
+            "totalMs": 29.182
+          },
+          "src/lib/local-journal.js.save": {
+            "calls": 1,
+            "totalMs": 124.544
+          },
+          "src/lib/local-owner.js.dispatch": {
+            "calls": 1,
+            "totalMs": 126.397
+          },
+          "src/lib/local-ui-flow.js.getState": {
+            "calls": 1,
+            "totalMs": 0.049
+          },
+          "src/lib/local-presentation.js.presentLocal": {
+            "calls": 1,
+            "totalMs": 0.035
+          },
+          "page.refresh": {
+            "calls": 1,
+            "totalMs": 0.24
+          },
+          "page.safeRefresh": {
+            "calls": 1,
+            "totalMs": 0.256
+          },
+          "src/lib/local-ui-flow.js.resume": {
+            "calls": 1,
+            "totalMs": 139.31
+          }
+        }
+      },
+      {
+        "name": "FINISH",
+        "elapsedMs": 140.691,
+        "firstBusyMs": 0.347,
+        "nativeCounts": {
+          "reads": 3,
+          "writes": 1
+        },
+        "nativeStageMs": {
+          "dualSlotRead": 59.796,
+          "nativeWrite": 28.309,
+          "exactReadback": 31.673
+        },
+        "confirmations": [
+          139.442
+        ],
+        "functions": {
+          "page.updateDiagnostic": {
+            "calls": 3,
+            "totalMs": 0.022
+          },
+          "src/lib/local-session.js.summarize": {
+            "calls": 7,
+            "totalMs": 1.134
+          },
+          "src/lib/local-owner.js.snapshot": {
+            "calls": 4,
+            "totalMs": 0.913
+          },
+          "src/lib/local-presentation.js.resolveReadyPreview": {
+            "calls": 6,
+            "totalMs": 0.168
+          },
+          "src/lib/local-session.js.transition": {
+            "calls": 1,
+            "totalMs": 0.435
+          },
+          "src/lib/local-session.js.validateDocument": {
+            "calls": 12,
+            "totalMs": 1.779
+          },
+          "src/lib/local-session.js.textInfo": {
+            "calls": 12,
+            "totalMs": 0.105
+          },
+          "src/lib/local-codec.js.encodeRecord": {
+            "calls": 3,
+            "totalMs": 0.966
+          },
+          "src/lib/local-codec.js.byteLength": {
+            "calls": 1,
+            "totalMs": 0.01
+          },
+          "src/platform/probe-storage.js.describe": {
+            "calls": 6,
+            "totalMs": 0.019
+          },
+          "src/platform/local-storage.js.describe": {
+            "calls": 6,
+            "totalMs": 0.075
+          },
+          "src/lib/local-codec.js.decodeRecord": {
+            "calls": 4,
+            "totalMs": 2.088
+          },
+          "src/platform/probe-storage.js.read": {
+            "calls": 3,
+            "totalMs": 92.012
+          },
+          "src/platform/local-storage.js.read": {
+            "calls": 3,
+            "totalMs": 92.034
+          },
+          "src/lib/local-session.js.historyError": {
+            "calls": 4,
+            "totalMs": 1.004
+          },
+          "src/platform/probe-storage.js.write": {
+            "calls": 1,
+            "totalMs": 28.425
+          },
+          "src/platform/local-storage.js.write": {
+            "calls": 1,
+            "totalMs": 28.432
+          },
+          "src/lib/local-journal.js.save": {
+            "calls": 1,
+            "totalMs": 124.283
+          },
+          "src/lib/local-owner.js.dispatch": {
+            "calls": 1,
+            "totalMs": 126.381
+          },
+          "src/lib/local-ui-flow.js.getState": {
+            "calls": 1,
+            "totalMs": 0.094
+          },
+          "src/lib/local-presentation.js.presentLocal": {
+            "calls": 1,
+            "totalMs": 0.194
+          },
+          "page.refresh": {
+            "calls": 1,
+            "totalMs": 0.497
+          },
+          "page.safeRefresh": {
+            "calls": 1,
+            "totalMs": 0.504
+          },
+          "src/lib/local-ui-flow.js.finish": {
+            "calls": 1,
+            "totalMs": 140.632
+          }
+        }
+      }
+    ],
+    "preservation": [
+      {
+        "previousPendingCount": 0,
+        "previousPendingUnchanged": true,
+        "oneNewStableSession": true,
+        "nullableEndPage": true,
+        "breakDoesNotAutoResume": true
+      },
+      {
+        "previousPendingCount": 1,
+        "previousPendingUnchanged": true,
+        "oneNewStableSession": true,
+        "nullableEndPage": true,
+        "breakDoesNotAutoResume": true
+      },
+      {
+        "previousPendingCount": 0,
+        "previousPendingUnchanged": true,
+        "oneNewStableSession": true,
+        "nullableEndPage": true,
+        "breakDoesNotAutoResume": true
+      },
+      {
+        "previousPendingCount": 1,
+        "previousPendingUnchanged": true,
+        "oneNewStableSession": true,
+        "nullableEndPage": true,
+        "breakDoesNotAutoResume": true
+      },
+      {
+        "previousPendingCount": 0,
+        "previousPendingUnchanged": true,
+        "oneNewStableSession": true,
+        "nullableEndPage": true,
+        "breakDoesNotAutoResume": true
+      },
+      {
+        "previousPendingCount": 1,
+        "previousPendingUnchanged": true,
+        "oneNewStableSession": true,
+        "nullableEndPage": true,
+        "breakDoesNotAutoResume": true
+      }
+    ]
+  },
+  "deviceMeasurement": "NOT_RUN",
+  "firstPaintMeasurement": "NOT_RUN",
+  "perceivedSmoothness": "AWAITING_USER_NATURAL_USE",
+  "conclusion": "Start requires one verified commit instead of three/four. Single-mutation total latency did not improve in this model; busy feedback and tick redundancy reduced."
+}

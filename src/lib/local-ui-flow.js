@@ -20,7 +20,7 @@ function immutableSession(before, after) {
 }
 
 // This layer owns transient UI drafts only. The application's existing owner
-// remains the only writer; each command has its own persisted acknowledgement.
+// remains the only writer; explicit start is one confirmed business transaction.
 function createLocalUiFlow(options) {
   options = options || {};
   const owner = options.owner; const catalog = options.catalog || [];
@@ -152,7 +152,7 @@ function createLocalUiFlow(options) {
     if (next.pending.length !== oldPending.length + (finishing ? 1 : 0)
       || oldPending.some((record, index) => !equal(record, next.pending[index]))) return false;
     const counter = prior ? prior.counter : 0;
-    if (next.counter !== counter + (action.type === 'CONFIRM_START' ? 1 : 0)) return false;
+    if (next.counter !== counter + (action.type === 'CONFIRM_START' || action.type === 'START_CONFIRMED' ? 1 : 0)) return false;
     if (action.type === 'NEW_SESSION' || action.type === 'CANCEL_PREPARATION') {
       return next.state === 'IDLE' && next.preparation === null && next.active === null;
     }
@@ -161,7 +161,7 @@ function createLocalUiFlow(options) {
         && equal(next.preparation.bookSnapshot, preview.bookSnapshot)
         && equal(next.preparation.firstActionSnapshot, action.type === 'SELECT_BOOK' ? null : preview.firstActionSnapshot);
     }
-    if (action.type === 'CONFIRM_START') {
+    if (action.type === 'CONFIRM_START' || action.type === 'START_CONFIRMED') {
       return next.state === 'FOCUS' && next.preparation === null && next.active
         && next.active.id === next.installationId + ':' + next.counter && next.active.ordinal === next.counter
         && equal(next.active.bookSnapshot, preview.bookSnapshot) && equal(next.active.firstActionSnapshot, preview.firstActionSnapshot)
@@ -188,10 +188,15 @@ function createLocalUiFlow(options) {
   async function runCommands(actions, startSnapshot, preview, successfulView) {
     if (!interact() || !writeAllowed(startSnapshot)) return getState();
     pending = true; ui.operation = actions[actions.length - 1].type === 'FINISH' ? 'finish'
-      : actions[actions.length - 1].type === 'CONFIRM_START' ? 'start' : actions[actions.length - 1].type.toLowerCase();
+      : ['CONFIRM_START', 'START_CONFIRMED'].indexOf(actions[actions.length - 1].type) >= 0 ? 'start' : actions[actions.length - 1].type.toLowerCase();
     ui.errorCode = null; ui.notice = ''; const token = epoch;
+    const performance = owner.performance;
+    if (performance) performance.begin(actions[actions.length - 1].type);
     let before = copy(startSnapshot); publish();
     try {
+      // Hold the duplicate-click guard before yielding to the native event loop.
+      // This is a render opportunity, not proof of physical screen paint.
+      if (typeof options.yieldBeforeWrite === 'function') await options.yieldBeforeWrite();
       for (let index = 0; index < actions.length; index++) {
         if (!live(token)) break;
         const current = owner.snapshot();
@@ -224,6 +229,7 @@ function createLocalUiFlow(options) {
         if (rereadAfterOperation) { rereadAfterOperation = false; ui.operation = 'read'; await readOwner(epoch, true); }
       }
       pending = false; ui.operation = null; if (visible && !disposed) publish();
+      if (performance) performance.finish();
     }
     return getState();
   }
@@ -248,15 +254,7 @@ function createLocalUiFlow(options) {
     if (!preview || !captured || !equal(captured, preview)) {
       ui.errorCode = 'UI_PREVIEW_CHANGED'; ui.notice = '显示内容已变化，请核对当前第一步后再确认。'; publish(); return Promise.resolve(getState());
     }
-    const actions = [];
-    if (state === 'FINISHED_PENDING_SYNC') actions.push({ type: 'NEW_SESSION' });
-    const preparation = current.document && current.document.preparation;
-    const sameBook = state === 'PREPARING' && equal(preparation.bookSnapshot, captured.bookSnapshot);
-    if (state === 'PREPARING' && !sameBook) actions.push({ type: 'CANCEL_PREPARATION' });
-    if (!sameBook) actions.push({ type: 'SELECT_BOOK', bookId: captured.bookId });
-    if (!sameBook || !equal(preparation.firstActionSnapshot, captured.firstActionSnapshot)) actions.push({ type: 'SELECT_ACTION', firstActionId: captured.actionId });
-    actions.push({ type: 'CONFIRM_START', confirmed: true });
-    return runCommands(actions, current, captured, 'READING');
+    return runCommands([{ type: 'START_CONFIRMED', bookId: captured.bookId, firstActionId: captured.actionId, confirmed: true }], current, captured, 'READING');
   }
   function openBreakPicker() {
     refreshSnapshot(); if (ui.view !== 'READING' || !ownerSnapshot.document || ownerSnapshot.document.state !== 'FOCUS') return getState();

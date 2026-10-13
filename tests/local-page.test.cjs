@@ -23,7 +23,7 @@ function pageHarness(options = {}) {
   const app = { $def: { getLocalOwner: () => owner }, exit() { exits++; } };
   const module = { exports: {} };
   vm.runInNewContext(scriptFrom('src/pages/LocalSession/index.ux'), {
-    module, domainLib, presentationLib, flowLib, profile: { versionName: '0.1.3' }, Promise, Array, Object, Number, String, Math, JSON,
+    module, domainLib, presentationLib, flowLib, profile: { versionName: '0.1.4' }, Promise, Array, Object, Number, String, Math, JSON,
     setInterval(callback, delay) { assert.equal(delay, 1000); const id = ++nextTimer; timers.set(id, callback); return id; },
     clearInterval(id) { timers.delete(id); },
   });
@@ -83,7 +83,7 @@ test('the actual start binding accepts exactly the visible preview and keeps one
     assert.equal(h.page._projection.primary.label, '正在开始…'); h.r.release(); await operation;
     assert.equal(h.page._projection.view, 'READING'); assert.equal(h.page._projection.state, 'FOCUS'); assert.equal(h.r.realOwner.snapshot().document.counter, 1);
     assert.equal(h.r.realOwner.snapshot().document.active.firstActionSnapshot.text, visible.text);
-    assert.deepEqual(h.r.commands.map(action => action.type), ['SELECT_BOOK', 'SELECT_ACTION', 'CONFIRM_START']);
+    assert.deepEqual(h.r.commands.map(action => action.type), ['START_CONFIRMED']);
   } finally { h.cleanup(); }
 });
 test('a failed durable start keeps the last confirmation state and displays a blocking storage task', async () => {
@@ -148,12 +148,13 @@ test('page hide and destroy retire only observers and visible ticks, never the a
     assert.equal(h.timers.size, 0); assert.equal(h.listeners.size, 0); assert.equal(r.closes(), 0); assert.equal(r.realOwner.snapshot().document.state, 'FOCUS');
   } finally { h.cleanup(); }
 });
-test('late readback cannot refresh a hidden page or start any unstarted subsequent command', async () => {
+test('late atomic-start readback cannot refresh a hidden page and reentry restores the single confirmed Session', async () => {
   const h = await shown(); try {
     h.r.holdAt(1); const operation = h.page.confirmStart(); await h.r.untilHeld(); const before = h.page._projection;
     h.page.onHide(); h.r.release(); await operation; h.retiredListeners[0](h.owner.snapshot()); h.tick();
-    assert.equal(h.page._projection, before); assert.deepEqual(h.r.commands.map(action => action.type), ['SELECT_BOOK']);
-    await h.page.onShow(); assert.equal(h.page._projection.state, 'PREPARING'); assert.equal(h.page._projection.view, 'READY');
+    assert.equal(h.page._projection, before); assert.deepEqual(h.r.commands.map(action => action.type), ['START_CONFIRMED']);
+    await h.page.onShow(); assert.equal(h.page._projection.state, 'FOCUS'); assert.equal(h.page._projection.view, 'READING');
+    assert.equal(h.r.realOwner.snapshot().document.counter, 1);
   } finally { h.cleanup(); }
 });
 test('unexpected owner failures remain unconfirmed and block further writes instead of showing success', async () => {

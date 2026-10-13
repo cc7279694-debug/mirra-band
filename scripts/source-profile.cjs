@@ -3,7 +3,7 @@ const { identity } = require('./build-profiles.cjs');
 function sourceFilter(root, mode) {
   const profile = identity(mode);
   const files = profile.clickProbe ? ['manifest.json', 'profile.js', 'click-probe-app.ux', 'common/click-probe.css', 'common/local-brand/icon-pending.png', 'pages/ClickProbe/index.ux'] : profile.localSession ? ['manifest.json', 'profile.js', 'local-app.ux',
-    'lib/local-session.js', 'lib/local-codec.js', 'lib/local-journal.js', 'lib/local-owner.js',
+    'lib/local-session.js', 'lib/local-codec.js', 'lib/local-journal.js', 'lib/local-owner.js', 'lib/local-performance.js',
     'lib/local-presentation.js', 'lib/local-ui-flow.js', 'ui/local-tokens.js', 'common/local-theme.css',
     'common/local-brand/icon-pending.png', 'platform/local-storage.js', 'platform/probe-storage.js', 'pages/LocalSession/index.ux'] :
     ['manifest.json', 'profile.js', 'probe-app.ux', 'common/theme.css', 'common/icon.png', 'common/icon.svg',

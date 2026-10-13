@@ -87,7 +87,26 @@ function transition(value, action, time) {
   const doc = validateDocument(value); const now = observation(time);
   if (!action || typeof action.type !== 'string') fail('ACTION');
   const expect = state => { if (doc.state !== state) fail('STATE'); };
-  if (action.type === 'SELECT_BOOK') {
+  if (action.type === 'START_CONFIRMED') {
+    // A dedicated transaction, not an arbitrary batch. Draft selection remains
+    // in memory until the user explicitly confirms the displayed first action.
+    fields(action, ['type', 'bookId', 'firstActionId', 'confirmed']);
+    if (action.confirmed !== true) fail('CONFIRM_REQUIRED');
+    if (['IDLE', 'PREPARING', 'FINISHED_PENDING_SYNC'].indexOf(doc.state) < 0) fail('STATE');
+    const book = TEST_BOOKS.find(entry => entry.id === action.bookId); if (!book) fail('BOOK');
+    if (!book.firstActions.some(entry => entry.id === action.firstActionId)) fail('FIRST_ACTION');
+    let candidate = doc;
+    if (candidate.state === 'FINISHED_PENDING_SYNC') candidate = transition(candidate, { type: 'NEW_SESSION' }, now);
+    const sameBook = candidate.state === 'PREPARING' && candidate.preparation.bookSnapshot.id === action.bookId;
+    if (candidate.state === 'PREPARING' && !sameBook) candidate = transition(candidate, { type: 'CANCEL_PREPARATION' }, now);
+    if (!sameBook) candidate = transition(candidate, { type: 'SELECT_BOOK', bookId: action.bookId }, now);
+    if (!sameBook || !candidate.preparation.firstActionSnapshot || candidate.preparation.firstActionSnapshot.id !== action.firstActionId) {
+      candidate = transition(candidate, { type: 'SELECT_ACTION', firstActionId: action.firstActionId }, now);
+    }
+    // Existing confirmation creates exactly one ID/counter and checks all
+    // Session constraints. No intermediate candidate is ever published or saved.
+    return transition(candidate, { type: 'CONFIRM_START', confirmed: true }, now);
+  } else if (action.type === 'SELECT_BOOK') {
     fields(action, ['type', 'bookId']); if (doc.state !== 'IDLE' && doc.state !== 'FINISHED_PENDING_SYNC') fail('STATE');
     const selected = TEST_BOOKS.find(book => book.id === action.bookId); if (!selected) fail('BOOK');
     doc.preparation = { bookSnapshot: { id: selected.id, title: selected.title, startPage: selected.startPage }, firstActionSnapshot: null }; doc.state = 'PREPARING';

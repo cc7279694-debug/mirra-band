@@ -97,7 +97,7 @@ test('details during start readback preserve the captured action and exactly one
   assert.equal(r.writes(), writes); assert.equal(r.exits(), 0);
   r.release(); await starting;
   const saved = r.owner.snapshot();
-  assert.equal(saved.document.state, 'FOCUS'); assert.equal(saved.document.counter, 1); assert.equal(saved.sequence, 3);
+  assert.equal(saved.document.state, 'FOCUS'); assert.equal(saved.document.counter, 1); assert.equal(saved.sequence, 1);
   assert.equal(saved.document.active.firstActionSnapshot.id, 'open-book');
   assert.equal(r.ui.getState().operationUncertain, false); assert.equal(r.ui.getState().view, 'READING');
 });

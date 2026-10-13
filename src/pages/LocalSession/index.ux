@@ -87,6 +87,16 @@
         <list-item type="details-ui-access" class="diagnostic-row"><text class="diagnostic-line">{{diagnosticAccess}}</text></list-item>
         <list-item type="details-ui-timer" class="diagnostic-row"><text class="diagnostic-line">{{diagnosticTimer}}</text></list-item>
         <list-item type="details-ui-refresh" class="diagnostic-row"><text class="diagnostic-line">{{diagnosticRefresh}}</text></list-item>
+        <list-item type="details-performance-toggle" class="submit-row"><div class="secondary" onclick="togglePerformance"><text class="secondary-label">{{performanceEnabled ? '关闭耗时诊断' : '开启耗时诊断'}}</text></div></list-item>
+        <list-item if="{{performanceEnabled}}" type="details-performance-scope" class="detail-tall-row"><text class="detail-text">界面提交耗时，不代表实际绘制。诊断默认关闭。</text></list-item>
+        <list-item if="{{performanceEnabled}}" type="details-performance-click" class="diagnostic-row"><text class="diagnostic-line">{{performanceClick}}</text></list-item>
+        <list-item if="{{performanceEnabled}}" type="details-performance-transition" class="diagnostic-row"><text class="diagnostic-line">{{performanceTransition}}</text></list-item>
+        <list-item if="{{performanceEnabled}}" type="details-performance-read" class="diagnostic-row"><text class="diagnostic-line">{{performanceRead}}</text></list-item>
+        <list-item if="{{performanceEnabled}}" type="details-performance-encode" class="diagnostic-row"><text class="diagnostic-line">{{performanceEncode}}</text></list-item>
+        <list-item if="{{performanceEnabled}}" type="details-performance-write" class="diagnostic-row"><text class="diagnostic-line">{{performanceWrite}}</text></list-item>
+        <list-item if="{{performanceEnabled}}" type="details-performance-readback" class="diagnostic-row"><text class="diagnostic-line">{{performanceReadback}}</text></list-item>
+        <list-item if="{{performanceEnabled}}" type="details-performance-confirm" class="diagnostic-row"><text class="diagnostic-line">{{performanceConfirm}}</text></list-item>
+        <list-item if="{{performanceEnabled}}" type="details-performance-refresh" class="diagnostic-row"><text class="diagnostic-line">{{performanceRefresh}}</text></list-item>
         <list-item type="details-scope" class="detail-row"><text class="detail-label">隔离实验 · 测试书籍</text><text class="detail-text">{{detailSourceText}}</text></list-item>
         <list-item type="details-state" class="detail-row"><text class="detail-label">当前状态</text><text class="detail-text">{{detailState}} · {{detailStatus}}</text></list-item>
         <list-item for="{{bookRows}}" type="details-book" class="full-text-row"><text class="full-action-text">{{$item}}</text></list-item>
@@ -134,6 +144,8 @@ export default {
     diagnosticText: '尚未刷新 · 点击 0', refreshError: '', ownerStatus: 'UNOPENED', flowView: 'READY', operationCode: 'NONE',
     diagnosticLifecycle: '', diagnosticTap: '', diagnosticViews: '', diagnosticState: '', diagnosticOperation: '',
     diagnosticAccess: '', diagnosticTimer: '', diagnosticRefresh: '',
+    performanceEnabled: false, performanceClick: '', performanceTransition: '', performanceRead: '', performanceEncode: '',
+    performanceWrite: '', performanceReadback: '', performanceConfirm: '', performanceRefresh: '',
     bookRows: [], actionRows: [], noticeRows: [], recoveryRows: [], bookChoices: [], actionChoices: []
   },
   onInit() {
@@ -142,11 +154,14 @@ export default {
     this._showFailed = false
     this._showToken = 0
     this._projection = null
+    this._flowRevision = 0
     this._catalog = domainLib.TEST_BOOKS
     this._brand = { name: 'Mirra', versionName: profile.versionName, logoAvailable: false, sourceAvailable: false }
     try {
       this._owner = this.$app.$def.getLocalOwner()
-      this._flow = flowLib.createLocalUiFlow({ owner: this._owner, catalog: this._catalog, requestExit: () => {
+      this._flow = flowLib.createLocalUiFlow({ owner: this._owner, catalog: this._catalog,
+        yieldBeforeWrite: () => typeof setTimeout === 'function' ? new Promise(resolve => setTimeout(resolve, 0)) : Promise.resolve(),
+        requestExit: () => {
         if (typeof this.$app.exit !== 'function') throw new Error('EXIT_UNAVAILABLE')
         this.$app.exit()
       } })
@@ -161,12 +176,16 @@ export default {
     this.updateDiagnostic()
     if (!this._flow) return Promise.resolve()
     try {
-      this._off = this._flow.subscribe(() => {
-        if (this._visible && !this._destroyed) this.safeRefresh()
+      this._off = this._flow.subscribe(state => {
+        this._flowRevision++
+        if (!this._visible || this._destroyed) return
+        if (state && state.busy && ['start', 'begin_break', 'resume', 'finish'].indexOf(state.operation) >= 0
+          && state.view === this.view && this._projection && !this.refreshError) this.busyRefresh(state.operation)
+        else this.safeRefresh()
       })
       this._timer = setInterval(() => {
         // Visible projection only. No dispatch, clock reconstruction or storage IO.
-        if (this._visible && !this._destroyed) this.safeRefresh()
+        if (this._visible && !this._destroyed) this.refreshTimer()
       }, 1000)
       return Promise.resolve(this._flow.show()).then(result => {
         if (this._visible && !this._destroyed && this._showToken === showToken) {
@@ -213,8 +232,97 @@ export default {
     // Keep UI_SHOW observable until a new show operation actually succeeds.
     if (this._showFailed) { this.updateDiagnostic(); return false }
     this.refreshCount = Math.min(this.refreshCount + 1, 999999)
-    try { this.refresh(); return true }
+    try {
+      const trace = this._owner && this._owner.performance
+      if (trace && typeof trace.measure === 'function') trace.measure('ui_refresh', () => this.refresh())
+      else this.refresh()
+      return true
+    }
     catch (_) { this.uiFailure('UI_REFRESH'); return false }
+  },
+  setScalar(name, value) {
+    // Native scalar observers need only values which actually changed. Do not
+    // cache before the setter succeeds: a failed native assignment must retry.
+    if (this[name] !== value) this[name] = value
+  },
+  busyRefresh(operation) {
+    const next = this._projection
+    if (!next) return this.safeRefresh()
+    if (this.busy && this.operationCode === operation) return
+    try {
+      const label = operation === 'start' ? '正在开始…' : operation === 'resume' ? '正在继续…'
+        : operation === 'finish' ? (this.view === 'PAGE_EDITOR' ? '保存中' : '正在保存…') : this.primaryLabel
+      this.setScalar('busy', true)
+      this.setScalar('canWrite', false)
+      this.setScalar('primaryEnabled', false)
+      this.setScalar('secondaryEnabled', false)
+      this.setScalar('primaryLabel', label)
+      this.setScalar('operationCode', operation)
+      // Keep only display facts in this tiny projection; acknowledged state,
+      // Session and immutable visible preview remain unchanged until readback.
+      this._projection = Object.assign({}, next, { busy: true, canWrite: false,
+        primary: next.primary ? Object.assign({}, next.primary, { label, enabled: false, disabled: true }) : null,
+        secondary: next.secondary ? Object.assign({}, next.secondary, { enabled: false, disabled: true }) : null })
+      const trace = this._owner && this._owner.performance
+      if (trace && typeof trace.mark === 'function') trace.mark('busy_bound')
+      this.updateDiagnostic()
+    } catch (_) { this.uiFailure('UI_REFRESH') }
+  },
+  refreshTimer() {
+    if (!this._visible || this._destroyed || this.busy) return
+    if (this._showFailed || this.refreshError || !this._projection || !this._owner
+      || typeof this._owner.timerSnapshot !== 'function' || typeof presentationLib.presentTime !== 'function') {
+      this.safeRefresh(); return
+    }
+    if (['READING', 'RESTING', 'FINISH_REVIEW', 'PAGE_EDITOR', 'DETAILS'].indexOf(this.view) < 0) return
+    try {
+      const time = this._owner.timerSnapshot()
+      const next = presentationLib.presentTime(time.summary, this.view, this.state)
+      // A newly observed anomaly still passes through the complete error/notice
+      // projection. Repeating an already visible anomaly needs no full redraw.
+      if (next.reasonText !== this.detailTimeReason || next.timer.isUnknown !== this.timerUnknown) {
+        this.safeRefresh(); return
+      }
+      this.setScalar('timerUnknown', next.timer.isUnknown)
+      this.setScalar('timerText', next.timer.valueText || '--:--')
+      this.setScalar('timerLabel', next.timer.label)
+      this.setScalar('timerQualifier', next.timer.isUnknown ? '时间待核对' : next.timer.qualifier)
+      this.setScalar('timerLong', next.timer.isLong)
+      this.setScalar('focusText', next.focusTimer.valueText || '--:--')
+      this.setScalar('focusQualifier', next.focusTimer.qualifier)
+      this.setScalar('restText', next.restTimer.valueText || '--:--')
+      this.setScalar('restQualifier', next.restTimer.qualifier)
+      this._projection = Object.assign({}, this._projection, { timer: next.timer, focusTimer: next.focusTimer,
+        restTimer: next.restTimer, breakTimer: next.breakTimer, focus: next.focusTimer, rest: next.restTimer, break: next.breakTimer })
+    } catch (_) { this.uiFailure('UI_REFRESH') }
+  },
+  updatePerformance() {
+    const trace = this._owner && this._owner.performance
+    if (!trace || typeof trace.snapshot !== 'function') return
+    const value = trace.snapshot()
+    this.setScalar('performanceEnabled', value.enabled === true)
+    if (!value.enabled) return
+    const record = value.last
+    const milliseconds = number => typeof number === 'number' && isFinite(number) && number >= 0 ? Math.round(number) + ' ms' : '未记录'
+    const stage = name => record && record.stages && record.stages[name] ? milliseconds(record.stages[name].totalMs) : '未记录'
+    const mark = name => record && record.marks ? milliseconds(record.marks[name]) : '未记录'
+    this.setScalar('performanceClick', '点击→忙碌 ' + mark('busy_bound'))
+    this.setScalar('performanceTransition', '转换/校验 ' + stage('transition'))
+    this.setScalar('performanceRead', '双槽读取 ' + stage('dual_read'))
+    this.setScalar('performanceEncode', '编码/校验 ' + stage('encode_validate'))
+    this.setScalar('performanceWrite', '文件写入 ' + stage('native_write'))
+    this.setScalar('performanceReadback', '精确读回 ' + stage('exact_readback'))
+    this.setScalar('performanceConfirm', '确认状态 ' + mark('state_confirmed'))
+    this.setScalar('performanceRefresh', '界面提交 ' + mark('view_bound') + ' / 总计 ' + milliseconds(record && record.totalMs))
+  },
+  togglePerformance() {
+    return this.runUiAction('togglePerformance', () => {
+      const trace = this._owner && this._owner.performance
+      if (trace && typeof trace.setEnabled === 'function') {
+        trace.setEnabled(!this.performanceEnabled)
+        this.updatePerformance()
+      }
+    })
   },
   uiFailure(code) {
     // Only fixed, UI-owned codes are displayed. Raw exceptions and device facts
@@ -235,22 +343,37 @@ export default {
     this.updateDiagnostic()
   },
   updateDiagnostic() {
-    this.diagnosticText = (this.refreshError || '刷新正常') + ' · 点击 ' + this.tapCount + ' · ' + this.lastTap
-    this.diagnosticLifecycle = '显示 ' + this.showCount + ' · ' + (this._visible ? 'VISIBLE' : 'HIDDEN')
-    this.diagnosticTap = '点击 ' + this.tapCount + ' · ' + this.lastTap
-    this.diagnosticViews = '流程 ' + this.flowView + ' / 页面 ' + this.view
-    this.diagnosticState = '存储 ' + this.ownerStatus + ' / ' + this.state
-    this.diagnosticOperation = '操作 ' + this.operationCode + ' / ' + (this.busy ? 'BUSY' : 'IDLE')
-    this.diagnosticAccess = this.canWrite ? '准入 WRITE_ENABLED' : '准入 WRITE_DISABLED'
-    this.diagnosticTimer = this.timerUnknown ? '时间 UNKNOWN' : '时间 KNOWN · 参考值'
-    this.diagnosticRefresh = '刷新 ' + this.refreshCount + ' / 成功 ' + this.refreshSuccessCount + ' / 失败 ' + this.refreshFailureCount + ' / ' + (this.refreshError || 'OK')
+    this.setScalar('diagnosticText', (this.refreshError || '刷新正常') + ' · 点击 ' + this.tapCount + ' · ' + this.lastTap)
+    this.setScalar('diagnosticLifecycle', '显示 ' + this.showCount + ' · ' + (this._visible ? 'VISIBLE' : 'HIDDEN'))
+    this.setScalar('diagnosticTap', '点击 ' + this.tapCount + ' · ' + this.lastTap)
+    this.setScalar('diagnosticViews', '流程 ' + this.flowView + ' / 页面 ' + this.view)
+    this.setScalar('diagnosticState', '存储 ' + this.ownerStatus + ' / ' + this.state)
+    this.setScalar('diagnosticOperation', '操作 ' + this.operationCode + ' / ' + (this.busy ? 'BUSY' : 'IDLE'))
+    this.setScalar('diagnosticAccess', this.canWrite ? '准入 WRITE_ENABLED' : '准入 WRITE_DISABLED')
+    this.setScalar('diagnosticTimer', this.timerUnknown ? '时间 UNKNOWN' : '时间 KNOWN · 参考值')
+    this.setScalar('diagnosticRefresh', '刷新 ' + this.refreshCount + ' / 成功 ' + this.refreshSuccessCount + ' / 失败 ' + this.refreshFailureCount + ' / ' + (this.refreshError || 'OK'))
   },
   runUiAction(name, operation) {
     if (this._destroyed) return
+    const trace = this._owner && this._owner.performance
+    let startedTrace = false
+    const business = ['confirmStart', 'beginBreak', 'resume', 'finishSession', 'savePage'].indexOf(name) >= 0
+    const acceptedView = name === 'confirmStart' ? this.view === 'READY' : name === 'beginBreak' ? this.view === 'BREAK_PICKER'
+      : name === 'resume' ? this.view === 'RESTING' : this.view === 'FINISH_REVIEW' || this.view === 'PAGE_EDITOR'
+    // Include the first native feedback assignments in the elapsed interval.
+    if (business && acceptedView && this._flow && this._visible && !this.busy && this.canWrite && !this.refreshError
+      && trace && typeof trace.begin === 'function' && !trace.active) {
+      trace.begin(name)
+      startedTrace = trace.active === true
+      if (typeof trace.mark === 'function') trace.mark('click_enter')
+    }
     // Count the native event before calling navigation or any guarded command.
     this.tapCount = Math.min(this.tapCount + 1, 999999)
     this.lastTap = name
     this.updateDiagnostic()
+    // The flow retains its own write guard. This display-side short circuit
+    // also avoids expensive no-op projection on repeated taps while saving.
+    if (this.busy && ['confirmStart', 'beginBreak', 'resume', 'finishSession', 'savePage'].indexOf(name) >= 0) return
     if (!this._flow) {
       if (this._visible && name === 'showDetails') this.view = 'DETAILS'
       if (this._visible && name === 'backView') this.view = 'STORAGE_NOTICE'
@@ -263,23 +386,30 @@ export default {
       this.safeRefresh()
       return
     }
+    const finishRejectedTrace = () => {
+      if (startedTrace && trace.active && !this.busy && typeof trace.finish === 'function') trace.finish()
+    }
     try {
+      const beforeRevision = this._flowRevision
       const result = operation()
-      if (this._visible) this.safeRefresh()
+      if (this._visible && this._flowRevision === beforeRevision) this.safeRefresh()
+      const pendingRevision = this._flowRevision
       if (result && typeof result.then === 'function') return Promise.resolve(result).then(value => {
-        if (this._visible && !this._destroyed) this.safeRefresh()
+        if (this._visible && !this._destroyed && this._flowRevision === pendingRevision) this.safeRefresh()
+        finishRejectedTrace()
         return value
-      }, () => { if (this._visible && !this._destroyed) this.uiFailure('UI_EVENT') })
+      }, () => { finishRejectedTrace(); if (this._visible && !this._destroyed) this.uiFailure('UI_EVENT') })
+      finishRejectedTrace()
       return result
-    } catch (_) { this.uiFailure('UI_EVENT') }
+    } catch (_) { finishRejectedTrace(); this.uiFailure('UI_EVENT') }
   },
   refresh() {
     if (this._destroyed) return
     const snapshot = this._owner.snapshot()
     const ui = this._flow.getState()
-    this.ownerStatus = ['UNOPENED', 'OPENING', 'EMPTY', 'READY', 'RECOVERED', 'BLOCKED', 'UNCERTAIN', 'CLOSED', 'UNQUALIFIED'].indexOf(snapshot.status) >= 0 ? snapshot.status : 'UNKNOWN'
-    this.flowView = ['READY', 'BOOK_PICKER', 'ACTION_PICKER', 'READING', 'BREAK_PICKER', 'RESTING', 'FINISH_REVIEW', 'PAGE_EDITOR', 'SAVED', 'DETAILS', 'STORAGE_NOTICE'].indexOf(ui.view) >= 0 ? ui.view : 'UNKNOWN'
-    this.operationCode = ui.operation === null ? 'NONE' : ['read', 'start', 'select_book', 'select_action', 'confirm_start', 'begin_break', 'resume', 'finish', 'new_session', 'cancel_preparation'].indexOf(ui.operation) >= 0 ? ui.operation : 'UNKNOWN'
+    this.setScalar('ownerStatus', ['UNOPENED', 'OPENING', 'EMPTY', 'READY', 'RECOVERED', 'BLOCKED', 'UNCERTAIN', 'CLOSED', 'UNQUALIFIED'].indexOf(snapshot.status) >= 0 ? snapshot.status : 'UNKNOWN')
+    this.setScalar('flowView', ['READY', 'BOOK_PICKER', 'ACTION_PICKER', 'READING', 'BREAK_PICKER', 'RESTING', 'FINISH_REVIEW', 'PAGE_EDITOR', 'SAVED', 'DETAILS', 'STORAGE_NOTICE'].indexOf(ui.view) >= 0 ? ui.view : 'UNKNOWN')
+    this.setScalar('operationCode', ui.operation === null ? 'NONE' : ['read', 'start', 'select_book', 'select_action', 'confirm_start', 'begin_break', 'resume', 'finish', 'new_session', 'cancel_preparation'].indexOf(ui.operation) >= 0 ? ui.operation : 'UNKNOWN')
     const next = presentationLib.presentLocal(snapshot, ui, this._catalog, this._brand)
     // Stable arrays prevent second ticks from rebuilding picker rows or resetting scroll.
     const contentKey = next.bookTitle + '\u0000' + next.actionText + '\u0000' + next.notice.text + '\u0000' + next.details.recoveryText
@@ -304,64 +434,69 @@ export default {
       })
       this._choiceKey = choiceKey
     }
-    this.statusLabel = next.notice.visible ? next.notice.title : next.sourceLabel
+    this.setScalar('statusLabel', next.notice.visible ? next.notice.title : next.sourceLabel)
     if (next.recoveryNotice.visible && next.notice.title !== next.recoveryNotice.title) {
       const compactNotice = { '记录含不确定区间': '时长待核对', '本地空间预算不足': '容量不足' }
       this.statusLabel = '上一快照 · ' + (compactNotice[next.notice.title] || this.statusLabel)
     }
-    this.bookPageLabel = next.preview && next.preview.startPage !== null ? '第' + next.preview.startPage + '页' : '未设置页码'
-    this.recordLabel = '本地' + next.pendingCount + '条'
+    this.setScalar('bookPageLabel', next.preview && next.preview.startPage !== null ? '第' + next.preview.startPage + '页' : '未设置页码')
+    this.setScalar('recordLabel', '本地' + next.pendingCount + '条')
     // Keep the immutable command preview off the native reactive data graph.
     // The adapter publishes only primitives and flat repeat arrays, following
     // the working 05B binding shape. This is not a proven firmware root cause.
-    this.state = next.state
-    this.status = next.status
-    this.title = next.title || ''
-    this.experimentLabel = next.experimentLabel
-    this.busy = next.busy
-    this.canWrite = next.canWrite
-    this.bookTitle = next.bookTitle
-    this.actionText = next.actionText
-    this.previewBookTitle = next.preview ? next.preview.bookTitle : ''
-    this.previewLongAction = !!(next.preview && next.preview.isLongAction)
-    this.pendingCount = next.pendingCount
-    this.sourceLabel = next.sourceLabel
-    this.timerUnknown = next.timer.isUnknown || typeof next.timer.valueText !== 'string' || !next.timer.valueText
-    this.timerText = this.timerUnknown ? '--:--' : next.timer.valueText
-    this.timerLabel = next.timer.label
-    this.timerQualifier = this.timerUnknown ? '时间待核对' : next.timer.qualifier
-    this.timerLong = next.timer.isLong
-    this.focusText = next.focusTimer.valueText || '--:--'
-    this.focusQualifier = next.focusTimer.qualifier
-    this.restText = next.restTimer.valueText || '--:--'
-    this.restQualifier = next.restTimer.qualifier
-    this.hasPrimary = !!next.primary
-    this.primaryLabel = next.primary ? next.primary.label : ''
-    this.primaryEnabled = !!(next.primary && next.primary.enabled)
-    this.secondaryLabel = next.secondary ? next.secondary.label : ''
-    this.secondaryEnabled = !!(next.secondary && next.secondary.enabled)
-    this.noticeVisible = next.notice.visible
-    this.noticeTitle = next.notice.title
-    this.noticeText = next.notice.text
-    this.pageDigits = next.pageDigits
-    this.pageError = next.pageError
-    this.endPageText = next.endPageText
-    this.detailSourceText = next.details.sourceText
-    this.detailState = next.details.state
-    this.detailStatus = next.details.status
-    this.detailTimeReason = next.details.timeReasonText
-    this.detailSyncText = next.details.syncText
-    this.detailVersionText = next.details.versionText
-    this.detailBrandStatus = next.details.brandStatus
-    this.detailSessionId = next.details.sessionId
-    this.detailSequence = Number.isSafeInteger(next.details.sequence) ? next.details.sequence : 0
-    this.detailErrorCode = next.details.errorCode
+    this.setScalar('state', next.state)
+    this.setScalar('status', next.status)
+    this.setScalar('title', next.title || '')
+    this.setScalar('experimentLabel', next.experimentLabel)
+    this.setScalar('busy', next.busy)
+    this.setScalar('canWrite', next.canWrite)
+    this.setScalar('bookTitle', next.bookTitle)
+    this.setScalar('actionText', next.actionText)
+    this.setScalar('previewBookTitle', next.preview ? next.preview.bookTitle : '')
+    this.setScalar('previewLongAction', !!(next.preview && next.preview.isLongAction))
+    this.setScalar('pendingCount', next.pendingCount)
+    this.setScalar('sourceLabel', next.sourceLabel)
+    this.setScalar('timerUnknown', next.timer.isUnknown || typeof next.timer.valueText !== 'string' || !next.timer.valueText)
+    this.setScalar('timerText', this.timerUnknown ? '--:--' : next.timer.valueText)
+    this.setScalar('timerLabel', next.timer.label)
+    this.setScalar('timerQualifier', this.timerUnknown ? '时间待核对' : next.timer.qualifier)
+    this.setScalar('timerLong', next.timer.isLong)
+    this.setScalar('focusText', next.focusTimer.valueText || '--:--')
+    this.setScalar('focusQualifier', next.focusTimer.qualifier)
+    this.setScalar('restText', next.restTimer.valueText || '--:--')
+    this.setScalar('restQualifier', next.restTimer.qualifier)
+    this.setScalar('hasPrimary', !!next.primary)
+    this.setScalar('primaryLabel', next.primary ? next.primary.label : '')
+    this.setScalar('primaryEnabled', !!(next.primary && next.primary.enabled))
+    this.setScalar('secondaryLabel', next.secondary ? next.secondary.label : '')
+    this.setScalar('secondaryEnabled', !!(next.secondary && next.secondary.enabled))
+    this.setScalar('noticeVisible', next.notice.visible)
+    this.setScalar('noticeTitle', next.notice.title)
+    this.setScalar('noticeText', next.notice.text)
+    this.setScalar('pageDigits', next.pageDigits)
+    this.setScalar('pageError', next.pageError)
+    this.setScalar('endPageText', next.endPageText)
+    this.setScalar('detailSourceText', next.details.sourceText)
+    this.setScalar('detailState', next.details.state)
+    this.setScalar('detailStatus', next.details.status)
+    this.setScalar('detailTimeReason', next.details.timeReasonText)
+    this.setScalar('detailSyncText', next.details.syncText)
+    this.setScalar('detailVersionText', next.details.versionText)
+    this.setScalar('detailBrandStatus', next.details.brandStatus)
+    this.setScalar('detailSessionId', next.details.sessionId)
+    this.setScalar('detailSequence', Number.isSafeInteger(next.details.sequence) ? next.details.sequence : 0)
+    this.setScalar('detailErrorCode', next.details.errorCode)
     this._projection = next
-    this.refreshError = ''
-    this.refreshSuccessCount = Math.min(this.refreshSuccessCount + 1, 999999)
+    this.setScalar('refreshError', '')
+    this.setScalar('refreshSuccessCount', Math.min(this.refreshSuccessCount + 1, 999999))
     // Publish the conditional view last, after every scalar has been prepared.
-    this.view = next.view
+    this.setScalar('view', next.view)
     this.updateDiagnostic()
+    const trace = this._owner && this._owner.performance
+    const sample = trace && trace.active && typeof trace.snapshot === 'function' ? trace.snapshot().last : null
+    if (!next.busy && ['READING', 'RESTING', 'SAVED'].indexOf(next.view) >= 0 && trace && typeof trace.mark === 'function'
+      && sample && sample.marks && Object.prototype.hasOwnProperty.call(sample.marks, 'state_confirmed')) trace.mark('view_bound')
+    this.updatePerformance()
   },
   wrapText(value) {
     if (typeof value !== 'string' || !value) return []

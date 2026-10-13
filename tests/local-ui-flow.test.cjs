@@ -19,44 +19,44 @@ test('empty show, subscription and UI choices keep all business storage untouche
   assert.equal(ui.getState().preview.actionId, 'read-next-page');
   assert.equal(r.writes.length, 0); assert.equal(r.identities(), 0); assert.ok(updates > 1); stop();
 });
-for (const persisted of [false, true]) test('one explicit default confirmation starts from ' + (persisted ? 'IDLE' : 'EMPTY') + ' in safe order', async () => {
+for (const persisted of [false, true]) test('one explicit default confirmation starts from ' + (persisted ? 'IDLE' : 'EMPTY') + ' with one acknowledged atomic commit', async () => {
   const r = persisted ? idleRig() : rig(); const ui = flow(r); await ui.show();
   assert.equal(ui.getState().preview.text, '翻到第1页，读这一页的第一段。');
   await ui.confirmStart(ui.getState().preview);
-  assert.deepEqual(trace(r), ['SELECT_BOOK', 'SELECT_ACTION', 'CONFIRM_START']);
+  assert.deepEqual(trace(r), ['START_CONFIRMED']);
   assert.equal(ui.getState().view, 'READING');
   assert.equal(r.realOwner.snapshot().document.active.id, 'ui-installation:1');
   assert.equal(r.realOwner.snapshot().document.active.firstActionSnapshot.text, '翻到第1页，读这一页的第一段。');
 });
-test('an already matching PREPARING confirmation does not reselect book or action', async () => {
+test('an already matching PREPARING confirmation commits the same visible book and action once', async () => {
   const r = rig(); await prepare(r); const before = r.commands.length; const ui = flow(r); await ui.show();
   await ui.confirmStart(ui.getState().preview);
-  assert.deepEqual(trace(r, before), ['CONFIRM_START']); assert.equal(ui.getState().view, 'READING');
+  assert.deepEqual(trace(r, before), ['START_CONFIRMED']); assert.equal(ui.getState().view, 'READING');
 });
-test('PREPARING with empty action selects action before confirming', async () => {
+test('PREPARING with empty action selects and confirms it in one commit', async () => {
   const r = rig(); await prepare(r, { action: false }); const before = r.commands.length; const ui = flow(r); await ui.show();
   await ui.confirmStart(ui.getState().preview);
-  assert.deepEqual(trace(r, before), ['SELECT_ACTION', 'CONFIRM_START']);
+  assert.deepEqual(trace(r, before), ['START_CONFIRMED']);
 });
-test('same-book draft action change selects only the displayed action', async () => {
+test('same-book draft action change atomically starts only the displayed action', async () => {
   const r = rig(); await prepare(r); const before = r.commands.length; const ui = flow(r); await ui.show();
   ui.openActionPicker(); ui.chooseAction('open-book'); assert.equal(r.commands.length, before);
   await ui.confirmStart(ui.getState().preview);
-  assert.deepEqual(trace(r, before), ['SELECT_ACTION', 'CONFIRM_START']);
+  assert.deepEqual(trace(r, before), ['START_CONFIRMED']);
   assert.equal(r.realOwner.snapshot().document.active.firstActionSnapshot.id, 'open-book');
 });
-test('explicit different-book draft cancels preparation only after confirmation', async () => {
+test('explicit different-book draft replaces preparation only in the confirmed final commit', async () => {
   const r = rig(); await prepare(r); const before = r.commands.length; const ui = flow(r); await ui.show();
   ui.openBookPicker(); ui.chooseBook('test-review-1'); assert.equal(r.commands.length, before);
   await ui.confirmStart(ui.getState().preview);
-  assert.deepEqual(trace(r, before), ['CANCEL_PREPARATION', 'SELECT_BOOK', 'SELECT_ACTION', 'CONFIRM_START']);
+  assert.deepEqual(trace(r, before), ['START_CONFIRMED']);
   assert.equal(r.realOwner.snapshot().document.active.bookSnapshot.id, 'test-review-1');
 });
 test('FINISHED cold show and Done are read only; a new confirmation retains pending history', async () => {
   const r = rig(); await finished(r); const saved = r.realOwner.snapshot().document.pending[0];
   const before = r.commands.length; const ui = flow(r); await ui.show(); assert.equal(ui.getState().view, 'READY');
   ui.done(); assert.equal(r.commands.length, before); await ui.confirmStart(ui.getState().preview);
-  assert.deepEqual(trace(r, before), ['NEW_SESSION', 'SELECT_BOOK', 'SELECT_ACTION', 'CONFIRM_START']);
+  assert.deepEqual(trace(r, before), ['START_CONFIRMED']);
   assert.deepEqual(r.realOwner.snapshot().document.pending, [saved]);
   assert.equal(r.realOwner.snapshot().document.active.id, 'ui-installation:2');
 });
