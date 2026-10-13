@@ -19,8 +19,9 @@ test('local session manifest has a separate identity and only bounded local stor
   const profile = identity('local-session');
   assert.equal(selected.package, 'com.guanyi.mirra.band.localsessiontest');
   assert.equal(selected.name, 'Mirra独立实验');
-  assert.equal(selected.versionName, '0.1.0');
-  assert.equal(selected.versionCode, 1);
+  assert.equal(selected.versionName, '0.1.1');
+  assert.equal(selected.versionCode, 2);
+  assert.equal(selected.icon, '/common/local-brand/icon-pending.png');
   for (const mode of ['live', 'demo', 'probe']) assert.notEqual(selected.package, identity(mode).package);
   assert.equal(profile.localSession, true);
   assert.equal(profile.storageQualified, true);
@@ -38,15 +39,17 @@ test('local session manifest has a separate identity and only bounded local stor
 
 test('local staging permits only its entry, local session modules, storage adapter and shared assets', () => {
   const include = sourceFilter(root, 'local-session');
-  const allowed = ['manifest.json', 'profile.js', 'local-app.ux', 'common/theme.css', 'common/local-session.css',
-    'common/icon.png', 'common/icon.svg', 'lib/local-session.js', 'lib/local-codec.js', 'lib/local-journal.js',
-    'lib/local-owner.js', 'platform/local-storage.js', 'platform/probe-storage.js', 'pages/LocalSession/index.ux'];
+  const allowed = ['manifest.json', 'profile.js', 'local-app.ux',
+    'lib/local-session.js', 'lib/local-codec.js', 'lib/local-journal.js',
+    'lib/local-owner.js', 'lib/local-presentation.js', 'lib/local-ui-flow.js', 'ui/local-tokens.js',
+    'common/local-theme.css', 'common/local-brand/icon-pending.png',
+    'platform/local-storage.js', 'platform/probe-storage.js', 'pages/LocalSession/index.ux'];
   for (const file of ['', 'pages', 'pages/LocalSession', 'common', 'lib', 'platform', ...allowed])
     assert.equal(include(path.join(root, file)), true, file);
   const denied = ['app.ux', 'probe-app.ux', 'lib/probe-controller.js', 'lib/probe-journal.js', 'lib/demo.js',
     'lib/companion-store.js', 'platform/interconnect-transport.js', 'pages/Home', 'pages/Home/index.ux',
     'pages/StorageProbe', 'pages/StorageProbe/index.ux', 'pages/States/index.ux', 'pages/LocalSession/extra.ux',
-    'lib/local-unapproved.js', 'common/secret.pem', 'secret/private.pem'];
+    'lib/local-unapproved.js', 'common/secret.pem', 'secret/private.pem', 'common/icon.png', 'common/icon.svg', 'common/theme.css'];
   for (const file of denied) assert.equal(include(path.join(root, file)), false, file);
   assert.equal(include(path.join(root, '..', 'sign/private.pem')), false);
 });
@@ -56,6 +59,8 @@ test('live, demo and both storage probe versions exclude all local session exper
     const include = sourceFilter(root, mode);
     for (const file of ['local-app.ux', 'lib/local-session.js', 'lib/local-codec.js', 'lib/local-journal.js',
       'lib/local-owner.js', 'platform/local-storage.js', 'common/local-session.css', 'lib/local-future.js',
+      'lib/local-presentation.js', 'lib/local-ui-flow.js', 'ui/local-tokens.js',
+      'common/local-theme.css', 'common/local-brand/icon-pending.png',
       'pages/LocalSession', 'pages/LocalSession/index.ux']) {
       assert.equal(include(path.join(root, file)), false, mode + ': ' + file);
     }
@@ -85,7 +90,8 @@ function checkProject({ localBadge = '隔离实验', omitLocalPage = false } = {
   const icon = Buffer.alloc(24);
   Buffer.from('89504e470d0a1a0a', 'hex').copy(icon);
   icon.writeUInt32BE(192, 16); icon.writeUInt32BE(192, 20);
-  const files = new Map([[path.join(root, 'manifest.json'), JSON.stringify(base)], [path.join(root, 'common/icon.png'), icon]]);
+  const files = new Map([[path.join(root, 'manifest.json'), JSON.stringify(base)], [path.join(root, 'common/icon.png'), icon],
+    [path.join(root, 'common/local-brand/icon-pending.png'), icon]]);
   for (const page of ['Home', 'Detail', 'Control', 'Connection', 'States', 'StorageProbe', 'LocalSession']) {
     if (page === 'LocalSession' && omitLocalPage) continue;
     const badge = page === 'StorageProbe' ? '隔离测试数据' : page === 'LocalSession' ? localBadge : '演示数据';
@@ -163,7 +169,7 @@ async function inspectFixture({ badge = '隔离实验', extraFiles = {}, mutateM
     'manifest.json': Buffer.from(JSON.stringify(manifest)),
     'app.js': Buffer.from('local session entry'),
     'pages/LocalSession/index.js': Buffer.from("[[0,'page'],[0,'badge'],[0,'button']]; '" + badge + "';"),
-    'common/icon.png': Buffer.from('test icon resource'),
+    'common/local-brand/icon-pending.png': Buffer.from('test icon resource'),
     ...Object.fromEntries(Object.entries(extraFiles).map(([name, content]) => [name, Buffer.from(content)]))
   };
   const hash = content => crypto.createHash('sha256').update(content).digest();
@@ -192,8 +198,8 @@ async function inspectFixture({ badge = '隔离实验', extraFiles = {}, mutateM
 test('RPK inspector verifies a signed single-page local experiment with an explicit isolation badge', async () => {
   const report = await inspectFixture();
   assert.equal(report.package, 'com.guanyi.mirra.band.localsessiontest');
-  assert.equal(report.version, '0.1.0');
-  assert.equal(report.versionCode, 1);
+  assert.equal(report.version, '0.1.1');
+  assert.equal(report.versionCode, 2);
   assert.equal(report.profile, 'local-session');
   assert.match(report.signature, /content and per-file SHA-256 verified/);
 });
@@ -215,7 +221,7 @@ test('RPK inspector rejects communication, unlabelled data, excess capabilities 
 });
 
 test('RPK inspector rejects a signed local archive claiming the companion identity, wrong version or wrong entry', async () => {
-  for (const [field, value] of [['package', 'com.guanyi.mirra'], ['name', 'Mirra'], ['versionName', '0.2.0'], ['versionCode', 2]]) {
+  for (const [field, value] of [['package', 'com.guanyi.mirra'], ['name', 'Mirra'], ['versionName', '0.2.0'], ['versionCode', 3]]) {
     await assert.rejects(inspectFixture({ mutateManifest: manifest => { manifest[field] = value; } }),
       error => error.code === 'ERR_ASSERTION' && error.actual === value);
   }

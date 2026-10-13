@@ -1,90 +1,141 @@
 <template>
   <div class="page local-page">
-    <text class="brand">独立学习</text>
-    <text class="badge">隔离实验 · 测试书籍</text>
-    <list class="local-list">
-      <list-item type="scope" class="notice-row"><text class="notice">仅在手环本地执行，实验记录不是手机真实历史。</text></list-item>
-      <list-item if="{{!storageQualified}}" type="gate" class="hint-row"><text class="hint">存储尚待真机证明，暂不能开始或保存独立学习。</text></list-item>
-      <list-item type="heading" class="heading-row"><text class="heading">{{heading}}</text><text class="caption">{{busy ? '正在保存并核对…' : statusText}}</text></list-item>
-      <list-item if="{{errorCode}}" type="error" class="error-row"><text class="error">{{errorCode}}</text></list-item>
-      <list-item if="{{recoveryHint}}" type="recovery" class="hint-row"><text class="hint">{{recoveryHint}}</text></list-item>
-      <list-item if="{{operationNotice}}" type="unconfirmed-operation" class="hint-row"><text class="hint">{{operationNotice}}</text></list-item>
-      <list-item if="{{viewMode === 'home'}}" type="home" class="notice-row"><text class="notice">选择测试书籍，完成具体第一步，再开始独立学习。</text></list-item>
-      <list-item if="{{viewMode === 'home'}}" type="select-book" class="action-row"><div class="button" onclick="showBooks"><text class="button-label">选择测试书籍</text></div></list-item>
-      <list-item if="{{viewMode === 'books'}}" for="{{bookChoices}}" type="book-choice" class="choice-row" onclick="selectBook($item.id)"><text class="choice-text">{{$item.title}}</text><text class="choice-caption">{{$item.startPageText}}</text></list-item>
-      <list-item if="{{viewMode === 'actions'}}" for="{{actionChoices}}" type="action-choice" class="choice-row" onclick="selectAction($item.id)"><text class="choice-text">{{$item.text}}</text><text class="choice-caption">选择动作后仍需实际完成</text></list-item>
-      <list-item if="{{bookRows.length > 0 && viewMode !== 'books'}}" type="book-label" class="label-row"><text class="caption">当前测试书籍</text></list-item>
-      <list-item if="{{viewMode !== 'books'}}" for="{{bookRows}}" type="book-text" class="text-row"><text class="body-text">{{$item}}</text></list-item>
-      <list-item if="{{viewMode === 'prepare'}}" type="first-label" class="label-row"><text class="caption">先实际完成这一小步</text></list-item>
-      <list-item if="{{viewMode === 'prepare'}}" for="{{actionRows}}" type="first-text" class="text-row"><text class="body-text">{{$item}}</text></list-item>
-      <list-item if="{{viewMode === 'prepare'}}" type="action-select" class="action-row"><div class="secondary" onclick="showActions"><text class="secondary-label">选择第一步动作</text></div></list-item>
-      <list-item if="{{viewMode === 'prepare'}}" type="confirm-start" class="action-row"><div class="button" style="background-color: {{canWrite && hasAction ? '#6598E8' : '#151C25'}};" onclick="confirmStart"><text class="button-label" style="color: {{canWrite && hasAction ? '#0B0F14' : '#A6B2C3'}};">我已完成，开始学习</text></div></list-item>
-      <list-item if="{{viewMode === 'prepare'}}" type="cancel-prepare" class="action-row"><div class="secondary" onclick="cancelPreparation"><text class="secondary-label">取消本次准备</text></div></list-item>
-      <list-item if="{{viewMode === 'focus' || viewMode === 'break' || viewMode === 'finish' || viewMode === 'result'}}" type="focus-time" class="timer-row"><text class="caption">累计学习 · 排除休息</text><text class="timer">{{focusText}}</text></list-item>
-      <list-item if="{{viewMode === 'focus' || viewMode === 'break' || viewMode === 'finish' || viewMode === 'result'}}" type="rest-time" class="value-row"><text class="caption">累计休息</text><text class="value">{{restText}}</text></list-item>
-      <list-item if="{{timeHint}}" type="time-hint" class="hint-row"><text class="hint">{{timeHint}}</text></list-item>
-      <list-item if="{{viewMode === 'focus'}}" type="focus-boundary" class="notice-row"><text class="notice">独立学习未监测。退出、返回表盘或息屏不会自动结束。</text></list-item>
-      <list-item if="{{viewMode === 'focus'}}" type="break-five" class="action-row"><div class="button" onclick="beginBreak(5)"><text class="button-label">休息 5 分钟</text></div></list-item>
-      <list-item if="{{viewMode === 'focus'}}" type="break-ten" class="action-row"><div class="secondary" onclick="beginBreak(10)"><text class="secondary-label">休息 10 分钟</text></div></list-item>
-      <list-item if="{{viewMode === 'break'}}" type="break-left" class="break-row"><text class="break-text">{{breakText}}</text></list-item>
-      <list-item if="{{viewMode === 'break'}}" type="resume" class="action-row"><div class="button" onclick="resume"><text class="button-label">继续学习</text></div></list-item>
-      <list-item if="{{viewMode === 'focus' || viewMode === 'break'}}" type="finish-open" class="action-row"><div class="secondary" onclick="showFinish"><text class="secondary-label">结束本次学习</text></div></list-item>
-      <list-item if="{{viewMode === 'finish'}}" type="finish-notice" class="notice-row"><text class="notice">确认结束后保存本地待同步记录。页码可以留空。</text></list-item>
-      <list-item if="{{viewMode === 'finish'}}" type="end-page" class="value-row"><text class="caption">结束页码（可选）</text><text class="value">{{endPageDigits || '未填写 · 不更新进度'}}</text></list-item>
-      <list-item if="{{viewMode === 'finish' && pageError}}" type="page-error" class="notice-row"><text class="hint">{{pageError}}</text></list-item>
-      <list-item if="{{viewMode === 'finish'}}" type="digits-123" class="key-row"><div class="digit-key" onclick="appendDigit('1')"><text class="key-text">1</text></div><div class="digit-key" onclick="appendDigit('2')"><text class="key-text">2</text></div><div class="digit-key" onclick="appendDigit('3')"><text class="key-text">3</text></div></list-item>
-      <list-item if="{{viewMode === 'finish'}}" type="digits-456" class="key-row"><div class="digit-key" onclick="appendDigit('4')"><text class="key-text">4</text></div><div class="digit-key" onclick="appendDigit('5')"><text class="key-text">5</text></div><div class="digit-key" onclick="appendDigit('6')"><text class="key-text">6</text></div></list-item>
-      <list-item if="{{viewMode === 'finish'}}" type="digits-789" class="key-row"><div class="digit-key" onclick="appendDigit('7')"><text class="key-text">7</text></div><div class="digit-key" onclick="appendDigit('8')"><text class="key-text">8</text></div><div class="digit-key" onclick="appendDigit('9')"><text class="key-text">9</text></div></list-item>
-      <list-item if="{{viewMode === 'finish'}}" type="digits-edit" class="key-row"><div class="digit-key" onclick="clearEndPage"><text class="key-text small-key">留空</text></div><div class="digit-key" onclick="appendDigit('0')"><text class="key-text">0</text></div><div class="digit-key" onclick="eraseDigit"><text class="key-text small-key">退格</text></div></list-item>
-      <list-item if="{{viewMode === 'finish'}}" type="finish-confirm" class="action-row"><div class="button" onclick="finishSession"><text class="button-label">确认结束并本地保存</text></div></list-item>
-      <list-item if="{{viewMode === 'result'}}" type="result-notice" class="hint-row"><text class="hint">已完成本地读回确认。待同步；本阶段没有手机导入。</text></list-item>
-      <list-item if="{{viewMode === 'result'}}" type="new-session" class="action-row"><div class="button" onclick="newSession"><text class="button-label">准备下一次学习</text></div></list-item>
-      <list-item type="pending" class="value-row"><text class="caption">本地未同步记录</text><text class="value">{{pendingCount}} 条 · 不自动删除</text></list-item>
-      <list-item if="{{sessionId}}" type="session-id" class="identity-row"><text class="caption">当前记录标识</text><text class="identity">{{sessionId}}</text></list-item>
-      <list-item if="{{viewMode === 'books' || viewMode === 'actions' || viewMode === 'finish'}}" type="back-view" class="action-row"><div class="secondary" onclick="backView"><text class="secondary-label">返回</text></div></list-item>
-      <list-item if="{{status === 'BLOCKED'}}" type="reload" class="action-row"><div class="secondary" onclick="reload"><text class="secondary-label">重新读取并核对</text></div></list-item>
-      <list-item if="{{exitNotice}}" type="exit-notice" class="hint-row"><text class="hint">{{exitNotice}}</text></list-item>
-      <list-item type="exit" class="action-row"><div class="secondary" onclick="exitLocal"><text class="secondary-label">退出实验应用</text></div></list-item>
-    </list>
+    <!-- VIEW: READY -->
+    <div if="{{vm.view === 'READY'}}" class="screen">
+      <div class="toolbar"><div class="brand-row"><text class="brand">Mirra</text><text class="badge">{{vm.experimentLabel}}</text></div><div class="light-button" onclick="showDetails"><text class="light-label">详情</text></div></div>
+      <div if="{{!vm.preview.isLongAction}}" class="ready-body">
+        <div class="ready-book" onclick="showBooks"><text class="book-title">{{vm.preview.bookTitle}}</text><div class="book-meta"><text class="caption book-page" style="width: {{vm.pendingCount > 0 && !vm.notice.visible ? 84 : 144}}px; color: {{vm.notice.visible ? '#E8B75D' : '#A6B2C3'}};">{{vm.notice.visible ? statusLabel : bookPageLabel}}</text><text if="{{vm.pendingCount > 0 && !vm.notice.visible}}" class="record-caption">{{recordLabel}}</text></div></div>
+        <div class="first-action-card"><div class="first-action-heading"><text class="first-action-title">先完成这一步</text><div class="light-button" onclick="showActions"><text class="light-label">更换</text></div></div><text class="first-action-text">{{vm.actionText}}</text></div>
+        <div class="ready-submit button" style="background-color: {{vm.primary.enabled ? '#6598E8' : '#1D2733'}};" onclick="confirmStart"><text class="button-label" style="color: {{vm.primary.enabled ? '#0B0F14' : '#A6B2C3'}};">{{vm.primary.label}}</text></div>
+      </div>
+      <list if="{{vm.preview.isLongAction}}" class="content-list">
+        <list-item type="ready-book" class="long-book-row" onclick="showBooks"><text class="book-title long-book-title">{{vm.preview.bookTitle}}</text><div class="book-meta"><text class="caption book-page" style="width: {{vm.pendingCount > 0 && !vm.notice.visible ? 84 : 144}}px; color: {{vm.notice.visible ? '#E8B75D' : '#A6B2C3'}};">{{vm.notice.visible ? statusLabel : bookPageLabel}}</text><text if="{{vm.pendingCount > 0 && !vm.notice.visible}}" class="record-caption">{{recordLabel}}</text></div></list-item>
+        <list-item type="first-label" class="first-action-heading"><text class="first-action-title">先完成这一步</text><div class="light-button" onclick="showActions"><text class="light-label">更换</text></div></list-item>
+        <list-item for="{{actionRows}}" type="first-action" class="full-text-row"><text class="full-action-text">{{$item}}</text></list-item>
+        <list-item type="confirm-start" class="submit-row"><div class="button" style="background-color: {{vm.primary.enabled ? '#6598E8' : '#1D2733'}};" onclick="confirmStart"><text class="button-label" style="color: {{vm.primary.enabled ? '#0B0F14' : '#A6B2C3'}};">{{vm.primary.label}}</text></div></list-item>
+      </list>
+    </div>
+    <!-- VIEW: BOOK_PICKER -->
+    <div if="{{vm.view === 'BOOK_PICKER'}}" class="screen">
+      <div class="toolbar"><div class="light-button" onclick="backView"><text class="light-label">返回</text></div><text class="toolbar-title">测试书籍</text></div>
+      <list class="content-list"><list-item for="{{bookChoices}}" type="book-choice" class="picker-row" style="height: {{$item.height}}px; background-color: {{$item.selected ? '#1D2733' : '#0B0F14'}};" onclick="selectBook($item.id)"><text class="picker-title" style="height: {{$item.titleHeight}}px;">{{$item.title}}</text><div class="picker-meta"><text class="caption">{{$item.startPageText}}</text><text class="selection-mark">{{$item.selected ? '已选' : ''}}</text></div></list-item></list>
+    </div>
+    <!-- VIEW: ACTION_PICKER -->
+    <div if="{{vm.view === 'ACTION_PICKER'}}" class="screen">
+      <div class="toolbar"><div class="light-button" onclick="backView"><text class="light-label">返回</text></div><text class="toolbar-title">更换第一步</text></div>
+      <list class="content-list"><list-item for="{{actionChoices}}" type="action-choice" class="picker-row" style="height: {{$item.height}}px; background-color: {{$item.selected ? '#1D2733' : '#0B0F14'}};" onclick="selectAction($item.id)"><text class="picker-title" style="height: {{$item.textHeight}}px;">{{$item.text}}</text><text class="selection-caption">{{$item.selected ? '已选 · 仍需完成后确认' : '选择后仍需完成'}}</text></list-item></list>
+    </div>
+    <!-- VIEW: READING -->
+    <div if="{{vm.view === 'READING'}}" class="screen timer-screen">
+      <div class="toolbar"><div class="state-heading"><text class="state-title">{{vm.title}}</text><text class="badge">{{vm.experimentLabel}}</text></div><div class="light-button" onclick="showDetails"><text class="light-label">详情</text></div></div>
+      <text class="timer-book">{{vm.bookTitle}}</text>
+      <div class="timer-hero"><text class="timer-value" style="font-size: {{vm.timer.isLong ? 28 : 40}}px;">{{vm.timer.valueText}}</text><text class="timer-qualifier" style="color: {{vm.timer.isUnknown ? '#E8B75D' : '#A6B2C3'}};">{{vm.timer.label}} · {{vm.timer.qualifier}}</text></div>
+      <text class="timer-status" style="color: {{vm.notice.visible ? '#E8B75D' : '#8D9AAE'}};">{{statusLabel}}</text>
+      <div class="split-actions"><div class="button split-primary" style="background-color: {{vm.primary.enabled ? '#6598E8' : '#1D2733'}};" onclick="openBreakPicker"><text class="button-label" style="color: {{vm.primary.enabled ? '#0B0F14' : '#A6B2C3'}};">{{vm.primary.label}}</text></div><div class="secondary split-secondary" onclick="showFinish"><text class="secondary-label" style="color: {{vm.secondary.enabled ? '#EEF3F8' : '#8D9AAE'}};">{{vm.secondary.label}}</text></div></div>
+    </div>
+    <!-- VIEW: BREAK_PICKER -->
+    <div if="{{vm.view === 'BREAK_PICKER'}}" class="screen">
+      <div class="toolbar"><div class="light-button" onclick="backView"><text class="light-label">返回</text></div><text class="toolbar-title">{{vm.title}}</text></div>
+      <div class="break-options"><div class="break-option secondary" onclick="beginBreak(5)"><text class="break-option-label" style="color: {{vm.canWrite ? '#EEF3F8' : '#8D9AAE'}};">5 分钟</text></div><div class="break-option secondary" onclick="beginBreak(10)"><text class="break-option-label" style="color: {{vm.canWrite ? '#EEF3F8' : '#8D9AAE'}};">10 分钟</text></div><text class="option-hint">{{vm.busy ? '正在保存…' : '选择后开始休息'}}</text></div>
+    </div>
+    <!-- VIEW: RESTING -->
+    <div if="{{vm.view === 'RESTING'}}" class="screen timer-screen">
+      <div class="toolbar"><div class="state-heading"><text class="state-title">{{vm.title}}</text><text class="badge">{{vm.experimentLabel}}</text></div><div class="light-button" onclick="showDetails"><text class="light-label">详情</text></div></div>
+      <text class="timer-book">{{vm.bookTitle}}</text>
+      <div class="timer-hero"><text class="timer-value" style="font-size: {{vm.timer.valueText === '休息时间已到' ? 16 : (vm.timer.isLong ? 28 : 40)}}px;">{{vm.timer.valueText}}</text><text class="timer-qualifier" style="color: {{vm.timer.isUnknown ? '#E8B75D' : '#A6B2C3'}};">{{vm.timer.label}} · {{vm.timer.qualifier}}</text></div>
+      <text class="timer-status" style="color: {{vm.notice.visible ? '#E8B75D' : '#8D9AAE'}};">{{statusLabel}}</text>
+      <div class="split-actions"><div class="button split-primary" style="background-color: {{vm.primary.enabled ? '#6598E8' : '#1D2733'}};" onclick="resume"><text class="button-label" style="color: {{vm.primary.enabled ? '#0B0F14' : '#A6B2C3'}};">{{vm.primary.label}}</text></div><div class="secondary split-secondary" onclick="showFinish"><text class="secondary-label" style="color: {{vm.secondary.enabled ? '#EEF3F8' : '#8D9AAE'}};">{{vm.secondary.label}}</text></div></div>
+    </div>
+    <!-- VIEW: FINISH_REVIEW -->
+    <div if="{{vm.view === 'FINISH_REVIEW'}}" class="screen">
+      <div class="toolbar"><div class="light-button" onclick="backView"><text class="light-label">返回</text></div><text class="toolbar-title">{{vm.title}}</text></div>
+      <text class="review-book">{{vm.bookTitle}}</text>
+      <div class="review-time"><div class="summary-row"><text class="summary-value">阅读 {{vm.focusTimer.valueText}}</text><text class="summary-qualifier">{{vm.focusTimer.qualifier}}</text></div><div class="summary-row"><text class="summary-value">休息 {{vm.restTimer.valueText}}</text><text class="summary-qualifier">{{vm.restTimer.qualifier}}</text></div></div>
+      <div class="page-option" onclick="showPageEditor"><text class="page-option-label">{{vm.endPageText}}</text><text class="page-option-link">补充页码</text></div>
+      <text class="confirmation-hint" style="color: {{vm.notice.visible ? '#E8B75D' : '#8D9AAE'}};">{{vm.notice.visible ? statusLabel : '确认后结束'}}</text>
+      <div class="button review-submit" style="background-color: {{vm.primary.enabled ? '#6598E8' : '#1D2733'}};" onclick="finishSession"><text class="button-label" style="color: {{vm.primary.enabled ? '#0B0F14' : '#A6B2C3'}};">{{vm.primary.label}}</text></div>
+    </div>
+    <!-- VIEW: PAGE_EDITOR -->
+    <div if="{{vm.view === 'PAGE_EDITOR'}}" class="screen editor-screen">
+      <div class="editor-toolbar"><div class="light-button" onclick="backView"><text class="light-label">返回</text></div><div class="button compact-save" style="background-color: {{vm.primary.enabled ? '#6598E8' : '#1D2733'}};" onclick="savePage"><text class="button-label" style="color: {{vm.primary.enabled ? '#0B0F14' : '#A6B2C3'}};">{{vm.busy ? '保存中' : vm.primary.label}}</text></div></div>
+      <text class="page-value">{{vm.pageDigits || '页码：不填写'}}</text>
+      <text class="page-error">{{vm.pageError || '正整数 1–999999 · 可以留空'}}</text>
+      <div class="key-row"><div class="digit-key" onclick="appendDigit('1')"><text class="key-text">1</text></div><div class="digit-key" onclick="appendDigit('2')"><text class="key-text">2</text></div><div class="digit-key" onclick="appendDigit('3')"><text class="key-text">3</text></div></div>
+      <div class="key-row"><div class="digit-key" onclick="appendDigit('4')"><text class="key-text">4</text></div><div class="digit-key" onclick="appendDigit('5')"><text class="key-text">5</text></div><div class="digit-key" onclick="appendDigit('6')"><text class="key-text">6</text></div></div>
+      <div class="key-row"><div class="digit-key" onclick="appendDigit('7')"><text class="key-text">7</text></div><div class="digit-key" onclick="appendDigit('8')"><text class="key-text">8</text></div><div class="digit-key" onclick="appendDigit('9')"><text class="key-text">9</text></div></div>
+      <div class="key-row"><div class="digit-key" onclick="clearEndPage"><text class="key-text small-key">留空</text></div><div class="digit-key" onclick="appendDigit('0')"><text class="key-text">0</text></div><div class="digit-key" onclick="eraseDigit"><text class="key-text small-key">退格</text></div></div>
+    </div>
+    <!-- VIEW: SAVED -->
+    <div if="{{vm.view === 'SAVED'}}" class="screen">
+      <div class="toolbar"><text class="saved-title">{{vm.title}}</text><div class="light-button" onclick="showDetails"><text class="light-label">详情</text></div></div>
+      <text class="saved-book">{{vm.bookTitle}}</text>
+      <div class="saved-times"><div class="summary-row"><text class="summary-value">阅读 {{vm.focusTimer.valueText}}</text><text class="summary-qualifier">{{vm.focusTimer.qualifier}}</text></div><div class="summary-row"><text class="summary-value">休息 {{vm.restTimer.valueText}}</text><text class="summary-qualifier">{{vm.restTimer.qualifier}}</text></div></div>
+      <text class="saved-page">{{vm.endPageText}}</text><text class="saved-source">{{vm.sourceLabel}}</text>
+      <text class="saved-notice" style="color: {{vm.notice.visible ? '#E8B75D' : '#8D9AAE'}};">{{vm.notice.visible ? statusLabel : ''}}</text>
+      <div class="button saved-submit" onclick="done"><text class="button-label">{{vm.primary.label}}</text></div>
+    </div>
+    <!-- VIEW: DETAILS -->
+    <div if="{{vm.view === 'DETAILS'}}" class="screen">
+      <div class="toolbar"><div class="light-button" onclick="backView"><text class="light-label">返回</text></div><text class="toolbar-title">详情 · 实验</text></div>
+      <list class="content-list">
+        <list-item type="details-scope" class="detail-row"><text class="detail-label">隔离实验 · 测试书籍</text><text class="detail-text">{{vm.details.sourceText}}</text></list-item>
+        <list-item type="details-state" class="detail-row"><text class="detail-label">当前状态</text><text class="detail-text">{{vm.details.state}} · {{vm.details.status}}</text></list-item>
+        <list-item for="{{bookRows}}" type="details-book" class="full-text-row"><text class="full-action-text">{{$item}}</text></list-item>
+        <list-item type="details-first-label" class="detail-label-row"><text class="detail-label">第一步原文</text></list-item>
+        <list-item for="{{actionRows}}" type="details-action" class="full-text-row"><text class="full-action-text">{{$item}}</text></list-item>
+        <list-item type="details-time" class="detail-tall-row"><text class="detail-label">时间原因</text><text class="detail-text">{{vm.details.timeReasonText}}</text></list-item>
+        <list-item if="{{vm.notice.visible}}" type="details-notice" class="detail-tall-row"><text class="warning-title">{{vm.notice.title}}</text><text class="warning-text">{{vm.notice.text}}</text></list-item>
+        <list-item type="details-records" class="detail-row"><text class="detail-label">本地记录</text><text class="detail-text">{{vm.details.pendingCount}} 条 · 尚未同步</text></list-item>
+        <list-item type="details-sync" class="detail-tall-row"><text class="detail-text">{{vm.details.syncText}}</text></list-item>
+        <list-item type="details-version" class="detail-row"><text class="detail-label">实验版本</text><text class="detail-text">{{vm.details.versionText}} · {{vm.details.brandStatus}}</text></list-item>
+        <list-item type="details-id" class="detail-tall-row"><text class="detail-label">记录标识 / 序列</text><text class="diagnostic-text">{{vm.details.sessionId || '无活动记录'}} / {{vm.details.sequence}}</text></list-item>
+        <list-item type="details-error" class="detail-row"><text class="detail-label">存储 / 操作原因</text><text class="diagnostic-text">{{vm.details.errorCode || '无错误码'}}</text></list-item>
+        <list-item for="{{recoveryRows}}" type="details-recovery" class="full-text-row"><text class="warning-text">{{$item}}</text></list-item>
+        <list-item type="details-exit" class="submit-row"><div class="secondary" onclick="exitLocal"><text class="secondary-label">退出应用</text></div></list-item>
+      </list>
+    </div>
+    <!-- VIEW: STORAGE_NOTICE -->
+    <div if="{{vm.view === 'STORAGE_NOTICE'}}" class="screen">
+      <div class="toolbar"><text class="notice-heading">{{vm.notice.title}}</text><div class="light-button" onclick="showDetails"><text class="light-label">详情</text></div></div>
+      <list class="notice-list"><list-item for="{{noticeRows}}" type="storage-message" class="notice-text-row"><text class="warning-text">{{$item}}</text></list-item><list-item type="restored-state" class="detail-row"><text class="detail-label">当前恢复状态</text><text class="detail-text">{{vm.state}}</text></list-item><list-item for="{{bookRows}}" type="restored-book" class="full-text-row"><text class="full-action-text">{{$item}}</text></list-item><list-item if="{{vm.bookTitle}}" type="restored-book-name" class="detail-label-row"><text class="caption">{{vm.bookTitle}}</text></list-item></list>
+      <div if="{{vm.primary}}" class="button notice-submit" style="background-color: {{vm.primary.enabled ? '#6598E8' : '#1D2733'}};" onclick="noticeAction"><text class="button-label" style="color: {{vm.primary.enabled ? '#0B0F14' : '#A6B2C3'}};">{{vm.primary.label}}</text></div>
+    </div>
   </div>
 </template>
 <script>
 import domainLib from '../../lib/local-session'
+import presentationLib from '../../lib/local-presentation'
+import flowLib from '../../lib/local-ui-flow'
+import profile from '../../profile'
 
 export default {
   private: {
-    state: 'IDLE', status: 'UNOPENED', statusText: '尚未读取', heading: '等待开始', viewMode: 'home',
-    busy: false, canWrite: false, storageQualified: false, errorCode: '', recoveryHint: '',
-    bookChoices: [], actionChoices: [], bookRows: [], actionRows: [], hasAction: false,
-    sessionId: '', pendingCount: 0, focusText: '尚未取得', restText: '尚未取得', breakText: '', timeHint: '',
-    endPageDigits: '', pageError: '', exitNotice: '', operationNotice: ''
+    vm: { view: 'STORAGE_NOTICE', state: 'IDLE', bookTitle: '', notice: { title: '正在读取', text: '', visible: true }, primary: { label: '正在读取…', enabled: false } },
+    bookRows: [], actionRows: [], noticeRows: [], recoveryRows: [], bookChoices: [], actionChoices: [], statusLabel: '', bookPageLabel: '', recordLabel: ''
   },
   onInit() {
     this._visible = false
     this._destroyed = false
-    this._actionPending = false
-    this._exitRequested = false
-    this._operationUncertain = false
-    this.bookChoices = domainLib.TEST_BOOKS.map(book => ({
-      id: book.id, title: book.title, startPage: book.startPage,
-      startPageText: Number.isSafeInteger(book.startPage) && book.startPage > 0
-        ? '测试书籍 · 从第 ' + book.startPage + ' 页准备' : '页码未设定，按第一步准备'
-    }))
+    this._catalog = domainLib.TEST_BOOKS
     this._owner = this.$app.$def.getLocalOwner()
+    this._brand = { name: 'Mirra', versionName: profile.versionName, logoAvailable: false, sourceAvailable: false }
+    this._flow = flowLib.createLocalUiFlow({ owner: this._owner, catalog: this._catalog, requestExit: () => {
+      if (typeof this.$app.exit !== 'function') throw new Error('EXIT_UNAVAILABLE')
+      this.$app.exit()
+    } })
     this.refresh()
   },
   onShow() {
-    if (this._destroyed || this._visible) return
+    if (this._destroyed || this._visible) return Promise.resolve()
     this._visible = true
-    this._exitRequested = false
-    this._off = this._owner.subscribe(() => {
+    this._off = this._flow.subscribe(() => {
       if (this._visible && !this._destroyed) this.refresh()
     })
     this._timer = setInterval(() => {
-      // A visible-only projection; this never advances business state or writes.
+      // Visible projection only. No dispatch, clock reconstruction or storage IO.
       if (this._visible && !this._destroyed) this.refresh()
     }, 1000)
-    return this.runAction('open')
+    return this._flow.show()
   },
   onHide() {
     if (!this._visible) return
@@ -93,203 +144,90 @@ export default {
     this._off = null
     if (this._timer !== undefined) clearInterval(this._timer)
     this._timer = undefined
+    this._flow.hide()
   },
   onDestroy() {
     if (this._destroyed) return
     this.onHide()
     this._destroyed = true
+    this._flow.dispose()
   },
   onBackPress() {
-    if (this.busy) return true
-    if (['books', 'actions', 'finish'].indexOf(this.viewMode) !== -1) {
-      this.backView()
-      return true
-    }
-    // Returning to the dial does not dispatch FINISH or release the app owner.
-    return false
+    if (!this._visible || this._destroyed) return false
+    this._flow.back()
+    return true
   },
   refresh() {
     if (this._destroyed) return
-    const view = this._owner.snapshot()
-    const doc = view.document
-    const state = doc && doc.state ? doc.state : 'IDLE'
-    this.status = view.status || 'UNOPENED'
-    this.busy = view.busy === true || this._actionPending === true
-    this.storageQualified = view.storageQualified === true
-    this.canWrite = this.storageQualified && view.canWrite === true && !this.busy && !this._exitRequested && !this._operationUncertain && this.status !== 'UNCERTAIN' && this.status !== 'CLOSED'
-    this.errorCode = view.errorCode || ''
-    this.recoveryHint = view.recoveryHint || ''
-    this.timeHint = view.timeHint || ''
-    this.pendingCount = Number.isSafeInteger(view.pendingCount) && view.pendingCount >= 0 ? view.pendingCount : 0
-    const source = doc && (doc.active || doc.preparation || (state === 'FINISHED_PENDING_SYNC' && doc.pending && doc.pending[doc.pending.length - 1]))
-    const book = source && source.bookSnapshot
-    const action = source && source.firstActionSnapshot
-    this.bookRows = this.wrapText(book && book.title)
-    this.actionRows = this.wrapText(action && action.text)
-    this.hasAction = !!(action && typeof action.id === 'string' && action.id && action.text)
-    this.sessionId = doc && doc.active && doc.active.id ? doc.active.id : ''
-    const selectedBook = book && domainLib.TEST_BOOKS.find(item => item.id === book.id)
-    this.actionChoices = selectedBook ? selectedBook.firstActions : []
-    if (this._lastState !== state) this.viewMode = this.modeForState(state)
-    this._lastState = state
-    this.state = state
-    const labels = { IDLE: '等待开始', PREPARING: '第一步准备', FOCUS: '正在独立学习', BREAK: '正在休息', FINISHED_PENDING_SYNC: '本地保存完成' }
-    this.heading = labels[state] || '状态待核对'
-    const statuses = { UNOPENED: '尚未读取', OPENING: '正在读取', EMPTY: '空槽已核对', READY: '本地快照已核对', RECOVERED: '已恢复有效快照', BLOCKED: '危险写入已停止', UNCERTAIN: '读写结果不确定', CLOSED: '存储已退役', UNQUALIFIED: '等待存储准入' }
-    this.statusText = statuses[this.status] || this.status
-    const summary = view.summary || {}
-    // Finite wall-clock candidates are observations, never verified durations.
-    // The domain returns null after rollback, owner change or unverifiable gaps.
-    this.focusText = this.durationText(summary.observedFocusMs)
-    this.restText = this.durationText(summary.observedBreakMs)
-    const remaining = summary.breakRemainingMs
-    this.breakText = typeof remaining !== 'number' || !Number.isFinite(remaining) || remaining < 0
-      ? '时间不确定，休息仍保留；请主动继续。'
-      : (remaining === 0 ? '休息已到时，请主动继续学习。' : '休息观察剩余 ' + this.clockText(remaining))
+    const next = presentationLib.presentLocal(this._owner.snapshot(), this._flow.getState(), this._catalog, this._brand)
+    // Stable arrays prevent second ticks from rebuilding picker rows or resetting scroll.
+    const contentKey = next.bookTitle + '\u0000' + next.actionText + '\u0000' + next.notice.text + '\u0000' + next.details.recoveryText
+    if (contentKey !== this._contentKey) {
+      this._contentKey = contentKey
+      this.bookRows = this.wrapText(next.bookTitle)
+      this.actionRows = this.wrapText(next.actionText)
+      this.noticeRows = this.wrapText(next.notice.text)
+      this.recoveryRows = this.wrapText(next.details.recoveryText)
+    }
+    const choiceKey = JSON.stringify([next.bookChoices, next.actionChoices])
+    if (choiceKey !== this._choiceKey) {
+      this._choiceKey = choiceKey
+      this.bookChoices = next.bookChoices.map(book => {
+        const titleHeight = Math.max(32, Math.ceil(Array.from(book.title).length / 10) * 16)
+        return Object.assign({}, book, { titleHeight, height: Math.max(48, titleHeight + 24) })
+      })
+      this.actionChoices = next.actionChoices.map(action => {
+        const textHeight = Math.max(32, Math.ceil(Array.from(action.text).length / 10) * 17)
+        return Object.assign({}, action, { textHeight, height: textHeight + 28 })
+      })
+    }
+    this.statusLabel = next.notice.visible ? next.notice.title : next.sourceLabel
+    if (next.recoveryNotice.visible && next.notice.title !== next.recoveryNotice.title) {
+      const compactNotice = { '记录含不确定区间': '时长待核对', '本地空间预算不足': '容量不足' }
+      this.statusLabel = '上一快照 · ' + (compactNotice[next.notice.title] || this.statusLabel)
+    }
+    this.bookPageLabel = next.preview && next.preview.startPage !== null ? '第' + next.preview.startPage + '页' : '未设置页码'
+    this.recordLabel = '本地' + next.pendingCount + '条'
+    this.vm = next
   },
   wrapText(value) {
     if (typeof value !== 'string' || !value) return []
     const chars = Array.from(value)
     const rows = []
-    for (let offset = 0; offset < chars.length; offset += 24) rows.push(chars.slice(offset, offset + 24).join(''))
+    for (let offset = 0; offset < chars.length; offset += 18) rows.push(chars.slice(offset, offset + 18).join(''))
     return rows
   },
-  modeForState(state) {
-    const modes = { IDLE: 'home', PREPARING: 'prepare', FOCUS: 'focus', BREAK: 'break', FINISHED_PENDING_SYNC: 'result' }
-    return modes[state] || 'home'
-  },
-  clockText(ms) {
-    const seconds = Math.floor(ms / 1000)
-    const minutes = Math.floor(seconds / 60)
-    const rest = seconds % 60
-    return (minutes < 10 ? '0' : '') + minutes + ':' + (rest < 10 ? '0' : '') + rest
-  },
-  durationText(ms) {
-    if (typeof ms !== 'number' || !Number.isFinite(ms) || ms < 0) return '时间不确定'
-    return '观察 ' + this.clockText(ms)
-  },
-  canInteract() {
-    return this._visible && !this._destroyed && !this._actionPending && !this.busy && !this._exitRequested && !this._operationUncertain && this.status !== 'UNCERTAIN' && this.status !== 'CLOSED'
-  },
-  runAction(method, action) {
-    if (!this.canInteract() || (method === 'dispatch' && !this.canWrite)) return Promise.resolve()
-    this._actionPending = true
-    this.refresh()
-    const finish = () => {
-      this._actionPending = false
-      if (this._visible && !this._destroyed) this.refresh()
-    }
-    const unconfirmed = () => {
-      this._operationUncertain = true
-      if (this._visible && !this._destroyed) this.operationNotice = '操作结果未确认，请退出并重新打开应用核对；暂不继续写入。'
-      finish()
-    }
-    let operation
-    try { operation = method === 'open' ? this._owner.open() : this._owner.dispatch(action) }
-    catch (error) { unconfirmed(); return Promise.resolve() }
-    return Promise.resolve(operation).then(finish, unconfirmed)
-  },
-  showBooks() { if (this.canInteract() && this.state === 'IDLE') this.viewMode = 'books' },
-  selectBook(bookId) {
-    if (this.state !== 'IDLE' || !domainLib.TEST_BOOKS.some(book => book.id === bookId)) return Promise.resolve()
-    return this.runAction('dispatch', { type: 'SELECT_BOOK', bookId })
-  },
-  showActions() { if (this.canInteract() && this.state === 'PREPARING') this.viewMode = 'actions' },
-  selectAction(firstActionId) {
-    if (this.state !== 'PREPARING' || !this.actionChoices.some(action => action.id === firstActionId)) return Promise.resolve()
-    return this.runAction('dispatch', { type: 'SELECT_ACTION', firstActionId }).then(() => {
-      if (this._visible && !this._destroyed && this.state === 'PREPARING') this.viewMode = 'prepare'
-    })
-  },
-  confirmStart() {
-    if (this.state !== 'PREPARING' || !this.hasAction) return Promise.resolve()
-    return this.runAction('dispatch', { type: 'CONFIRM_START', confirmed: true })
-  },
-  cancelPreparation() {
-    if (this.state !== 'PREPARING') return Promise.resolve()
-    return this.runAction('dispatch', { type: 'CANCEL_PREPARATION' })
-  },
-  beginBreak(minutes) {
-    if (this.state !== 'FOCUS' || (minutes !== 5 && minutes !== 10)) return Promise.resolve()
-    return this.runAction('dispatch', { type: 'BEGIN_BREAK', minutes })
-  },
-  resume() {
-    if (this.state !== 'BREAK') return Promise.resolve()
-    return this.runAction('dispatch', { type: 'RESUME' })
-  },
-  showFinish() {
-    if (!this.canInteract() || (this.state !== 'FOCUS' && this.state !== 'BREAK')) return
-    this.endPageDigits = ''
-    this.pageError = ''
-    this.viewMode = 'finish'
-  },
+  showBooks() { return this._flow.openBookPicker() },
+  selectBook(bookId) { return this._flow.chooseBook(bookId) },
+  showActions() { return this._flow.openActionPicker() },
+  selectAction(actionId) { return this._flow.chooseAction(actionId) },
+  confirmStart() { return this._flow.confirmStart(this.vm.preview) },
+  openBreakPicker() { return this._flow.openBreakPicker() },
+  beginBreak(minutes) { return this._flow.beginBreak(minutes) },
+  resume() { return this._flow.resume() },
+  showFinish() { return this._flow.openFinishReview() },
+  showPageEditor() { return this._flow.openPageEditor() },
   appendDigit(value) {
-    if (!this.canInteract() || this.viewMode !== 'finish' || !/^[0-9]$/.test(value) || this.endPageDigits.length >= 6) return
-    this.endPageDigits += value
-    this.pageError = ''
+    if (!this._visible || this._destroyed || this.vm.busy || this.vm.view !== 'PAGE_EDITOR' || !/^[0-9]$/.test(value) || this.vm.pageDigits.length >= 6) return
+    return this._flow.setPageDigits(this.vm.pageDigits + value)
   },
-  eraseDigit() { if (this.canInteract() && this.viewMode === 'finish') { this.endPageDigits = this.endPageDigits.slice(0, -1); this.pageError = '' } },
-  clearEndPage() { if (this.canInteract() && this.viewMode === 'finish') { this.endPageDigits = ''; this.pageError = '' } },
-  finishSession() {
-    if (this.viewMode !== 'finish' || (this.state !== 'FOCUS' && this.state !== 'BREAK')) return Promise.resolve()
-    const endPage = this.endPageDigits === '' ? null : Number(this.endPageDigits)
-    if (endPage !== null && (!Number.isSafeInteger(endPage) || endPage < 1 || endPage > 999999)) {
-      this.pageError = '请填写正整数页码，或点“留空”。'
-      return Promise.resolve()
-    }
-    return this.runAction('dispatch', { type: 'FINISH', endPage })
+  eraseDigit() { return this._flow.setPageDigits(this.vm.pageDigits.slice(0, -1)) },
+  clearEndPage() { return this._flow.setPageDigits('') },
+  finishSession() { return this._flow.finish(null) },
+  savePage() { return this._flow.finish() },
+  done() { return this._flow.done() },
+  backView() { return this._flow.back() },
+  showDetails() { return this._flow.openDetails() },
+  reload() { return this._flow.reload() },
+  noticeAction() {
+    if (!this.vm.primary.enabled) return
+    if (this.vm.notice.action === 'acknowledgeRecovery') return this._flow.acknowledgeRecovery()
+    if (this.vm.notice.action === 'reload') return this._flow.reload()
+    return this._flow.exit()
   },
-  newSession() {
-    if (this.state !== 'FINISHED_PENDING_SYNC') return Promise.resolve()
-    return this.runAction('dispatch', { type: 'NEW_SESSION' })
-  },
-  backView() { if (this.canInteract()) this.viewMode = this.modeForState(this.state) },
-  reload() { return this.runAction('open') },
-  exitLocal() {
-    if (!this._visible || this._destroyed || this.busy || this._actionPending || this.status === 'CLOSED' || this._exitRequested) return
-    if (typeof this.$app.exit !== 'function') { this.exitNotice = '退出接口不可用，请返回表盘；学习记录不会自动结束。'; return }
-    this._exitRequested = true
-    this.canWrite = false
-    this.exitNotice = ''
-    try { this.$app.exit() }
-    catch (error) { this._exitRequested = false; this.exitNotice = '退出结果未确认，当前学习与记录保留。' }
-  }
+  exitLocal() { return this._flow.exit() }
 }
 </script>
 <style>
-@import '../../common/theme.css';
-.local-page { padding-top: 8px; padding-bottom: 8px; }
-.local-list { width: 144px; flex: 1; margin-top: 5px; }
-.notice-row { width: 144px; height: 64px; align-items: center; }
-.notice { width: 144px; height: 60px; font-size: 10px; line-height: 16px; lines: 3; color: #A6B2C3; }
-.hint-row { width: 144px; height: 100px; align-items: center; }
-.hint { width: 144px; height: 96px; font-size: 11px; line-height: 17px; lines: 5; color: #D7B77A; }
-.heading-row { width: 144px; height: 52px; flex-direction: column; justify-content: center; }
-.heading { width: 144px; height: 26px; font-size: 16px; font-weight: bold; color: #EEF3F8; }
-.caption { width: 144px; height: 18px; font-size: 10px; color: #A6B2C3; }
-.label-row { width: 144px; height: 26px; align-items: center; }
-.text-row { width: 144px; height: 58px; align-items: center; }
-.body-text { height: 54px; font-size: 12px; line-height: 18px; lines: 3; }
-.choice-row { width: 144px; height: 130px; flex-direction: column; justify-content: center; border-bottom-width: 1px; border-bottom-color: #151C25; }
-.choice-text { width: 140px; height: 96px; font-size: 12px; line-height: 18px; lines: 5; color: #EEF3F8; }
-.choice-caption { width: 140px; height: 20px; font-size: 10px; color: #6598E8; }
-.action-row { width: 144px; height: 46px; align-items: center; }
-.button { height: 40px; }
-.button-label { width: 132px; height: 20px; font-size: 11px; }
-.secondary { height: 40px; }
-.secondary-label { width: 132px; height: 20px; font-size: 11px; }
-.timer-row { width: 144px; height: 70px; flex-direction: column; justify-content: center; }
-.timer { width: 144px; height: 38px; font-size: 22px; font-weight: bold; color: #6598E8; }
-.value-row { width: 144px; height: 46px; flex-direction: column; justify-content: center; }
-.value { width: 144px; height: 24px; font-size: 12px; color: #EEF3F8; }
-.break-row { width: 144px; height: 70px; align-items: center; }
-.break-text { width: 144px; height: 64px; font-size: 12px; line-height: 20px; lines: 3; color: #6598E8; }
-.key-row { width: 144px; height: 42px; align-items: center; justify-content: space-between; }
-.digit-key { width: 44px; height: 36px; border-radius: 8px; background-color: #151C25; align-items: center; justify-content: center; }
-.key-text { width: 40px; height: 26px; font-size: 18px; text-align: center; color: #EEF3F8; }
-.small-key { font-size: 11px; }
-.error-row { width: 144px; height: 50px; align-items: center; }
-.error { width: 144px; height: 44px; font-size: 10px; line-height: 15px; lines: 2; color: #D7B77A; }
-.identity-row { width: 144px; height: 64px; flex-direction: column; justify-content: center; }
-.identity { width: 144px; height: 42px; font-size: 9px; line-height: 14px; lines: 3; color: #A6B2C3; }
+@import '../../common/local-theme.css';
 </style>

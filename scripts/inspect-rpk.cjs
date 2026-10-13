@@ -120,6 +120,8 @@ async function inspect(filePath, certificatePath, mode = 'demo') {
   assert.equal(verified.certificate.fingerprint256, profile.fingerprint, 'Unexpected profile signing identity')
   if (certificatePath) assert.equal(verified.certificate.fingerprint256, new crypto.X509Certificate(fs.readFileSync(certificatePath)).fingerprint256, 'Unexpected signing identity')
   const zip = await JSZip.loadAsync(buffer, { checkCRC32: true })
+  const manifest = JSON.parse(await zip.file('manifest.json').async('string'))
+  const iconPath = profile.localSession ? 'common/local-brand/icon-pending.png' : 'common/icon.png'
   const names = Object.keys(zip.files).filter(name => !name.endsWith('/'))
   assert.equal(verified.fileHashes.size, names.length, 'Signed file digest count differs')
   for (const name of names) {
@@ -127,7 +129,7 @@ async function inspect(filePath, certificatePath, mode = 'demo') {
     const content = await zip.file(name).async('nodebuffer')
     assert(expected && crypto.createHash('sha256').update(content).digest().equals(expected), 'Signed file digest differs: ' + name)
   }
-  const required = experiment ? ['manifest.json', 'app.js', entry + '/index.js', 'common/icon.png', 'META-INF/CERT'] : ['manifest.json', 'app.js', 'pages/Home/index.js', 'pages/Detail/index.js', 'pages/Connection/index.js', 'pages/Control/index.js', 'common/icon.png', 'META-INF/CERT']
+  const required = experiment ? ['manifest.json', 'app.js', entry + '/index.js', iconPath, 'META-INF/CERT'] : ['manifest.json', 'app.js', 'pages/Home/index.js', 'pages/Detail/index.js', 'pages/Connection/index.js', 'pages/Control/index.js', 'common/icon.png', 'META-INF/CERT']
   if (profile.localSession) assert(!names.some(name => name.startsWith('pages/') && !name.startsWith(entry + '/')), 'Foreign page bundled in local experiment')
   else assert(!Object.keys(zip.files).some(name => /^pages\/LocalSession\//.test(name) || /(?:^|\/)local-/.test(name)), 'Local experiment resource bundled in companion or probe')
   if (mode === 'demo') required.push('pages/States/index.js')
@@ -157,7 +159,7 @@ async function inspect(filePath, certificatePath, mode = 'demo') {
     }
     assert(script.includes(profile.localSession ? '隔离实验' : profile.probe ? '隔离测试数据' : '演示数据'), 'Explicit mode badge missing: ' + name)
   }
-  const manifest = JSON.parse(await zip.file('manifest.json').async('string'))
+  assert.equal(manifest.icon, '/' + iconPath, 'Unexpected profile icon')
   assert.equal(manifest.package, profile.package)
   assert.equal(manifest.name, profile.name)
   assert.equal(manifest.versionName, profile.versionName)

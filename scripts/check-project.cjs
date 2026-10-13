@@ -41,6 +41,10 @@ if (manifest.package !== identity('live').package) errors.push('Unexpected live 
 for (const mode of ['demo', 'live', 'probe', 'probe-upgrade', 'local-session']) {
   const profile = identity(mode);
   const selected = configureManifest(manifest, mode);
+  if (profile.localSession) {
+    const localIcon = fs.readFileSync(path.join(root, 'src', selected.icon));
+    if (localIcon.toString('hex', 0, 8) !== '89504e470d0a1a0a' || localIcon.readUInt32BE(16) !== 192 || localIcon.readUInt32BE(20) !== 192) errors.push('Local experiment icon must be 192x192 PNG');
+  }
   if (selected.package !== profile.package) errors.push('Unexpected profile identity');
   if (mode === 'live' && selected.router.pages['pages/States']) errors.push('Demo route in live');
   if (profile.probe && (selected.features.some(feature => feature.name === 'system.interconnect') || Object.keys(selected.router.pages).length !== 1)) errors.push('Companion capability in probe');

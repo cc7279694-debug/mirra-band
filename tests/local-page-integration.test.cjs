@@ -6,6 +6,8 @@ const vm = require('node:vm');
 const ownerLib = require('../src/lib/local-owner');
 const storageLib = require('../src/platform/local-storage');
 const domainLib = require('../src/lib/local-session');
+const presentationLib = require('../src/lib/local-presentation');
+const flowLib = require('../src/lib/local-ui-flow');
 
 // Only the firmware callback boundary is substituted. The real app and UX
 // scripts, adapter, journal, codec, owner and state machine execute here.
@@ -39,7 +41,7 @@ function rig(options = {}) {
   appDef.onCreate(); const app = { $def: appDef, exit() { appDef.onDestroy(); } };
   function newPage() {
     const definition = evaluate('src/pages/LocalSession/index.ux', {
-      domainLib, Promise, Array, Object, Number, String, Math,
+      domainLib, presentationLib, flowLib, profile: { versionName: '0.1.1' }, Promise, Array, Object, Number, String, Math, JSON,
       setInterval(callback) { const id = ++nextTimer; timers.set(id, callback); return id; },
       clearInterval(id) { timers.delete(id); },
     });
@@ -64,32 +66,36 @@ async function prepare(r) {
 test('a non-qualified compiled-entry setting performs native reads but zero identity or session writes', async () => {
   const r = rig({ qualified: false }); try {
     await r.page.onShow(); r.page.showBooks(); await r.page.selectBook(domainLib.TEST_BOOKS[0].id); await r.page.confirmStart();
-    assert.equal(r.owner.snapshot().document, null); assert.equal(r.page.canWrite, false);
+    assert.equal(r.owner.snapshot().document, null); assert.equal(r.page.vm.canWrite, false);
     assert.ok(r.nativeCalls.some(call => call.kind === 'get')); assert.equal(r.nativeCalls.filter(call => call.kind === 'set').length, 0);
-    assert.equal(r.values.size, 0); assert.match(r.page.recoveryHint, /损坏恢复.*覆盖升级.*重启/);
+    assert.equal(r.values.size, 0); assert.match(r.page.recoveryRows.join(''), /损坏恢复.*覆盖升级.*重启/);
   } finally { r.cleanup(); }
 });
 
 test('actual app, native adapter and page complete a durable local loop with one session, explicit resume and nullable finish', async () => {
   const r = rig(); try {
-    await prepare(r); assert.equal(r.page.state, 'PREPARING'); assert.equal(r.owner.snapshot().document.active, null);
+    await prepare(r); assert.equal(r.page.vm.state, 'IDLE'); assert.equal(r.owner.snapshot().document, null);
+    assert.equal(r.nativeCalls.filter(call => call.kind === 'set').length, 0);
     r.hold(); const starting = r.page.confirmStart();
-    while (!r.waiting()) await Promise.resolve();
-    r.page.confirmStart(); assert.equal(r.page.state, 'PREPARING'); assert.equal(r.page.busy, true);
+    for (let count = 0; count < 100 && !r.waiting(); count++) await Promise.resolve();
+    assert.equal(r.waiting(), true, 'actual adapter readback must be held');
+    r.page.confirmStart(); assert.equal(r.page.vm.state, 'IDLE'); assert.equal(r.page.vm.busy, true);
     r.release(); await starting;
-    const firstId = r.owner.snapshot().document.active.id; assert.equal(r.page.sessionId, firstId);
-    r.next(65000); r.tick(); assert.equal(r.page.focusText, '观察 01:05');
+    const firstId = r.owner.snapshot().document.active.id; assert.equal(r.page.vm.details.sessionId, firstId);
+    r.next(65000); r.tick(); assert.equal(r.page.vm.timer.valueText, '01:05'); assert.match(r.page.vm.timer.qualifier, /参考值/);
     r.page.onHide(); const secondPage = r.newPage(); await secondPage.onShow();
-    assert.equal(secondPage.sessionId, firstId); assert.equal(r.owner.snapshot().document.counter, 1);
-    await secondPage.beginBreak(5); const writes = r.nativeCalls.filter(call => call.kind === 'set').length;
-    r.next(360000); r.tick(); assert.equal(secondPage.state, 'BREAK'); assert.match(secondPage.breakText, /已到.*主动继续/);
+    assert.equal(secondPage.vm.details.sessionId, firstId); assert.equal(secondPage.vm.view, 'READING'); assert.equal(r.owner.snapshot().document.counter, 1);
+    secondPage.openBreakPicker(); await secondPage.beginBreak(5); const writes = r.nativeCalls.filter(call => call.kind === 'set').length;
+    r.next(360000); r.tick(); assert.equal(secondPage.vm.state, 'BREAK'); assert.equal(secondPage.vm.timer.valueText, '休息时间已到');
     assert.equal(r.nativeCalls.filter(call => call.kind === 'set').length, writes);
-    await secondPage.resume(); assert.equal(secondPage.state, 'FOCUS');
+    await secondPage.resume(); assert.equal(secondPage.vm.state, 'FOCUS');
     r.next(15000); secondPage.showFinish(); await secondPage.finishSession();
-    assert.equal(secondPage.state, 'FINISHED_PENDING_SYNC'); assert.equal(secondPage.pendingCount, 1);
+    assert.equal(secondPage.vm.state, 'FINISHED_PENDING_SYNC'); assert.equal(secondPage.vm.view, 'SAVED'); assert.equal(secondPage.vm.pendingCount, 1);
     const document = r.owner.snapshot().document; assert.equal(document.pending[0].id, firstId); assert.equal(document.pending[0].endPage, null);
     assert.equal(document.pending[0].intervals.length, 3); assert.equal(r.owner.snapshot().summary.observedFocusMs, 80000);
-    await secondPage.newSession(); secondPage.showBooks(); await secondPage.selectBook(domainLib.TEST_BOOKS[1].id);
+    const finishedWrites = r.nativeCalls.filter(call => call.kind === 'set').length;
+    secondPage.done(); secondPage.showBooks(); secondPage.selectBook(domainLib.TEST_BOOKS[1].id);
+    assert.equal(r.nativeCalls.filter(call => call.kind === 'set').length, finishedWrites);
     assert.equal(r.owner.snapshot().document.pending.length, 1); assert.equal(r.owner.snapshot().document.pending[0].id, firstId);
     assert.ok(r.nativeCalls.every(call => /^mirra_05b_test_sessions_[ab]$/.test(call.key)));
     secondPage.onDestroy();
@@ -101,8 +107,8 @@ test('a new app process recovers the same session and keeps uncertain raw bounda
   const id = original.owner.snapshot().document.active.id; original.next(10000); const values = original.values;
   original.page.exitLocal(); original.page.onDestroy();
   const recovered = rig({ values, wallMs: 120000 }); try {
-    await recovered.page.onShow(); assert.equal(recovered.page.sessionId, id); assert.equal(recovered.page.state, 'FOCUS');
-    assert.equal(recovered.owner.snapshot().summary.observedFocusMs, null); assert.match(recovered.page.timeHint, /时间不确定.*原始/);
+    await recovered.page.onShow(); assert.equal(recovered.page.vm.details.sessionId, id); assert.equal(recovered.page.vm.state, 'FOCUS'); assert.equal(recovered.page.vm.view, 'READING');
+    assert.equal(recovered.owner.snapshot().summary.observedFocusMs, null); assert.equal(recovered.page.vm.timer.valueText, '--:--'); assert.match(recovered.page.vm.details.timeReasonText, /OWNER_CHANGED/);
     assert.equal(recovered.nativeCalls.filter(call => call.kind === 'set').length, 0);
     recovered.page.showFinish(); await recovered.page.finishSession();
     assert.equal(recovered.owner.snapshot().document.pending[0].id, id); assert.equal(recovered.owner.snapshot().document.pending[0].endPage, null);
@@ -112,9 +118,11 @@ test('a new app process recovers the same session and keeps uncertain raw bounda
 
 test('an actual native write failure cannot make the page show started or erase its last preparation', async () => {
   const r = rig(); try {
-    await prepare(r); const prior = new Map(r.values); r.failWrites(); await r.page.confirmStart();
-    assert.equal(r.page.state, 'PREPARING'); assert.equal(r.owner.snapshot().document.active, null);
-    assert.equal(r.page.canWrite, false); assert.equal(r.page.status, 'BLOCKED');
-    assert.deepEqual(r.values, prior); assert.match(r.page.recoveryHint, /未确认.*重新读取/);
+    await r.owner.open(); await r.owner.dispatch({ type: 'SELECT_BOOK', bookId: domainLib.TEST_BOOKS[0].id });
+    await r.owner.dispatch({ type: 'SELECT_ACTION', firstActionId: domainLib.TEST_BOOKS[0].firstActions[0].id });
+    await r.page.onShow(); const prior = new Map(r.values); r.failWrites(); await r.page.confirmStart();
+    assert.equal(r.page.vm.state, 'PREPARING'); assert.equal(r.owner.snapshot().document.active, null);
+    assert.equal(r.page.vm.canWrite, false); assert.equal(r.page.vm.status, 'BLOCKED'); assert.equal(r.page.vm.view, 'STORAGE_NOTICE');
+    assert.deepEqual(r.values, prior); assert.match(r.page.recoveryRows.join(''), /未确认.*重新读取/);
   } finally { r.cleanup(); }
 });
