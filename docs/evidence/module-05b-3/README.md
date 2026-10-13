@@ -48,7 +48,7 @@ schema1、marker、命名空间、双槽URI、CRC/序列/CAS/历史保护、校�
 
 ## 6. Git
 
-分支codex/module-05b-3-persistence-performance，从真实cf0328f基线创建。设计eac744d；代码/证据待本轮提交并普通push，随后补记准确SHA与远端核对。没有PR、main合并、Force Push或手机工作区操作。
+分支codex/module-05b-3-persistence-performance，从真实cf0328f基线创建。设计eac744d；实现/证据提交**48b86e08f73532d9acffd2d566e037fcb1db2779**已普通push，远端SHA核对一致。提交前33文件秘密/路径审计0告警，diff检查通过。后续仅补记准确交付状态。没有PR、main合并、Force Push或手机工作区操作。
 
 ## 7. 下一步
 
