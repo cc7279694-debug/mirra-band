@@ -34,7 +34,7 @@
   },
   "samePackageAndCertificate": true,
   "versionIncremented": true,
-  "installation": "CURRENT_AUTHORIZATION_REQUIRED",
+  "installation": "USER_SELF_UPGRADE_AUTHORIZED_FEEDBACK_PENDING",
   "onDeviceSignatureExtraction": "NOT_RUN",
   "phoneOperation": "NONE"
 }
