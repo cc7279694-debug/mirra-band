@@ -1,0 +1,169 @@
+{
+  "status": "05B_1_DEV_COMPLETE_AWAITING_NATURAL_USE",
+  "node": {
+    "command": "npm.cmd test, final unfiltered",
+    "baselineTests": 397,
+    "tests": 499,
+    "pass": 499,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "check": {
+    "checkedScripts": 73,
+    "pages": 4,
+    "errors": []
+  },
+  "build": {
+    "command": "npm.cmd run build:local",
+    "profile": "local-session",
+    "exitCode": 0,
+    "actualToolkitMs": 65147,
+    "node": "24.18.1",
+    "toolkit": "2.0.5",
+    "dependencyOrGlobalEnvironmentChanges": false,
+    "note": "toolchain loading and filesystem phases were slow; no timing claimed for device"
+  },
+  "compiledArtifactExecution": {
+    "status": "PASS",
+    "boundary": "actual old/new signed RPK app and new page scripts in Node; firmware file callbacks controlled; no native pixels",
+    "package": "com.guanyi.mirra.band.localsessiontest",
+    "fromVersion": "0.1.0",
+    "toVersion": "0.1.1",
+    "sameCertificate": true,
+    "oldPendingRetained": true,
+    "oldActiveIdRetained": true,
+    "reentryWithoutWrites": true,
+    "crossOwnerTimeUnknown": true,
+    "compiledTemplate": "evaluated all real conditional/repeat bindings",
+    "optionalKeypadKeys": 12,
+    "nullableEnd": true,
+    "duplicateFinishRecords": 1,
+    "finalPendingRecords": 2,
+    "evaluatedTextBindings": 28,
+    "doneWithoutWrites": true,
+    "nativeCalls": 52,
+    "fileSlots": 2,
+    "hiddenTimers": 0
+  },
+  "protectedFiles": {
+    "count": 11,
+    "allSha256Unchanged": true,
+    "files": [
+      {
+        "path": "src/lib/local-session.js",
+        "sha256": "fc7348749ba42a4c8ce88c109b8f77f314f0f07a3d3b875c924c647733311529"
+      },
+      {
+        "path": "src/lib/local-journal.js",
+        "sha256": "5f1bf8efdc9386200190a263a0563346555829f936b08ef44e284b3aaf468f69"
+      },
+      {
+        "path": "src/lib/local-codec.js",
+        "sha256": "ab2ad55b6890dc01073ea0bfefee6097517e9b40a2ac197c6148772da766f628"
+      },
+      {
+        "path": "src/lib/local-owner.js",
+        "sha256": "bc21552eefd02d4455240a84192feaac35f27e50181fbe9783c28d45ee6b274b"
+      },
+      {
+        "path": "src/platform/local-storage.js",
+        "sha256": "154045fa73ade42c85e82e1d3ccd55a812d1d744196bd267b0db371c9efb1ee8"
+      },
+      {
+        "path": "src/platform/probe-storage.js",
+        "sha256": "7d30a27946c6fe298971a776969eb08c1e8bc8305dbb180581ed8c628bff9daa"
+      },
+      {
+        "path": "src/local-app.ux",
+        "sha256": "786a859e6f82521e65a25f0a61ff1a9480b4c3bdd6d7bc81929152962cffb2a0"
+      },
+      {
+        "path": "src/app.ux",
+        "sha256": "6672f988d2ac9694a4c8b3b5da1e8edad3945bfafea393ac21527c05403532f5"
+      },
+      {
+        "path": "src/common/icon.png",
+        "sha256": "84a71ec5f50ded49ed6eb320ff59e71a8074b5698de7115adf68b71167473115"
+      },
+      {
+        "path": "src/common/icon.svg",
+        "sha256": "fd86b8f208986a16a187ff464c900e56a8cc43fd9bb257927d17298a83b7e6be"
+      },
+      {
+        "path": "package-lock.json",
+        "sha256": "bc6b2da851c6ef55186e7ff1a147622299b2a76a1959f3d085d8e96d47482fc5"
+      }
+    ]
+  },
+  "review": {
+    "type": "internal read-only safety and actual page-script probes; not ChatGPT independent acceptance",
+    "result": "no unresolved P1/P2 findings",
+    "cases": [
+      "partial-start failure stops chain",
+      "hide/show stops unstarted commands",
+      "duplicate finish exactly one pending",
+      "recovery acknowledgement zero writes",
+      "failed finish/reload retains digits",
+      "single visible timer and app owner",
+      "P0 details do not unlock writes"
+    ]
+  },
+  "design": {
+    "layout": "static CSS budget plus actual compiled conditional/repeat/text bindings; not pixels",
+    "readingActionsWidth": "84+8+52=144",
+    "finishAndSavedContentBudget": 208,
+    "brand": {
+      "status": "LOGO_PENDING",
+      "originalSource": null,
+      "originalSourceSha256": null,
+      "pendingIcon": "src/common/local-brand/icon-pending.png",
+      "pendingIconSha256": "a501aa4a68f32f8d509517229163065befad9aa5ae8e5a5df826d6cbf91cb70e",
+      "purpose": "temporary Mirra and experiment text only; not user original Logo; local-session profile only"
+    },
+    "clickBudgets": {
+      "focusReentry": 0,
+      "defaultExplicitStart": 1,
+      "changeBookThenStart": 3,
+      "changeActionThenStart": 3,
+      "beginBreak": 2,
+      "resume": 1,
+      "endWithoutPage": 2,
+      "endWithPage": "3 operations plus digit input; long text scrolling additional"
+    }
+  },
+  "device": {
+    "newVersionInstalled": false,
+    "newPhysicalPixelScreenshots": 0,
+    "newNaturalUse": "NOT RUN; current installation consent required",
+    "old05B": "USER_REPORTED_PASS from current design contract, not new UI acceptance",
+    "selected05AFile": "USER_REPORTED_PASS; damage recovery, same-identity upgrade, normal reboot retention"
+  },
+  "emulator": {
+    "profilePrepared": true,
+    "profile": {
+      "width": 336,
+      "height": 480,
+      "density": 320,
+      "image": "vela-pre-4.0/20250225"
+    },
+    "sdkHome": "E:\\CODEX\\mirra-watch\\.local\\vela-sdk",
+    "vvdHome": "E:\\CODEX\\mirra-watch\\.local\\vela-vvd",
+    "nativeRuntime": "Blocked before application loading",
+    "screenshots": "Not Run",
+    "interaction": "Not Run",
+    "evidence": "docs/evidence/module-02/emulator-report.json",
+    "reason": "Windows Vela VVD lookup does not honor tested local Android directory overrides; the official out-of-tree route exits with 0xC0000005."
+  },
+  "notRun": [
+    "05B.1 native pixel/touch/Chinese layout and natural use",
+    "05B.1 actual same-identity device upgrade retention",
+    "user original Logo integration: source missing",
+    "native monotonic/boot and anomalous-clock continuity",
+    "power loss, uncertain native IO across process, true device quota or battery performance",
+    "Android tests/build: phone unchanged",
+    "TypeScript/ESLint: platform-authorized JavaScript checked with Node",
+    "05C-05E real catalog/import/ACK/history merge"
+  ]
+}

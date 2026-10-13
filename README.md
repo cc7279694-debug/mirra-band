@@ -1,5 +1,7 @@
 # Mirra Band
 
+当前交付 **05B.1 腕端独立学习 UI/UX 改版**：隔离实验 `com.guanyi.mirra.band.localsessiontest / 0.1.1 / code2`。打开即准备、阅读重进直接恢复、休息/结束首屏可达、默认结束不弹键盘。仅测试书籍与手环本地记录，没有手机同步；旧05B用户正常反馈保留，新版待自然使用。原Logo尚未收到，使用临时文字标识。见 [05B.1交付](docs/evidence/module-05b-1/README.md)和[当前状态](docs/CURRENT_STATE.md)。下方为Module03历史伴侣安装与证据说明，不能作为当前独立包操作指南。
+
 国行小米手环 9 Pro（336 × 480）的 Xiaomi Vela 只读伴侣。正式模式只展示手机已确认的当前阅读信息；不控制学习、不保存腕端业务快照、无需账号或服务器。演示构建与正式构建使用不同身份，正式连接失败不会切换成模拟数据。
 
 Module 02 技术原型真机基础测试已由用户确认通过。Module 03 当前为 **MODULE_03_DEVICE_ACCEPTANCE_IN_PROGRESS / IDLE_ROUNDTRIP_PASSED_LOCKSCREEN_USER_PASS_OTHER_SCENARIOS_PENDING**：配套手机 `1.1.2-band-readonly` / code 5 已安全覆盖，2026-10-12 UTC 01:55 实际握手与完整快照发送；第八张腕端实拍显示“等待开始 / 已同步·13秒前”，无演示标记，共同证明真实 IDLE 往返通过。用户随后明确确认“手机正在监测学习 → 锁屏 → 手环退出重开 → 最新学习状态”完整主场景“包含，锁屏重进正常”，记为 **USER_REPORTED_PASS**，此次没有独立采集对应 Session、锁屏画面或原始消息。此前第七张 TIMEOUT 保留失败历史，首查自动恢复已完成 1.1.3 源码/自动化修正，首次NO_DEVICE真机复验通过，其他状态保留验证边界。其他业务画面及 30 分钟使用测试仍待验收，不能宣布整个模块通过。事实见[当前状态](docs/CURRENT_STATE.md)和[验证索引](docs/evidence/module-03/README.md)。

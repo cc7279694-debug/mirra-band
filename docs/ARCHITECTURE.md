@@ -1,5 +1,11 @@
 # 当前手环伴侣架构
 
+## 05B.1 独立学习界面
+
+`LocalSession`单路由互斥任务视图 → `local-presentation`只读事实投影与参考时间文案；`local-ui-flow`仅持有内存书籍/动作/页码草稿和跨整链提交锁 → 原05B app级LocalOwner。开始逐条调用既有命令并核对状态、序列、身份、对象及保存回执，中途失败或隐藏不补执行后续命令。结束只有实际FINISH读回后显示SAVED，Done不删pending、不执行NEW_SESSION。打开/选择/返回/刷新均不创建学习事实。
+
+原05B状态机、schema、存储命名空间、容量与时间来源没有变化。仅local-session profile使用独立主题和临时文字图标；其他profile资源隔离。RECOVERED核对只属UI确认，不能证明全部数据完整。原Logo缺失为LOGO_PENDING；新原生像素/触控与同身份真机升级留待授权自然使用。
+
 ## 05B 隔离本地Session
 
 `local-app.ux`单一owner → `local-owner`先保存后采纳 → `local-session`不可变转换/自包含测试书籍及动作快照 → `local-journal`双槽/CAS/历史延续校验 → 固定 `local-storage` file后端。页面单页切view、仅订阅与刷新投影，隐藏或退出不结束Session。独立包 `com.guanyi.mirra.band.localsessiontest`，marker `MIRRA_05B_ISOLATED`、schemaVersion1、专用05B测试Files；不加载手机SDK/协议或原伴侣页。
