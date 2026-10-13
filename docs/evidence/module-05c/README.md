@@ -64,3 +64,9 @@ Band：`codex/module-05c-offline-catalog`。Android：`codex/mirra-band-05c-cata
 ## 当前安装授权
 
 用户已明确同意“先只读预检，再安装配套包”。授权已满足，不重复询问。当前ADB仅见两台无关模拟器，尚未操作物理手机或腕端；等待原配对手机USB/调试和空闲首页，以及正式腕端版本号。预检通过后按此授权安装，仍禁止卸载/清数据/降级/更换签名/实验迁移/用户数据库操作。见[设备记录](device-acceptance.json)。
+
+## 2026-10-13 — 自行体验后的连接恢复反馈
+
+用户随后选择自行安装/自然体验，实拍可见正式Mirra 0.4.0/code9及APK_RAW_TIMEOUT；未提取设备安装文件摘要或手机公开证书。此码来自原生同步getApkStatus精确返回TIMEOUT，发生在应用HELLO与目录请求前，不是目录协议超时。随后用户先回复“已同步”，经区分手机/腕端后明确回复“手环已显示正常同步内容”；记连接恢复USER_REPORTED_PASS，不抹去初次失败。恢复触发与底层超时原因未隔离，不能归因于权限、签名或固件。
+
+本轮只读核查：腕端transport相对Module04/05B.3无diff；Android SDK transport、MainActivity和Manifest相对Module04无diff，启动仍复用原伴侣开关及有界自动恢复。未修改业务代码、重新构建或写入设备；ADB仅见无关emulator-5596，未操作。此轮不是新自动化/构建PASS。正常同步内容未证明目录完整持久化ACK或离线独立Session；继续以一次自然使用反馈验收真实书籍与本地保存，不重复指挥连接测试、不进入05D。
