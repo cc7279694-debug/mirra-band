@@ -1,0 +1,7 @@
+<script>
+export default {
+  phase: 'NEW',
+  onCreate() { this.phase = 'CREATED' },
+  onDestroy() { this.phase = 'DESTROYED' }
+}
+</script>

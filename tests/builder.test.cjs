@@ -26,6 +26,9 @@ async function runBuilder({ compilerStatus = 0, produceArtifact = true, locked =
     [path.join(root, 'src/app.ux'), 'phone companion entry'],
     [path.join(root, 'src/probe-app.ux'), 'isolated probe entry'],
     [path.join(root, 'src/local-app.ux'), 'isolated local session entry'],
+    [path.join(root, 'src/click-probe-app.ux'), 'isolated native click entry'],
+    [path.join(root, 'src/pages/ClickProbe/index.ux'), 'isolated native click page'],
+    [path.join(root, 'src/common/click-probe.css'), 'isolated native click styles'],
     [path.join(root, 'src/pages/Home/index.ux'), 'phone page'],
     [path.join(root, 'src/pages/StorageProbe/index.ux'), 'isolated page'],
     [path.join(root, 'src/pages/LocalSession/index.ux'), 'isolated local session page'],
@@ -224,7 +227,7 @@ test('actual wrapper stages the local entry and explicitly qualified file storag
   for (const file of ['probe-app.ux', 'pages/Home/index.ux', 'pages/StorageProbe/index.ux', 'lib/probe-controller.js',
     'platform/interconnect-transport.js', 'secret/private.pem']) assert.equal(result.files.has(path.join(staging, 'src', file)), false, file);
   const runtime = JSON.parse(result.files.get(path.join(staging, 'src/profile.js')).replace(/^module.exports = /, '').trim().replace(/;$/, ''));
-  assert.deepEqual(runtime, { mode: 'local-session', versionName: '0.1.1', versionCode: 2, storageQualified: true, storageBackend: 'file' });
+  assert.deepEqual(runtime, { mode: 'local-session', versionName: '0.1.2', versionCode: 3, storageQualified: true, storageBackend: 'file' });
   const manifest = JSON.parse(result.files.get(path.join(staging, 'src/manifest.json')));
   assert.equal(manifest.router.entry, 'pages/LocalSession');
   assert.equal(result.files.get(path.join(root, 'src/app.ux')), 'phone companion entry');
@@ -242,6 +245,24 @@ test('companion and probe builders never stage local session inputs or its runti
     assert.equal(runtime.storageQualified, undefined);
     assert.equal(runtime.storageBackend, undefined);
   }
+});
+
+test('actual click builder stages only the click entry without owners or file adapters', async () => {
+  const result = await runBuilder({ mode: 'click-probe' });
+  assert.equal(result.exitCode, 0);
+  assert.equal(result.files.get(path.join(staging, 'src/app.ux')), 'isolated native click entry');
+  assert.equal(result.files.get(path.join(staging, 'src/pages/ClickProbe/index.ux')), 'isolated native click page');
+  assert.equal(result.files.get(path.join(staging, 'src/common/click-probe.css')), 'isolated native click styles');
+  for (const file of ['click-probe-app.ux', 'local-app.ux', 'probe-app.ux', 'lib/local-owner.js',
+    'platform/local-storage.js', 'platform/probe-storage.js', 'pages/Home/index.ux', 'pages/LocalSession/index.ux']) {
+    assert.equal(result.files.has(path.join(staging, 'src', file)), false, file);
+  }
+  const manifest = JSON.parse(result.files.get(path.join(staging, 'src/manifest.json')));
+  assert.deepEqual(manifest.features, [{ name: 'system.router' }]);
+  assert.equal(manifest.router.entry, 'pages/ClickProbe');
+  const runtime = JSON.parse(result.files.get(path.join(staging, 'src/profile.js')).replace(/^module.exports = /, '').trim().replace(/;$/, ''));
+  assert.deepEqual(runtime, { mode: 'click-probe', versionName: '0.1.0', versionCode: 1 });
+  assert.equal(result.files.has(lock), false);
 });
 
 test('generated local runtime profile enables the actual app owner and selects only native file test slots', async () => {

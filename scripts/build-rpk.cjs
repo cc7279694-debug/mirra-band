@@ -24,8 +24,8 @@ async function build() {
     fs.rmSync(staging, { recursive: true, force: true })
     fs.mkdirSync(staging)
     fs.cpSync(path.join(root, 'src'), path.join(staging, 'src'), { recursive: true, filter: sourceFilter(path.join(root, 'src'), mode) })
-    if (profile.probe || profile.localSession) {
-      const entry = profile.localSession ? 'local-app.ux' : 'probe-app.ux'
+    if (profile.probe || profile.localSession || profile.clickProbe) {
+      const entry = profile.clickProbe ? 'click-probe-app.ux' : profile.localSession ? 'local-app.ux' : 'probe-app.ux'
       fs.copyFileSync(path.join(staging, 'src', entry), path.join(staging, 'src/app.ux'))
       fs.unlinkSync(path.join(staging, 'src', entry))
     }

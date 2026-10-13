@@ -1,6 +1,12 @@
 # 当前手环伴侣架构
 
-## 05B.1 独立学习界面
+## 05B.2 原生兼容修复
+
+主模板只绑定平面标量及平面重复行；纯presentation对象存于非响应字段`_projection`，其不可变第一动作预览仍用于严格开始回执。页面`safeRefresh`提供固定生命周期/刷新错误、事件计数、流程/显示视图、busy/准入及时间KNOWN/UNKNOWN诊断；异常不泄露原生消息，页面隐藏后无计时订阅，不新建数据owner。只读详情/返回可越过IO busy，业务操作安全锁保留。白色主题与递增实验证书身份只作用local-session。
+
+`click-probe`是独立路由/app/profile/包名，只有system.router，无业务模块或存储读写；用于分层检验原生点击、标量刷新和布局区域。主包与探针均不能宣称已获固件触控证明。旧05B.1源码可由基线提交恢复；其Node验证有效，用户后续真机自然验收FAIL单独记录。Logo原图已收到，集成仍LOGO_PENDING。schema/双槽/时间算法不变。
+
+## 05B.1 继承的独立学习界面（交付时记录）
 
 `LocalSession`单路由互斥任务视图 → `local-presentation`只读事实投影与参考时间文案；`local-ui-flow`仅持有内存书籍/动作/页码草稿和跨整链提交锁 → 原05B app级LocalOwner。开始逐条调用既有命令并核对状态、序列、身份、对象及保存回执，中途失败或隐藏不补执行后续命令。结束只有实际FINISH读回后显示SAVED，Done不删pending、不执行NEW_SESSION。打开/选择/返回/刷新均不创建学习事实。
 
@@ -12,7 +18,7 @@
 
 IDLE/PREPARING在明确完成第一动作前不生成Session。FOCUS/BREAK记录原始区间，5/10分钟休息到时不自动继续。FINISH可空页码，pending只追加且不自动删；安装身份+已持久counter产生稳定ID。32interval/8pending/8192bytes均是设计上限，结束预留1024bytes，实际字节限制可更早阻止增长。恢复不能将已确认历史变空、降低counter、替换pending或重写旧活动区间；未知/冲突/读失败/原生IO不确定停止写。
 
-用户确认file必要损坏/升级/重启保留路径，当前隔离profile显式 `storageQualified:true/storageBackend:file`；owner默认仍fail closed。墙钟是未验证观察：保存wall/owner/可选mono原始端点，实际入口monotonic始终未验证；跨owner/回退/异常不造可靠时长、不清零Session。不存在后台timer学习事实或手机有效专注导入。05B自己的自然学习、退出重进与完成保存真机反馈尚待安装验收。
+用户确认file必要损坏/升级/重启保留路径，当前隔离profile显式 `storageQualified:true/storageBackend:file`；owner默认仍fail closed。墙钟是未验证观察：保存wall/owner/可选mono原始端点，实际入口monotonic始终未验证；跨owner/回退/异常不造可靠时长、不清零Session。不存在后台timer学习事实或手机有效专注导入。旧05B用户已报告基本自然体验正常；该反馈不扩展为全部时钟、掉电或容量证明。05B.1真机自然验收FAIL，当前由05B.2等待修复包反馈。
 
 ## 05A 隔离持久化实验
 

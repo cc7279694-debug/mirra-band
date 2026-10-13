@@ -85,10 +85,13 @@ async function main() {
   assert.equal(newOwner.snapshot().sequence, sequence, 'Opening the UI must not write a restoration event');
   assert.equal(newOwner.snapshot().document.active.id, activeId);
   // Flow and page VM assertions are performed using their public page handlers.
-  const view = () => page.viewModel || page.vm || page;
+  const view = () => page._projection || page.viewModel || page.vm || page;
+  assert.equal(page.vm, undefined, 'The native page must not bind a nested projection graph');
+  assert.equal(page.view, 'READING');
+  assert.equal(page.timerText, '--:--', 'The actual bound timer must visibly represent uncertainty');
   assert.equal(view().view, 'READING');
   assert.equal(view().timer.valueText, '--:--', 'Cross-owner time remains unknown');
-  let evaluatedTextBindings = 0;
+  let evaluatedTextBindings = 0; let deliveredCompiledClickBindings = 0;
   const classes = () => {
     const tree = page.template.call(page); const result = [];
     function walk(node) { if (!node) return; if (Array.isArray(node)) { node.forEach(walk); return; }
@@ -97,17 +100,32 @@ async function main() {
       (node.children || []).forEach(walk); }
     walk(tree); return result;
   };
+  function click(className) {
+    const nodes = [];
+    function walk(node) { if (!node) return; if (Array.isArray(node)) { node.forEach(walk); return; }
+      if ((node.options.classList || []).includes(className) && typeof (node.options.events || {}).click === 'function') nodes.push(node);
+      (node.children || []).forEach(walk); }
+    walk(page.template.call(page));
+    assert.equal(nodes.length, 1, 'Expected one compiled native click target: ' + className);
+    deliveredCompiledClickBindings++;
+    return nodes[0].options.events.click({ type: 'click' });
+  }
   assert(classes().includes('timer-hero'));
   assert(classes().includes('split-actions'));
-  page.showFinish(); assert.equal(view().view, 'FINISH_REVIEW');
+  const navigationWrites = nativeCalls.filter(call => call.type === 'write').length;
+  click('light-button'); assert.equal(page.view, 'DETAILS'); assert.equal(view().view, 'DETAILS');
+  assert(classes().includes('diagnostic-line')); // fixed, flat diagnostic bindings
+  click('light-button'); assert.equal(page.view, 'READING');
+  assert.equal(nativeCalls.filter(call => call.type === 'write').length, navigationWrites);
+  click('split-secondary'); assert.equal(view().view, 'FINISH_REVIEW');
   assert(!classes().includes('digit-key'), 'Default finish must have no keypad');
   assert.equal(newOwner.snapshot().sequence, sequence, 'End review is not FINISH');
-  page.showPageEditor(); page.appendDigit('2'); page.appendDigit('7');
+  click('page-option'); page.appendDigit('2'); page.appendDigit('7');
   assert.equal(view().pageDigits, '27'); assert.equal(classes().filter(name => name === 'digit-key').length, 12);
   for (const refresh of viewTimers.values()) refresh(); assert.equal(view().pageDigits, '27');
   page.backView(); assert.equal(view().view, 'FINISH_REVIEW'); assert.equal(view().pageDigits, '');
   page.backView(); assert.equal(view().view, 'READING');
-  page.openBreakPicker(); assert.equal(view().view, 'BREAK_PICKER');
+  click('split-primary'); assert.equal(view().view, 'BREAK_PICKER');
   assert.equal(newOwner.snapshot().document.state, 'FOCUS');
   page.backView(); assert.equal(view().view, 'READING');
   page.onHide(); assert.equal(viewTimers.size, 0);
@@ -132,7 +150,8 @@ async function main() {
     sameCertificate: true, oldPendingRetained: true, oldActiveIdRetained: true, reentryWithoutWrites: true,
     crossOwnerTimeUnknown: true, compiledTemplate: 'evaluated all real conditional/repeat bindings',
     optionalKeypadKeys: 12, nullableEnd: true, duplicateFinishRecords: 1, finalPendingRecords: 2,
-    evaluatedTextBindings, doneWithoutWrites: true, nativeCalls: nativeCalls.length, fileSlots: files.size, hiddenTimers: viewTimers.size };
+    evaluatedTextBindings, deliveredCompiledClickBindings, flatNativeTimer: true, readOnlyDetailsWithoutWrites: true,
+    doneWithoutWrites: true, nativeCalls: nativeCalls.length, fileSlots: files.size, hiddenTimers: viewTimers.size };
   process.stdout.write(JSON.stringify(result, null, 2) + '\n');
 }
 main().catch(error => { process.stderr.write(error.stack + '\n'); process.exitCode = 1; });

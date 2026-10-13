@@ -1,0 +1,512 @@
+{
+  "status": "05B_2_DEV_COMPLETE_AWAITING_NATIVE_FEEDBACK",
+  "baseline": {
+    "branch": "codex/module-05b-1-ui-refinement",
+    "head": "44b2e5c4025e2f424c9d0535142c4ddb5c65a3c4",
+    "worktreeWasClean": true,
+    "previousNodePass": 499,
+    "userAcceptance": "FAIL_READING_TIMER_AND_ALL_INTERACTION"
+  },
+  "node": {
+    "command": "npm.cmd test",
+    "tests": 534,
+    "pass": 534,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "durationMs": 27733.6267
+  },
+  "check": {
+    "command": "npm.cmd run check",
+    "checkedScripts": 80,
+    "pages": 4,
+    "errors": []
+  },
+  "builds": [
+    {
+      "profile": "click-probe",
+      "command": "npm.cmd run build:click-probe",
+      "exitCode": 0,
+      "toolkitMs": 84118
+    },
+    {
+      "profile": "local-session",
+      "command": "npm.cmd run build:local",
+      "exitCode": 0,
+      "toolkitMs": 18733
+    }
+  ],
+  "toolchain": {
+    "node": "24.18.1",
+    "aiotToolkit": "2.0.5",
+    "dependencyOrGlobalEnvironmentChanges": false
+  },
+  "compiledArtifactExecution": {
+    "clickProbe": {
+      "status": "PASS",
+      "boundary": "actual signed RPK app/page and compiled onclick/template bindings in Node-controlled aiot helpers and intervals; no firmware event delivery or native pixels",
+      "package": "com.guanyi.mirra.band.clickprobe",
+      "version": "0.1.0",
+      "sha256": "d778a5a08da16a1217f5b271f9e9ee2ec68a06b52cd0f573dd5d54481a3acc37",
+      "sameExistingExperimentCertificate": true,
+      "primitiveFieldsOnly": true,
+      "evaluatedTextBindings": 323,
+      "deliveredCompiledClickBindings": 36,
+      "topClicks": 11,
+      "middleClicks": 11,
+      "bottomClicks": 11,
+      "totalClickEntries": 36,
+      "foregroundRefreshCallbacks": 3,
+      "visibleIntervals": 1,
+      "hiddenIntervals": 0,
+      "destroyedIntervals": 0,
+      "detailsViaCompiledClick": true,
+      "backViaCompiledClick": true,
+      "physicalBackWithoutFakeClick": true,
+      "retiredCallbackIgnored": true,
+      "nativeModuleLoads": 0,
+      "fileStorageCalls": 0,
+      "compiledTemplateSnapshots": [
+        {
+          "label": "shown",
+          "viewMode": "HOME",
+          "texts": [
+            "顶部 div · 0",
+            "点按探针 · 隔离测试",
+            "阶段 SHOW · 显示 1",
+            "点按 0",
+            "最近：未点按",
+            "前台刷新 0",
+            "刷新探针，不是阅读计时",
+            "中部 text · 0",
+            "查看详情",
+            "底部 div · 0"
+          ]
+        },
+        {
+          "label": "top",
+          "viewMode": "HOME",
+          "texts": [
+            "顶部 div · 1",
+            "点按探针 · 隔离测试",
+            "阶段 SHOW · 显示 1",
+            "点按 1",
+            "最近：顶部 div",
+            "前台刷新 0",
+            "刷新探针，不是阅读计时",
+            "中部 text · 0",
+            "查看详情",
+            "底部 div · 0"
+          ]
+        },
+        {
+          "label": "middle",
+          "viewMode": "HOME",
+          "texts": [
+            "顶部 div · 1",
+            "点按探针 · 隔离测试",
+            "阶段 SHOW · 显示 1",
+            "点按 2",
+            "最近：中部 text",
+            "前台刷新 0",
+            "刷新探针，不是阅读计时",
+            "中部 text · 1",
+            "查看详情",
+            "底部 div · 0"
+          ]
+        },
+        {
+          "label": "bottom",
+          "viewMode": "HOME",
+          "texts": [
+            "顶部 div · 1",
+            "点按探针 · 隔离测试",
+            "阶段 SHOW · 显示 1",
+            "点按 3",
+            "最近：底部 div",
+            "前台刷新 0",
+            "刷新探针，不是阅读计时",
+            "中部 text · 1",
+            "查看详情",
+            "底部 div · 1"
+          ]
+        },
+        {
+          "label": "details",
+          "viewMode": "DETAILS",
+          "texts": [
+            "返回点击探针",
+            "点击 / 刷新诊断",
+            "独立测试 · 不保存记录",
+            "阶段 SHOW · 显示 1",
+            "点按 4",
+            "最近：打开详情",
+            "前台刷新 0",
+            "刷新探针，不是阅读计时",
+            "原生触控尚未验证"
+          ]
+        },
+        {
+          "label": "back",
+          "viewMode": "HOME",
+          "texts": [
+            "顶部 div · 1",
+            "点按探针 · 隔离测试",
+            "阶段 SHOW · 显示 1",
+            "点按 5",
+            "最近：详情返回",
+            "前台刷新 0",
+            "刷新探针，不是阅读计时",
+            "中部 text · 1",
+            "查看详情",
+            "底部 div · 1"
+          ]
+        },
+        {
+          "label": "rapid-clicks",
+          "viewMode": "HOME",
+          "texts": [
+            "顶部 div · 11",
+            "点按探针 · 隔离测试",
+            "阶段 SHOW · 显示 1",
+            "点按 36",
+            "最近：底部 div",
+            "前台刷新 0",
+            "刷新探针，不是阅读计时",
+            "中部 text · 11",
+            "查看详情",
+            "底部 div · 11"
+          ]
+        },
+        {
+          "label": "reshown",
+          "viewMode": "HOME",
+          "texts": [
+            "顶部 div · 11",
+            "点按探针 · 隔离测试",
+            "阶段 SHOW · 显示 2",
+            "点按 36",
+            "最近：底部 div",
+            "前台刷新 3",
+            "刷新探针，不是阅读计时",
+            "中部 text · 11",
+            "查看详情",
+            "底部 div · 11"
+          ]
+        }
+      ],
+      "nativeTouch": "NOT_RUN",
+      "nativePixels": "NOT_RUN"
+    },
+    "from011": {
+      "status": "PASS",
+      "boundary": "actual old/new signed RPK app and new page scripts in Node; firmware file callbacks controlled; no native pixels",
+      "package": "com.guanyi.mirra.band.localsessiontest",
+      "fromVersion": "0.1.1",
+      "toVersion": "0.1.2",
+      "sameCertificate": true,
+      "oldPendingRetained": true,
+      "oldActiveIdRetained": true,
+      "reentryWithoutWrites": true,
+      "crossOwnerTimeUnknown": true,
+      "compiledTemplate": "evaluated all real conditional/repeat bindings",
+      "optionalKeypadKeys": 12,
+      "nullableEnd": true,
+      "duplicateFinishRecords": 1,
+      "finalPendingRecords": 2,
+      "evaluatedTextBindings": 48,
+      "deliveredCompiledClickBindings": 5,
+      "flatNativeTimer": true,
+      "readOnlyDetailsWithoutWrites": true,
+      "doneWithoutWrites": true,
+      "nativeCalls": 52,
+      "fileSlots": 2,
+      "hiddenTimers": 0
+    },
+    "from010": {
+      "status": "PASS",
+      "boundary": "actual old/new signed RPK app and new page scripts in Node; firmware file callbacks controlled; no native pixels",
+      "package": "com.guanyi.mirra.band.localsessiontest",
+      "fromVersion": "0.1.0",
+      "toVersion": "0.1.2",
+      "sameCertificate": true,
+      "oldPendingRetained": true,
+      "oldActiveIdRetained": true,
+      "reentryWithoutWrites": true,
+      "crossOwnerTimeUnknown": true,
+      "compiledTemplate": "evaluated all real conditional/repeat bindings",
+      "optionalKeypadKeys": 12,
+      "nullableEnd": true,
+      "duplicateFinishRecords": 1,
+      "finalPendingRecords": 2,
+      "evaluatedTextBindings": 48,
+      "deliveredCompiledClickBindings": 5,
+      "flatNativeTimer": true,
+      "readOnlyDetailsWithoutWrites": true,
+      "doneWithoutWrites": true,
+      "nativeCalls": 52,
+      "fileSlots": 2,
+      "hiddenTimers": 0
+    }
+  },
+  "regressions": [
+    {
+      "case": "details during owner read/write busy",
+      "redFailed": 5,
+      "redPass": 2,
+      "greenPass": 7,
+      "boundary": "real owner/file adapter controlled callbacks"
+    },
+    {
+      "case": "flat native descriptor contract",
+      "boundary": "compatibility contract; not exact firmware observer",
+      "pass": 11
+    },
+    {
+      "case": "show failure cleared by tick",
+      "red": "REPRODUCED",
+      "green": "UI_SHOW retained until successful reentry"
+    },
+    {
+      "case": "array setter fails once before cache acknowledgment",
+      "redFailed": 2,
+      "green": "full displayed action and picker rows retried before clearing error; visible action equals persisted action"
+    }
+  ],
+  "nativeRootCause": "UNPROVEN",
+  "physicalDevice": {
+    "clickProbe": "FEEDBACK_PENDING_AUTHORIZED",
+    "localSession": "FEEDBACK_PENDING_SELF_UPGRADE_AUTHORIZED_AFTER_PROBE",
+    "nativeTouch": "NOT_RUN",
+    "nativeTimerRendering": "NOT_RUN",
+    "nativePixels": "NOT_RUN",
+    "onDeviceUpgradeRetention": "NOT_RUN"
+  },
+  "emulator": {
+    "freshProfileRead": {
+      "width": 336,
+      "height": 480,
+      "density": 320
+    },
+    "newRpkExecution": "NOT_RUN",
+    "reason": "Existing Windows engine is blocked before app loading; prior directory lookup/0xC0000005 record not retested as a new run",
+    "newScreenshots": "NONE"
+  },
+  "protectedFiles": {
+    "count": 11,
+    "allSha256Unchanged": true,
+    "files": [
+      {
+        "path": "src/lib/local-session.js",
+        "sha256": "fc7348749ba42a4c8ce88c109b8f77f314f0f07a3d3b875c924c647733311529",
+        "unchanged": true
+      },
+      {
+        "path": "src/lib/local-journal.js",
+        "sha256": "5f1bf8efdc9386200190a263a0563346555829f936b08ef44e284b3aaf468f69",
+        "unchanged": true
+      },
+      {
+        "path": "src/lib/local-codec.js",
+        "sha256": "ab2ad55b6890dc01073ea0bfefee6097517e9b40a2ac197c6148772da766f628",
+        "unchanged": true
+      },
+      {
+        "path": "src/lib/local-owner.js",
+        "sha256": "bc21552eefd02d4455240a84192feaac35f27e50181fbe9783c28d45ee6b274b",
+        "unchanged": true
+      },
+      {
+        "path": "src/platform/local-storage.js",
+        "sha256": "154045fa73ade42c85e82e1d3ccd55a812d1d744196bd267b0db371c9efb1ee8",
+        "unchanged": true
+      },
+      {
+        "path": "src/platform/probe-storage.js",
+        "sha256": "7d30a27946c6fe298971a776969eb08c1e8bc8305dbb180581ed8c628bff9daa",
+        "unchanged": true
+      },
+      {
+        "path": "src/local-app.ux",
+        "sha256": "786a859e6f82521e65a25f0a61ff1a9480b4c3bdd6d7bc81929152962cffb2a0",
+        "unchanged": true
+      },
+      {
+        "path": "src/app.ux",
+        "sha256": "6672f988d2ac9694a4c8b3b5da1e8edad3945bfafea393ac21527c05403532f5",
+        "unchanged": true
+      },
+      {
+        "path": "src/common/icon.png",
+        "sha256": "84a71ec5f50ded49ed6eb320ff59e71a8074b5698de7115adf68b71167473115",
+        "unchanged": true
+      },
+      {
+        "path": "src/common/icon.svg",
+        "sha256": "fd86b8f208986a16a187ff464c900e56a8cc43fd9bb257927d17298a83b7e6be",
+        "unchanged": true
+      },
+      {
+        "path": "package-lock.json",
+        "sha256": "bc6b2da851c6ef55186e7ff1a147622299b2a76a1959f3d085d8e96d47482fc5",
+        "unchanged": true
+      }
+    ]
+  },
+  "historicalArtifacts": {
+    "count": 18,
+    "allSha256Unchanged": true,
+    "files": [
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.band.demo.debug.0.1.0.rpk",
+        "bytes": 24373,
+        "sha256": "76d01b9eb6354ae498db07534792900d3a12b6d1203159785661d30353934a8c",
+        "unchanged": true
+      },
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.band.demo.release.0.1.0.rpk",
+        "bytes": 19569,
+        "sha256": "76e5eb9b47d10e1dd59b0eaf114ac5536eaf0694571ec7bd66fa884a7674b0af",
+        "unchanged": true
+      },
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.band.demo.release.0.2.0.rpk",
+        "bytes": 35574,
+        "sha256": "cdcaf03deac3e51496f9e154d119afc285c807ae3e662f7de3df548a8360aee3",
+        "unchanged": true
+      },
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.band.localsessiontest.release.0.1.0.rpk",
+        "bytes": 27193,
+        "sha256": "79d162a81acfff4f42a85dadebdc2f50a7ae4cde9468e8b162a40fa1eaba81b2",
+        "unchanged": true
+      },
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.band.localsessiontest.release.0.1.1.rpk",
+        "bytes": 33210,
+        "sha256": "e06f79f974f33ef021e3d8c522e21bb960b48255fdc5bff769c0d3a53ac0966c",
+        "unchanged": true
+      },
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.band.storageprobe.release.0.1.0.rpk",
+        "bytes": 18590,
+        "sha256": "861e26f980aa4f8a608fed9c3e18118dfc2261832fa93e46255752e6417fbb04",
+        "unchanged": true
+      },
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.band.storageprobe.release.0.1.1.rpk",
+        "bytes": 18598,
+        "sha256": "b1b51540cbb7e012de6ea2842b05c39752a1653f53fc6c178a92cb36d957d7b1",
+        "unchanged": true
+      },
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.2.0.rpk",
+        "bytes": 31723,
+        "sha256": "36dde0476f55621ca5a162c9dd2efdd1876f36007ce7c8ccdc99b2b5604081bd",
+        "unchanged": true
+      },
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.2.1.rpk",
+        "bytes": 31968,
+        "sha256": "52cc4bdb66736ed9d5fd48069d6f1b33d8f81059a74cc3db57aba77d3f6dba3f",
+        "unchanged": true
+      },
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.2.2.rpk",
+        "bytes": 32194,
+        "sha256": "27807efe94915c6ed691bfecfbe809abbc898d76995a3528fd3b5129cd799015",
+        "unchanged": true
+      },
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.2.3.rpk",
+        "bytes": 32305,
+        "sha256": "cb17cc6cc156623b44fad7c9fd85908f3d5505ef683762def16871b389269d54",
+        "unchanged": true
+      },
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.2.4.rpk",
+        "bytes": 32347,
+        "sha256": "50bc9273b02643cb83d4d97f68e2aa650c938674a70708fd7c5763e43302e5ee",
+        "unchanged": true
+      },
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.2.5.rpk",
+        "bytes": 32549,
+        "sha256": "1f7dad9c611e2b3b39e3803226626d7d7667f1cd3f878429b134cee4fe046566",
+        "unchanged": true
+      },
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.3.0.rpk",
+        "bytes": 43147,
+        "sha256": "a0228f9a8bbd5180bbd120b52f7c5704173acedc0f298e8eddbe0725f81c369c",
+        "unchanged": true
+      },
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\Mirra-1.1.1-band-readonly-debug.apk",
+        "bytes": 17094969,
+        "sha256": "5a61f4bc4272b565de1181f3d16ee7b905f41e6482971560558a6cc2178a4437",
+        "unchanged": true
+      },
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\Mirra-1.1.2-band-readonly-debug.apk",
+        "bytes": 16852477,
+        "sha256": "6872cda1e755b8810244c6af763abc5126de983b2b5c3511e486e4d002f4cf9f",
+        "unchanged": true
+      },
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\Mirra-1.1.3-band-readonly-debug.apk",
+        "bytes": 16852478,
+        "sha256": "a7f20c1c38b416a6ece12db5f5e07db7852b2848ab7ad58a0fe91610609bac75",
+        "unchanged": true
+      },
+      {
+        "path": "E:\\CODEX\\mirra-watch\\dist\\Mirra-1.2.0-band-control-debug.apk",
+        "bytes": 17377802,
+        "sha256": "80ae3ae58f8263a803094c39f21b8e8e54c1d38625c47f212a7af3cc502d5077",
+        "unchanged": true
+      }
+    ]
+  },
+  "frozenBuildInputs": [
+    {
+      "path": "src/pages/LocalSession/index.ux",
+      "unchanged": true,
+      "stagedSame": true
+    },
+    {
+      "path": "src/common/local-theme.css",
+      "unchanged": true,
+      "stagedSame": true
+    },
+    {
+      "path": "src/ui/local-tokens.js",
+      "unchanged": true,
+      "stagedSame": true
+    },
+    {
+      "path": "src/lib/local-ui-flow.js",
+      "unchanged": true,
+      "stagedSame": true
+    },
+    {
+      "path": "scripts/build-profiles.cjs",
+      "unchanged": true,
+      "stagedSame": true
+    }
+  ],
+  "notRun": [
+    {
+      "check": "Android build/tests",
+      "reason": "No Android work or phone/device operation in this module"
+    },
+    {
+      "check": "TypeScript/ESLint",
+      "reason": "Authorized native Vela JavaScript; syntax and Node verification used"
+    },
+    {
+      "check": "physical firmware/battery/quota/clock continuity",
+      "reason": "Not established by controlled callbacks or wall-clock observations"
+    }
+  ]
+}

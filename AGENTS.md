@@ -2,6 +2,8 @@
 
 ## 产品与边界
 
+- 2026-10-13 用户授权05B.2真机交互回归修复与浅色UI，合同见 docs/plans/MIRRA_BAND_05B_2_NATIVE_RECOVERY.md。05B.1用户自然使用验收FAIL（计时不显示、学习与详情按钮无响应），不能用Node通过覆盖此结果。先隔离原生点击探针，再平面绑定与可观察诊断；不改变Owner/schema/双槽/旧记录。用户确认安装0.1.1/code2；新版同实验身份0.1.2/code3。原Logo已收到并保存原字节，本轮仍LOGO_PENDING。新学习修复包安装须当前同意；不进入05C。
+
 - 2026-10-13 用户已授权05B.1完整腕端UI/UX改版，合同见 docs/plans/MIRRA_BAND_05B_1_DESIGN_AND_IMPLEMENTATION_PLAN.md。仅独立实验展示、内存草稿/顺序命令编排、原生页面和本profile资源；单owner、schema、双槽、时间与准入规则不变。用户报告旧05B基本体验正常，不能转算新版像素验收。原Logo未提供时使用明确临时文字标识，记LOGO_PENDING；新版本安装另取当前同意，不进入05C。
 
 - 2026-10-12 用户已授权05B隔离独立学习闭环自主规划、开发、测试与构建，合同见 docs/plans/MIRRA_BAND_05B_LOCAL_SESSION.md。用户确认05A选定file后端的损坏恢复、同身份升级及正常重启保留全部正常，按USER_REPORTED_PASS准入此路径；不能推定所有时间/容量/固件边界已证明。05B新实验包、schema和测试槽与05A及正式数据完全分离，不加载Interconnect，不修改手机代码/Room/备份。新RPK真机安装另取当前同意。

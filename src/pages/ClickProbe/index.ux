@@ -1,0 +1,111 @@
+<template>
+  <div class="click-probe-page">
+    <div if="{{viewMode === 'HOME'}}" class="probe-screen">
+      <div class="probe-target top-target" onclick="tapTop"><text class="target-label">{{topText}}</text></div>
+      <text class="probe-title">点按探针 · 隔离测试</text>
+      <text class="phase-text">阶段 {{phase}} · 显示 {{showCount}}</text>
+      <text class="click-count">{{clickText}}</text>
+      <text class="target-text">{{targetText}}</text>
+      <text class="tick-text">{{tickText}}</text>
+      <text class="refresh-hint">刷新探针，不是阅读计时</text>
+      <text class="probe-target middle-target" onclick="tapMiddle">{{middleText}}</text>
+      <div class="probe-target details-target" onclick="showDetails"><text class="target-label details-label">查看详情</text></div>
+      <div class="probe-target bottom-target" onclick="tapBottom"><text class="target-label bottom-label">{{bottomText}}</text></div>
+    </div>
+    <div if="{{viewMode === 'DETAILS'}}" class="probe-screen">
+      <div class="probe-target details-target" onclick="backHome"><text class="target-label details-label">返回点击探针</text></div>
+      <text class="details-title">点击 / 刷新诊断</text>
+      <text class="details-notice">独立测试 · 不保存记录</text>
+      <text class="details-value">阶段 {{phase}} · 显示 {{showCount}}</text>
+      <text class="details-count">{{clickText}}</text>
+      <text class="details-value">{{targetText}}</text>
+      <text class="details-value">{{tickText}}</text>
+      <text class="details-hint">刷新探针，不是阅读计时</text>
+      <text class="details-notice">原生触控尚未验证</text>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  private: {
+    phase: 'NEW', viewMode: 'HOME', showCount: 0,
+    clickCount: 0, clickText: '点按 0', targetText: '最近：未点按',
+    topCount: 0, middleCount: 0, bottomCount: 0,
+    topText: '顶部 div · 0', middleText: '中部 text · 0', bottomText: '底部 div · 0',
+    foregroundTicks: 0, tickText: '前台刷新 0'
+  },
+  onInit() {
+    this._visible = false
+    this._destroyed = false
+    this._timer = null
+    this.phase = 'INIT'
+  },
+  onShow() {
+    if (this._destroyed || this._visible) return
+    this._visible = true
+    this.phase = 'SHOW'
+    this.showCount += 1
+    const showing = this.showCount
+    this._timer = setInterval(() => {
+      // Foreground refresh delivery only: no elapsed reading time or storage IO.
+      if (!this._visible || this._destroyed || this.showCount !== showing) return
+      this.foregroundTicks += 1
+      this.tickText = '前台刷新 ' + this.foregroundTicks
+    }, 1000)
+  },
+  onHide() {
+    if (this._destroyed || !this._visible) return
+    this._visible = false
+    if (this._timer !== null) clearInterval(this._timer)
+    this._timer = null
+    this.phase = 'HIDE'
+  },
+  onDestroy() {
+    if (this._destroyed) return
+    this.onHide()
+    this._destroyed = true
+    this.phase = 'DESTROY'
+  },
+  onBackPress() {
+    if (!this._visible || this._destroyed || this.viewMode !== 'DETAILS') return false
+    this.viewMode = 'HOME'
+    return true
+  },
+  tapTop() {
+    this.clickCount += 1
+    this.clickText = '点按 ' + this.clickCount
+    this.targetText = '最近：顶部 div'
+    this.topCount += 1
+    this.topText = '顶部 div · ' + this.topCount
+  },
+  tapMiddle() {
+    this.clickCount += 1
+    this.clickText = '点按 ' + this.clickCount
+    this.targetText = '最近：中部 text'
+    this.middleCount += 1
+    this.middleText = '中部 text · ' + this.middleCount
+  },
+  tapBottom() {
+    this.clickCount += 1
+    this.clickText = '点按 ' + this.clickCount
+    this.targetText = '最近：底部 div'
+    this.bottomCount += 1
+    this.bottomText = '底部 div · ' + this.bottomCount
+  },
+  showDetails() {
+    this.clickCount += 1
+    this.clickText = '点按 ' + this.clickCount
+    this.targetText = '最近：打开详情'
+    this.viewMode = 'DETAILS'
+  },
+  backHome() {
+    this.clickCount += 1
+    this.clickText = '点按 ' + this.clickCount
+    this.targetText = '最近：详情返回'
+    this.viewMode = 'HOME'
+  }
+}
+</script>
+<style>
+@import '../../common/click-probe.css';
+</style>

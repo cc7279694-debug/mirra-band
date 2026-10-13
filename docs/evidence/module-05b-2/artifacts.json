@@ -1,0 +1,83 @@
+{
+  "status": "05B_2_DEV_COMPLETE_AWAITING_NATIVE_FEEDBACK",
+  "artifacts": [
+    {
+      "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.band.localsessiontest.release.0.1.2.rpk",
+      "bytes": 35276,
+      "sha256": "f087ed20b0423dfdc413f16f6dc1dfcbd810cf6eae49261c85ad41529b2346b1",
+      "package": "com.guanyi.mirra.band.localsessiontest",
+      "version": "0.1.2",
+      "versionCode": 3,
+      "profile": "local-session",
+      "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+      "certificateSubject": "CN=Mirra Band Demo\nO=Mirra Local Prototype",
+      "certificateFingerprint256": "B9:AD:5C:30:7A:17:03:1C:3D:19:3F:8E:E2:BA:AB:2A:B5:D1:FE:38:3F:73:84:28:EB:FE:64:9E:9F:67:E9:0B",
+      "certificateValidTo": "Oct  8 06:50:55 2036 GMT",
+      "zipCRC32": "verified",
+      "sharedStyles": "present in all compiled pages",
+      "tamperChecks": "payload, primary signature and file digest signature mutations rejected",
+      "files": [
+        "META-INF/CERT",
+        "manifest-watch.json",
+        "manifest.json",
+        "app.js",
+        "pages/LocalSession/index.js",
+        "common/local-brand/icon-pending.png",
+        "META-INF/build.txt"
+      ]
+    },
+    {
+      "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.band.clickprobe.release.0.1.0.rpk",
+      "bytes": 10983,
+      "sha256": "d778a5a08da16a1217f5b271f9e9ee2ec68a06b52cd0f573dd5d54481a3acc37",
+      "package": "com.guanyi.mirra.band.clickprobe",
+      "version": "0.1.0",
+      "versionCode": 1,
+      "profile": "click-probe",
+      "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+      "certificateSubject": "CN=Mirra Band Demo\nO=Mirra Local Prototype",
+      "certificateFingerprint256": "B9:AD:5C:30:7A:17:03:1C:3D:19:3F:8E:E2:BA:AB:2A:B5:D1:FE:38:3F:73:84:28:EB:FE:64:9E:9F:67:E9:0B",
+      "certificateValidTo": "Oct  8 06:50:55 2036 GMT",
+      "zipCRC32": "verified",
+      "sharedStyles": "present in all compiled pages",
+      "tamperChecks": "payload, primary signature and file digest signature mutations rejected",
+      "files": [
+        "META-INF/CERT",
+        "manifest-watch.json",
+        "manifest.json",
+        "app.js",
+        "pages/ClickProbe/index.js",
+        "common/local-brand/icon-pending.png",
+        "META-INF/build.txt"
+      ]
+    }
+  ],
+  "upgradeBaseline": {
+    "generatedPreviousPackage": "com.guanyi.mirra.band.localsessiontest",
+    "version": "0.1.1",
+    "versionCode": 2,
+    "bytes": 33210,
+    "sha256": "e06f79f974f33ef021e3d8c522e21bb960b48255fdc5bff769c0d3a53ac0966c",
+    "certificateFingerprint256": "B9:AD:5C:30:7A:17:03:1C:3D:19:3F:8E:E2:BA:AB:2A:B5:D1:FE:38:3F:73:84:28:EB:FE:64:9E:9F:67:E9:0B",
+    "signature": "VERIFIED",
+    "actualInstalledVersion": {
+      "source": "USER_REPORTED",
+      "version": "0.1.1",
+      "versionCode": 2
+    },
+    "deviceApkOrRpkExtraction": "NOT_RUN"
+  },
+  "sameExistingExperimentCertificate": true,
+  "installedVersionCheck": "USER_REPORTED_0.1.1_CODE2",
+  "onDeviceArtifactExtraction": "NOT_RUN",
+  "installation": {
+    "clickProbe": "USER_SELF_INSTALL_AUTHORIZED_FEEDBACK_PENDING",
+    "localSession": "USER_SELF_UPGRADE_AUTHORIZED_AFTER_PROBE_FEEDBACK_PENDING"
+  },
+  "logo": {
+    "source": "src/common/local-brand/logo-source.png",
+    "sha256": "71f4b8277f1f1a54215aab9eadb9cc113eb14c2541176b93295edf861a4759be",
+    "status": "SOURCE_RECEIVED_LOGO_PENDING",
+    "includedInRpk": false
+  }
+}

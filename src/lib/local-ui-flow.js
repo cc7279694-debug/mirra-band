@@ -31,7 +31,7 @@ function createLocalUiFlow(options) {
   const ui = { view: businessView(ownerSnapshot), bookId: null, actionId: null,
     pageDigits: '', pageError: '', recoveryAcknowledged: false,
     operationUncertain: false, operation: null, errorCode: null, notice: '', returnView: null, exitRequested: false };
-  let recoveryCheckpoint = null; let finishSessionId = null;
+  let recoveryCheckpoint = null; let finishSessionId = null; let detailsState = null;
 
   function getState() {
     const state = Object.assign(copy(ui), { ownerSnapshot: copy(ownerSnapshot), snapshot: copy(ownerSnapshot),
@@ -60,7 +60,8 @@ function createLocalUiFlow(options) {
     }
   }
   function live(token) { return visible && !disposed && !ui.exitRequested && token === epoch; }
-  function navigable() { return visible && !disposed && !pending && !ui.exitRequested && !ownerSnapshot.busy && ownerSnapshot.status !== 'CLOSED'; }
+  function readOnlyNavigable() { return visible && !disposed && !ui.exitRequested && ownerSnapshot.status !== 'CLOSED'; }
+  function navigable() { return readOnlyNavigable() && !pending && !ownerSnapshot.busy; }
   function interact() { return navigable() && !ui.operationUncertain; }
   function writeAllowed(snapshot) {
     return snapshot && snapshot.canWrite === true && snapshot.storageQualified === true && !snapshot.busy
@@ -69,7 +70,11 @@ function createLocalUiFlow(options) {
   }
   function refreshSnapshot() { accept(owner.snapshot(), false); return ownerSnapshot; }
   function navigate(view) {
-    if (!navigable()) return getState();
+    // Only read-only Details bypass busy; business navigation stays locked.
+    if (view === 'DETAILS') {
+      if (!readOnlyNavigable() || ui.view === 'DETAILS') return getState();
+      detailsState = ownerSnapshot.document && ownerSnapshot.document.state;
+    } else if (!navigable()) return getState();
     returnViews.push(ui.view); ui.returnView = ui.view; ui.view = view; publish(); return getState();
   }
   function baseReady() { return ui.view === 'READY' || ui.view === 'BOOK_PICKER' || ui.view === 'ACTION_PICKER'; }
@@ -310,6 +315,14 @@ function createLocalUiFlow(options) {
   }
   function back() {
     if (!visible || disposed) return getState();
+    if (ui.view === 'DETAILS' && returnViews.length && readOnlyNavigable()) {
+      const previousView = returnViews.pop();
+      if (detailsState !== (ownerSnapshot.document && ownerSnapshot.document.state)) {
+        ui.view = businessView(ownerSnapshot); returnViews.length = 0;
+      } else ui.view = previousView;
+      ui.returnView = returnViews.length ? returnViews[returnViews.length - 1] : null;
+      publish(); return getState();
+    }
     if (pending) return exit();
     if (returnViews.length) {
       if (ui.view === 'PAGE_EDITOR') { ui.pageDigits = ''; ui.pageError = ''; }

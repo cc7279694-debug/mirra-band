@@ -15,26 +15,26 @@ function screen(name) {
 
 test('one native route uses uppercase, mutually exclusive task views instead of a shared control list', () => {
   for (const view of ['READY', 'BOOK_PICKER', 'ACTION_PICKER', 'READING', 'BREAK_PICKER', 'RESTING', 'FINISH_REVIEW', 'PAGE_EDITOR', 'SAVED', 'DETAILS', 'STORAGE_NOTICE']) {
-    assert.ok(screen(view).includes("if=\"{{vm.view === '" + view + "'}}\""));
+    assert.ok(screen(view).includes("if=\"{{view === '" + view + "'}}\""));
   }
   assert.doesNotMatch(template, /viewMode/);
 });
 
 test('ready includes the visible book, original first action and explicit confirmation in one view', () => {
   const ready = screen('READY');
-  assert.match(ready, /vm\.preview\.bookTitle/);
+  assert.match(ready, /previewBookTitle/);
   assert.match(ready, /先完成这一步/);
   assert.match(ready, /onclick="confirmStart"/);
-  assert.match(ready, /if="\{\{!vm\.preview\.isLongAction\}\}"/);
-  assert.match(ready, /if="\{\{vm\.preview\.isLongAction\}\}"/);
+  assert.match(ready, /if="\{\{!previewLongAction\}\}"/);
+  assert.match(ready, /if="\{\{previewLongAction\}\}"/);
   assert.match(ready, /for="\{\{actionRows\}\}"/);
 });
 
 test('reading and resting keep timer qualifiers adjacent and both actions outside scroll content', () => {
   for (const view of ['READING', 'RESTING']) {
     const body = screen(view);
-    assert.match(body, /vm\.timer\.valueText/);
-    assert.match(body, /vm\.timer\.qualifier/);
+    assert.match(body, /timerText/);
+    assert.match(body, /timerQualifier/);
     assert.match(body, /class="split-actions"/);
     assert.doesNotMatch(body, /<list\b/);
     assert.match(body, /onclick="showFinish"/);
@@ -49,13 +49,13 @@ test('finish review has one save confirmation, optional page editor and no keypa
   assert.match(body, /onclick="finishSession"/);
   assert.match(body, /onclick="showPageEditor"/);
   assert.doesNotMatch(body, /appendDigit|digit-key|eraseDigit/);
-  assert.match(body, /vm\.endPageText/);
+  assert.match(body, /endPageText/);
 });
 
 test('busy rest submission keeps dimensions and shows pending feedback while secondary actions are dimmed', () => {
-  assert.match(screen('BREAK_PICKER'), /vm\.busy \? '正在保存…'/);
-  assert.match(screen('BREAK_PICKER'), /vm\.canWrite \? '#EEF3F8'/);
-  for (const view of ['READING', 'RESTING']) assert.match(screen(view), /vm\.secondary\.enabled \? '#EEF3F8'/);
+  assert.match(screen('BREAK_PICKER'), /busy \? '正在保存…'/);
+  assert.match(screen('BREAK_PICKER'), /canWrite \? '#181A1D'/);
+  for (const view of ['READING', 'RESTING']) assert.match(screen(view), /secondaryEnabled \? '#181A1D'/);
 });
 
 test('optional page editor alone owns the 3x4 keypad and toolbar save', () => {
@@ -66,24 +66,24 @@ test('optional page editor alone owns the 3x4 keypad and toolbar save', () => {
   assert.match(body, /onclick="savePage"/);
   assert.match(body, /onclick="clearEndPage"/);
   assert.match(body, /onclick="eraseDigit"/);
-  assert.match(body, /vm\.busy \? '保存中' : vm\.primary\.label/);
+  assert.match(body, /busy \? '保存中' : primaryLabel/);
 });
 
 test('saved has only one main Done action, explicit local origin and no synchronization control', () => {
   const body = screen('SAVED');
   assert.equal((body.match(/onclick="done"/g) || []).length, 1);
-  assert.match(body, /vm\.sourceLabel/);
+  assert.match(body, /sourceLabel/);
   assert.doesNotMatch(body, /newSession|立即同步|正在上传|已同步到手机/);
 });
 
 test('storage blocking and recovered snapshot acknowledgement occupy a visible dedicated task view', () => {
   const body = screen('STORAGE_NOTICE');
-  assert.match(body, /vm\.notice\.title/);
+  assert.match(body, /noticeTitle/);
   assert.match(body, /for="\{\{noticeRows\}\}"/);
   assert.match(page, /noticeRows = this\.wrapText\(next\.notice\.text\)/);
   assert.match(body, /onclick="noticeAction"/);
-  assert.match(body, /vm\.bookTitle/);
-  assert.match(screen('DETAILS'), /vm\.details\.timeReasonText/);
+  assert.match(body, /bookTitle/);
+  assert.match(screen('DETAILS'), /detailTimeReason/);
 });
 
 function cssRules() {
@@ -109,7 +109,7 @@ test('native CSS preserves first-screen finish and saved actions within 208 desi
 });
 
 test('expired break text uses a readable text size instead of the 40-unit timer size', () => {
-  assert.match(screen('RESTING'), /vm\.timer\.valueText === '休息时间已到' \? 16/);
+  assert.match(screen('RESTING'), /timerText === '休息时间已到' \? 16/);
 });
 
 test('the page uses only local theme and no browser-only layout assumptions or second owner', () => {
