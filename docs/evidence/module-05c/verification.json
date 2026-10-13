@@ -1,0 +1,360 @@
+{
+  "status": "DEVELOPMENT_VERIFIED_DEVICE_ACCEPTANCE_PENDING",
+  "node": {
+    "version": "24.18.1",
+    "fullUnfilteredTests": 682,
+    "pass": 682,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "durationMs": 21215.4803
+  },
+  "syntax": {
+    "checkedScripts": 104,
+    "sourceCompanionPages": 4,
+    "errors": 0
+  },
+  "androidJvm": {
+    "source": "app/build/test-results/testDebugUnitTest/TEST-*.xml",
+    "runLog": ".local/05c-android-final-jvm.log",
+    "runResult": "BUILD SUCCESSFUL",
+    "runDuration": "3m 13s",
+    "unfiltered": true,
+    "totals": {
+      "suites": 88,
+      "tests": 824,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "oldAssertionModified": false,
+    "priorFilesystemTimeouts": [
+      ".local/05c-android-full-final.log",
+      ".local/05c-android-final-verified.log"
+    ]
+  },
+  "androidBuild": {
+    "tasks": [
+      "lintDebug",
+      "assembleDebug",
+      "assembleDebugAndroidTest"
+    ],
+    "source": ".local/05c-android-ui-final-build.log",
+    "result": "BUILD SUCCESSFUL",
+    "duration": "10m 48s",
+    "actionable": 80,
+    "executed": 21,
+    "cached": 59
+  },
+  "androidLint": {
+    "source": "app/build/reports/lint-results-debug.xml",
+    "totals": {
+      "errors": 0,
+      "warnings": 20,
+      "hints": 1
+    },
+    "priorError": "NonObservableLocale, fixed via observable LocalLocale without suppression"
+  },
+  "rpkBuild": {
+    "toolkit": "2.0.5",
+    "node": "24.18.1",
+    "exit": 0,
+    "toolkitReportedMs": 53273,
+    "reportingBoundary": "Toolkit compile timing excludes CLI initialization; local existing signing materials only"
+  },
+  "actualCompiledRpk": {
+    "status": "PASS",
+    "boundary": "Actual signed formal RPK app/Mode/LocalSession templates in Node; firmware file and SDK callbacks controlled, fixture phone; no radio, hardware pixels or firmware durability proof",
+    "package": "com.guanyi.mirra",
+    "fromVersion": "0.3.0",
+    "toVersion": "0.4.0",
+    "versionCode": 9,
+    "bytes": 80245,
+    "sha256": "bd0458ca70e63d815102d7becefe51a3c74644e87a9df29bc261ec98459fd0dc",
+    "sameCertificate": true,
+    "versionIncreases": true,
+    "nativeFixtureCatalogFrames": 2,
+    "persistedAckWaitsExactReadback": true,
+    "independentAtomicStartWrites": 1,
+    "oneSessionDespiteRepeatedTap": true,
+    "singletonCompanionPerApp": true,
+    "sharedNativeContextAcrossNavigation": true,
+    "offlineCatalogRecovery": true,
+    "crossAppSameSessionRecovery": true,
+    "referenceTime": "01:05 → 01:10",
+    "trustedFocusMs": 0,
+    "breakExcludedFromLearning": true,
+    "breakDeadlineRequiresExplicitResume": true,
+    "nullableFinish": true,
+    "pendingRetainedAcrossDirectoryRemoval": true,
+    "timerFileIoCalls": 0,
+    "experimentalFilesAccessed": 0,
+    "compiledClickBindings": 8,
+    "evaluatedTextBindings": 53,
+    "fileCallbacks": 36,
+    "formalFileSlots": 4,
+    "hiddenIntervals": 0
+  },
+  "nativeInstrumentation": {
+    "status": "PASS",
+    "environment": "Project-owned MirraBand_Module03_API37 Android AVD only",
+    "serial": "emulator-5580",
+    "tests": 19,
+    "failures": 0,
+    "newCatalogCases": 8,
+    "existingRegressionCases": 11,
+    "runnerSeconds": 43.711,
+    "room": "in-memory test fixtures; actual Room/SQLite APIs; no user database",
+    "sdk": "controlled fixture transport in settings UI cases; no real Xiaomi channel",
+    "result": "OK (19 tests)",
+    "sameSignerUpgrade": "1.2.0/code7 to 1.3.0/code8; same public certificate verified from owned emulator APK",
+    "noUninstallOrClearOrWipe": true,
+    "ownedAvdStoppedAfterTests": true,
+    "otherDevicesOperated": false,
+    "manualScreenshotInspection": "INCONCLUSIVE: after tests, UI dump showed system Pixel Launcher ANR under host memory pressure; no product screenshot captured; no Mirra cause established",
+    "physicalPhone": "NOT_RUN",
+    "bandRadioAndFirmware": "NOT_RUN"
+  },
+  "review": {
+    "androidAckRaceAndTotalDeadline": "RED then fixed and regression passed; read-only re-review no blocking issues",
+    "profileStaticDependency": "RED staged-dependency closure then common catalog-wire fix; GREEN",
+    "catalogOwner": "fault injection, collision, CAS, unknown IO and exact-readback tests executed",
+    "legacyCompatibility": "v1/v2 and experimental default state/encoding retained"
+  },
+  "preservation": {
+    "status": "PASS",
+    "boundary": "Read-only artifact SHA, tracked protected path diffs and shared fixture byte equality; no physical-device claim",
+    "oldArtifacts": [
+      {
+        "name": "com.guanyi.mirra.band.clickprobe.release.0.1.0.rpk",
+        "bytes": 10983,
+        "sha256": "d778a5a08da16a1217f5b271f9e9ee2ec68a06b52cd0f573dd5d54481a3acc37",
+        "preserved": true
+      },
+      {
+        "name": "com.guanyi.mirra.band.demo.debug.0.1.0.rpk",
+        "bytes": 24373,
+        "sha256": "76d01b9eb6354ae498db07534792900d3a12b6d1203159785661d30353934a8c",
+        "preserved": true
+      },
+      {
+        "name": "com.guanyi.mirra.band.demo.release.0.1.0.rpk",
+        "bytes": 19569,
+        "sha256": "76e5eb9b47d10e1dd59b0eaf114ac5536eaf0694571ec7bd66fa884a7674b0af",
+        "preserved": true
+      },
+      {
+        "name": "com.guanyi.mirra.band.demo.release.0.2.0.rpk",
+        "bytes": 35574,
+        "sha256": "cdcaf03deac3e51496f9e154d119afc285c807ae3e662f7de3df548a8360aee3",
+        "preserved": true
+      },
+      {
+        "name": "com.guanyi.mirra.band.localsessiontest.release.0.1.0.rpk",
+        "bytes": 27193,
+        "sha256": "79d162a81acfff4f42a85dadebdc2f50a7ae4cde9468e8b162a40fa1eaba81b2",
+        "preserved": true
+      },
+      {
+        "name": "com.guanyi.mirra.band.localsessiontest.release.0.1.1.rpk",
+        "bytes": 33210,
+        "sha256": "e06f79f974f33ef021e3d8c522e21bb960b48255fdc5bff769c0d3a53ac0966c",
+        "preserved": true
+      },
+      {
+        "name": "com.guanyi.mirra.band.localsessiontest.release.0.1.2.rpk",
+        "bytes": 35276,
+        "sha256": "f087ed20b0423dfdc413f16f6dc1dfcbd810cf6eae49261c85ad41529b2346b1",
+        "preserved": true
+      },
+      {
+        "name": "com.guanyi.mirra.band.localsessiontest.release.0.1.3.rpk",
+        "bytes": 35722,
+        "sha256": "c2960d2b890cc05ddac6ffefbe8fdac3cf9199d393137b3ad11c131a7e159d7f",
+        "preserved": true
+      },
+      {
+        "name": "com.guanyi.mirra.band.localsessiontest.release.0.1.4.rpk",
+        "bytes": 38644,
+        "sha256": "27df0dddbb5465f1eea548be325cdde474b1174987bc15e4709b83620b3687dd",
+        "preserved": true
+      },
+      {
+        "name": "com.guanyi.mirra.band.storageprobe.release.0.1.0.rpk",
+        "bytes": 18590,
+        "sha256": "861e26f980aa4f8a608fed9c3e18118dfc2261832fa93e46255752e6417fbb04",
+        "preserved": true
+      },
+      {
+        "name": "com.guanyi.mirra.band.storageprobe.release.0.1.1.rpk",
+        "bytes": 18598,
+        "sha256": "b1b51540cbb7e012de6ea2842b05c39752a1653f53fc6c178a92cb36d957d7b1",
+        "preserved": true
+      },
+      {
+        "name": "com.guanyi.mirra.release.0.2.0.rpk",
+        "bytes": 31723,
+        "sha256": "36dde0476f55621ca5a162c9dd2efdd1876f36007ce7c8ccdc99b2b5604081bd",
+        "preserved": true
+      },
+      {
+        "name": "com.guanyi.mirra.release.0.2.1.rpk",
+        "bytes": 31968,
+        "sha256": "52cc4bdb66736ed9d5fd48069d6f1b33d8f81059a74cc3db57aba77d3f6dba3f",
+        "preserved": true
+      },
+      {
+        "name": "com.guanyi.mirra.release.0.2.2.rpk",
+        "bytes": 32194,
+        "sha256": "27807efe94915c6ed691bfecfbe809abbc898d76995a3528fd3b5129cd799015",
+        "preserved": true
+      },
+      {
+        "name": "com.guanyi.mirra.release.0.2.3.rpk",
+        "bytes": 32305,
+        "sha256": "cb17cc6cc156623b44fad7c9fd85908f3d5505ef683762def16871b389269d54",
+        "preserved": true
+      },
+      {
+        "name": "com.guanyi.mirra.release.0.2.4.rpk",
+        "bytes": 32347,
+        "sha256": "50bc9273b02643cb83d4d97f68e2aa650c938674a70708fd7c5763e43302e5ee",
+        "preserved": true
+      },
+      {
+        "name": "com.guanyi.mirra.release.0.2.5.rpk",
+        "bytes": 32549,
+        "sha256": "1f7dad9c611e2b3b39e3803226626d7d7667f1cd3f878429b134cee4fe046566",
+        "preserved": true
+      },
+      {
+        "name": "com.guanyi.mirra.release.0.3.0.rpk",
+        "bytes": 43147,
+        "sha256": "a0228f9a8bbd5180bbd120b52f7c5704173acedc0f298e8eddbe0725f81c369c",
+        "preserved": true
+      },
+      {
+        "name": "Mirra-1.1.1-band-readonly-debug.apk",
+        "bytes": 17094969,
+        "sha256": "5a61f4bc4272b565de1181f3d16ee7b905f41e6482971560558a6cc2178a4437",
+        "preserved": true
+      },
+      {
+        "name": "Mirra-1.1.2-band-readonly-debug.apk",
+        "bytes": 16852477,
+        "sha256": "6872cda1e755b8810244c6af763abc5126de983b2b5c3511e486e4d002f4cf9f",
+        "preserved": true
+      },
+      {
+        "name": "Mirra-1.1.3-band-readonly-debug.apk",
+        "bytes": 16852478,
+        "sha256": "a7f20c1c38b416a6ece12db5f5e07db7852b2848ab7ad58a0fe91610609bac75",
+        "preserved": true
+      },
+      {
+        "name": "Mirra-1.2.0-band-control-debug.apk",
+        "bytes": 17377802,
+        "sha256": "80ae3ae58f8263a803094c39f21b8e8e54c1d38625c47f212a7af3cc502d5077",
+        "preserved": true
+      }
+    ],
+    "protectedBandPaths": [
+      "src/app.ux",
+      "src/local-app.ux",
+      "src/common/local-theme.css",
+      "src/ui/local-tokens.js",
+      "src/common/icon.png",
+      "src/common/icon.svg",
+      "src/common/local-brand/icon-pending.png",
+      "src/common/local-brand/logo-source.png",
+      "src/manifest.json",
+      "package.json",
+      "package-lock.json"
+    ],
+    "protectedBandChanged": [],
+    "sharedV3Copies": [
+      {
+        "source": "protocol/v3/schema.json",
+        "target": "app/src/test/resources/wearable/protocol-v3/schema.json",
+        "sha256": "8e6d54c1a24e3bf13f3a08311aa8b475753e48f921405c5e27e17d20ee90467f",
+        "matches": true
+      },
+      {
+        "source": "protocol/v3/schema.json",
+        "target": "app/src/androidTest/assets/wearable/protocol-v3/schema.json",
+        "sha256": "8e6d54c1a24e3bf13f3a08311aa8b475753e48f921405c5e27e17d20ee90467f",
+        "matches": true
+      },
+      {
+        "source": "protocol/v3/fixtures/catalog-v3.json",
+        "target": "app/src/test/resources/wearable/protocol-v3/catalog-v3.json",
+        "sha256": "25400c188593889c2de2fec7165cc5c79268ec95af8d5fd3899c4135fcb7f84a",
+        "matches": true
+      },
+      {
+        "source": "protocol/v3/fixtures/catalog-v3.json",
+        "target": "app/src/androidTest/assets/wearable/protocol-v3/catalog-v3.json",
+        "sha256": "25400c188593889c2de2fec7165cc5c79268ec95af8d5fd3899c4135fcb7f84a",
+        "matches": true
+      }
+    ],
+    "phoneProtectedChanged": [],
+    "originalCheckout": {
+      "head": "1338b9a4e41788082f30bf3894a974c2ff652630",
+      "clean": true
+    },
+    "deliveredArtifacts": [
+      {
+        "name": "com.guanyi.mirra.release.0.4.0.rpk",
+        "bytes": 80245,
+        "sha256": "bd0458ca70e63d815102d7becefe51a3c74644e87a9df29bc261ec98459fd0dc"
+      },
+      {
+        "name": "Mirra-1.3.0-band-catalog-debug.apk",
+        "bytes": 16950769,
+        "sha256": "c95c9bf53634b465fff2039285d697bdf4f2587c72e0ece46caedd39203d2569"
+      }
+    ],
+    "signingInspection": {
+      "RpkPackage": "com.guanyi.mirra",
+      "RpkVersion": "0.4.0",
+      "RpkVersionCode": 9,
+      "RpkSignature": "RSA, signed content, per-file SHA256, metadata and ZIP CRC verified",
+      "ApkPackage": "com.guanyi.mirra",
+      "ApkVersion": "1.3.0",
+      "ApkVersionCode": 8,
+      "ApkSignature": "v1/v2 verified, one signer",
+      "CertificateSHA256": "29ded26bea44f1afe4fe383a302e4b507423d16223469d7da3fe578d9a7f83b9",
+      "PairMatch": true,
+      "DeviceInstalledIdentityChecked": false
+    }
+  },
+  "scopeAudit": "Changed/unignored paths scan found no secret or out-of-scope candidates; not exhaustive secret detection",
+  "failureHistory": [
+    {
+      "check": "Node full initial",
+      "result": "679/682; three obsolete formal version/profile fixture expectations updated; final full 682/682"
+    },
+    {
+      "check": "First signed RPK build wrapper",
+      "result": "Compiler exited success but independent check rejected missing shared Mode page style; no delivery copied; .page style corrected and final build verified"
+    },
+    {
+      "check": "Android new Locale lint",
+      "result": "NonObservableLocale fixed with observable configuration, no suppression"
+    },
+    {
+      "check": "Android old ExportWorkspace concurrency test",
+      "result": "Repeated 10s timeouts under heavy build/memory pressure; original test unchanged; final unfiltered 824/824 after scoped task-resource cleanup and local 1024m/single worker; resource causality inferred, not proven"
+    }
+  ],
+  "notRun": [
+    "Physical phone current installed version/public signer/session state",
+    "Physical APK/RPK upgrade and actual catalog roundtrip",
+    "Band offline real-book natural study and new formal namespace durability",
+    "Actual 9 Pro long-text pixels and 05B.3 performance feedback",
+    "Trusted cross-reboot timing",
+    "05D completed-session upload and 05E phone history/statistics integration"
+  ]
+}

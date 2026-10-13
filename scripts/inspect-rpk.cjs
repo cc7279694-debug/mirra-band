@@ -114,7 +114,7 @@ function verifyBuffer(buffer) {
 async function inspect(filePath, certificatePath, mode = 'demo') {
   const profile = identity(mode)
   const experiment = profile.probe || profile.localSession || profile.clickProbe
-  const entry = profile.clickProbe ? 'pages/ClickProbe' : profile.localSession ? 'pages/LocalSession' : profile.probe ? 'pages/StorageProbe' : 'pages/Home'
+  const entry = profile.standalone ? 'pages/Mode' : profile.clickProbe ? 'pages/ClickProbe' : profile.localSession ? 'pages/LocalSession' : profile.probe ? 'pages/StorageProbe' : 'pages/Home'
   const buffer = fs.readFileSync(filePath)
   const verified = verifyBuffer(buffer)
   assert.equal(verified.certificate.fingerprint256, profile.fingerprint, 'Unexpected profile signing identity')
@@ -130,8 +130,10 @@ async function inspect(filePath, certificatePath, mode = 'demo') {
     assert(expected && crypto.createHash('sha256').update(content).digest().equals(expected), 'Signed file digest differs: ' + name)
   }
   const required = experiment ? ['manifest.json', 'app.js', entry + '/index.js', iconPath, 'META-INF/CERT'] : ['manifest.json', 'app.js', 'pages/Home/index.js', 'pages/Detail/index.js', 'pages/Connection/index.js', 'pages/Control/index.js', 'common/icon.png', 'META-INF/CERT']
+  if (profile.standalone) required.push('pages/Mode/index.js', 'pages/LocalSession/index.js')
   if (profile.localSession || profile.clickProbe) assert(!names.some(name => name.startsWith('pages/') && !name.startsWith(entry + '/')), 'Foreign page bundled in local experiment')
-  else assert(!Object.keys(zip.files).some(name => /^pages\/LocalSession\//.test(name) || /(?:^|\/)local-/.test(name)), 'Local experiment resource bundled in companion or probe')
+  else if (!profile.standalone) assert(!Object.keys(zip.files).some(name => /^pages\/LocalSession\//.test(name) || /(?:^|\/)local-/.test(name)), 'Local experiment resource bundled in companion or probe')
+  if (profile.standalone) assert(!names.some(name => /^pages\/(?:States|ClickProbe|StorageProbe)\//.test(name)), 'Isolated test page bundled in formal application')
   if (mode === 'demo') required.push('pages/States/index.js')
   else assert(!zip.file('pages/States/index.js'), 'Demo page included in live package')
   for (const name of required) assert(zip.file(name), 'Missing RPK resource: ' + name)
@@ -154,20 +156,20 @@ async function inspect(filePath, certificatePath, mode = 'demo') {
   }
   for (const name of required.filter(name => name.startsWith('pages/'))) {
     const script = await zip.file(name).async('string')
-    for (const style of (profile.clickProbe ? ['click-probe-page', 'probe-target', 'click-count'] : ['page', 'badge', 'button'])) {
+    for (const style of (profile.clickProbe ? ['click-probe-page', 'probe-target', 'click-count'] : name === 'pages/Mode/index.js' ? ['page', 'button', 'mode-title'] : ['page', 'badge', 'button'])) {
       assert(new RegExp('\\[\\s*0,\\s*["\x27]' + style + '["\x27]').test(script), 'Compiled shared style missing: ' + name + '/' + style)
     }
-    assert(script.includes(profile.clickProbe ? '隔离测试' : profile.localSession ? '隔离实验' : profile.probe ? '隔离测试数据' : '演示数据'), 'Explicit mode badge missing: ' + name)
+    assert(script.includes(name === 'pages/Mode/index.js' ? '手机伴侣' : profile.standalone && name === 'pages/LocalSession/index.js' ? '独立' : profile.clickProbe ? '隔离测试' : profile.localSession ? '隔离实验' : profile.probe ? '隔离测试数据' : '演示数据'), 'Explicit mode badge missing: ' + name)
   }
   assert.equal(manifest.icon, '/' + iconPath, 'Unexpected profile icon')
   assert.equal(manifest.package, profile.package)
   assert.equal(manifest.name, profile.name)
   assert.equal(manifest.versionName, profile.versionName)
   assert.equal(manifest.versionCode, profile.versionCode)
-  assert.deepEqual(Object.keys(manifest.router.pages).sort(), (experiment ? [entry] : mode === 'live' ? ['pages/Home','pages/Detail','pages/Connection','pages/Control'] : ['pages/Home','pages/Detail','pages/Connection','pages/Control','pages/States']).sort())
+  assert.deepEqual(Object.keys(manifest.router.pages).sort(), (experiment ? [entry] : profile.standalone ? ['pages/Mode','pages/LocalSession','pages/Home','pages/Detail','pages/Connection','pages/Control'] : mode === 'live' ? ['pages/Home','pages/Detail','pages/Connection','pages/Control'] : ['pages/Home','pages/Detail','pages/Connection','pages/Control','pages/States']).sort())
   assert.equal(manifest.config.designWidth, 168)
   assert.equal(manifest.router.entry, entry)
-  assert.deepEqual(manifest.features.map(feature => feature.name).sort(), profile.clickProbe ? ['system.router'] : experiment ? ['system.file', 'system.router', 'system.storage'] : ['system.interconnect', 'system.router'])
+  assert.deepEqual(manifest.features.map(feature => feature.name).sort(), profile.clickProbe ? ['system.router'] : experiment ? ['system.file', 'system.router', 'system.storage'] : profile.standalone ? ['system.file', 'system.interconnect', 'system.router'] : ['system.interconnect', 'system.router'])
   if (profile.probe) {
     assert.equal(manifest.permissions, undefined, 'Unexpected probe permissions')
     assert(!Object.keys(zip.files).some(name => /^pages\/(Home|Detail|Connection|Control|States)\//.test(name)), 'Companion or demo page bundled in probe')

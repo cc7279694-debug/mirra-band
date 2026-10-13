@@ -1,5 +1,6 @@
 const VERSION = 1;
 const CONTROL_VERSION = 2;
+const CATALOG_VERSION = 3;
 const MAX_BYTES = 4096;
 const ACTIONS = ['START_BREAK', 'FINISH_BREAK', 'CONFIRM_PREPARATION_AND_START'];
 const RESULT_CODES = ['APPLIED', 'ALREADY_APPLIED', 'STALE_STATE', 'REQUIRES_PHONE', 'DISABLED', 'UNAUTHORIZED', 'BUSY', 'FAILED', 'RESULT_UNKNOWN'];
@@ -106,6 +107,11 @@ function validateBody(body) {
   return body;
 }
 function validateCapabilities(capabilities, version) {
+  if (version === CATALOG_VERSION) {
+    if (!Array.isArray(capabilities) || JSON.stringify(capabilities) !== JSON.stringify(['READ_ONLY_SNAPSHOT', 'BOOK_CATALOG'])
+      && JSON.stringify(capabilities) !== JSON.stringify(['READ_ONLY_SNAPSHOT', 'SESSION_CONTROL', 'BOOK_CATALOG'])) reject('CAPABILITY');
+    return;
+  }
   if (!Array.isArray(capabilities) || capabilities[0] !== 'READ_ONLY_SNAPSHOT' ||
       (capabilities.length !== 1 && !(version === CONTROL_VERSION && capabilities.length === 2 && capabilities[1] === 'SESSION_CONTROL'))) reject('CAPABILITY');
 }
@@ -154,7 +160,7 @@ function decodeMessage(payload, expected) {
   let message; try { message = JSON.parse(payload); } catch (error) { reject('JSON'); }
   safeTree(message, 0);
   const common = ['protocolVersion', 'type', 'clientInstanceId', 'requestId'];
-  if (!message || (message.protocolVersion !== VERSION && message.protocolVersion !== CONTROL_VERSION)) reject('VERSION');
+  if (!message || (message.protocolVersion !== VERSION && message.protocolVersion !== CONTROL_VERSION && message.protocolVersion !== CATALOG_VERSION)) reject('VERSION');
   id(message.clientInstanceId); id(message.requestId);
   if (message.type === 'HELLO' || message.type === 'HELLO_ACK') {
     keys(message, common.concat(message.type === 'HELLO_ACK' ? ['streamId', 'capabilities'] : ['capabilities']));
@@ -162,10 +168,10 @@ function decodeMessage(payload, expected) {
   } else if (message.type === 'GET_SNAPSHOT') {
     keys(message, common.concat(['streamId', 'lastSeenSessionId'])); id(message.lastSeenSessionId, true);
   } else if (message.type === 'SNAPSHOT') {
-    keys(message, common.concat(['streamId', 'sequence', 'sourceObservedAtUnixMs', 'body']).concat(message.protocolVersion === CONTROL_VERSION ? ['control'] : []));
+    keys(message, common.concat(['streamId', 'sequence', 'sourceObservedAtUnixMs', 'body']).concat(message.protocolVersion >= CONTROL_VERSION ? ['control'] : []));
     if (!integer(message.sequence) || message.sequence < 1 || !integer(message.sourceObservedAtUnixMs) || message.sourceObservedAtUnixMs < 1) reject('NUMBER');
     validateBody(message.body);
-    if (message.protocolVersion === CONTROL_VERSION) {
+    if (message.protocolVersion >= CONTROL_VERSION) {
       const body = message.body;
       if (['PREPARING', 'ACTIVE', 'SAVING', 'ENDED'].indexOf(body.phase) >= 0 && body.learningItemId === null) reject('OWNERSHIP');
       if (body.phase === 'ACTIVE' && (body.segmentType === null || body.coverage === null)) reject('OWNERSHIP');
@@ -175,16 +181,19 @@ function decodeMessage(payload, expected) {
   } else if (message.type === 'STATUS_ERROR') {
     keys(message, common.concat(['code']), ['streamId']);
     enumeration(message.code, ['SOURCE_BUSY', 'DISABLED', 'UNSUPPORTED_PROTOCOL', 'SOURCE_UNAVAILABLE', 'UNAUTHORIZED', 'IDENTITY_ERROR']);
-  } else if (message.type === 'COMMAND' && message.protocolVersion === CONTROL_VERSION) {
+  } else if (message.type === 'COMMAND' && message.protocolVersion >= CONTROL_VERSION) {
     keys(message, common.concat(['streamId', 'controlGrant', 'action', 'expectedIntentId', 'expectedSessionId', 'expectedSegmentId', 'expectedBookId', 'expectedPage', 'expectedFirstAction', 'breakMinutes']));
     validateCommand(message);
-  } else if (message.type === 'COMMAND_RESULT' && message.protocolVersion === CONTROL_VERSION) {
+  } else if (message.type === 'COMMAND_RESULT' && message.protocolVersion >= CONTROL_VERSION) {
     keys(message, common.concat(['streamId', 'action', 'code', 'sessionId', 'monitorDegraded']));
     enumeration(message.action, ACTIONS); enumeration(message.code, RESULT_CODES); id(message.sessionId, true);
     if (typeof message.monitorDegraded !== 'boolean') reject('BOOLEAN');
     const committed = ['APPLIED', 'ALREADY_APPLIED'].indexOf(message.code) >= 0;
     if (committed && message.sessionId === null) reject('RESULT');
     if (message.monitorDegraded && (!committed || message.action !== 'CONFIRM_PREPARATION_AND_START' || message.sessionId === null)) reject('RESULT');
+  } else if (message.protocolVersion === CATALOG_VERSION && ['GET_CATALOG', 'CATALOG_MANIFEST', 'CATALOG_PART', 'CATALOG_ACK', 'CATALOG_ERROR'].indexOf(message.type) >= 0) {
+    // Lazy loading keeps strict envelope validation shared without a codec cycle.
+    require('./catalog-wire').validateMessage(message, { utf8Bytes, integer });
   } else reject('COMMAND');
   if (message.streamId !== undefined) id(message.streamId);
   if (expected) ['protocolVersion', 'clientInstanceId', 'requestId', 'streamId'].forEach(key => {
@@ -197,4 +206,4 @@ function encodeMessage(message) {
   decodeMessage(payload);
   return payload;
 }
-module.exports = { VERSION, CONTROL_VERSION, ACTIONS, RESULT_CODES, MAX_BYTES, BODY_KEYS, integer, utf8Bytes, validateBody, decodeMessage, encodeMessage };
+module.exports = { VERSION, CONTROL_VERSION, CATALOG_VERSION, ACTIONS, RESULT_CODES, MAX_BYTES, BODY_KEYS, integer, utf8Bytes, validateBody, decodeMessage, encodeMessage };

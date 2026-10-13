@@ -24,14 +24,15 @@ async function build() {
     fs.rmSync(staging, { recursive: true, force: true })
     fs.mkdirSync(staging)
     fs.cpSync(path.join(root, 'src'), path.join(staging, 'src'), { recursive: true, filter: sourceFilter(path.join(root, 'src'), mode) })
-    if (profile.probe || profile.localSession || profile.clickProbe) {
-      const entry = profile.clickProbe ? 'click-probe-app.ux' : profile.localSession ? 'local-app.ux' : 'probe-app.ux'
+    if (profile.probe || profile.localSession || profile.clickProbe || profile.standalone) {
+      const entry = profile.standalone ? 'formal-app.ux' : profile.clickProbe ? 'click-probe-app.ux' : profile.localSession ? 'local-app.ux' : 'probe-app.ux'
       fs.copyFileSync(path.join(staging, 'src', entry), path.join(staging, 'src/app.ux'))
       fs.unlinkSync(path.join(staging, 'src', entry))
     }
     const manifest = configureManifest(JSON.parse(fs.readFileSync(path.join(root, 'src/manifest.json'), 'utf8')), mode)
     fs.writeFileSync(path.join(staging, 'src/manifest.json'), JSON.stringify(manifest, null, 2))
     const runtimeProfile = { mode, versionName: profile.versionName, versionCode: profile.versionCode }
+    if (profile.standalone) runtimeProfile.standalone = true
     if (profile.localSession) {
       runtimeProfile.storageQualified = profile.storageQualified === true
       runtimeProfile.storageBackend = profile.storageBackend

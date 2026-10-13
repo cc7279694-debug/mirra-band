@@ -25,8 +25,8 @@ test('configuring an experiment cannot mutate existing live or demonstration ide
   configureManifest(source, 'probe'); configureManifest(source, 'probe-upgrade');
   assert.equal(JSON.stringify(source), before);
   const live = configureManifest(source, 'live'); const demo = configureManifest(source, 'demo');
-  assert.equal(live.versionName, '0.3.0'); assert.equal(live.versionCode, 8);
+  assert.equal(live.versionName, '0.4.0'); assert.equal(live.versionCode, 9);
   assert.equal(demo.versionName, '0.2.0'); assert.equal(demo.versionCode, 2);
-  assert.deepEqual(live.features.map(value => value.name).sort(), ['system.interconnect', 'system.router']);
+  assert.deepEqual(live.features.map(value => value.name).sort(), ['system.file', 'system.interconnect', 'system.router']);
   assert.equal(live.router.pages['pages/StorageProbe'], undefined);
 });

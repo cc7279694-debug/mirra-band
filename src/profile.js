@@ -1,3 +1,3 @@
 // The isolated builder replaces this with its selected profile. Source defaults
 // to live; no runtime failure can switch to demonstration data.
-module.exports = { mode: 'live', versionName: '0.3.0', versionCode: 8 };
+module.exports = { mode: 'live', versionName: '0.4.0', versionCode: 9, standalone: true };

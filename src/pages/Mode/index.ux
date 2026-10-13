@@ -1,0 +1,96 @@
+<template>
+  <div class="mode-page page">
+    <text class="mode-title">Mirra</text>
+    <text class="catalog-state">{{catalogText}}</text>
+    <div class="button mode-primary" onclick="openLocal"><text class="mode-primary-label">独立学习</text></div>
+    <div class="button mode-secondary" onclick="openPhone"><text class="mode-secondary-label">手机伴侣</text></div>
+    <text class="mode-message">{{message}}</text>
+    <div class="button mode-sync" onclick="syncCatalog"><text class="mode-secondary-label">{{syncLabel}}</text></div>
+  </div>
+</template>
+<script>
+import router from '@system.router'
+
+export default {
+  private: { catalogText: '正在读取离线书籍', message: '独立记录仅在手环保存，尚未上传手机。',
+    syncLabel: '同步书籍目录', syncing: false },
+  onInit() {
+    this._visible = false
+    this._destroyed = false
+    this._app = this.$app.$def
+    this._companion = this._app.getCompanion()
+    this._catalog = this._app.getCatalogOwner()
+    this._local = this._app.getLocalOwner()
+    this.refresh()
+  },
+  onShow() {
+    if (this._visible || this._destroyed) return
+    this._visible = true
+    this._offCatalog = this._catalog.subscribe(() => this.refreshVisible())
+    this._offLocal = this._local.subscribe(() => this.refreshVisible())
+    this._offCompanion = this._companion.subscribe(() => this.refreshVisible())
+    this._companion.start(this)
+    this.refresh()
+  },
+  refreshVisible() { if (this._visible && !this._destroyed) this.refresh() },
+  refresh() {
+    if (this._destroyed) return
+    const saved = this._catalog.snapshot()
+    const connection = this._companion.snapshot()
+    const local = this._local.snapshot()
+    const books = saved.catalog && Array.isArray(saved.catalog.books) ? saved.catalog.books : []
+    this.syncing = !!(connection.catalog && connection.catalog.busy)
+    this.syncLabel = this.syncing ? '正在同步…' : '同步书籍目录'
+    if (this.syncing) this.catalogText = '正在接收书籍，原目录仍保留'
+    else if (saved.catalog && books.length) this.catalogText = '已保存 ' + books.length + ' 本书，可离线学习'
+    else if (saved.catalog) this.catalogText = '目录没有可用书籍，请在手机选择'
+    else if (saved.status === 'opening') this.catalogText = '正在读取离线书籍'
+    else this.catalogText = '尚无完整目录，请在手机启用书籍同步'
+    if (connection.catalog && connection.catalog.errorCode) this.message = '目录同步尚未确认，仅使用完整保存的目录。'
+    else if (saved.errorCode || ['blocked', 'uncertain'].indexOf(saved.status) >= 0) this.message = '目录读取待恢复，请保留应用数据。'
+    else if (local.busy) this.message = '正在保存独立记录，请稍候。'
+    else if (local.document && (local.document.active || local.document.preparation)) this.message = '独立学习尚未结束，请继续本次学习。'
+    else this.message = '目录由手机发送；独立记录尚未上传。'
+  },
+  openLocal() {
+    if (!this._visible || this._destroyed) return
+    if (!this._app.setMode('LOCAL')) { this.message = '手机操作尚未确认，请稍候。'; return }
+    router.push({ uri: '/pages/LocalSession' })
+  },
+  openPhone() {
+    if (!this._visible || this._destroyed) return
+    if (!this._app.setMode('PHONE')) { this.message = '请先结束独立学习，并等待保存确认。'; return }
+    router.push({ uri: '/pages/Home' })
+  },
+  syncCatalog() {
+    if (!this._visible || this._destroyed || this.syncing) return
+    if (!this._companion.requestCatalog()) {
+      this._companion.requestRefresh()
+      this.message = '连接后再同步目录；本地书籍仍可使用。'
+    }
+    this.refresh()
+  },
+  onHide() {
+    if (!this._visible) return
+    this._visible = false
+    for (const name of ['_offCatalog', '_offLocal', '_offCompanion']) {
+      if (this[name]) this[name]()
+      this[name] = null
+    }
+    this._companion.stop(this)
+  },
+  onDestroy() { this.onHide(); this._destroyed = true }
+}
+</script>
+<style>
+.page { width: 100%; height: 100%; padding: 12px; background-color: #FFFFFF; flex-direction: column; align-items: center; justify-content: center; }
+.mode-title { width: 144px; height: 20px; font-size: 17px; font-weight: bold; color: #181A1D; text-align: center; }
+.catalog-state { width: 144px; height: 30px; margin-top: 4px; font-size: 10px; line-height: 14px; lines: 2; color: #626873; text-align: center; }
+.button { width: 144px; height: 36px; margin-top: 6px; border-radius: 10px; align-items: center; justify-content: center; }
+.mode-primary { background-color: #386FBE; }
+.mode-secondary { background-color: #F2F4F7; }
+.mode-primary-label { width: 132px; height: 20px; font-size: 14px; color: #FFFFFF; text-align: center; }
+.mode-secondary-label { width: 132px; height: 20px; font-size: 12px; color: #386FBE; text-align: center; }
+.mode-message { width: 144px; height: 30px; margin-top: 6px; font-size: 10px; line-height: 14px; lines: 2; color: #626873; text-align: center; }
+.mode-sync { height: 28px; background-color: #F2F4F7; }
+</style>

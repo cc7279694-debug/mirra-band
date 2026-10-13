@@ -54,8 +54,8 @@ test('local staging permits only its entry, local session modules, storage adapt
   assert.equal(include(path.join(root, '..', 'sign/private.pem')), false);
 });
 
-test('live, demo and both storage probe versions exclude all local session experiment inputs', () => {
-  for (const mode of ['live', 'demo', 'probe', 'probe-upgrade']) {
+test('demo and both storage probe versions exclude all local session experiment inputs', () => {
+  for (const mode of ['demo', 'probe', 'probe-upgrade']) {
     const include = sourceFilter(root, mode);
     for (const file of ['local-app.ux', 'lib/local-session.js', 'lib/local-codec.js', 'lib/local-journal.js',
       'lib/local-owner.js', 'platform/local-storage.js', 'common/local-session.css', 'lib/local-future.js',
@@ -71,12 +71,16 @@ test('selecting the local experiment preserves existing companion and probe mani
   const before = JSON.stringify(base);
   configureManifest(base, 'local-session');
   assert.equal(JSON.stringify(base), before);
-  for (const mode of ['live', 'demo']) {
+  for (const mode of ['demo']) {
     const selected = configureManifest(base, mode);
     assert.equal(selected.router.entry, 'pages/Home');
     assert.equal(selected.router.pages['pages/LocalSession'], undefined);
     assert.deepEqual(selected.features.map(feature => feature.name).sort(), ['system.interconnect', 'system.router']);
   }
+  const live = configureManifest(base, 'live');
+  assert.equal(live.router.entry, 'pages/Mode');
+  assert(live.router.pages['pages/LocalSession']);
+  assert.deepEqual(live.features.map(feature => feature.name).sort(), ['system.file', 'system.interconnect', 'system.router']);
   for (const mode of ['probe', 'probe-upgrade']) {
     const selected = configureManifest(base, mode);
     assert.equal(selected.router.entry, 'pages/StorageProbe');
@@ -92,9 +96,9 @@ function checkProject({ localBadge = '隔离实验', omitLocalPage = false } = {
   icon.writeUInt32BE(192, 16); icon.writeUInt32BE(192, 20);
   const files = new Map([[path.join(root, 'manifest.json'), JSON.stringify(base)], [path.join(root, 'common/icon.png'), icon],
     [path.join(root, 'common/local-brand/icon-pending.png'), icon]]);
-  for (const page of ['Home', 'Detail', 'Control', 'Connection', 'States', 'StorageProbe', 'LocalSession', 'ClickProbe']) {
+  for (const page of ['Home', 'Detail', 'Control', 'Connection', 'States', 'StorageProbe', 'LocalSession', 'ClickProbe', 'Mode']) {
     if (page === 'LocalSession' && omitLocalPage) continue;
-    const badge = page === 'ClickProbe' ? '隔离测试 · 不保存记录' : page === 'StorageProbe' ? '隔离测试数据' : page === 'LocalSession' ? localBadge : '演示数据';
+    const badge = page === 'Mode' ? '独立学习 手机伴侣' : page === 'ClickProbe' ? '隔离测试 · 不保存记录' : page === 'StorageProbe' ? '隔离测试数据' : page === 'LocalSession' ? localBadge : '演示数据';
     files.set(path.join(root, 'pages', page, 'index.ux'), '<template><text>' + badge + '</text></template><script>export default {}</script>');
   }
   const memoryFs = {

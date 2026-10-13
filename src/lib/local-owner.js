@@ -16,6 +16,7 @@ function createLocalOwner(options) {
   if (typeof options.backendFactory !== 'function' || typeof options.clock !== 'function'
     || typeof options.installationIdFactory !== 'function') throw new Error('OWNER_OPTIONS');
   const storageQualified = options.storageQualified === true;
+  const sessionContext = Object.freeze(Object.assign({}, options.sessionContext || {}));
   const performance = createPerformance({ enabled: options.performanceEnabled === true, clock: options.performanceClock });
   let backend = null; let journal = null; let document = null; let sequence = 0;
   let status = 'UNOPENED'; let busy = false; let closed = false; let uncertain = false; let generation = 0;
@@ -37,7 +38,7 @@ function createLocalOwner(options) {
     const selectedId = selected ? selected.id : null;
     if (selectedId !== timeSessionId) { timeSessionId = selectedId; timeLastObservation = null; timeAnomalies = []; }
     const now = observation(); let projected;
-    try { projected = timeOnly && selected ? summarizeSession(selected, now) : summarize(document, now); }
+    try { projected = timeOnly && selected ? summarizeSession(selected, now) : summarize(document, now, sessionContext); }
     catch (_) { projected = Object.assign({}, empty, { observedFocusMs: null, observedBreakMs: null, trustedFocusMs: 0, reasons: ['CLOCK_SOURCE_INVALID'] }); }
     if (document.active && now && Number.isSafeInteger(now.wallMs)) {
       if (timeLastObservation && timeLastObservation.ownerId === now.ownerId && Number.isSafeInteger(timeLastObservation.wallMs)) {
@@ -80,7 +81,7 @@ function createLocalOwner(options) {
   function blocked(code) { lastError = code; return snapshot(); }
   function ensureJournal() {
     if (journal) return;
-    backend = options.backendFactory(); journal = createJournal({ backend, performance });
+    backend = options.backendFactory(); journal = createJournal({ backend, performance, context: sessionContext });
   }
   function apply(result) {
     if (result.status === 'ready' || result.status === 'recovered' || result.status === 'empty') {
@@ -91,7 +92,7 @@ function createLocalOwner(options) {
         if (result.status === 'empty') conflict = 'STORAGE_DISAPPEARED';
         else if (result.sequence < sequence) conflict = 'SNAPSHOT_ROLLBACK';
         else if (result.sequence === sequence && JSON.stringify(result.document) !== JSON.stringify(document)) conflict = 'SNAPSHOT_CONFLICT';
-        else conflict = historyError(document, result.document);
+        else conflict = historyError(document, result.document, sessionContext);
       }
       if (conflict) { status = 'BLOCKED'; lastError = conflict; return; }
       document = result.document; sequence = result.sequence; status = result.status.toUpperCase(); lastError = null;
@@ -120,11 +121,19 @@ function createLocalOwner(options) {
     if (busy) return blocked('BUSY');
     if (!storageQualified) return blocked('STORAGE_EVIDENCE_REQUIRED');
     if (['EMPTY', 'READY', 'RECOVERED'].indexOf(status) < 0) return blocked(status === 'UNOPENED' ? 'NOT_OPEN' : 'RECOVERY_REQUIRED');
+    if (typeof options.beforeDispatch === 'function') {
+      let reason; try { reason = options.beforeDispatch(action, snapshot()); } catch (_) { return blocked('OWNERSHIP_UNCERTAIN'); }
+      if (reason) return blocked(typeof reason === 'string' && /^[A-Z0-9_]{1,48}$/.test(reason) ? reason : 'OWNERSHIP_UNCERTAIN');
+    }
     return operation(async () => {
       const base = document || createDocument(options.installationIdFactory());
-      const next = performance.measure('transition', () => transition(base, action, observation()));
+      const context = sessionContext.profile === 'formal' ? Object.assign({}, sessionContext, {
+        catalog: typeof options.catalogProvider === 'function' ? options.catalogProvider() : sessionContext.catalog || [],
+        catalogRevision: typeof options.catalogRevisionProvider === 'function' ? options.catalogRevisionProvider() : sessionContext.catalogRevision || null
+      }) : sessionContext;
+      const next = performance.measure('transition', () => transition(base, action, observation(), context));
       // Reserve finishing metadata before accepting any active-state growth.
-      const raw = performance.measure('capacity', () => encodeRecord(sequence + 1, next));
+      const raw = performance.measure('capacity', () => encodeRecord(sequence + 1, next, sessionContext));
       if (byteLength(raw) > (action && action.type === 'FINISH' ? MAX_BYTES : MAX_BYTES - 1024)) {
         lastError = 'CAPACITY_REQUIRED'; return;
       }
@@ -154,6 +163,6 @@ function createLocalOwner(options) {
         : '时间不确定；原始时间边界保留，不生成已验证时长。'
       : '按已记录的时间边界计算；休息不计入学习。' };
   }
-  return { open, dispatch, snapshot, timerSnapshot, performance, subscribe, close };
+  return { open, dispatch, snapshot, timerSnapshot, performance, sessionContext, subscribe, close };
 }
 module.exports = { createLocalOwner };

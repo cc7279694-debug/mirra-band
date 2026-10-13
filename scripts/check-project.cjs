@@ -28,10 +28,12 @@ function walk(directory) {
       const probePage = file.includes(path.sep + 'StorageProbe' + path.sep);
       const localPage = file.includes(path.sep + 'LocalSession' + path.sep);
       const clickPage = file.includes(path.sep + 'ClickProbe' + path.sep);
+      const modePage = file.includes(path.sep + 'Mode' + path.sep);
       if (probePage && !source.includes('隔离测试数据')) errors.push(file + ': missing explicit probe badge');
       if (localPage && !source.includes('隔离实验')) errors.push(file + ': missing explicit local isolation badge');
       if (clickPage && (!source.includes('隔离测试') || !source.includes('不保存记录'))) errors.push(file + ': missing explicit click probe isolation badge');
-      if (!probePage && !localPage && !clickPage && file.includes(path.sep + 'pages' + path.sep) && !source.includes('showDemo') && !source.includes('演示数据')) errors.push(file + ': missing conditional or explicit demo badge');
+      if (modePage && (!source.includes('独立学习') || !source.includes('手机伴侣'))) errors.push(file + ': missing explicit ownership modes');
+      if (!probePage && !localPage && !clickPage && !modePage && file.includes(path.sep + 'pages' + path.sep) && !source.includes('showDemo') && !source.includes('演示数据')) errors.push(file + ': missing conditional or explicit demo badge');
     }
   }
 }
@@ -55,6 +57,11 @@ for (const mode of ['demo', 'live', 'probe', 'probe-upgrade', 'local-session', '
     if (selected.router.entry !== entry || Object.keys(selected.router.pages).join(',') !== entry) errors.push('Unexpected experiment route: ' + mode);
     if (selected.features.map(feature => feature.name).sort().join(',') !== (profile.clickProbe ? 'system.router' : 'system.file,system.router,system.storage')) errors.push('Unexpected experiment capability: ' + mode);
     if (selected.config.background || selected.permissions) errors.push('Unexpected experiment permission: ' + mode);
+  }
+  if (profile.standalone) {
+    if (selected.router.entry !== 'pages/Mode' || !selected.router.pages['pages/LocalSession']) errors.push('Missing formal ownership route');
+    if (selected.features.map(feature => feature.name).sort().join(',') !== 'system.file,system.interconnect,system.router') errors.push('Unexpected formal capabilities');
+    if (selected.config.background || selected.permissions) errors.push('Unexpected formal permission');
   }
   for (const [page, route] of Object.entries(selected.router.pages)) {
     if (!fs.existsSync(path.join(root, 'src', page, route.component + '.ux'))) errors.push('Missing profile route: ' + mode + '/' + page);

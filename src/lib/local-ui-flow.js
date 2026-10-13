@@ -24,6 +24,10 @@ function immutableSession(before, after) {
 function createLocalUiFlow(options) {
   options = options || {};
   const owner = options.owner; const catalog = options.catalog || [];
+  const sessionContext = options.sessionContext || owner && owner.sessionContext;
+  const books = () => typeof options.catalogProvider === 'function' ? options.catalogProvider() : catalog;
+  const catalogRevision = () => typeof options.catalogRevisionProvider === 'function' ? options.catalogRevisionProvider() : null;
+  const previewFor = snapshot => resolveReadyPreview(snapshot, Object.assign({}, ui, { catalogRevision: catalogRevision(), formal: !!(sessionContext && sessionContext.profile === 'formal') }), books());
   if (!owner || ['open', 'dispatch', 'snapshot', 'subscribe'].some(name => typeof owner[name] !== 'function')) throw new Error('UI_OWNER');
   let visible = false; let disposed = false; let epoch = 0; let pending = false;
   let unsubscribeOwner = null; let rereadAfterOperation = false; const listeners = []; const returnViews = [];
@@ -36,7 +40,9 @@ function createLocalUiFlow(options) {
   function getState() {
     const state = Object.assign(copy(ui), { ownerSnapshot: copy(ownerSnapshot), snapshot: copy(ownerSnapshot),
       busy: pending || Boolean(ownerSnapshot && ownerSnapshot.busy), visible });
-    state.preview = resolveReadyPreview(state.ownerSnapshot, state, catalog);
+    state.catalogRevision = catalogRevision();
+    state.formal = !!(sessionContext && sessionContext.profile === 'formal');
+    state.preview = resolveReadyPreview(state.ownerSnapshot, state, books());
     return state;
   }
   function publish() {
@@ -144,9 +150,9 @@ function createLocalUiFlow(options) {
     if (!result || result.busy || !result.canWrite || !result.storageQualified || result.errorCode
       || ['READY', 'RECOVERED'].indexOf(result.status) < 0 || result.sequence !== before.sequence + 1) return false;
     let next;
-    try { next = validateDocument(result.document); } catch (_) { return false; }
+    try { next = validateDocument(result.document, sessionContext); } catch (_) { return false; }
     const prior = before.document;
-    if (prior && (next.installationId !== prior.installationId || historyError(prior, next))) return false;
+    if (prior && (next.installationId !== prior.installationId || historyError(prior, next, sessionContext))) return false;
     const oldPending = prior ? prior.pending : [];
     const finishing = action.type === 'FINISH';
     if (next.pending.length !== oldPending.length + (finishing ? 1 : 0)
@@ -234,13 +240,13 @@ function createLocalUiFlow(options) {
     return getState();
   }
   function chooseBook(bookId) {
-    if (!interact() || !baseReady() || !catalog.some(book => book.id === bookId)) return getState();
+    if (!interact() || !baseReady() || !books().some(book => book.id === bookId)) return getState();
     ui.bookId = bookId; ui.actionId = null; ui.errorCode = null; ui.notice = ''; return resetReady();
   }
   function chooseAction(actionId) {
     if (!interact() || !baseReady()) return getState();
-    const preview = resolveReadyPreview(ownerSnapshot, ui, catalog);
-    const book = preview && catalog.find(entry => entry.id === preview.bookId);
+    const preview = previewFor(ownerSnapshot);
+    const book = preview && books().find(entry => entry.id === preview.bookId);
     if (!book || !book.firstActions.some(action => action.id === actionId)) return getState();
     ui.actionId = actionId; ui.errorCode = null; ui.notice = ''; return resetReady();
   }
@@ -249,12 +255,14 @@ function createLocalUiFlow(options) {
     const current = refreshSnapshot();
     const state = current.document ? current.document.state : 'EMPTY';
     if (state === 'FOCUS' || state === 'BREAK') { ui.view = businessView(current); publish(); return Promise.resolve(getState()); }
-    const preview = resolveReadyPreview(current, ui, catalog);
+    const preview = previewFor(current);
     const captured = copy(visiblePreview);
     if (!preview || !captured || !equal(captured, preview)) {
       ui.errorCode = 'UI_PREVIEW_CHANGED'; ui.notice = '显示内容已变化，请核对当前第一步后再确认。'; publish(); return Promise.resolve(getState());
     }
-    return runCommands([{ type: 'START_CONFIRMED', bookId: captured.bookId, firstActionId: captured.actionId, confirmed: true }], current, captured, 'READING');
+    const command = { type: 'START_CONFIRMED', bookId: captured.bookId, firstActionId: captured.actionId, confirmed: true };
+    if (sessionContext && sessionContext.profile === 'formal') command.catalogRevision = captured.catalogRevision;
+    return runCommands([command], current, captured, 'READING');
   }
   function openBreakPicker() {
     refreshSnapshot(); if (ui.view !== 'READING' || !ownerSnapshot.document || ownerSnapshot.document.state !== 'FOCUS') return getState();

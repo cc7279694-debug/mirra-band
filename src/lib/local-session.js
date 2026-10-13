@@ -38,10 +38,10 @@ function observation(value) {
   if (typeof value.monotonicVerified !== 'boolean' || (value.monotonicVerified && value.monotonicMs === null)) fail('CLOCK');
   return { wallMs: value.wallMs, ownerId: value.ownerId, monotonicMs: value.monotonicMs, monotonicVerified: value.monotonicVerified };
 }
-function bookCopy(value) { fields(value, ['id', 'title', 'startPage']); return { id: identifier(value.id, 48), title: text(value.title, 64), startPage: page(value.startPage) }; }
-function actionCopy(value) { fields(value, ['id', 'text']); return { id: identifier(value.id, 48), text: text(value.text, 128) }; }
+function bookCopy(value, context) { fields(value, ['id', 'title', 'startPage']); return { id: identifier(value.id, 48), title: text(value.title, context && context.profile === 'formal' ? 120 : 64), startPage: page(value.startPage) }; }
+function actionCopy(value, context) { fields(value, ['id', 'text']); return { id: identifier(value.id, 48), text: text(value.text, context && context.profile === 'formal' ? 160 : 128) }; }
 function equal(a, b) { return JSON.stringify(a) === JSON.stringify(b); }
-function sessionCopy(value, installationId, counter, completed) {
+function sessionCopy(value, installationId, counter, completed, context) {
   fields(value, ['id', 'ordinal', 'bookSnapshot', 'firstActionSnapshot', 'confirmedAt', 'startAt', 'intervals', 'finishedAt', 'endPage']);
   if (!integer(value.ordinal, 1, counter) || value.id !== installationId + ':' + value.ordinal) fail('SESSION');
   const confirmedAt = observation(value.confirmedAt); const startAt = observation(value.startAt);
@@ -59,20 +59,20 @@ function sessionCopy(value, installationId, counter, completed) {
   for (let n = 1; n < intervals.length; n++) if (!equal(intervals[n - 1].end, intervals[n].start)) fail('INTERVAL');
   const finishedAt = value.finishedAt === null ? null : observation(value.finishedAt);
   if (completed ? finishedAt === null || !equal(finishedAt, intervals[intervals.length - 1].end) : finishedAt !== null || value.endPage !== null) fail('SESSION');
-  return { id: value.id, ordinal: value.ordinal, bookSnapshot: bookCopy(value.bookSnapshot), firstActionSnapshot: actionCopy(value.firstActionSnapshot), confirmedAt, startAt, intervals, finishedAt, endPage: page(value.endPage) };
+  return { id: value.id, ordinal: value.ordinal, bookSnapshot: bookCopy(value.bookSnapshot, context), firstActionSnapshot: actionCopy(value.firstActionSnapshot, context), confirmedAt, startAt, intervals, finishedAt, endPage: page(value.endPage) };
 }
 function createDocument(installationId) { return { schemaVersion: 1, installationId: identifier(installationId, 64), counter: 0, state: 'IDLE', preparation: null, active: null, pending: [] }; }
 function createEmptyDocument(options) { return createDocument(options.installationId); }
-function validateDocument(value) {
+function validateDocument(value, context) {
   fields(value, ['schemaVersion', 'installationId', 'counter', 'state', 'preparation', 'active', 'pending']);
   if (value.schemaVersion !== 1) fail('UNKNOWN_SCHEMA');
   const installationId = identifier(value.installationId, 64);
   if (!integer(value.counter, 0, MAX_INTEGER)) fail('COUNTER');
   if (['IDLE', 'PREPARING', 'FOCUS', 'BREAK', 'FINISHED_PENDING_SYNC'].indexOf(value.state) < 0) fail('STATE');
   let preparation = null;
-  if (value.preparation !== null) { fields(value.preparation, ['bookSnapshot', 'firstActionSnapshot']); preparation = { bookSnapshot: bookCopy(value.preparation.bookSnapshot), firstActionSnapshot: value.preparation.firstActionSnapshot === null ? null : actionCopy(value.preparation.firstActionSnapshot) }; }
-  const active = value.active === null ? null : sessionCopy(value.active, installationId, value.counter, false);
-  const pending = array(value.pending, MAX_PENDING).map(entry => sessionCopy(entry, installationId, value.counter, true));
+  if (value.preparation !== null) { fields(value.preparation, ['bookSnapshot', 'firstActionSnapshot']); preparation = { bookSnapshot: bookCopy(value.preparation.bookSnapshot, context), firstActionSnapshot: value.preparation.firstActionSnapshot === null ? null : actionCopy(value.preparation.firstActionSnapshot, context) }; }
+  const active = value.active === null ? null : sessionCopy(value.active, installationId, value.counter, false, context);
+  const pending = array(value.pending, MAX_PENDING).map(entry => sessionCopy(entry, installationId, value.counter, true, context));
   const ids = [];
   pending.concat(active ? [active] : []).forEach(entry => { if (ids.indexOf(entry.id) >= 0) fail('DUPLICATE_ID'); ids.push(entry.id); });
   for (let n = 1; n < pending.length; n++) if (pending[n].ordinal <= pending[n - 1].ordinal) fail('SESSION');
@@ -83,36 +83,38 @@ function validateDocument(value) {
   if (value.state === 'FINISHED_PENDING_SYNC' && pending.length === 0) fail('STATE');
   return { schemaVersion: 1, installationId, counter: value.counter, state: value.state, preparation, active, pending };
 }
-function transition(value, action, time) {
-  const doc = validateDocument(value); const now = observation(time);
+function transition(value, action, time, context) {
+  const doc = validateDocument(value, context); const now = observation(time);
+  const catalog = context && context.profile === 'formal' ? array(context.catalog || [], 12) : TEST_BOOKS;
   if (!action || typeof action.type !== 'string') fail('ACTION');
   const expect = state => { if (doc.state !== state) fail('STATE'); };
   if (action.type === 'START_CONFIRMED') {
     // A dedicated transaction, not an arbitrary batch. Draft selection remains
     // in memory until the user explicitly confirms the displayed first action.
-    fields(action, ['type', 'bookId', 'firstActionId', 'confirmed']);
+    fields(action, context && context.profile === 'formal' ? ['type', 'bookId', 'firstActionId', 'confirmed', 'catalogRevision'] : ['type', 'bookId', 'firstActionId', 'confirmed']);
     if (action.confirmed !== true) fail('CONFIRM_REQUIRED');
+    if (context && context.profile === 'formal' && (typeof context.catalogRevision !== 'string' || action.catalogRevision !== context.catalogRevision)) fail('CATALOG_CHANGED');
     if (['IDLE', 'PREPARING', 'FINISHED_PENDING_SYNC'].indexOf(doc.state) < 0) fail('STATE');
-    const book = TEST_BOOKS.find(entry => entry.id === action.bookId); if (!book) fail('BOOK');
+    const book = catalog.find(entry => entry.id === action.bookId); if (!book) fail('BOOK');
     if (!book.firstActions.some(entry => entry.id === action.firstActionId)) fail('FIRST_ACTION');
     let candidate = doc;
-    if (candidate.state === 'FINISHED_PENDING_SYNC') candidate = transition(candidate, { type: 'NEW_SESSION' }, now);
+    if (candidate.state === 'FINISHED_PENDING_SYNC') candidate = transition(candidate, { type: 'NEW_SESSION' }, now, context);
     const sameBook = candidate.state === 'PREPARING' && candidate.preparation.bookSnapshot.id === action.bookId;
-    if (candidate.state === 'PREPARING' && !sameBook) candidate = transition(candidate, { type: 'CANCEL_PREPARATION' }, now);
-    if (!sameBook) candidate = transition(candidate, { type: 'SELECT_BOOK', bookId: action.bookId }, now);
+    if (candidate.state === 'PREPARING' && !sameBook) candidate = transition(candidate, { type: 'CANCEL_PREPARATION' }, now, context);
+    if (!sameBook) candidate = transition(candidate, { type: 'SELECT_BOOK', bookId: action.bookId }, now, context);
     if (!sameBook || !candidate.preparation.firstActionSnapshot || candidate.preparation.firstActionSnapshot.id !== action.firstActionId) {
-      candidate = transition(candidate, { type: 'SELECT_ACTION', firstActionId: action.firstActionId }, now);
+      candidate = transition(candidate, { type: 'SELECT_ACTION', firstActionId: action.firstActionId }, now, context);
     }
     // Existing confirmation creates exactly one ID/counter and checks all
     // Session constraints. No intermediate candidate is ever published or saved.
-    return transition(candidate, { type: 'CONFIRM_START', confirmed: true }, now);
+    return transition(candidate, { type: 'CONFIRM_START', confirmed: true }, now, context);
   } else if (action.type === 'SELECT_BOOK') {
     fields(action, ['type', 'bookId']); if (doc.state !== 'IDLE' && doc.state !== 'FINISHED_PENDING_SYNC') fail('STATE');
-    const selected = TEST_BOOKS.find(book => book.id === action.bookId); if (!selected) fail('BOOK');
+    const selected = catalog.find(book => book.id === action.bookId); if (!selected) fail('BOOK');
     doc.preparation = { bookSnapshot: { id: selected.id, title: selected.title, startPage: selected.startPage }, firstActionSnapshot: null }; doc.state = 'PREPARING';
   } else if (action.type === 'SELECT_ACTION') {
     fields(action, ['type', 'firstActionId']); expect('PREPARING');
-    const book = TEST_BOOKS.find(entry => entry.id === doc.preparation.bookSnapshot.id);
+    const book = catalog.find(entry => entry.id === doc.preparation.bookSnapshot.id);
     const selected = book && book.firstActions.find(entry => entry.id === action.firstActionId); if (!selected) fail('FIRST_ACTION');
     doc.preparation.firstActionSnapshot = { id: selected.id, text: selected.text };
   } else if (action.type === 'CANCEL_PREPARATION') { fields(action, ['type']); expect('PREPARING'); doc.preparation = null; doc.state = 'IDLE';
@@ -136,7 +138,7 @@ function transition(value, action, time) {
     doc.pending.push(doc.active); doc.active = null; doc.state = 'FINISHED_PENDING_SYNC';
   } else if (action.type === 'NEW_SESSION') { fields(action, ['type']); expect('FINISHED_PENDING_SYNC'); doc.state = 'IDLE';
   } else fail('ACTION');
-  return validateDocument(doc);
+  return validateDocument(doc, context);
 }
 function duration(start, end) {
   const reasons = []; let observed = null; let trusted = 0;
@@ -178,14 +180,14 @@ function summarizeSession(session, time) {
   }
   return { observedFocusMs, observedBreakMs, trustedFocusMs, breakRemainingMs, timeUncertain: reasons.length > 0, reasons, timeConfidence: reasons.length > 0 ? 'UNVERIFIED' : 'VERIFIED_MONOTONIC' };
 }
-function summarize(value, time) {
-  const doc = validateDocument(value); const session = doc.active || (doc.pending.length ? doc.pending[doc.pending.length - 1] : null);
+function summarize(value, time, context) {
+  const doc = validateDocument(value, context); const session = doc.active || (doc.pending.length ? doc.pending[doc.pending.length - 1] : null);
   return session ? summarizeSession(session, time) : { observedFocusMs: 0, observedBreakMs: 0, trustedFocusMs: 0, breakRemainingMs: null, timeUncertain: false, reasons: [], timeConfidence: 'NO_SESSION' };
 }
 // 05B has no ACK/deletion/edit path: every previously saved fact must survive.
-function historyError(previous, next) {
+function historyError(previous, next, context) {
   let old; let newer;
-  try { old = validateDocument(previous); newer = validateDocument(next); } catch (_) { return 'INVALID_HISTORY'; }
+  try { old = validateDocument(previous, context); newer = validateDocument(next, context); } catch (_) { return 'INVALID_HISTORY'; }
   if (old.installationId !== newer.installationId) return 'IDENTITY_CONFLICT';
   if (newer.counter < old.counter) return 'COUNTER_ROLLBACK';
   for (let n = 0; n < old.pending.length; n++) {

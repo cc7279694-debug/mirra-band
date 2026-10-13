@@ -9,7 +9,10 @@
         <div class="ready-submit button" style="background-color: {{primaryEnabled ? '#386FBE' : '#F2F4F7'}};" onclick="confirmStart"><text class="button-label" style="color: {{primaryEnabled ? '#FFFFFF' : '#626873'}};">{{primaryLabel}}</text></div>
       </div>
       <list if="{{previewLongAction}}" class="content-list">
-        <list-item type="ready-book" class="long-book-row" onclick="showBooks"><text class="book-title long-book-title">{{previewBookTitle}}</text><div class="book-meta"><text class="caption book-page" style="width: {{pendingCount > 0 && !noticeVisible ? 84 : 144}}px; color: {{noticeVisible ? '#386FBE' : '#626873'}};">{{noticeVisible ? statusLabel : bookPageLabel}}</text><text if="{{pendingCount > 0 && !noticeVisible}}" class="record-caption">{{recordLabel}}</text></div></list-item>
+        <list-item if="{{!formal}}" type="ready-book" class="long-book-row" onclick="showBooks"><text class="book-title long-book-title">{{previewBookTitle}}</text><div class="book-meta"><text class="caption book-page" style="width: {{pendingCount > 0 && !noticeVisible ? 84 : 144}}px; color: {{noticeVisible ? '#386FBE' : '#626873'}};">{{noticeVisible ? statusLabel : bookPageLabel}}</text><text if="{{pendingCount > 0 && !noticeVisible}}" class="record-caption">{{recordLabel}}</text></div></list-item>
+        <list-item if="{{formal}}" type="ready-book-label" class="detail-label-row"><text class="caption">真实书籍 · 点书名可切换</text></list-item>
+        <list-item if="{{formal}}" for="{{bookRows}}" type="ready-full-book" class="full-text-row" onclick="showBooks"><text class="full-action-text">{{$item}}</text></list-item>
+        <list-item if="{{formal}}" type="ready-book-meta" class="detail-label-row"><text class="caption">{{noticeVisible ? statusLabel : bookPageLabel}}</text></list-item>
         <list-item type="first-label" class="first-action-heading"><text class="first-action-title">先完成这一步</text><div class="light-button" onclick="showActions"><text class="light-label">更换</text></div></list-item>
         <list-item for="{{actionRows}}" type="first-action" class="full-text-row"><text class="full-action-text">{{$item}}</text></list-item>
         <list-item type="confirm-start" class="submit-row"><div class="button" style="background-color: {{primaryEnabled ? '#386FBE' : '#F2F4F7'}};" onclick="confirmStart"><text class="button-label" style="color: {{primaryEnabled ? '#FFFFFF' : '#626873'}};">{{primaryLabel}}</text></div></list-item>
@@ -17,7 +20,7 @@
     </div>
     <!-- VIEW: BOOK_PICKER -->
     <div if="{{view === 'BOOK_PICKER'}}" class="screen">
-      <div class="toolbar"><div class="light-button" onclick="backView"><text class="light-label">返回</text></div><text class="toolbar-title">测试书籍</text></div>
+      <div class="toolbar"><div class="light-button" onclick="backView"><text class="light-label">返回</text></div><text class="toolbar-title">{{formal ? '真实书籍' : '测试书籍'}}</text></div>
       <list class="content-list"><list-item for="{{bookChoices}}" type="book-choice" class="picker-row" style="height: {{$item.height}}px; background-color: {{$item.selected ? '#F2F4F7' : '#FFFFFF'}};" onclick="selectBook($item.id)"><text class="picker-title" style="height: {{$item.titleHeight}}px;">{{$item.title}}</text><div class="picker-meta"><text class="caption">{{$item.startPageText}}</text><text class="selection-mark">{{$item.selected ? '已选' : ''}}</text></div></list-item></list>
     </div>
     <!-- VIEW: ACTION_PICKER -->
@@ -76,7 +79,7 @@
     </div>
     <!-- VIEW: DETAILS -->
     <div if="{{view === 'DETAILS'}}" class="screen">
-      <div class="toolbar"><div class="light-button" onclick="backView"><text class="light-label">返回</text></div><text class="toolbar-title">详情 · 实验</text></div>
+      <div class="toolbar"><div class="light-button" onclick="backView"><text class="light-label">返回</text></div><text class="toolbar-title">{{formal ? '详情 · 独立' : '详情 · 实验'}}</text></div>
       <list class="content-list">
         <list-item type="details-ui-diagnostic" class="detail-label-row"><text class="detail-label">界面诊断</text></list-item>
         <list-item type="details-ui-lifecycle" class="diagnostic-row"><text class="diagnostic-line">{{diagnosticLifecycle}}</text></list-item>
@@ -97,7 +100,7 @@
         <list-item if="{{performanceEnabled}}" type="details-performance-readback" class="diagnostic-row"><text class="diagnostic-line">{{performanceReadback}}</text></list-item>
         <list-item if="{{performanceEnabled}}" type="details-performance-confirm" class="diagnostic-row"><text class="diagnostic-line">{{performanceConfirm}}</text></list-item>
         <list-item if="{{performanceEnabled}}" type="details-performance-refresh" class="diagnostic-row"><text class="diagnostic-line">{{performanceRefresh}}</text></list-item>
-        <list-item type="details-scope" class="detail-row"><text class="detail-label">隔离实验 · 测试书籍</text><text class="detail-text">{{detailSourceText}}</text></list-item>
+        <list-item type="details-scope" class="detail-row"><text class="detail-label">{{formal ? '真实书籍 · 仅本地' : '隔离实验 · 测试书籍'}}</text><text class="detail-text">{{detailSourceText}}</text></list-item>
         <list-item type="details-state" class="detail-row"><text class="detail-label">当前状态</text><text class="detail-text">{{detailState}} · {{detailStatus}}</text></list-item>
         <list-item for="{{bookRows}}" type="details-book" class="full-text-row"><text class="full-action-text">{{$item}}</text></list-item>
         <list-item type="details-first-label" class="detail-label-row"><text class="detail-label">第一步原文</text></list-item>
@@ -106,7 +109,7 @@
         <list-item if="{{noticeVisible}}" type="details-notice" class="detail-tall-row"><text class="warning-title">{{noticeTitle}}</text><text class="warning-text">{{noticeText}}</text></list-item>
         <list-item type="details-records" class="detail-row"><text class="detail-label">本地记录</text><text class="detail-text">{{pendingCount}} 条 · 尚未同步</text></list-item>
         <list-item type="details-sync" class="detail-tall-row"><text class="detail-text">{{detailSyncText}}</text></list-item>
-        <list-item type="details-version" class="detail-row"><text class="detail-label">实验版本</text><text class="detail-text">{{detailVersionText}} · {{detailBrandStatus}}</text></list-item>
+        <list-item type="details-version" class="detail-row"><text class="detail-label">{{formal ? '腕端版本' : '实验版本'}}</text><text class="detail-text">{{detailVersionText}} · {{detailBrandStatus}}</text></list-item>
         <list-item type="details-id" class="detail-tall-row"><text class="detail-label">记录标识 / 序列</text><text class="diagnostic-text">{{detailSessionId || '无活动记录'}} / {{detailSequence}}</text></list-item>
         <list-item type="details-error" class="detail-row"><text class="detail-label">存储 / 操作原因</text><text class="diagnostic-text">{{detailErrorCode || '无错误码'}}</text></list-item>
         <list-item for="{{recoveryRows}}" type="details-recovery" class="full-text-row"><text class="warning-text">{{$item}}</text></list-item>
@@ -129,7 +132,7 @@ import profile from '../../profile'
 
 export default {
   private: {
-    view: 'STORAGE_NOTICE', state: 'IDLE', status: 'UNOPENED', title: '正在读取', experimentLabel: '实验',
+    view: 'STORAGE_NOTICE', state: 'IDLE', status: 'UNOPENED', title: '正在读取', experimentLabel: '实验', formal: false,
     busy: false, canWrite: false, bookTitle: '', actionText: '', previewBookTitle: '', previewLongAction: false,
     pendingCount: 0, statusLabel: '', bookPageLabel: '', recordLabel: '', sourceLabel: '',
     timerText: '--:--', timerLabel: '阅读计时', timerQualifier: '时间待核对', timerUnknown: true, timerLong: false,
@@ -155,11 +158,16 @@ export default {
     this._showToken = 0
     this._projection = null
     this._flowRevision = 0
-    this._catalog = domainLib.TEST_BOOKS
-    this._brand = { name: 'Mirra', versionName: profile.versionName, logoAvailable: false, sourceAvailable: false }
+    this.formal = profile.standalone === true || profile.mode === 'live'
+    this._catalog = this.formal ? [] : domainLib.TEST_BOOKS
+    this._brand = { name: 'Mirra', versionName: profile.versionName, logoAvailable: false, sourceAvailable: false, formal: this.formal }
     try {
       this._owner = this.$app.$def.getLocalOwner()
+      if (this.formal) this._catalog = this.$app.$def.getLocalCatalog()
       this._flow = flowLib.createLocalUiFlow({ owner: this._owner, catalog: this._catalog,
+        sessionContext: this._owner.sessionContext,
+        catalogProvider: this.formal ? () => this.$app.$def.getLocalCatalog() : undefined,
+        catalogRevisionProvider: this.formal ? () => this.$app.$def.getCatalogOwner().snapshot().revision : undefined,
         yieldBeforeWrite: () => typeof setTimeout === 'function' ? new Promise(resolve => setTimeout(resolve, 0)) : Promise.resolve(),
         requestExit: () => {
         if (typeof this.$app.exit !== 'function') throw new Error('EXIT_UNAVAILABLE')
@@ -176,6 +184,13 @@ export default {
     this.updateDiagnostic()
     if (!this._flow) return Promise.resolve()
     try {
+      if (this.formal) {
+        this._offCatalog = this.$app.$def.subscribeCatalog(() => {
+          if (this._visible && !this._destroyed) this.safeRefresh()
+        })
+        this._companion = this.$app.$def.getCompanion()
+        this._companion.start(this)
+      }
       this._off = this._flow.subscribe(state => {
         this._flowRevision++
         if (!this._visible || this._destroyed) return
@@ -207,6 +222,9 @@ export default {
     this._showToken++
     if (this._off) this._off()
     this._off = null
+    if (this._offCatalog) this._offCatalog()
+    this._offCatalog = null
+    if (this._companion) this._companion.stop(this)
     if (this._timer !== undefined) clearInterval(this._timer)
     this._timer = undefined
     if (this._flow) {
@@ -223,6 +241,7 @@ export default {
   },
   onBackPress() {
     if (!this._visible || this._destroyed || !this._flow) return false
+    if (this.formal && ['READY', 'READING', 'RESTING', 'SAVED', 'STORAGE_NOTICE'].indexOf(this.view) >= 0) return false
     this.backView()
     return true
   },
@@ -405,6 +424,7 @@ export default {
   },
   refresh() {
     if (this._destroyed) return
+    if (this.formal) this._catalog = this.$app.$def.getLocalCatalog()
     const snapshot = this._owner.snapshot()
     const ui = this._flow.getState()
     this.setScalar('ownerStatus', ['UNOPENED', 'OPENING', 'EMPTY', 'READY', 'RECOVERED', 'BLOCKED', 'UNCERTAIN', 'CLOSED', 'UNQUALIFIED'].indexOf(snapshot.status) >= 0 ? snapshot.status : 'UNKNOWN')
@@ -453,7 +473,7 @@ export default {
     this.setScalar('bookTitle', next.bookTitle)
     this.setScalar('actionText', next.actionText)
     this.setScalar('previewBookTitle', next.preview ? next.preview.bookTitle : '')
-    this.setScalar('previewLongAction', !!(next.preview && next.preview.isLongAction))
+    this.setScalar('previewLongAction', !!(next.preview && (next.preview.isLongAction || this.formal && Array.from(next.preview.bookTitle).length > 20)))
     this.setScalar('pendingCount', next.pendingCount)
     this.setScalar('sourceLabel', next.sourceLabel)
     this.setScalar('timerUnknown', next.timer.isUnknown || typeof next.timer.valueText !== 'string' || !next.timer.valueText)

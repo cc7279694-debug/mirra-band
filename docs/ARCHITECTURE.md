@@ -1,5 +1,17 @@
 # 当前手环伴侣架构
 
+## 05C 正式目录与两种学习所有权
+
+当前正式profile为`com.guanyi.mirra`，使用既有正式签名。`formal-app.ux`创建一份CompanionStore/Interconnect transport、一份LocalOwner与一份CatalogOwner；Mode、手机伴侣页与独立页共用通信lease，页面不创建存储writer。LOCAL默认；本地活动/准备/IO或不确定状态阻止手机控制，PHONE阻止本地操作；新鲜手机PREPARING/ACTIVE/SAVING及未确认控制阻止新的本地开始。未知离线状态允许独立学习，但不能称已证明手机空闲。
+
+手机LearningItemEntity只读短事务 → StorageMaintenanceGate/source生命周期 → FirstActionResolver与已同意的本地选书设置 → 既有WearableCoordinator/WearTransport → v3 BOOK_CATALOG。旧v1/v2保持；目录披露同意默认关闭，主线自动、最多11本额外IN_PROGRESS书籍。手机Room v4、Session/Intent/监测算法、统计和备份格式保持。
+
+目录为schema1完整canonical，最多12本/16,384 UTF-8 bytes；书名120码点、第一动作160码点，超限或无效内容明确拒绝，不静默截断。4096字节消息预算内最多32片，每片data最多1024字节，固定30秒期限与client/request/stream上下文。完整重组、校验后由CatalogOwner双槽/CAS/CRC保存相反槽并精确读回，才发布新目录和PERSISTED ACK；相同完整字节幂等免写，缺失/迟到/冲突/未知IO不冒充同步成功。CRC32用于损坏检测，不代替签名身份认证。
+
+目录文件固定`internal://files/mirra_catalog_live_[ab].json`，单槽记录预算32,768 bytes；正式Session固定`internal://files/mirra_local_sessions_live_[ab].json`，marker `MIRRA_LOCAL_SESSION_V1`、schema1、单槽8192 bytes、8 pending、32 intervals及结束预留。实验`mirra_05b_test_sessions_[ab]`及marker保持，正式包不加载跨包数据、不迁移记录。目录更新不改active/pending的自包含快照；本地合法结束页码仅形成待确认进度，未更新手机。
+
+白色LocalSession模板动态读最后确认目录，没有目录不回退测试书籍；短文本首屏、长书名/动作完整滚动展示。第一动作预览绑定catalogRevision，刷新等待期间目录改变则旧确认不能写入Session；明确完成后一次START_CONFIRMED提交。继承参考计时、休息排除、到时主动继续、可空页码、失败锁和轻量tick；显示参考值不证明跨重启可信时长。05C不实现学习记录上传或手机整合。下方为既有模块交付时架构记录，当前验收状态以CURRENT_STATE为准。
+
 ## 05B.3 单次确认提交与轻量刷新
 
 明确完成第一步 → UI捕获并核对预览/锁重复点击 → 可刷新忙碌字段 → 专用START_CONFIRMED在内存复用原合法transition链 → Owner容量/结束余量 → 原journal双槽/CAS/历史/CRC/相反槽写入/精确读回 → Owner确认 → 页面业务成功。无通用批处理和schema变化，无准备中间状态持久化；已开始IO的页面隐藏只抑制旧页面导航，不能撤销原生写。

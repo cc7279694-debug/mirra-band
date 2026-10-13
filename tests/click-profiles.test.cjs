@@ -43,12 +43,12 @@ test('existing profiles cannot bundle click probe inputs or the pending original
   }
 });
 
-test('same-identity upgrade increments only local experiment version with white native display', () => {
+test('local experiment retains its existing identity and white display during formal integration', () => {
   const profile = identity('local-session');
   assert.equal(profile.versionName, '0.1.4');
   assert.equal(profile.versionCode, 5);
   assert.equal(profile.package, 'com.guanyi.mirra.band.localsessiontest');
   assert.equal(configureManifest(source, 'local-session').display.backgroundColor, '#FFFFFF');
-  assert.equal(identity('live').versionName, '0.3.0');
-  assert.equal(identity('live').versionCode, 8);
+  assert.equal(identity('live').versionName, '0.4.0');
+  assert.equal(identity('live').versionCode, 9);
 });

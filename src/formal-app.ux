@@ -1,0 +1,86 @@
+<script>
+import storeLib from './lib/companion-store'
+import transportLib from './platform/interconnect-transport'
+import runtimeLib from './lib/formal-local-runtime'
+import catalogLib from './lib/catalog-protocol'
+
+export default {
+  companion: null,
+  _runtime: null,
+  _mode: 'LOCAL',
+  _retired: false,
+  onCreate() {
+    this._mode = 'LOCAL'
+    this._retired = false
+    const runtime = this.getLocalRuntime()
+    this.getCompanion()
+    // A single app-owned read restores both namespaces. Pages subscribe rather
+    // than manufacturing another writer or treating missing data as success.
+    this._ready = Promise.all([runtime.owner.open(), runtime.catalogOwner.open()])
+      .then(() => !this._retired, () => false)
+  },
+  getLocalRuntime() {
+    if (this._retired) throw new Error('FORMAL_RUNTIME_RETIRED')
+    if (!this._runtime) {
+      this._runtime = runtimeLib.createFormalLocalRuntime({
+        loadModule: name => {
+          if (name === '@system.file') return require('@system.file')
+          throw new Error('UNSUPPORTED_FORMAL_MODULE')
+        },
+        phoneSnapshot: () => this.companion ? this.companion.snapshot() : null,
+        getMode: () => this.getMode()
+      })
+    }
+    return this._runtime
+  },
+  getLocalOwner() { return this.getLocalRuntime().owner },
+  getCatalogOwner() { return this.getLocalRuntime().catalogOwner },
+  getLocalCatalog() { return this.getLocalRuntime().getBooks() },
+  subscribeCatalog(listener) { return this.getCatalogOwner().subscribe(listener) },
+  getMode() { return this._mode },
+  localAllowsPhone() {
+    if (this._retired) return false
+    const local = this.getLocalOwner().snapshot()
+    return !local.busy && ['EMPTY', 'READY', 'RECOVERED'].indexOf(local.status) >= 0
+      && (!local.document || !local.document.active && !local.document.preparation
+        && ['IDLE', 'FINISHED_PENDING_SYNC'].indexOf(local.document.state) >= 0)
+  },
+  canUsePhoneControl() { return this._mode === 'PHONE' && this.localAllowsPhone() },
+  setMode(mode) {
+    if (this._retired || mode !== 'LOCAL' && mode !== 'PHONE') return false
+    if (mode === 'PHONE' && !this.localAllowsPhone()) return false
+    if (mode === this._mode) return true
+    const phone = this.companion ? this.companion.snapshot() : null
+    if (phone && phone.control && phone.control.busy) return false
+    this._mode = mode
+    return true
+  },
+  getCompanion() {
+    if (this._retired) throw new Error('FORMAL_RUNTIME_RETIRED')
+    if (!this.companion) {
+      const catalogOwner = this.getCatalogOwner()
+      const catalogReceiver = catalogLib.createCatalogReceiver({ persist: async input => {
+        // Fast SDK handshakes must not race the one initial disk recovery.
+        if (this._ready) await this._ready
+        if (this._retired) return { status: 'closed' }
+        return catalogOwner.save(input)
+      } })
+      this.companion = storeLib.createCompanionStore({
+        transport: transportLib.createTransport({ loadModule: () => require('@system.interconnect') }),
+        catalogReceiver,
+        catalogRevision: () => catalogOwner.snapshot().revision,
+        controlAllowed: () => this.canUsePhoneControl()
+      })
+    }
+    return this.companion
+  },
+  onDestroy() {
+    if (this._retired) return
+    this._retired = true
+    if (this.companion) this.companion.destroy()
+    if (this._runtime) this._runtime.close()
+    this.companion = null
+    this._runtime = null
+  }
+}
+</script>

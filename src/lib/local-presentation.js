@@ -4,7 +4,11 @@ const WRITABLE_STATUSES = ['EMPTY', 'READY', 'RECOVERED'];
 const CAPACITY_ERRORS = ['CAPACITY_REQUIRED', 'CAPACITY', 'PENDING_CAPACITY', 'INTERVAL_CAPACITY', 'COUNTER_CAPACITY', 'SIZE'];
 
 function positivePage(value) { return Number.isSafeInteger(value) && value > 0 && value <= 999999 ? value : null; }
-function pageText(value) { return positivePage(value) === null ? '未设置页码' : '测试起始页 · 第 ' + value + ' 页'; }
+function pageText(value, formal, pendingPage) {
+  if (positivePage(value) === null) return '未设置页码';
+  if (formal && positivePage(pendingPage) !== null) return '待确认进度 · 第 ' + value + ' 页 · 未更新手机';
+  return (formal ? '起始页 · 第 ' : '测试起始页 · 第 ') + value + ' 页';
+}
 function validBooks(catalog) {
   return Array.isArray(catalog) ? catalog.filter(book => book && typeof book.id === 'string' && book.id
     && typeof book.title === 'string' && book.title && Array.isArray(book.firstActions)) : [];
@@ -21,7 +25,9 @@ function resolveReadyPreview(snapshot, ui, catalog) {
   const savedBook = preparation && preparation.bookSnapshot;
   const draftBook = books.find(book => book.id === ui.bookId);
   let book = draftBook || books.find(item => savedBook && item.id === savedBook.id);
-  if (!book && Array.isArray(doc.pending)) {
+  // The formal runtime orders its confirmed directory with mainline first.
+  // A previous completed book is history, not a new implicit selection.
+  if (!book && ui.formal !== true && Array.isArray(doc.pending)) {
     for (let index = doc.pending.length - 1; index >= 0 && !book; index--) {
       const entry = doc.pending[index];
       book = books.find(item => entry && entry.bookSnapshot && item.id === entry.bookSnapshot.id);
@@ -40,10 +46,12 @@ function resolveReadyPreview(snapshot, ui, catalog) {
   const text = savedAction && savedAction.id === action.id && typeof savedAction.text === 'string' ? savedAction.text : action.text;
   const bookSnapshot = Object.freeze({ id: book.id, title, startPage });
   const firstActionSnapshot = Object.freeze({ id: action.id, text });
-  return Object.freeze({ bookId: book.id, actionId: action.id, text, actionText: text, bookTitle: title, bookText: title,
-    startPage, startPageText: pageText(startPage), isLongAction: Array.from(text).length > 18,
+  const preview = { bookId: book.id, actionId: action.id, text, actionText: text, bookTitle: title, bookText: title,
+    startPage, startPageText: pageText(startPage, ui.formal === true, book.pendingPage), isLongAction: Array.from(text).length > 18,
     bookSnapshot, firstActionSnapshot, sequence: snapshot.sequence, installationId: doc.installationId || null,
-    state: doc.state || 'IDLE' });
+    state: doc.state || 'IDLE' };
+  if (typeof ui.catalogRevision === 'string') preview.catalogRevision = ui.catalogRevision;
+  return Object.freeze(preview);
 }
 
 function pad2(value) { return value < 10 ? '0' + value : String(value); }
@@ -131,7 +139,8 @@ function presentLocal(snapshot, ui, catalog, brand) {
   const busy = snapshot.busy === true || ui.busy === true;
   const pending = Array.isArray(doc.pending) ? doc.pending : [];
   const pendingCount = pending.length;
-  const preview = resolveReadyPreview(snapshot, ui, catalog);
+  const formal = brand.formal === true;
+  const preview = resolveReadyPreview(snapshot, formal ? Object.assign({}, ui, { formal: true }) : ui, catalog);
   const storageNotice = storageProblem(snapshot, ui);
   const recoveryNotice = status === 'RECOVERED'
     ? notice('已读取上一份记录', '请核对当前书籍和状态，最近变化可能未保留。', 'warning', 'acknowledgeRecovery', '已核对，继续') : notice();
@@ -139,45 +148,56 @@ function presentLocal(snapshot, ui, catalog, brand) {
   let view = storageNotice.visible || recoveryRequired ? 'STORAGE_NOTICE' : taskView(state, ui, snapshot);
   if (ui.view === 'DETAILS') view = 'DETAILS';
   if (view === 'STORAGE_NOTICE' && !storageNotice.visible && !recoveryRequired) Object.assign(storageNotice, notice('状态待核对', '本地状态未知，暂不继续写入。', 'danger', 'reload', '重新读取'));
-  const canWrite = snapshot.storageQualified === true && snapshot.canWrite === true
+  let canWrite = snapshot.storageQualified === true && snapshot.canWrite === true
     && WRITABLE_STATUSES.indexOf(status) >= 0 && !busy && !storageNotice.visible && !recoveryRequired && ui.exitRequested !== true;
   const source = doc.active || ((view === 'SAVED' || (view === 'DETAILS' && state === 'FINISHED_PENDING_SYNC')) ? pending[pending.length - 1] : null);
-  const bookTitle = source && source.bookSnapshot ? source.bookSnapshot.title : (preview ? preview.bookTitle : '暂无测试书籍');
+  const catalogNotice = formal && !source && !preview && !storageNotice.visible && !recoveryRequired
+    ? notice('暂无离线书籍', '暂无离线书籍，请在手机手环伴侣启用目录同步。', 'info') : notice();
+  if (catalogNotice.visible) { canWrite = false; if (view !== 'DETAILS') view = 'STORAGE_NOTICE'; }
+  const bookTitle = source && source.bookSnapshot ? source.bookSnapshot.title : (preview ? preview.bookTitle : formal ? '暂无离线书籍' : '暂无测试书籍');
   const actionText = source && source.firstActionSnapshot ? source.firstActionSnapshot.text : (preview ? preview.text : '暂无可用第一步');
   const startPage = source && source.bookSnapshot ? source.bookSnapshot.startPage : (preview ? preview.startPage : null);
   const summary = snapshot.summary || {};
   const time = presentTime(summary, view, state);
   const { timer, focusTimer, restTimer, breakTimer, reasons } = time;
-  let currentNotice = storageNotice.visible ? storageNotice : (recoveryRequired ? recoveryNotice : notice());
+  let currentNotice = storageNotice.visible ? storageNotice : (recoveryRequired ? recoveryNotice : catalogNotice);
   const errorCode = ui.errorCode || snapshot.errorCode || '';
   if (!currentNotice.visible && CAPACITY_ERRORS.indexOf(errorCode) >= 0) currentNotice = notice('本地空间预算不足', '已有记录不删除；本次操作未保存。', 'warning');
   else if (!currentNotice.visible && (errorCode || ui.notice)) currentNotice = notice('操作未保存', typeof ui.notice === 'string' && ui.notice ? ui.notice : '本次操作未确认，请核对当前状态后再操作。', 'warning');
   else if (!currentNotice.visible && time.notice.visible) currentNotice = time.notice;
   if (!currentNotice.visible && recoveryNotice.visible) currentNotice = recoveryNotice;
-  const titles = { READY: '先完成这一步', BOOK_PICKER: '选择测试书籍', ACTION_PICKER: '更换第一步', READING: '阅读中',
+  const titles = { READY: '先完成这一步', BOOK_PICKER: formal ? '选择真实书籍' : '选择测试书籍', ACTION_PICKER: '更换第一步', READING: '阅读中',
     BREAK_PICKER: '休息多久？', RESTING: '休息中', FINISH_REVIEW: '确认后结束', PAGE_EDITOR: '补充页码', SAVED: '已存到手环', DETAILS: '记录详情' };
-  const activeNotice = recoveryRequired && !storageNotice.visible ? recoveryNotice : storageNotice;
+  const activeNotice = recoveryRequired && !storageNotice.visible ? recoveryNotice : storageNotice.visible ? storageNotice : catalogNotice;
   const actions = buttonsFor(view, canWrite, busy, preview, activeNotice);
+  if (catalogNotice.visible && view === 'STORAGE_NOTICE') actions.primary = button('等待书籍目录', '', 'primary', false);
   const books = validBooks(catalog);
   const selectedBook = books.find(book => preview && book.id === preview.bookId);
   const bookChoices = books.map(book => ({ id: book.id, title: book.title, startPage: positivePage(book.startPage),
-    startPageText: pageText(book.startPage), selected: !!preview && book.id === preview.bookId }));
+    startPageText: formal && positivePage(book.pendingPage) !== null ? '待确认' + book.startPage + '页 · 未更新手机'
+      : pageText(book.startPage, formal), selected: !!preview && book.id === preview.bookId }));
   const actionChoices = actionsFor(selectedBook).map(action => ({ id: action.id, text: action.text, selected: !!preview && action.id === preview.actionId }));
   const pageDigits = typeof ui.pageDigits === 'string' ? ui.pageDigits : '';
   const endPageText = view === 'SAVED' ? (source && positivePage(source.endPage) !== null ? '结束页码 · 第 ' + source.endPage + ' 页' : '未填写页码')
     : (pageDigits ? '页码：' + pageDigits : '页码：不填写');
   const brandStatus = brand.logoAvailable === true || (typeof brand.logoPath === 'string' && brand.logoPath) ? 'LOGO_READY' : 'LOGO_PENDING';
+  const pendingPage = selectedBook && positivePage(selectedBook.pendingPage);
+  if (formal && !source && pendingPage !== null && pendingPage !== undefined && !currentNotice.visible) {
+    currentNotice = notice('待确认 · 未更新手机', '手环结束页码仅为待确认进度，未更新手机。', 'info');
+  }
   return { view, state, status, busy, canWrite, title: view === 'STORAGE_NOTICE' ? activeNotice.title : titles[view],
-    experimentLabel: '实验', sourceLabel: view === 'SAVED' ? '仅本地 · 尚未同步' : '仅本地 · 未监测',
-    recordCountText: pendingCount ? '已有 ' + pendingCount + ' 条本地记录' : '本实验仅在手环保存', pendingCount,
-    preview, bookTitle, actionText, actionLong: Array.from(actionText).length > 18, startPageText: pageText(startPage),
+    experimentLabel: formal ? '独立' : '实验', sourceLabel: view === 'SAVED'
+      ? formal && source && positivePage(source.endPage) !== null ? '页码待确认 · 未更新手机' : formal ? '仅本地 · 尚未上传' : '仅本地 · 尚未同步'
+      : '仅本地 · 未监测',
+    recordCountText: pendingCount ? '已有 ' + pendingCount + ' 条本地记录' : formal ? '独立记录仅在手环保存' : '本实验仅在手环保存', pendingCount,
+    preview, bookTitle, actionText, actionLong: Array.from(actionText).length > 18, startPageText: pageText(startPage, formal, pendingPage),
     bookChoices, actionChoices, timer, focusTimer, restTimer, breakTimer, focus: focusTimer, rest: restTimer, break: breakTimer,
     storageNotice, recoveryNotice, notice: currentNotice, primary: actions.primary, secondary: actions.secondary,
     pageDigits, pageError: typeof ui.pageError === 'string' ? ui.pageError : '', endPageText,
     brand: { name: typeof brand.name === 'string' && brand.name ? brand.name : 'Mirra', logoPath: typeof brand.logoPath === 'string' ? brand.logoPath : '', status: brandStatus },
-    details: { status, state, bookTitle, actionText, sourceText: '腕端独立测试记录', timeReasons: reasons.slice(), timeReasonText: reasons.join(' / ') || '无异常原因',
+    details: { status, state, bookTitle, actionText, sourceText: formal ? '腕端独立学习记录' : '腕端独立测试记录', timeReasons: reasons.slice(), timeReasonText: reasons.join(' / ') || '无异常原因',
       pendingCount, sequence: snapshot.sequence, sessionId: doc.active && doc.active.id ? doc.active.id : (source && source.id ? source.id : ''),
-      versionText: brand.versionText || brand.versionName || '', brandStatus, syncText: '本实验尚未接入手机同步',
+      versionText: brand.versionText || brand.versionName || '', brandStatus, syncText: formal ? '仅同步目录，学习记录未上传；手环页码为待确认进度，未更新手机。' : '本实验尚未接入手机同步',
       recoveryText: snapshot.recoveryHint || recoveryNotice.text, errorCode,
       records: pending.slice(-8).map(record => ({ id: record.id, bookTitle: record.bookSnapshot.title, endPage: record.endPage })) } };
 }

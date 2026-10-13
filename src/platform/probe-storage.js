@@ -1,8 +1,8 @@
-// This boundary owns only the enumerated isolated test slots. Native IO cannot be cancelled:
+// This boundary owns only enumerated, mutually isolated file/key namespaces. Native IO cannot be cancelled:
 // a timed-out or interrupted call therefore requires a new application process.
 const MAX_BYTES = 8192;
 function failure(code) { const error = new Error(code); error.code = code; return error; }
-function validText(text) {
+function validText(text, maximum) {
   if (typeof text !== 'string') throw failure('INVALID_TEXT');
   let bytes = 0;
   for (let index = 0; index < text.length; index++) {
@@ -13,7 +13,7 @@ function validText(text) {
       bytes += 4;
     } else if (code >= 0xdc00 && code <= 0xdfff) throw failure('INVALID_UNICODE');
     else bytes += code < 0x80 ? 1 : code < 0x800 ? 2 : 3;
-    if (bytes > MAX_BYTES) throw failure('TEXT_TOO_LARGE');
+    if (bytes > (maximum || MAX_BYTES)) throw failure('TEXT_TOO_LARGE');
   }
   return text;
 }
@@ -22,7 +22,13 @@ function createProbeBackend(options) {
   const kind = options.kind;
   if (kind !== 'storage' && kind !== 'file') throw failure('INVALID_KIND');
   const namespace = options.namespace === undefined ? 'probe' : options.namespace;
-  if (namespace !== 'probe' && namespace !== 'local-session-test') throw failure('INVALID_NAMESPACE');
+  const names = { probe: ['mirra_05a_journal_a', 'mirra_05a_journal_b'],
+    'local-session-test': ['mirra_05b_test_sessions_a', 'mirra_05b_test_sessions_b'],
+    'local-session-live': ['mirra_local_sessions_live_a', 'mirra_local_sessions_live_b'],
+    'catalog-live': ['mirra_catalog_live_a', 'mirra_catalog_live_b'] };
+  if (!Object.prototype.hasOwnProperty.call(names, namespace)) throw failure('INVALID_NAMESPACE');
+  if ((namespace === 'local-session-live' || namespace === 'catalog-live') && kind !== 'file') throw failure('INVALID_KIND');
+  const maxBytes = namespace === 'catalog-live' ? 32768 : MAX_BYTES;
   const timeoutMs = options.timeoutMs === undefined ? 5000 : options.timeoutMs;
   if (typeof timeoutMs !== 'number' || !isFinite(timeoutMs) || Math.floor(timeoutMs) !== timeoutMs
     || timeoutMs < 1 || timeoutMs > 5000) throw failure('INVALID_TIMEOUT');
@@ -49,7 +55,7 @@ function createProbeBackend(options) {
     if (writing) {
       // storage.set with an empty value deletes the key; the probe never deletes slots.
       if (text === '') return Promise.reject(failure('INVALID_TEXT'));
-      try { validText(text); } catch (error) { return Promise.reject(error); }
+      try { validText(text, maxBytes); } catch (error) { return Promise.reject(error); }
     }
     let module; let method;
     try {
@@ -99,7 +105,7 @@ function createProbeBackend(options) {
             }
           } catch (ignored) { settle(failure('CALLBACK_SHAPE')); return; }
           // Validation receives a primitive string and can only throw our own codes.
-          try { validText(value); } catch (error) { settle(error); return; }
+          try { validText(value, maxBytes); } catch (error) { settle(error); return; }
           settle(null, kind === 'storage' && value === '' ? null : value);
         },
         fail(data, code) {
@@ -110,8 +116,7 @@ function createProbeBackend(options) {
           settle(failure('NATIVE_FAIL_' + safe));
         },
       };
-      const name = namespace === 'probe' ? slot === 0 ? 'mirra_05a_journal_a' : 'mirra_05a_journal_b'
-        : slot === 0 ? 'mirra_05b_test_sessions_a' : 'mirra_05b_test_sessions_b';
+      const name = names[namespace][slot];
       if (kind === 'storage') {
         argumentsObject.key = name;
         if (writing) argumentsObject.value = text;
@@ -131,7 +136,7 @@ function createProbeBackend(options) {
   return {
     read(slot) { return invoke(slot, null, false); },
     write(slot, text) { return invoke(slot, text, true); },
-    describe() { return { kind, uncertain, closed, loaded, pendingCount: pending.length, timeoutMs, maxBytes: MAX_BYTES }; },
+    describe() { return { kind, uncertain, closed, loaded, pendingCount: pending.length, timeoutMs, maxBytes }; },
     close() {
       if (closed) return;
       closed = true;

@@ -17,6 +17,7 @@ function blank(status, code, error) {
 function createJournal(options) {
   const backend = options && options.backend;
   const performance = options && options.performance || createPerformance();
+  const context = options && options.context;
   if (!backend || typeof backend.read !== 'function' || typeof backend.write !== 'function') throw new Error('BACKEND');
   let busy = false; let recoveryRequired = false; let uncertain = false; let closed = false;
   function safety() {
@@ -44,7 +45,7 @@ function createJournal(options) {
     for (let slot = 0; slot < 2; slot++) {
       if (slots[slot] === null) continue;
       let record;
-      try { record = performance.measure('dual_validate', () => decodeRecord(slots[slot])); } catch (_) { return blank('blocked', 'CODEC_ERROR'); }
+      try { record = performance.measure('dual_validate', () => decodeRecord(slots[slot], context)); } catch (_) { return blank('blocked', 'CODEC_ERROR'); }
       if (record.status === 'unknown') return blank('blocked', 'UNKNOWN_RECORD', record.code);
       if (record.status !== 'valid') { damaged = true; continue; }
       valid.push({ slot, raw: slots[slot], record });
@@ -54,7 +55,7 @@ function createJournal(options) {
     if (valid.length === 2 && valid[0].record.sequence !== valid[1].record.sequence) {
       const older = valid[0].record.sequence < valid[1].record.sequence ? valid[0] : valid[1];
       const newer = older === valid[0] ? valid[1] : valid[0];
-      const conflict = historyError(older.record.document, newer.record.document);
+      const conflict = historyError(older.record.document, newer.record.document, context);
       if (conflict) return blank('blocked', conflict);
     }
     const chosen = valid.length === 2 && valid[1].record.sequence > valid[0].record.sequence ? valid[1] : valid[0];
@@ -75,7 +76,7 @@ function createJournal(options) {
     if (expected !== undefined && (!Number.isSafeInteger(expected) || expected < 0)) return blank('blocked', 'INVALID_EXPECTED_SEQUENCE');
     let canonical;
     try {
-      canonical = performance.measure('encode_validate', () => decodeRecord(encodeRecord(1, document)));
+      canonical = performance.measure('encode_validate', () => decodeRecord(encodeRecord(1, document, context), context));
       if (canonical.status !== 'valid') return blank('blocked', 'INVALID_DOCUMENT');
     } catch (error) { return blank('blocked', errorCode(error)); }
     busy = true;
@@ -85,11 +86,11 @@ function createJournal(options) {
       if (existing.sequence >= MAX_SEQUENCE) { recoveryRequired = true; return blank('blocked', 'SEQUENCE_EXHAUSTED'); }
       if (expected !== undefined && expected !== existing.sequence) { recoveryRequired = true; return blank('blocked', 'STATE_CHANGED'); }
       if (existing.document) {
-        const conflict = historyError(existing.document, canonical.document);
+        const conflict = historyError(existing.document, canonical.document, context);
         if (conflict) { recoveryRequired = true; return blank('blocked', conflict); }
       }
       let raw;
-      try { raw = performance.measure('encode_validate', () => encodeRecord(existing.sequence + 1, canonical.document)); } catch (error) { return blank('blocked', errorCode(error)); }
+      try { raw = performance.measure('encode_validate', () => encodeRecord(existing.sequence + 1, canonical.document, context)); } catch (error) { return blank('blocked', errorCode(error)); }
       const slot = existing.slot === 0 ? 1 : 0;
       try { await performance.measureAsync('native_write', () => backend.write(slot, raw)); } catch (error) { return ioFailure('WRITE_FAILED', error); }
       let stopped = safety(); if (stopped) return stopped;
@@ -98,7 +99,7 @@ function createJournal(options) {
       stopped = safety(); if (stopped) return stopped;
       if (readback !== raw) { recoveryRequired = true; return blank('blocked', 'READBACK_MISMATCH'); }
       let record;
-      try { record = performance.measure('readback_validate', () => decodeRecord(readback)); } catch (_) { record = { status: 'corrupt' }; }
+      try { record = performance.measure('readback_validate', () => decodeRecord(readback, context)); } catch (_) { record = { status: 'corrupt' }; }
       if (record.status !== 'valid') { recoveryRequired = true; return blank('blocked', 'READBACK_INVALID'); }
       return { status: 'ready', sequence: record.sequence, document: record.document, slot };
     } finally { busy = false; }

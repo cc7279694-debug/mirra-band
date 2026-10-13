@@ -11,7 +11,7 @@ test('connection help identifies the actual build without requiring a working ph
   const h = createHarness('live');
   const page = h.page('Connection');
   page.onInit();
-  assert.equal(page.versionText, 'Mirra 0.3.0 / 8');
+  assert.equal(page.versionText, 'Mirra 0.4.0 / 9');
   const source = fs.readFileSync(path.resolve(__dirname, '../src/pages/Connection/index.ux'), 'utf8');
   assert.ok(source.includes('{{versionText}}'));
 });

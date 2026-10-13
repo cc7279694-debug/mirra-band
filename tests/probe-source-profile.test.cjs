@@ -11,12 +11,14 @@ test('staging probe excludes live entry, commands, communication and demonstrati
     'pages/StorageProbe/index.ux', 'pages', 'lib', 'common/theme.css']) assert.equal(include(path.join(root, file)), true, file);
   assert.equal(include(path.join(root, '..', 'sign', 'private.pem')), false);
 });
-test('staging existing profiles excludes all experiment code and preserves their own pages', () => {
+test('staging companion profiles excludes experiment owners and keeps only the shared formal file adapter', () => {
   for (const mode of ['demo', 'live']) {
     const include = sourceFilter(root, mode);
-    for (const file of ['probe-app.ux', 'lib/probe-controller.js', 'platform/probe-storage.js', 'pages/StorageProbe/index.ux'])
+    for (const file of ['probe-app.ux', 'lib/probe-controller.js', 'pages/StorageProbe/index.ux'])
       assert.equal(include(path.join(root, file)), false, file);
-    assert.equal(include(path.join(root, 'app.ux')), true);
+    assert.equal(include(path.join(root, 'platform/probe-storage.js')), mode === 'live');
+    assert.equal(include(path.join(root, 'app.ux')), mode === 'demo');
+    assert.equal(include(path.join(root, 'formal-app.ux')), mode === 'live');
     assert.equal(include(path.join(root, 'pages/Home/index.ux')), true);
     assert.equal(include(path.join(root, 'pages/States/index.ux')), mode === 'demo');
   }
