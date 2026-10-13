@@ -44,7 +44,7 @@
 
 ## 6. Git
 
-分支`codex/module-05b-2-time-recovery`；提交/普通push正在最终核对。不创建PR、不合并main或改历史。
+分支`codex/module-05b-2-time-recovery`；实现提交`da17c54889abd4b65478ed2e6aeb5fa1f48a49a5`已普通push，远端SHA核对一致。后续仅补记交付状态。不创建PR、不合并main或改历史。
 
 ## 7. 安装与自然反馈
 

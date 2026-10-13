@@ -377,5 +377,12 @@
       "check": "TS/ESLint",
       "reason": "Authorized native Vela JavaScript, syntax and Node tests used"
     }
-  ]
+  ],
+  "git": {
+    "branch": "codex/module-05b-2-time-recovery",
+    "sourceCommit": "da17c54889abd4b65478ed2e6aeb5fa1f48a49a5",
+    "sourcePushVerified": true,
+    "mainMerged": false,
+    "prCreated": false
+  }
 }

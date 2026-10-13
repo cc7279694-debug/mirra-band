@@ -6,7 +6,7 @@
 
 **05B.2 / TIME_RECOVERY_DEV_COMPLETE_AWAITING_DEVICE_FEEDBACK**。继续腕端独立学习修复，不进入05C。[合同追加范围](plans/MIRRA_BAND_05B_2_NATIVE_RECOVERY.md)、[计时交付](evidence/module-05b-2/time-recovery/README.md)。
 
-当前分支`codex/module-05b-2-time-recovery`，从干净真实05B.2 HEAD `427d1292ec667842a8d3e9c617d2d8fd4d2ad99e`建立。0.1.3/code4已实际构建、验签并核对旧包身份；用户已同意自行覆盖体验，尚未收到新计时反馈。代码提交/推送正在最终核对，手机/其他Android设备未操作。
+当前分支`codex/module-05b-2-time-recovery`，从干净真实05B.2 HEAD `427d1292ec667842a8d3e9c617d2d8fd4d2ad99e`建立。0.1.3/code4已实际构建、验签并核对旧包身份；用户已同意自行覆盖体验，尚未收到新计时反馈。实现提交da17c54889abd4b65478ed2e6aeb5fa1f48a49a5已普通push且远端SHA一致，手机/其他Android设备未操作。
 
 ## 已收到的真机反馈
 
