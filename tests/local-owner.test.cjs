@@ -66,6 +66,8 @@ test('recreated owner restores same FOCUS session and stored identity without ge
   const restored = rig({ slots: r.slots, ownerId: 'new-process' }); const result = await restored.owner.open();
   assert.equal(result.document.active.id, original); assert.equal(result.document.state, 'FOCUS'); assert.equal(restored.identities(), 0);
   assert.equal(result.summary.timeUncertain, true); assert.equal(restored.writes.length, 0);
+  assert.equal(result.summary.observedFocusMs, 0); assert.equal(result.summary.trustedFocusMs, 0);
+  assert.match(result.timeHint, /参考值.*未验证/);
 });
 test('BREAK expires only in read-only projection and requires explicit RESUME', async () => {
   const r = rig(); await start(r); r.next(); await r.owner.dispatch({ type: 'BEGIN_BREAK', minutes: 5 }); const writes = r.writes.length;

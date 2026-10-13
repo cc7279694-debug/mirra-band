@@ -41,7 +41,7 @@ function rig(options = {}) {
   appDef.onCreate(); const app = { $def: appDef, exit() { appDef.onDestroy(); } };
   function newPage() {
     const definition = evaluate('src/pages/LocalSession/index.ux', {
-      domainLib, presentationLib, flowLib, profile: { versionName: '0.1.2' }, Promise, Array, Object, Number, String, Math, JSON,
+      domainLib, presentationLib, flowLib, profile: { versionName: '0.1.3' }, Promise, Array, Object, Number, String, Math, JSON,
       setInterval(callback) { const id = ++nextTimer; timers.set(id, callback); return id; },
       clearInterval(id) { timers.delete(id); },
     });
@@ -108,7 +108,8 @@ test('a new app process recovers the same session and keeps uncertain raw bounda
   original.page.exitLocal(); original.page.onDestroy();
   const recovered = rig({ values, wallMs: 120000 }); try {
     await recovered.page.onShow(); assert.equal(recovered.page._projection.details.sessionId, id); assert.equal(recovered.page._projection.state, 'FOCUS'); assert.equal(recovered.page._projection.view, 'READING');
-    assert.equal(recovered.owner.snapshot().summary.observedFocusMs, null); assert.equal(recovered.page._projection.timer.valueText, '--:--'); assert.match(recovered.page._projection.details.timeReasonText, /OWNER_CHANGED/);
+    assert.equal(recovered.owner.snapshot().summary.observedFocusMs, 20000); assert.equal(recovered.page.timerText, '00:20'); assert.equal(recovered.page.timerQualifier, '参考值');
+    assert.equal(recovered.owner.snapshot().summary.trustedFocusMs, 0); assert.match(recovered.page._projection.details.timeReasonText, /OWNER_CHANGED/);
     assert.equal(recovered.nativeCalls.filter(call => call.kind === 'set').length, 0);
     recovered.page.showFinish(); await recovered.page.finishSession();
     assert.equal(recovered.owner.snapshot().document.pending[0].id, id); assert.equal(recovered.owner.snapshot().document.pending[0].endPage, null);

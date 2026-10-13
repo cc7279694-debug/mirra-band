@@ -109,21 +109,89 @@ test('unknown and invalid durations never become zero, while hour formatting ada
 });
 
 test('current null metric and independent uncertain intervals retain distinct adjacent warnings', () => {
-  const owner = snapshot(focused(), { summary: { observedFocusMs: 24000, observedBreakMs: null, breakRemainingMs: null, trustedFocusMs: 0, reasons: ['WALL_ONLY', 'OWNER_CHANGED'], timeUncertain: true } });
+  const owner = snapshot(focused(), { summary: { observedFocusMs: 24000, observedBreakMs: null, breakRemainingMs: null, trustedFocusMs: 0, reasons: ['WALL_ONLY', 'OWNER_CHANGED', 'CLOCK_UNAVAILABLE'], timeUncertain: true } });
   const vm = project(owner);
   assert.equal(vm.timer.valueText, '00:24');
   assert.equal(vm.timer.qualifier, '参考值');
   assert.equal(vm.restTimer.valueText, '--:--');
   assert.equal(vm.restTimer.qualifier, '时间待核对');
   assert.equal(vm.notice.title, '记录含不确定区间');
-  assert.equal(vm.details.timeReasonText, 'WALL_ONLY / OWNER_CHANGED');
+  assert.equal(vm.details.timeReasonText, 'WALL_ONLY / OWNER_CHANGED / CLOCK_UNAVAILABLE');
   const unknown = project({ ...owner, summary: { ...owner.summary, observedFocusMs: null } });
   assert.equal(unknown.timer.valueText, '--:--');
   assert.equal(unknown.notice.title, '时间待核对');
 });
 
+test('restored reading reference stays visibly unverified and retains owner-change reasons', () => {
+  const owner = snapshot(focused(), { summary: { observedFocusMs: 65000, observedBreakMs: 10000, breakRemainingMs: null,
+    trustedFocusMs: 0, reasons: ['OWNER_CHANGED', 'WALL_ONLY'], timeUncertain: true, timeConfidence: 'UNVERIFIED' } });
+  const before = JSON.stringify(owner);
+  const vm = project(owner);
+  assert.equal(vm.view, 'READING');
+  assert.equal(vm.timer.valueText, '01:05');
+  assert.equal(vm.timer.qualifier, '参考值');
+  assert.equal(vm.timer.isUnknown, false);
+  assert.equal(vm.notice.title, '恢复后参考计时');
+  assert.equal(vm.notice.level, 'info');
+  assert.match(vm.notice.text, /系统时钟.*估算.*未验证/);
+  assert.match(vm.notice.text, /休息不计入阅读/);
+  assert.deepEqual(vm.details.timeReasons, ['OWNER_CHANGED', 'WALL_ONLY']);
+  assert.equal(vm.details.timeReasonText, 'OWNER_CHANGED / WALL_ONLY');
+  assert.equal(vm.sourceLabel, '仅本地 · 未监测');
+  assert.doesNotMatch(JSON.stringify(vm), /已验证专注|有效专注/);
+  assert.equal(JSON.stringify(owner), before);
+  assert.equal(owner.summary.trustedFocusMs, 0);
+  assert.equal(owner.summary.timeConfidence, 'UNVERIFIED');
+});
+
+test('restored break reference keeps the explicit continue action and excludes rest from reading', () => {
+  const document = change(focused(), 'BEGIN_BREAK', 3000, { minutes: 5 });
+  const vm = project(snapshot(document, { summary: { observedFocusMs: 1000, observedBreakMs: 65000, breakRemainingMs: 235000,
+    trustedFocusMs: 0, reasons: ['WALL_ONLY', 'OWNER_CHANGED'], timeUncertain: true, timeConfidence: 'UNVERIFIED' } }));
+  assert.equal(vm.view, 'RESTING');
+  assert.equal(vm.state, 'BREAK');
+  assert.equal(vm.timer.valueText, '03:55');
+  assert.equal(vm.timer.qualifier, '参考值');
+  assert.equal(vm.focusTimer.valueText, '00:01');
+  assert.equal(vm.restTimer.valueText, '01:05');
+  assert.equal(vm.notice.title, '恢复后参考计时');
+  assert.equal(vm.primary.action, 'resume');
+  assert.equal(vm.primary.label, '继续学习');
+  assert.deepEqual(vm.details.timeReasons, ['WALL_ONLY', 'OWNER_CHANGED']);
+});
+
+test('saved cross-owner reference preserves the unverified label and retained local record', () => {
+  const vm = project(snapshot(finished(), { summary: { observedFocusMs: 65000, observedBreakMs: 10000, breakRemainingMs: null,
+    trustedFocusMs: 0, reasons: ['OWNER_CHANGED', 'WALL_ONLY'], timeUncertain: true, timeConfidence: 'UNVERIFIED' } }), { view: 'SAVED' });
+  assert.equal(vm.view, 'SAVED');
+  assert.equal(vm.focusTimer.valueText, '01:05');
+  assert.equal(vm.focusTimer.qualifier, '参考值');
+  assert.equal(vm.restTimer.valueText, '00:10');
+  assert.equal(vm.restTimer.qualifier, '参考值');
+  assert.equal(vm.notice.title, '恢复后参考计时');
+  assert.equal(vm.pendingCount, 1);
+  assert.equal(vm.sourceLabel, '仅本地 · 尚未同步');
+  assert.deepEqual(vm.details.timeReasons, ['OWNER_CHANGED', 'WALL_ONLY']);
+});
+
+test('actual missing, rollback and jump summaries remain unknown beside retained owner-change reasons', () => {
+  for (const [wallMs, reason] of [[null, 'CLOCK_UNAVAILABLE'], [1000, 'CLOCK_ROLLBACK'], [2000 + domain.MAX_OBSERVED_GAP_MS + 1, 'CLOCK_JUMP']]) {
+    const document = focused();
+    const summary = domain.summarize(document, obs(wallMs));
+    summary.reasons.push('OWNER_CHANGED');
+    const vm = project(snapshot(document, { summary }));
+    assert.equal(vm.timer.valueText, '--:--');
+    assert.equal(vm.timer.qualifier, '时间待核对');
+    assert.equal(vm.timer.isUnknown, true);
+    assert.equal(vm.notice.title, '时间待核对');
+    assert.ok(vm.details.timeReasons.includes(reason));
+    assert.ok(vm.details.timeReasons.includes('OWNER_CHANGED'));
+    assert.equal(summary.trustedFocusMs, 0);
+  }
+});
+
 test('saved unknown metrics say undetermined instead of a made-up zero', () => {
-  const vm = project(snapshot(finished(), { summary: { observedFocusMs: null, observedBreakMs: null, breakRemainingMs: null, reasons: ['OWNER_CHANGED'] } }), { view: 'SAVED' });
+  const vm = project(snapshot(finished(), { summary: { observedFocusMs: null, observedBreakMs: null, breakRemainingMs: null, reasons: ['OWNER_CHANGED', 'CLOCK_UNAVAILABLE'] } }), { view: 'SAVED' });
   assert.equal(vm.focusTimer.valueText, '--:--');
   assert.equal(vm.focusTimer.qualifier, '未能确定');
   assert.equal(vm.restTimer.qualifier, '未能确定');
@@ -205,7 +273,7 @@ test('acknowledged recovery cannot hide a later capacity failure or unknown curr
   const failed = project(owner, { recoveryAcknowledged: true });
   assert.equal(failed.notice.title, '本地空间预算不足');
   assert.equal(failed.recoveryNotice.visible, true);
-  const unknown = project({ ...owner, errorCode: null, summary: { ...owner.summary, observedFocusMs: null, reasons: ['OWNER_CHANGED'] } }, { recoveryAcknowledged: true });
+  const unknown = project({ ...owner, errorCode: null, summary: { ...owner.summary, observedFocusMs: null, reasons: ['OWNER_CHANGED', 'CLOCK_UNAVAILABLE'] } }, { recoveryAcknowledged: true });
   assert.equal(unknown.notice.title, '时间待核对');
   assert.equal(unknown.recoveryNotice.visible, true);
 });

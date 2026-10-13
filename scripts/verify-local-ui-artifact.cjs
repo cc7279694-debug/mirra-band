@@ -72,6 +72,7 @@ async function main() {
   await oldOwner.dispatch({ type: 'CONFIRM_START', confirmed: true });
   const activeId = oldOwner.snapshot().document.active.id;
   const sequence = oldOwner.snapshot().sequence; oldApp.onDestroy();
+  wallMs += 65000; // Cross-app wall difference is a reference, never trusted.
   const newApp = execute(await newZip.file('app.js').async('string')); newApp.onCreate();
   const newOwner = newApp.getLocalOwner(); await newOwner.open();
   assert.equal(newOwner.snapshot().document.active.id, activeId);
@@ -88,9 +89,16 @@ async function main() {
   const view = () => page._projection || page.viewModel || page.vm || page;
   assert.equal(page.vm, undefined, 'The native page must not bind a nested projection graph');
   assert.equal(page.view, 'READING');
-  assert.equal(page.timerText, '--:--', 'The actual bound timer must visibly represent uncertainty');
+  assert.equal(page.timerText, '01:05', 'The actual bound timer restores a wall reference');
+  assert.equal(page.timerQualifier, '参考值');
+  assert.equal(newOwner.snapshot().summary.trustedFocusMs, 0);
+  assert(newOwner.snapshot().summary.reasons.includes('OWNER_CHANGED'));
   assert.equal(view().view, 'READING');
-  assert.equal(view().timer.valueText, '--:--', 'Cross-owner time remains unknown');
+  assert.equal(view().timer.valueText, '01:05', 'Cross-owner time is explicitly unverified reference');
+  wallMs += 5000;
+  for (const refresh of viewTimers.values()) refresh();
+  assert.equal(page.timerText, '01:10'); assert.equal(page.timerQualifier, '参考值');
+  assert.equal(newOwner.snapshot().sequence, sequence);
   let evaluatedTextBindings = 0; let deliveredCompiledClickBindings = 0;
   const classes = () => {
     const tree = page.template.call(page); const result = [];
@@ -133,7 +141,17 @@ async function main() {
   assert.equal(newOwner.snapshot().sequence, sequence);
   page.openBreakPicker(); await page.beginBreak(5); assert.equal(view().view, 'RESTING');
   assert.equal(newOwner.snapshot().document.state, 'BREAK');
+  const focusBeforeBreak = newOwner.snapshot().summary.observedFocusMs;
+  wallMs += 360000;
+  for (const refresh of viewTimers.values()) refresh();
+  assert.equal(page.timerText, '休息时间已到');
+  assert.equal(newOwner.snapshot().document.state, 'BREAK', 'A reference deadline cannot resume learning');
+  assert.equal(newOwner.snapshot().summary.observedFocusMs, focusBeforeBreak);
   await page.resume(); assert.equal(view().view, 'READING');
+  wallMs += 20000;
+  for (const refresh of viewTimers.values()) refresh();
+  assert.equal(newOwner.snapshot().summary.observedFocusMs, focusBeforeBreak + 20000, 'BREAK must stay excluded');
+  assert.equal(newOwner.snapshot().summary.trustedFocusMs, 0);
   page.showFinish(); const saving = page.finishSession(); const duplicate = page.finishSession();
   await saving; await duplicate; assert.equal(view().view, 'SAVED');
   assert.equal(newOwner.snapshot().document.pending.length, 2);
@@ -148,7 +166,9 @@ async function main() {
   const result = { status: 'PASS', boundary: 'actual old/new signed RPK app and new page scripts in Node; firmware file callbacks controlled; no native pixels',
     package: newManifest.package, fromVersion: oldManifest.versionName, toVersion: newManifest.versionName,
     sameCertificate: true, oldPendingRetained: true, oldActiveIdRetained: true, reentryWithoutWrites: true,
-    crossOwnerTimeUnknown: true, compiledTemplate: 'evaluated all real conditional/repeat bindings',
+    crossOwnerWallReference: true, crossOwnerTrustedFocusMs: 0, wallReferenceLabel: '参考值',
+    breakExcludedFromFocus: true, breakDeadlineWithoutAutoResume: true,
+    compiledTemplate: 'evaluated all real conditional/repeat bindings',
     optionalKeypadKeys: 12, nullableEnd: true, duplicateFinishRecords: 1, finalPendingRecords: 2,
     evaluatedTextBindings, deliveredCompiledClickBindings, flatNativeTimer: true, readOnlyDetailsWithoutWrites: true,
     doneWithoutWrites: true, nativeCalls: nativeCalls.length, fileSlots: files.size, hiddenTimers: viewTimers.size };

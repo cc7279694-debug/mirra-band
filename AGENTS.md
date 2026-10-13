@@ -2,6 +2,8 @@
 
 ## 产品与边界
 
+- 2026-10-13 用户确认05B.2详情、休息选择和5分钟休息页/继续按钮恢复，记USER_REPORTED_PASS；未推定主动继续、10分钟执行或探针全部通过。另授权跨实例参考计时补修：允许最小修改时间投影/Owner内存异常提示，不改schema、transition、历史保护、IO或已恢复页面。完整合理墙钟差可跨owner显示明确参考值，跨owner绝不贡献可信时长；已知异常保持未知，同实例已观察异常不能被下一正常tick忘掉。未保存的中间异常无跨实例持久证明；仍不宣称跨重启可信计时。合同追加说明见docs/plans/MIRRA_BAND_05B_2_NATIVE_RECOVERY.md，新包同实验身份0.1.3/code4安装另取当前同意；继续停05B.2，不进入05C。
+
 - 2026-10-13 用户授权05B.2真机交互回归修复与浅色UI，合同见 docs/plans/MIRRA_BAND_05B_2_NATIVE_RECOVERY.md。05B.1用户自然使用验收FAIL（计时不显示、学习与详情按钮无响应），不能用Node通过覆盖此结果。先隔离原生点击探针，再平面绑定与可观察诊断；不改变Owner/schema/双槽/旧记录。用户确认安装0.1.1/code2；新版同实验身份0.1.2/code3。原Logo已收到并保存原字节，本轮仍LOGO_PENDING。新学习修复包安装须当前同意；不进入05C。
 
 - 2026-10-13 用户已授权05B.1完整腕端UI/UX改版，合同见 docs/plans/MIRRA_BAND_05B_1_DESIGN_AND_IMPLEMENTATION_PLAN.md。仅独立实验展示、内存草稿/顺序命令编排、原生页面和本profile资源；单owner、schema、双槽、时间与准入规则不变。用户报告旧05B基本体验正常，不能转算新版像素验收。原Logo未提供时使用明确临时文字标识，记LOGO_PENDING；新版本安装另取当前同意，不进入05C。

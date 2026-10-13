@@ -23,7 +23,7 @@ function pageHarness(options = {}) {
   const app = { $def: { getLocalOwner: () => owner }, exit() { exits++; } };
   const module = { exports: {} };
   vm.runInNewContext(scriptFrom('src/pages/LocalSession/index.ux'), {
-    module, domainLib, presentationLib, flowLib, profile: { versionName: '0.1.2' }, Promise, Array, Object, Number, String, Math, JSON,
+    module, domainLib, presentationLib, flowLib, profile: { versionName: '0.1.3' }, Promise, Array, Object, Number, String, Math, JSON,
     setInterval(callback, delay) { assert.equal(delay, 1000); const id = ++nextTimer; timers.set(id, callback); return id; },
     clearInterval(id) { timers.delete(id); },
   });
@@ -175,7 +175,7 @@ test('exit is one-shot and an unavailable native interface leaves an honest acti
 test('finite wall-only values are visibly qualified and unavailable metrics never become zero', async () => {
   const r = rig(); await start(r); const h = await shown({ r }); try {
     r.next(65000); h.tick(); assert.equal(h.page._projection.timer.valueText, '01:05'); assert.match(h.page._projection.timer.qualifier, /参考值/);
-    const snapshot = h.owner.snapshot; h.owner.snapshot = () => Object.assign({}, snapshot(), { summary: { observedFocusMs: null, observedBreakMs: null, reasons: ['OWNER_CHANGED'] } });
+    const snapshot = h.owner.snapshot; h.owner.snapshot = () => Object.assign({}, snapshot(), { summary: { observedFocusMs: null, observedBreakMs: null, reasons: ['CLOCK_UNAVAILABLE'] } });
     h.tick(); assert.equal(h.page._projection.timer.valueText, '--:--'); assert.equal(h.page.statusLabel, '时间待核对');
   } finally { h.cleanup(); }
 });

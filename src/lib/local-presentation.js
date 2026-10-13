@@ -132,7 +132,7 @@ function presentLocal(snapshot, ui, catalog, brand) {
   if (!breakTimer.isUnknown && summary.breakRemainingMs === 0) breakTimer.valueText = '休息时间已到';
   const timer = view === 'RESTING' ? breakTimer : focusTimer;
   const reasons = Array.isArray(summary.reasons) ? summary.reasons.filter(reason => typeof reason === 'string') : [];
-  const hasHardTimeReason = reasons.some(reason => reason !== 'WALL_ONLY' && reason !== 'NO_LOCAL_SESSION');
+  const hasHardTimeReason = reasons.some(reason => reason !== 'WALL_ONLY' && reason !== 'OWNER_CHANGED' && reason !== 'NO_LOCAL_SESSION');
   let currentNotice = storageNotice.visible ? storageNotice : (recoveryRequired ? recoveryNotice : notice());
   const errorCode = ui.errorCode || snapshot.errorCode || '';
   if (!currentNotice.visible && CAPACITY_ERRORS.indexOf(errorCode) >= 0) currentNotice = notice('本地空间预算不足', '已有记录不删除；本次操作未保存。', 'warning');
@@ -140,6 +140,9 @@ function presentLocal(snapshot, ui, catalog, brand) {
   else if (!currentNotice.visible && (hasHardTimeReason || ((state === 'FOCUS' || state === 'BREAK') && timer.isUnknown))) {
     currentNotice = timer.isUnknown ? notice('时间待核对', '阅读状态保留，时长暂不确定。', 'warning')
       : notice('记录含不确定区间', '当前数字为参考值；部分阅读或休息区间时长待核对。', 'warning');
+  }
+  else if (!currentNotice.visible && !timer.isUnknown && reasons.indexOf('OWNER_CHANGED') >= 0) {
+    currentNotice = notice('恢复后参考计时', '按系统时钟估算，未验证；休息不计入阅读。', 'info');
   }
   if (!currentNotice.visible && recoveryNotice.visible) currentNotice = recoveryNotice;
   const titles = { READY: '先完成这一步', BOOK_PICKER: '选择测试书籍', ACTION_PICKER: '更换第一步', READING: '阅读中',

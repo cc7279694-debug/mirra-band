@@ -121,13 +121,17 @@ function transition(value, action, time) {
 }
 function duration(start, end) {
   const reasons = []; let observed = null; let trusted = 0;
+  const changedOwner = !!end && start.ownerId !== end.ownerId;
+  if (changedOwner) reasons.push('OWNER_CHANGED');
   if (!end || start.wallMs === null || end.wallMs === null) reasons.push('CLOCK_UNAVAILABLE');
-  else if (start.ownerId !== end.ownerId) reasons.push('OWNER_CHANGED');
   else if (end.wallMs < start.wallMs) reasons.push('CLOCK_ROLLBACK');
   else if (end.wallMs - start.wallMs > MAX_OBSERVED_GAP_MS) reasons.push('CLOCK_JUMP');
   else {
     observed = end.wallMs - start.wallMs;
-    if (start.monotonicVerified && end.monotonicVerified && start.monotonicMs !== null && end.monotonicMs !== null) {
+    // A bounded wall difference may be displayed across owners only as a
+    // reference. Monotonic endpoints from different instances never corroborate.
+    if (changedOwner) reasons.push('WALL_ONLY');
+    else if (start.monotonicVerified && end.monotonicVerified && start.monotonicMs !== null && end.monotonicMs !== null) {
       const monotonic = end.monotonicMs - start.monotonicMs;
       if (monotonic >= 0 && monotonic <= MAX_OBSERVED_GAP_MS && Math.abs(monotonic - observed) <= 2000) trusted = monotonic;
       else { observed = null; reasons.push('CLOCK_DIVERGENCE'); }
@@ -136,7 +140,10 @@ function duration(start, end) {
   return { observed, trusted, reasons };
 }
 function summarizeSession(session, time) {
-  const now = observation(time); let observedFocusMs = 0; let observedBreakMs = 0; let trustedFocusMs = 0; const reasons = [];
+  // Completed records use only saved, closed endpoints; the current clock is
+  // irrelevant to their historical reference and cannot invalidate that history.
+  const now = session.intervals.some(interval => interval.end === null) ? observation(time) : null;
+  let observedFocusMs = 0; let observedBreakMs = 0; let trustedFocusMs = 0; const reasons = [];
   session.intervals.forEach(interval => {
     const part = duration(interval.start, interval.end === null ? now : interval.end);
     if (interval.kind === 'FOCUS') { observedFocusMs = observedFocusMs === null || part.observed === null ? null : observedFocusMs + part.observed; trustedFocusMs += part.trusted; }
@@ -145,6 +152,11 @@ function summarizeSession(session, time) {
   });
   const last = session.intervals[session.intervals.length - 1]; let breakRemainingMs = null;
   if (last.kind === 'BREAK' && last.end === null) { const elapsed = duration(last.start, now); if (elapsed.observed !== null) breakRemainingMs = Math.max(0, last.plannedMinutes * 60000 - elapsed.observed); }
+  // One anomalous boundary makes the whole reference timeline unknown. Keep
+  // original interval facts and any independently corroborated partial evidence.
+  if (reasons.some(reason => reason !== 'WALL_ONLY' && reason !== 'OWNER_CHANGED')) {
+    observedFocusMs = null; observedBreakMs = null; breakRemainingMs = null;
+  }
   return { observedFocusMs, observedBreakMs, trustedFocusMs, breakRemainingMs, timeUncertain: reasons.length > 0, reasons, timeConfidence: reasons.length > 0 ? 'UNVERIFIED' : 'VERIFIED_MONOTONIC' };
 }
 function summarize(value, time) {

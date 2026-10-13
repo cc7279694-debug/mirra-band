@@ -90,10 +90,11 @@ test('interval capacity stops extra transitions but permits ending the retained 
   code(() => act(doc, 'RESUME', obs(40000)), 'INTERVAL_CAPACITY');
   assert.equal(complete(doc, 41000).pending[0].intervals.length, 32);
 });
-test('owner reconstruction retains same Session and treats open duration as uncertain', () => {
+test('owner reconstruction retains same Session and displays wall reference without verified time', () => {
   const doc = focused(); const copy = domain.validateDocument(JSON.parse(JSON.stringify(doc)));
   const summary = domain.summarize(copy, obs(10000, 'process-b'));
-  assert.equal(copy.active.id, doc.active.id); assert.equal(summary.observedFocusMs, null);
+  assert.equal(copy.active.id, doc.active.id); assert.equal(summary.observedFocusMs, 8000);
+  assert.equal(summary.timeUncertain, true); assert(summary.reasons.includes('WALL_ONLY'));
   assert(summary.reasons.includes('OWNER_CHANGED')); assert.equal(summary.trustedFocusMs, 0);
   const done = act(copy, 'FINISH', obs(10000, 'process-b'), { endPage: null });
   assert.equal(done.pending[0].intervals[0].start.ownerId, 'process-a');

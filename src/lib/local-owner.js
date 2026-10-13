@@ -1,5 +1,5 @@
 const { createJournal } = require('./local-journal');
-const { createDocument, transition, summarize, historyError } = require('./local-session');
+const { createDocument, transition, summarize, historyError, MAX_OBSERVED_GAP_MS } = require('./local-session');
 const { encodeRecord, byteLength, MAX_BYTES } = require('./local-codec');
 
 function errorCode(error) {
@@ -18,6 +18,9 @@ function createLocalOwner(options) {
   let backend = null; let journal = null; let document = null; let sequence = 0;
   let status = 'UNOPENED'; let busy = false; let closed = false; let uncertain = false; let generation = 0;
   let lastError = null;
+  // Display-only memory of clock anomalies observed in this owner/Session.
+  // It never changes the persisted schema, acknowledged facts or write gates.
+  let timeSessionId = null; let timeLastObservation = null; let timeAnomalies = [];
   const listeners = [];
 
   function observation() {
@@ -28,8 +31,29 @@ function createLocalOwner(options) {
     const empty = { observedFocusMs: 0, observedBreakMs: 0, breakRemainingMs: null, trustedFocusMs: null,
       timeUncertain: true, reasons: ['NO_LOCAL_SESSION'], timeConfidence: 'UNVERIFIED' };
     if (!document) return empty;
-    try { return summarize(document, observation()); }
-    catch (_) { return Object.assign({}, empty, { observedFocusMs: null, observedBreakMs: null, trustedFocusMs: 0, reasons: ['CLOCK_SOURCE_INVALID'] }); }
+    const selected = document.active || (document.pending.length ? document.pending[document.pending.length - 1] : null);
+    const selectedId = selected ? selected.id : null;
+    if (selectedId !== timeSessionId) { timeSessionId = selectedId; timeLastObservation = null; timeAnomalies = []; }
+    const now = observation(); let projected;
+    try { projected = summarize(document, now); }
+    catch (_) { projected = Object.assign({}, empty, { observedFocusMs: null, observedBreakMs: null, trustedFocusMs: 0, reasons: ['CLOCK_SOURCE_INVALID'] }); }
+    if (document.active && now && Number.isSafeInteger(now.wallMs)) {
+      if (timeLastObservation && timeLastObservation.ownerId === now.ownerId && Number.isSafeInteger(timeLastObservation.wallMs)) {
+        const gap = now.wallMs - timeLastObservation.wallMs;
+        const reason = gap < 0 ? 'CLOCK_ROLLBACK' : gap > MAX_OBSERVED_GAP_MS ? 'CLOCK_JUMP' : null;
+        if (reason && projected.reasons.indexOf(reason) < 0) projected.reasons.push(reason);
+      }
+      timeLastObservation = { wallMs: now.wallMs, ownerId: now.ownerId };
+    }
+    if (selectedId) projected.reasons.forEach(reason => {
+      if (reason !== 'WALL_ONLY' && reason !== 'OWNER_CHANGED' && reason !== 'NO_LOCAL_SESSION' && timeAnomalies.indexOf(reason) < 0) timeAnomalies.push(reason);
+    });
+    if (timeAnomalies.length) {
+      timeAnomalies.forEach(reason => { if (projected.reasons.indexOf(reason) < 0) projected.reasons.push(reason); });
+      projected.observedFocusMs = null; projected.observedBreakMs = null; projected.breakRemainingMs = null;
+      projected.timeUncertain = true; projected.timeConfidence = 'UNVERIFIED';
+    }
+    return projected;
   }
   function snapshot() {
     const projected = summary();
@@ -43,7 +67,11 @@ function createLocalOwner(options) {
     return { document: copy(document), status: actualStatus, busy,
       canWrite: storageQualified && !closed && !uncertain && !busy && ['EMPTY', 'READY', 'RECOVERED'].indexOf(status) >= 0,
       storageQualified, errorCode: lastError, recoveryHint, summary: copy(projected),
-      timeHint: projected.timeUncertain ? '时间不确定；原始时间边界保留，不生成已验证时长。' : '按已记录的时间边界计算；休息不计入学习。',
+      timeHint: projected.timeUncertain
+        ? projected.observedFocusMs !== null && projected.observedBreakMs !== null
+          ? '按系统时间差显示参考值；未验证连续计时，休息不计入阅读。'
+          : '时间不确定；原始时间边界保留，不生成已验证时长。'
+        : '按已记录的时间边界计算；休息不计入学习。',
       pendingCount: document ? document.pending.length : 0, sequence };
   }
   function publish() { listeners.slice().forEach(listener => { try { listener(snapshot()); } catch (_) { /* View failure never changes a verified save. */ } }); }

@@ -19,8 +19,8 @@ test('local session manifest has a separate identity and only bounded local stor
   const profile = identity('local-session');
   assert.equal(selected.package, 'com.guanyi.mirra.band.localsessiontest');
   assert.equal(selected.name, 'Mirra独立实验');
-  assert.equal(selected.versionName, '0.1.2');
-  assert.equal(selected.versionCode, 3);
+  assert.equal(selected.versionName, '0.1.3');
+  assert.equal(selected.versionCode, 4);
   assert.equal(selected.icon, '/common/local-brand/icon-pending.png');
   for (const mode of ['live', 'demo', 'probe']) assert.notEqual(selected.package, identity(mode).package);
   assert.equal(profile.localSession, true);
@@ -198,8 +198,8 @@ async function inspectFixture({ badge = '隔离实验', extraFiles = {}, mutateM
 test('RPK inspector verifies a signed single-page local experiment with an explicit isolation badge', async () => {
   const report = await inspectFixture();
   assert.equal(report.package, 'com.guanyi.mirra.band.localsessiontest');
-  assert.equal(report.version, '0.1.2');
-  assert.equal(report.versionCode, 3);
+  assert.equal(report.version, '0.1.3');
+  assert.equal(report.versionCode, 4);
   assert.equal(report.profile, 'local-session');
   assert.match(report.signature, /content and per-file SHA-256 verified/);
 });
@@ -221,7 +221,7 @@ test('RPK inspector rejects communication, unlabelled data, excess capabilities 
 });
 
 test('RPK inspector rejects a signed local archive claiming the companion identity, wrong version or wrong entry', async () => {
-  for (const [field, value] of [['package', 'com.guanyi.mirra'], ['name', 'Mirra'], ['versionName', '0.2.0'], ['versionCode', 4]]) {
+  for (const [field, value] of [['package', 'com.guanyi.mirra'], ['name', 'Mirra'], ['versionName', '0.2.0'], ['versionCode', 5]]) {
     await assert.rejects(inspectFixture({ mutateManifest: manifest => { manifest[field] = value; } }),
       error => error.code === 'ERR_ASSERTION' && error.actual === value);
   }
