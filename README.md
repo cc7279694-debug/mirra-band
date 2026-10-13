@@ -1,6 +1,6 @@
 # Mirra Band
 
-当前模块为 **05C：真实书籍离线目录与正式包整合**，见[合同](docs/plans/MIRRA_BAND_05C_OFFLINE_CATALOG.md)、[交付记录](docs/evidence/module-05c/README.md)和[当前状态](docs/CURRENT_STATE.md)。目标配套版本为手机`1.3.0/code8`、正式腕端`0.4.0/code9`，实际构建、摘要和签名以交付证据为准。本轮安装尚未授权，设备已安装版本与05C真机同步尚未核查；不直接按下方旧安装步骤替换正式包。
+当前模块为 **05C：真实书籍离线目录与正式包整合**，见[合同](docs/plans/MIRRA_BAND_05C_OFFLINE_CATALOG.md)、[交付记录](docs/evidence/module-05c/README.md)和[当前状态](docs/CURRENT_STATE.md)。目标配套版本为手机`1.3.0/code8`、正式腕端`0.4.0/code9`，实际构建、摘要和签名以交付证据为准。本轮安装已获当前同意，待原配对手机连接；设备已安装版本与05C真机同步尚未核查；不直接按下方旧安装步骤替换正式包。
 
 手机「我的→手环伴侣」中的书籍目录同步默认关闭。阅读新增披露并主动启用后，主线自动加入；可额外选择最多11本IN_PROGRESS书籍，手机同步状态只有收到腕端完整保存的ACK才显示成功。手机Mirra与小米运动健康仍须在同一台已配对Android手机。
 

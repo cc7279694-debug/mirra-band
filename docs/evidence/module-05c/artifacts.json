@@ -60,8 +60,8 @@
     "sameIdentityVerified": true
   },
   "physicalInstalledVersionAndCertificate": "NOT_RUN",
-  "physicalSafeToInstall": "NOT_CHECKED",
-  "installationAuthorization": "05C_NOT_REQUESTED_YET",
+  "physicalSafeToInstall": "NOT_CHECKED_DEVICE_NOT_CONNECTED",
+  "installationAuthorization": "USER_AUTHORIZED_READ_ONLY_PREFLIGHT_THEN_PAIRED_INSTALL",
   "experimentalMigration": "NONE: preserve separate application and all records",
   "recordUploadAndHistoryMerge": "NOT_IMPLEMENTED_05D_05E",
   "git": {
