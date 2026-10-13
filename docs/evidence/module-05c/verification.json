@@ -356,5 +356,20 @@
     "Actual 9 Pro long-text pixels and 05B.3 performance feedback",
     "Trusted cross-reboot timing",
     "05D completed-session upload and 05E phone history/statistics integration"
-  ]
+  ],
+  "git": {
+    "band": {
+      "repository": "cc7279694-debug/mirra-band",
+      "branch": "codex/module-05c-offline-catalog",
+      "implementationCommit": "502f47a21a6d0b0c8a70b28179425f907ca786ee",
+      "remoteVerified": true
+    },
+    "android": {
+      "repository": "cc7279694-debug/Self-discipline",
+      "branch": "codex/mirra-band-05c-catalog",
+      "implementationCommit": "c159983919093f031553b9e5e17f245635b5c15e",
+      "remoteVerified": true
+    },
+    "noPrOrMainMerge": true
+  }
 }

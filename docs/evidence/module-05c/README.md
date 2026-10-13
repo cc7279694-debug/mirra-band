@@ -48,7 +48,7 @@ Not Run：本轮物理设备已安装版本/公开签名核查、覆盖安装、
 
 ## 6. Git
 
-Band：`codex/module-05c-offline-catalog`。Android：`codex/mirra-band-05c-catalog`。基线见05C合同；源码和证据提交由本轮最终Git检查记录；具体实现提交与远端核验见最终交付回复/后续本报告Git记录。无自动PR、main合并或force push。
+Band：`codex/module-05c-offline-catalog`。Android：`codex/mirra-band-05c-catalog`。基线见05C合同；实现提交Band `502f47a21a6d0b0c8a70b28179425f907ca786ee`、Android `c159983919093f031553b9e5e17f245635b5c15e` 已普通push，ls-remote逐一匹配；本报告的Git记录为后续文档提交，无产物/源码改动。无自动PR、main合并或force push。
 
 ## 7. 下一步
 
