@@ -1,5 +1,9 @@
 # 当前手环伴侣架构
 
+## 05C.1 正式主题构建隔离
+
+只在live profile的暂存输入调用`formal-theme.cjs`，将正式浅色shared sheet及页面专有样式展开为各页style；Home忙碌按钮只增加展示class以配对灰背景/深字。所有页面脚本/onclick和共用源UX、旧theme.css/local-theme.css保持。新formal-theme.css不进入Demo/隔离实验；没有新增运行时全局CSS或主题owner。签名/资源检查后，构建器检查实际编译六页颜色与条件绑定，未通过则不替换交付。检查器运行在Node，不能证明固件透明合成、全局优先级或336×480像素可读性。
+
 ## 05C 正式目录与两种学习所有权
 
 当前正式profile为`com.guanyi.mirra`，使用既有正式签名。`formal-app.ux`创建一份CompanionStore/Interconnect transport、一份LocalOwner与一份CatalogOwner；Mode、手机伴侣页与独立页共用通信lease，页面不创建存储writer。LOCAL默认；本地活动/准备/IO或不确定状态阻止手机控制，PHONE阻止本地操作；新鲜手机PREPARING/ACTIVE/SAVING及未确认控制阻止新的本地开始。未知离线状态允许独立学习，但不能称已证明手机空闲。

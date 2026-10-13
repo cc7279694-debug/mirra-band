@@ -1,0 +1,261 @@
+{
+  "status": "AUTOMATION_PASS_NATIVE_VISUAL_NOT_RUN",
+  "node": {
+    "version": "v24.18.1",
+    "command": "npm.cmd test (unfiltered)",
+    "tests": 699,
+    "pass": 699,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "durationMs": 14683.9099
+  },
+  "syntax": {
+    "checkedScripts": 107,
+    "errors": 0
+  },
+  "themeTests": 15,
+  "newBuilderTests": 2,
+  "oldCompiledTheme": [
+    {
+      "page": "Mode",
+      "status": "FAIL",
+      "errors": [
+        "Mode: text.mode-secondary-label secondary button must have primary/disabled text"
+      ],
+      "minContrast": 4.554
+    },
+    {
+      "page": "Home",
+      "status": "FAIL",
+      "errors": [
+        "Home: div.page.home invalid background #0b0f14",
+        "Home: div.page.home root must explicitly use #FFFFFF",
+        "Home: text.badge missing/nonformal text color #d7b77a",
+        "Home: text.state.state-small missing/nonformal text color #eef3f8",
+        "Home: text.sync missing/nonformal text color #a6b2c3",
+        "Home: text.timer.timer-long missing/nonformal text color #6598e8",
+        "Home: text.timer-label missing/nonformal text color #a6b2c3",
+        "Home: text.hero-text missing/nonformal text color #eef3f8",
+        "Home: text.hint missing/nonformal text color #a6b2c3",
+        "Home: text.control-note missing/nonformal text color #d7b77a",
+        "Home: div.book-context invalid background #151c25",
+        "Home: text.book missing/nonformal text color #eef3f8",
+        "Home: text.page-number missing/nonformal text color #a6b2c3",
+        "Home: div.retry invalid background #6598e8",
+        "Home: text.button-label missing/nonformal text color #0b0f14",
+        "Home: div.control-link invalid background #6598e8",
+        "Home: div.detail-link invalid background #151c25",
+        "Home: text.secondary-label missing/nonformal text color #a6b2c3",
+        "Home: text.secondary-label secondary button must have primary/disabled text",
+        "Home: text.sync.sync-warning missing/nonformal text color #d7b77a",
+        "Home: div.detail-link.compact invalid background #151c25",
+        "Home: div.control-link.control-disabled invalid background #314763",
+        "Home: text.button-label contrast 2.02 #0B0F14 on #314763"
+      ],
+      "minContrast": 2.024
+    },
+    {
+      "page": "Detail",
+      "status": "FAIL",
+      "errors": [
+        "Detail: div.page invalid background #0b0f14",
+        "Detail: div.page root must explicitly use #FFFFFF",
+        "Detail: text.brand missing/nonformal text color #eef3f8",
+        "Detail: text.badge missing/nonformal text color #d7b77a",
+        "Detail: text.summary missing/nonformal text color #eef3f8",
+        "Detail: text.row-note missing/nonformal text color #a6b2c3",
+        "Detail: text.section-label missing/nonformal text color #a6b2c3",
+        "Detail: text.long-text missing/nonformal text color #eef3f8",
+        "Detail: text.help-text missing/nonformal text color #a6b2c3",
+        "Detail: text.time-value missing/nonformal text color #6598e8",
+        "Detail: div.button invalid background #6598e8",
+        "Detail: text.button-label missing/nonformal text color #0b0f14",
+        "Detail: div.secondary invalid background #151c25",
+        "Detail: text.secondary-label missing/nonformal text color #a6b2c3",
+        "Detail: text.secondary-label secondary button must have primary/disabled text"
+      ],
+      "minContrast": 6.598
+    },
+    {
+      "page": "Control",
+      "status": "FAIL",
+      "errors": [
+        "Control: div.page.control-page invalid background #0b0f14",
+        "Control: div.page.control-page root must explicitly use #FFFFFF",
+        "Control: text.brand missing/nonformal text color #eef3f8",
+        "Control: text.badge missing/nonformal text color #d7b77a",
+        "Control: text.summary missing/nonformal text color #eef3f8",
+        "Control: text.row-note missing/nonformal text color #a6b2c3",
+        "Control: text.section-label missing/nonformal text color #a6b2c3",
+        "Control: text.long-text missing/nonformal text color #eef3f8",
+        "Control: text.help-text missing/nonformal text color #a6b2c3",
+        "Control: text.message-text missing/nonformal text color #d7b77a",
+        "Control: div.button invalid background #6598e8",
+        "Control: text.button-label missing/nonformal text color #0b0f14",
+        "Control: div.confirm-button invalid background #6598e8",
+        "Control: text.confirm-label missing/nonformal text color #0b0f14",
+        "Control: div.secondary invalid background #151c25",
+        "Control: text.secondary-label missing/nonformal text color #a6b2c3",
+        "Control: text.secondary-label secondary button must have primary/disabled text"
+      ],
+      "minContrast": 6.598
+    },
+    {
+      "page": "Connection",
+      "status": "FAIL",
+      "errors": [
+        "Connection: div.page invalid background #0b0f14",
+        "Connection: div.page root must explicitly use #FFFFFF",
+        "Connection: text.brand missing/nonformal text color #eef3f8",
+        "Connection: text.build-label missing/nonformal text color #a6b2c3",
+        "Connection: text.badge missing/nonformal text color #d7b77a",
+        "Connection: text.connection-title missing/nonformal text color #eef3f8",
+        "Connection: text.row-note missing/nonformal text color #a6b2c3",
+        "Connection: text.body-text missing/nonformal text color #eef3f8",
+        "Connection: text.help-text missing/nonformal text color #a6b2c3",
+        "Connection: div.button invalid background #6598e8",
+        "Connection: text.button-label missing/nonformal text color #0b0f14",
+        "Connection: div.secondary invalid background #151c25",
+        "Connection: text.secondary-label missing/nonformal text color #a6b2c3",
+        "Connection: text.secondary-label secondary button must have primary/disabled text"
+      ],
+      "minContrast": 6.598
+    },
+    {
+      "page": "LocalSession",
+      "status": "PASS",
+      "errors": [],
+      "minContrast": 4.554
+    }
+  ],
+  "newCompiledTheme": [
+    {
+      "page": "Mode",
+      "status": "PASS",
+      "branchFixtures": 256,
+      "minContrast": 5.017
+    },
+    {
+      "page": "Home",
+      "status": "PASS",
+      "branchFixtures": 256,
+      "minContrast": 5.017
+    },
+    {
+      "page": "Detail",
+      "status": "PASS",
+      "branchFixtures": 256,
+      "minContrast": 5.017
+    },
+    {
+      "page": "Control",
+      "status": "PASS",
+      "branchFixtures": 256,
+      "minContrast": 5.017
+    },
+    {
+      "page": "Connection",
+      "status": "PASS",
+      "branchFixtures": 256,
+      "minContrast": 5.017
+    },
+    {
+      "page": "LocalSession",
+      "status": "PASS",
+      "branchFixtures": 256,
+      "minContrast": 4.554
+    }
+  ],
+  "functional": {
+    "status": "PASS",
+    "boundary": "Actual signed formal RPK app/Mode/LocalSession templates in Node; firmware file and SDK callbacks controlled, fixture phone; no radio, hardware pixels or firmware durability proof",
+    "package": "com.guanyi.mirra",
+    "fromVersion": "0.4.0",
+    "toVersion": "0.4.1",
+    "versionCode": 10,
+    "bytes": 80221,
+    "sha256": "ea281efd4570bba436689388ece8081c86943f350c2b4a5f7f2aff4d1668ed83",
+    "sameCertificate": true,
+    "versionIncreases": true,
+    "nativeFixtureCatalogFrames": 2,
+    "persistedAckWaitsExactReadback": true,
+    "independentAtomicStartWrites": 1,
+    "oneSessionDespiteRepeatedTap": true,
+    "singletonCompanionPerApp": true,
+    "sharedNativeContextAcrossNavigation": true,
+    "offlineCatalogRecovery": true,
+    "crossAppSameSessionRecovery": true,
+    "referenceTime": "01:05 → 01:10",
+    "trustedFocusMs": 0,
+    "breakExcludedFromLearning": true,
+    "breakDeadlineRequiresExplicitResume": true,
+    "nullableFinish": true,
+    "pendingRetainedAcrossDirectoryRemoval": true,
+    "timerFileIoCalls": 0,
+    "experimentalFilesAccessed": 0,
+    "compiledClickBindings": 8,
+    "evaluatedTextBindings": 53,
+    "fileCallbacks": 36,
+    "formalFileSlots": 4,
+    "hiddenIntervals": 0
+  },
+  "preserved": {
+    "protectedFiles": 75,
+    "allowedChanges": [
+      "src/profile.js"
+    ],
+    "allSharedPageScriptsStylesEnginesAndOldArtifactsPreserved": true
+  },
+  "build": {
+    "command": "node scripts/build-rpk.cjs release live",
+    "exitCode": 0,
+    "toolkit": "2.0.5",
+    "compilerMs": 5517,
+    "includesCliInitialization": false
+  },
+  "failureHistory": [
+    {
+      "kind": "Expected theme RED",
+      "result": "Old signed0.4.0 five pages reject light-theme contract; new transform absent RED then GREEN"
+    },
+    {
+      "kind": "Expected delivery guard RED",
+      "result": "Unreadable formal-theme fixture initially replaced delivery; guard now rejects while retaining prior delivery"
+    },
+    {
+      "kind": "Version assertions RED",
+      "result": "New0.4.1/code10 expected before profile bump; then GREEN"
+    },
+    {
+      "kind": "Formal builder fixture incomplete",
+      "result": "New integration test lacked Mode staged fixture; real formal source fixtures added, not production branch weakening"
+    },
+    {
+      "kind": "Tool VM timeout",
+      "result": "Concurrent full test/build:695/699,4 ERR_SCRIPT_EXECUTION_TIMEOUT at100ms; tool-only finite timeout matched2000ms compiled allowance; finalunfiltered699PASS, no wrist deadlines changed",
+      "failedTests": [
+        "actual formal builder transforms all six staged pages while preserving original shared pages and experiment styles",
+        "source checker keeps disabled foreground/background bindings correlated",
+        "retained 0.4.0 companion source reproduces a formal palette mismatch without changing historical source",
+        "formal transform gives LocalSession every text/button an explicit readable combination without changing scripts or click handlers"
+      ]
+    }
+  ],
+  "review": "Independent read-only code and signed artifact review: no Critical/Important findings",
+  "notRun": [
+    {
+      "check": "Native Vela336x480 pixels/firmware styling/touch/new-upgrade durability",
+      "reason": "No running ownedVela session; existing isolated runtime blocked beforeapp load; current status checked; no globalsettings changes or device install"
+    },
+    {
+      "check": "Android rebuild/tests",
+      "reason": "Android sources/APK unchanged"
+    },
+    {
+      "check": "Fresh Demo/experiment RPK replacement",
+      "reason": "Retain historical artifacts; isolated builder paths regression and byte preservation checked"
+    }
+  ]
+}

@@ -4,7 +4,7 @@
 
 ## Current Stage / Module
 
-**05C / DEV_COMPLETE_AWAITING_PHYSICAL_ACCEPTANCE**。用户已批准真实书籍离线目录与正式身份整合，采用方案A：保留独立实验应用及记录，不迁移。合同见[05C](plans/MIRRA_BAND_05C_OFFLINE_CATALOG.md)，交付记录见[evidence](evidence/module-05c/README.md)。不进入05D–05E。
+**05C.1 / DEV_COMPLETE_AWAITING_VISUAL_FEEDBACK**。用户报告05C真实书籍同步、离线使用与保存基本正常，功能获用户正常反馈、视觉验收失败；0.4.0在真机有白底浅字问题，整体不标PASS。当前合同见[05C.1](plans/MIRRA_BAND_05C_1_LIGHT_THEME.md)，基线05C `92122a2`，当前分支codex/module-05c-1-light-theme-fix。仅正式腕端展示修复，不改Android或业务/存储，不进入05D–05E。
 
 Band基线d693d3502c4d8a05670fb0adf20ab4e8e4c0ba27，新分支codex/module-05c-offline-catalog；Android隔离工作树基线30a8af3fdea225cc96db6a360d71383a85b7ea39，新分支codex/mirra-band-05c-catalog。原手机工作区不修改，不合并main。
 
@@ -26,7 +26,13 @@ Android只读LearningItemEntity与FirstActionResolver；新目录授权默认关
 
 独立UI保留白色Mirra Blue、实际第一步完成后一次确认保存、忙碌反馈、只更新变化计时字段、休息主动继续及nullable页码。真实书名120码点、动作160码点完整行展示，超限拒绝同步，不静默截断。无完整目录则不能使用测试书籍替代。Logo保持现有资源/LOGO_PENDING。
 
-## 新鲜验证
+## 05C.1 新鲜验证
+
+未过滤Node699/699 PASS，107脚本/配置0错误；实际正式0.4.1/code10构建/签名/摘要与六页各256颜色条件检查通过。最终80221bytes、SHA ea281efd4570bba436689388ece8081c86943f350c2b4a5f7f2aff4d1668ed83；原正式证书保持。受控编译功能回归/75项资源与旧产物保护通过，Android未改。工具100ms VM超时的4项失败历史保留，工具期限调整后最终全量通过，不改变手环期限。详见[evidence](evidence/module-05c-1/README.md)。
+
+原生Vela336×480画面、新包真机视觉/覆盖保留Not Run；本轮新安装另取明确同意。主题声明检查不证明固件全局优先级或真机像素。停05C.1，不进入05D。
+
+## 05C继承验证（此前执行）
 
 Node未过滤682/682 PASS；104脚本语法/配置0错误。Android88 suites/824 tests全部PASS、0fail/error/skip；Lint0 errors/20原有warnings/1hint，实际两APK构建通过。旧文件并发测试曾两次超时，原断言保持，最后无重构建负载的局部1024m/单worker未过滤通过，失败历史保留。
 
@@ -38,7 +44,7 @@ Node未过滤682/682 PASS；104脚本语法/配置0错误。Android88 suites/824
 
 ## Pending / Not Run / 下一步
 
-开发交付已达经验证停止点；普通commit/push最终Git结果见交付记录。停05C。本轮安装同意已有，不重复询问；用户选择自行体验。实拍确认腕端运行0.4.0/code9，最初APK_RAW_TIMEOUT，随后明确反馈“手环已显示正常同步内容”，连接恢复记USER_REPORTED_PASS。该反馈未确认真实目录完整保存ACK、断手机独立学习或结束记录保留；手机安装版本/公开证书仍未独立核查。无腕端记录上传、手机历史合并、统计或数据库迁移。
+05C开发交付记录保留；用户自行自然体验，实拍确认腕端0.4.0/code9，曾APK_RAW_TIMEOUT，随后正常同步。最新用户报告真实书籍同步、离线使用及保存基本正常，记功能USER_REPORTED_NORMAL；目录ACK和设备文件未独立提取，不能扩大为全部故障/耐久边界已证明。视觉验收FAIL，当前修05C.1；手机版本/证书未独立核查，新0.4.1安装另取同意。无腕端记录上传、手机历史合并、统计或数据库迁移。
 
 墙钟累计仍是参考值，跨重启可信连续性及未保存中间时间异常不能证明，不计入已验证有效专注。模拟器/Node回调/Golden均不替代真实9 Pro的通信、流畅度、像素或持久保留。
 
@@ -48,4 +54,4 @@ Band实现502f47a21a6d0b0c8a70b28179425f907ca786ee、Android实现c159983919093f
 
 ## 安装授权与当前阻塞
 
-用户已同意先只读预检再安装配套包，随后改为自行自然体验；不重复安装或连接矩阵。当前只读ADB库存仅见无关模拟器5596，未操作。0.4.0/code9实拍超时及后续用户确认同步均保留，恢复触发和底层原因未隔离。此次只读源码对照确认原生transport未变、Android SDK所有者和有界重试保留；未修改代码或更换产物。继续等待真实书籍目录与离线独立使用反馈，不以连接恢复代替05C全部验收。
+0.4.0的既有安装授权与超时/恢复反馈保留；最新功能正常反馈已收到，不再重复请求。05C.1新包安装仍需当次明确同意。真机视觉问题尚未通过新包复验，本机Vela运行环境无法加载应用，不能用编译颜色检查替代336×480像素验收。

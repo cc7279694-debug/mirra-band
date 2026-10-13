@@ -1,0 +1,12 @@
+/* Only the live profile expands this sheet into its page-local style block.
+   Demo and isolated experiments retain their original sheets and resources. */
+.page { width: 100%; height: 100%; background-color: #FFFFFF; flex-direction: column; align-items: center; padding-top: 10px; padding-bottom: 10px; }
+.brand { width: 144px; height: 20px; font-size: 15px; font-weight: bold; color: #181A1D; text-align: center; }
+.badge { width: 144px; height: 13px; font-size: 10px; color: #626873; text-align: center; }
+.button { width: 144px; height: 32px; border-radius: 9px; background-color: #386FBE; justify-content: center; align-items: center; }
+.button-label { font-size: 12px; color: #FFFFFF; text-align: center; }
+.secondary { width: 144px; height: 32px; border-radius: 9px; background-color: #F2F4F7; justify-content: center; align-items: center; }
+.secondary-label { font-size: 12px; color: #181A1D; text-align: center; }
+.muted { width: 144px; font-size: 10px; color: #626873; text-align: center; }
+.section-label { width: 144px; height: 16px; font-size: 10px; color: #626873; }
+.body-text { width: 144px; font-size: 12px; line-height: 16px; color: #181A1D; }

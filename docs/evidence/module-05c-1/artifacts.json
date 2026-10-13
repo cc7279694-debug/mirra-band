@@ -1,0 +1,38 @@
+{
+  "rpk": {
+    "path": "E:\\CODEX\\mirra-watch\\dist\\com.guanyi.mirra.release.0.4.1.rpk",
+    "bytes": 80221,
+    "sha256": "ea281efd4570bba436689388ece8081c86943f350c2b4a5f7f2aff4d1668ed83",
+    "package": "com.guanyi.mirra",
+    "version": "0.4.1",
+    "versionCode": 10,
+    "profile": "live",
+    "signature": "RSA-SHA256 verified; content and per-file SHA-256 verified; signed metadata verified",
+    "certificateSubject": "CN=Android Debug\nO=Android\nC=US",
+    "certificateFingerprint256": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
+    "certificateValidTo": "Sep  2 07:14:40 2056 GMT",
+    "zipCRC32": "verified",
+    "sharedStyles": "present in all compiled pages",
+    "tamperChecks": "payload, primary signature and file digest signature mutations rejected",
+    "files": [
+      "META-INF/CERT",
+      "manifest-watch.json",
+      "manifest.json",
+      "app.js",
+      "pages/Mode/index.js",
+      "common/icon.png",
+      "common/icon.svg",
+      "pages/Connection/index.js",
+      "pages/Control/index.js",
+      "pages/Detail/index.js",
+      "pages/Home/index.js",
+      "pages/LocalSession/index.js",
+      "META-INF/build.txt"
+    ]
+  },
+  "previousVersion": "0.4.0/code9",
+  "sameCertificate": true,
+  "versionIncreases": true,
+  "androidApkChanged": false,
+  "installationAuthorization": "REQUIRED_FOR_NEW_0.4.1"
+}

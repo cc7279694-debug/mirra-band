@@ -1,0 +1,949 @@
+{
+  "status": "PASS",
+  "boundary": "Signed compiled declarations and native bindings in Node fixtures; no firmware pixels/layout proof",
+  "versionName": "0.4.1",
+  "versionCode": 10,
+  "certificate": "29:DE:D2:6B:EA:44:F1:AF:E4:FE:38:3A:30:2E:4B:50:74:23:D1:62:23:46:9D:7D:A3:FE:57:8D:9A:7F:83:B9",
+  "pages": [
+    {
+      "page": "Mode",
+      "status": "PASS",
+      "errors": [],
+      "branchFixtures": 256,
+      "textNodesPerFixture": 6,
+      "buttonNodesPerFixture": 3,
+      "combinations": [
+        {
+          "classes": [
+            "mode-title"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "catalog-state"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "mode-primary-label"
+          ],
+          "foreground": "#FFFFFF",
+          "background": "#386FBE",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "mode-secondary-label"
+          ],
+          "foreground": "#181A1D",
+          "background": "#F2F4F7",
+          "contrast": 15.825
+        },
+        {
+          "classes": [
+            "mode-message"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        }
+      ]
+    },
+    {
+      "page": "Home",
+      "status": "PASS",
+      "errors": [],
+      "branchFixtures": 256,
+      "textNodesPerFixture": 13,
+      "buttonNodesPerFixture": 2,
+      "combinations": [
+        {
+          "classes": [
+            "badge"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "state",
+            "state-small"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "sync"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "timer",
+            "timer-long"
+          ],
+          "foreground": "#386FBE",
+          "background": "#FFFFFF",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "timer-label"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "hero-text"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "hint"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "control-note"
+          ],
+          "foreground": "#386FBE",
+          "background": "#FFFFFF",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "book"
+          ],
+          "foreground": "#181A1D",
+          "background": "#F2F4F7",
+          "contrast": 15.825
+        },
+        {
+          "classes": [
+            "page-number"
+          ],
+          "foreground": "#626873",
+          "background": "#F2F4F7",
+          "contrast": 5.086
+        },
+        {
+          "classes": [
+            "button-label"
+          ],
+          "foreground": "#FFFFFF",
+          "background": "#386FBE",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "secondary-label"
+          ],
+          "foreground": "#181A1D",
+          "background": "#F2F4F7",
+          "contrast": 15.825
+        },
+        {
+          "classes": [
+            "sync",
+            "sync-warning"
+          ],
+          "foreground": "#386FBE",
+          "background": "#FFFFFF",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "button-label",
+            "control-disabled-label"
+          ],
+          "foreground": "#626873",
+          "background": "#F2F4F7",
+          "contrast": 5.086
+        }
+      ]
+    },
+    {
+      "page": "Detail",
+      "status": "PASS",
+      "errors": [],
+      "branchFixtures": 256,
+      "textNodesPerFixture": 22,
+      "buttonNodesPerFixture": 4,
+      "combinations": [
+        {
+          "classes": [
+            "brand"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "badge"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "summary"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "row-note"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "section-label"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "long-text"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "help-text"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "time-value"
+          ],
+          "foreground": "#386FBE",
+          "background": "#FFFFFF",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "button-label"
+          ],
+          "foreground": "#FFFFFF",
+          "background": "#386FBE",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "secondary-label"
+          ],
+          "foreground": "#181A1D",
+          "background": "#F2F4F7",
+          "contrast": 15.825
+        }
+      ]
+    },
+    {
+      "page": "Control",
+      "status": "PASS",
+      "errors": [],
+      "branchFixtures": 256,
+      "textNodesPerFixture": 19,
+      "buttonNodesPerFixture": 5,
+      "combinations": [
+        {
+          "classes": [
+            "brand"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "badge"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "summary"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "row-note"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "section-label"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "long-text"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "help-text"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "message-text"
+          ],
+          "foreground": "#386FBE",
+          "background": "#FFFFFF",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "button-label"
+          ],
+          "foreground": "#FFFFFF",
+          "background": "#386FBE",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "confirm-label"
+          ],
+          "foreground": "#FFFFFF",
+          "background": "#386FBE",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "secondary-label"
+          ],
+          "foreground": "#181A1D",
+          "background": "#F2F4F7",
+          "contrast": 15.825
+        }
+      ]
+    },
+    {
+      "page": "Connection",
+      "status": "PASS",
+      "errors": [],
+      "branchFixtures": 256,
+      "textNodesPerFixture": 12,
+      "buttonNodesPerFixture": 2,
+      "combinations": [
+        {
+          "classes": [
+            "brand"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "build-label"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "badge"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "connection-title"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "row-note"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "body-text"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "help-text"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "button-label"
+          ],
+          "foreground": "#FFFFFF",
+          "background": "#386FBE",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "secondary-label"
+          ],
+          "foreground": "#181A1D",
+          "background": "#F2F4F7",
+          "contrast": 15.825
+        }
+      ]
+    },
+    {
+      "page": "LocalSession",
+      "status": "PASS",
+      "errors": [],
+      "branchFixtures": 256,
+      "textNodesPerFixture": 146,
+      "buttonNodesPerFixture": 39,
+      "combinations": [
+        {
+          "classes": [
+            "brand"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "badge"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "light-label"
+          ],
+          "foreground": "#386FBE",
+          "background": "#FFFFFF",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "book-title"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "caption",
+            "book-page"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "record-caption"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "first-action-title"
+          ],
+          "foreground": "#181A1D",
+          "background": "#F2F4F7",
+          "contrast": 15.825
+        },
+        {
+          "classes": [
+            "light-label"
+          ],
+          "foreground": "#386FBE",
+          "background": "#F2F4F7",
+          "contrast": 4.554
+        },
+        {
+          "classes": [
+            "first-action-text"
+          ],
+          "foreground": "#181A1D",
+          "background": "#F2F4F7",
+          "contrast": 15.825
+        },
+        {
+          "classes": [
+            "button-label"
+          ],
+          "foreground": "#626873",
+          "background": "#F2F4F7",
+          "contrast": 5.086
+        },
+        {
+          "classes": [
+            "book-title",
+            "long-book-title"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "caption"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "full-action-text"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "first-action-title"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "toolbar-title"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "picker-title"
+          ],
+          "foreground": "#181A1D",
+          "background": "#F2F4F7",
+          "contrast": 15.825
+        },
+        {
+          "classes": [
+            "caption"
+          ],
+          "foreground": "#626873",
+          "background": "#F2F4F7",
+          "contrast": 5.086
+        },
+        {
+          "classes": [
+            "selection-mark"
+          ],
+          "foreground": "#386FBE",
+          "background": "#F2F4F7",
+          "contrast": 4.554
+        },
+        {
+          "classes": [
+            "picker-title"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "selection-mark"
+          ],
+          "foreground": "#386FBE",
+          "background": "#FFFFFF",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "selection-caption"
+          ],
+          "foreground": "#626873",
+          "background": "#F2F4F7",
+          "contrast": 5.086
+        },
+        {
+          "classes": [
+            "selection-caption"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "state-title"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "timer-book"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "timer-value"
+          ],
+          "foreground": "#386FBE",
+          "background": "#FFFFFF",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "timer-qualifier"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "timer-status"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "secondary-label"
+          ],
+          "foreground": "#626873",
+          "background": "#F2F4F7",
+          "contrast": 5.086
+        },
+        {
+          "classes": [
+            "break-option-label"
+          ],
+          "foreground": "#626873",
+          "background": "#F2F4F7",
+          "contrast": 5.086
+        },
+        {
+          "classes": [
+            "option-hint"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "review-book"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "summary-value"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "summary-qualifier"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "page-option-label"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "page-option-link"
+          ],
+          "foreground": "#386FBE",
+          "background": "#FFFFFF",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "confirmation-hint"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "page-value"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "page-error"
+          ],
+          "foreground": "#386FBE",
+          "background": "#FFFFFF",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "key-text"
+          ],
+          "foreground": "#181A1D",
+          "background": "#F2F4F7",
+          "contrast": 15.825
+        },
+        {
+          "classes": [
+            "key-text",
+            "small-key"
+          ],
+          "foreground": "#181A1D",
+          "background": "#F2F4F7",
+          "contrast": 15.825
+        },
+        {
+          "classes": [
+            "saved-title"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "saved-book"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "saved-page"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "saved-source"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "saved-notice"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "button-label"
+          ],
+          "foreground": "#FFFFFF",
+          "background": "#386FBE",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "detail-label"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "diagnostic-line"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "secondary-label"
+          ],
+          "foreground": "#181A1D",
+          "background": "#F2F4F7",
+          "contrast": 15.825
+        },
+        {
+          "classes": [
+            "detail-text"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "warning-title"
+          ],
+          "foreground": "#386FBE",
+          "background": "#FFFFFF",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "warning-text"
+          ],
+          "foreground": "#386FBE",
+          "background": "#FFFFFF",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "diagnostic-text"
+          ],
+          "foreground": "#626873",
+          "background": "#FFFFFF",
+          "contrast": 5.604
+        },
+        {
+          "classes": [
+            "notice-heading"
+          ],
+          "foreground": "#181A1D",
+          "background": "#FFFFFF",
+          "contrast": 17.437
+        },
+        {
+          "classes": [
+            "break-option-label"
+          ],
+          "foreground": "#181A1D",
+          "background": "#F2F4F7",
+          "contrast": 15.825
+        },
+        {
+          "classes": [
+            "caption",
+            "book-page"
+          ],
+          "foreground": "#386FBE",
+          "background": "#FFFFFF",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "timer-status"
+          ],
+          "foreground": "#386FBE",
+          "background": "#FFFFFF",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "confirmation-hint"
+          ],
+          "foreground": "#386FBE",
+          "background": "#FFFFFF",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "saved-notice"
+          ],
+          "foreground": "#386FBE",
+          "background": "#FFFFFF",
+          "contrast": 5.017
+        },
+        {
+          "classes": [
+            "timer-qualifier"
+          ],
+          "foreground": "#386FBE",
+          "background": "#FFFFFF",
+          "contrast": 5.017
+        }
+      ]
+    }
+  ]
+}

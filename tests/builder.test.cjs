@@ -15,7 +15,7 @@ const stagedArtifact = path.join(staging, 'dist', artifactName);
 
 // Only external file/build/signature boundaries are substituted. The actual
 // wrapper decides what to delete, launch, validate, deliver, and unlock.
-async function runBuilder({ compilerStatus = 0, produceArtifact = true, locked = false, mode = 'demo' } = {}) {
+async function runBuilder({ compilerStatus = 0, produceArtifact = true, locked = false, mode = 'demo', themeStatus = 'PASS' } = {}) {
   const profile = require('../scripts/build-profiles.cjs').identity(mode);
   const artifactName = profile.package + '.release.' + profile.versionName + '.rpk';
   const deliveryPath = path.join(root, 'dist', artifactName);
@@ -44,6 +44,13 @@ async function runBuilder({ compilerStatus = 0, produceArtifact = true, locked =
     [stagedArtifact, 'previous staged artifact'],
     [path.join(root, 'node_modules/keep.txt'), 'dependencies stay intact'],
   ]);
+  if (mode === 'live') {
+    for (const relative of ['formal-app.ux', 'common/formal-theme.css', 'common/local-theme.css',
+      ...require('../scripts/formal-theme.cjs').PAGES.map(page => 'pages/' + page + '/index.ux')])
+      files.set(path.join(root, 'src', relative), fs.readFileSync(path.join(root, 'src', relative), 'utf8'));
+    files.set(path.join(root, 'sign/live/private.pem'), 'test signing input');
+    files.set(path.join(root, 'sign/live/certificate.pem'), 'test public identity');
+  }
   if (locked) files.set(lock, 'another builder owns this lock');
   const removed = [];
   const launched = [];
@@ -119,6 +126,13 @@ async function runBuilder({ compilerStatus = 0, produceArtifact = true, locked =
     if (name === 'node:path') return path;
     if (name === './build-profiles.cjs') return require('../scripts/build-profiles.cjs');
     if (name === './source-profile.cjs') return require('../scripts/source-profile.cjs');
+    if (name === './formal-theme.cjs') return require('../scripts/formal-theme.cjs');
+    if (name === './check-formal-theme.cjs') return { async checkRpk(file) {
+      assert.equal(file, stagedArtifact);
+      assert.equal(readFile(file), 'fresh verified package');
+      assert.equal(mode, 'live', 'Theme validation is formal-only');
+      return { status: themeStatus };
+    } };
     if (name === 'node:child_process') {
       return {
         spawnSync(command, args, options) {
@@ -136,7 +150,7 @@ async function runBuilder({ compilerStatus = 0, produceArtifact = true, locked =
         async inspect(file, certificate) {
           inspected.push({ file, certificate });
           assert.equal(file, stagedArtifact, 'Previous root delivery must never satisfy fresh build validation');
-          assert.equal(certificate, path.join(root, 'sign/certificate.pem'));
+          assert.equal(certificate, path.join(root, profile.signDirectory, 'certificate.pem'));
           assert.equal(readFile(file), 'fresh verified package');
           return { bytes: 22, sha256: 'fresh-verified-digest', signature: 'verified demo signature' };
         },
@@ -302,4 +316,28 @@ test('generated local runtime profile enables the actual app owner and selects o
     assert.ok(nativeCalls.every(call => /^internal:\/\/files\/mirra_05b_test_sessions_[ab]\.json$/.test(call.uri)));
     assert.equal(values.size, 1);
   } finally { app.onDestroy(); }
+});
+
+test('actual formal builder transforms all six staged pages while preserving original shared pages and experiment styles', async () => {
+  const result = await runBuilder({ mode: 'live' });
+  assert.equal(result.exitCode, 0, result.errors.join('\n'));
+  for (const page of require('../scripts/formal-theme.cjs').PAGES) {
+    const file = path.join(staging, 'src/pages', page, 'index.ux');
+    const original = fs.readFileSync(path.join(root, 'src/pages', page, 'index.ux'), 'utf8');
+    const staged = result.files.get(file);
+    assert.equal(result.files.get(path.join(root, 'src/pages', page, 'index.ux')), original);
+    assert.equal(require('../scripts/check-formal-theme.cjs').checkSourcePage(staged, page).status, 'PASS', page);
+    assert.equal(staged.match(/<script\b[^>]*>([\s\S]*?)<\/script>/)[1], original.match(/<script\b[^>]*>([\s\S]*?)<\/script>/)[1]);
+  }
+  assert.equal(result.files.has(path.join(staging, 'src/common/theme.css')), false);
+  assert.equal(result.files.has(path.join(staging, 'src/common/formal-theme.css')), true);
+  assert.equal(result.files.has(path.join(staging, 'src/local-app.ux')), false);
+});
+
+test('a signed formal build with unreadable compiled theme cannot replace a prior delivery', async () => {
+  const result = await runBuilder({ mode: 'live', themeStatus: 'FAIL' });
+  assert.equal(result.exitCode, 1);
+  const target = path.join(root, 'dist', 'com.guanyi.mirra.release.' + require('../scripts/build-profiles.cjs').identity('live').versionName + '.rpk');
+  assert.equal(result.files.get(target), 'previous delivery');
+  assert.equal(result.files.has(lock), false);
 });

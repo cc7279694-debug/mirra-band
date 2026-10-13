@@ -2,7 +2,7 @@ const path = require('node:path');
 const { identity } = require('./build-profiles.cjs');
 function sourceFilter(root, mode) {
   const profile = identity(mode);
-  const formalFiles = ['manifest.json', 'profile.js', 'formal-app.ux', 'common/icon.png', 'common/icon.svg', 'common/theme.css',
+  const formalFiles = ['manifest.json', 'profile.js', 'formal-app.ux', 'common/icon.png', 'common/icon.svg', 'common/formal-theme.css',
     'common/local-theme.css', 'ui/local-tokens.js', 'lib/ticker.js', 'lib/interconnect-diagnostic.js',
     'lib/companion-store.js', 'lib/companion-protocol.js', 'lib/companion-timer.js', 'lib/companion-presentation.js',
     'lib/formal-local-runtime.js', 'lib/catalog-owner.js', 'lib/catalog-protocol.js', 'lib/catalog-wire.js',
@@ -21,6 +21,7 @@ function sourceFilter(root, mode) {
     if (relative === '..' || relative.startsWith('../') || path.isAbsolute(relative)) return false;
     if (profile.standalone) return formalFiles.includes(relative) || formalFiles.some(file => file.startsWith(relative + '/'));
     if (profile.probe || profile.localSession || profile.clickProbe) return files.includes(relative) || files.some(file => file.startsWith(relative + '/'));
+    if (relative === 'common/formal-theme.css') return false;
     if (relative === 'formal-app.ux' || (/^lib\/(?:formal-|catalog-)/.test(relative) && relative !== 'lib/catalog-wire.js') || relative === 'pages/Mode' || relative.startsWith('pages/Mode/')) return false;
     if (relative === 'click-probe-app.ux' || relative === 'common/click-probe.css' || relative === 'pages/ClickProbe' || relative.startsWith('pages/ClickProbe/')) return false;
     if (relative.split('/').some(part => part.startsWith('local-')) || relative === 'pages/LocalSession' || relative.startsWith('pages/LocalSession/')) return false;

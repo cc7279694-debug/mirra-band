@@ -49,6 +49,6 @@ test('local experiment retains its existing identity and white display during fo
   assert.equal(profile.versionCode, 5);
   assert.equal(profile.package, 'com.guanyi.mirra.band.localsessiontest');
   assert.equal(configureManifest(source, 'local-session').display.backgroundColor, '#FFFFFF');
-  assert.equal(identity('live').versionName, '0.4.0');
-  assert.equal(identity('live').versionCode, 9);
+  assert.equal(identity('live').versionName, '0.4.1');
+  assert.equal(identity('live').versionCode, 10);
 });

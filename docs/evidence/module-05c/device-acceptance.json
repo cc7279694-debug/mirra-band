@@ -1,6 +1,6 @@
 {
-  "status": "WRIST040_SYNC_RECOVERED_USER_REPORTED_CATALOG_ACCEPTANCE_PENDING",
-  "recordedAt": "2026-10-13T08:56:54Z",
+  "status": "FUNCTION_USER_REPORTED_NORMAL_VISUAL_FAILED_05C1_PENDING",
+  "recordedAt": "2026-10-13T09:33:25.500Z",
   "userAuthorization": "User explicitly agreed to read-only preflight followed by paired APK/RPK installation",
   "scope": [
     "original paired Xiaomi phone and formal Mirra Band only",
@@ -14,13 +14,20 @@
   "userEvidence": {
     "wristVersion": "Photo visibly shows Mirra 0.4.0 / 9; installed file hash not extracted",
     "initialFailure": "Photo shows APK_RAW_TIMEOUT; source maps exact synchronous native getApkStatus TIMEOUT, before application handshake",
-    "subsequentFeedback": ["已同步", "手环已显示正常同步内容"],
+    "subsequentFeedback": [
+      "已同步",
+      "手环已显示正常同步内容"
+    ],
     "connectionRecovery": "USER_REPORTED_PASS; recovery trigger and underlying timeout cause not isolated",
     "catalogDurableAck": "NOT_CONFIRMED: normal synchronized content alone does not prove catalog persistence",
-    "offlineLocalSession": "NOT_CONFIRMED",
-    "agentChanges": "Read-only wrist/Android startup audit; no source changes, builds or device writes"
+    "offlineLocalSession": "USER_REPORTED_NORMAL: offline use basically normal",
+    "agentChanges": "Read-only wrist/Android startup audit; no source changes, builds or device writes",
+    "catalogBasic": "USER_REPORTED_NORMAL: real books sync basically normal",
+    "completedRecordRetention": "USER_REPORTED_NORMAL: save basically normal",
+    "visualAcceptance": "FAIL: white background with white/light text on formal0.4.0",
+    "independentNativePixelVerification": "NOT_RUN"
   },
-  "requiredNextInput": "Natural use feedback: real book catalog saved, offline same-session recovery and completed record retention; no repeated connection matrix",
+  "requiredNextInput": "Current explicit0.4.1 installation consent, then one natural visual-use feedback; do not repeat accepted functional tests",
   "doNotRepeatInstallationPermission": true,
   "notAuthorized": [
     "05D/05E",
@@ -30,5 +37,6 @@
     "identity conversion",
     "raw user database operations",
     "unrelated device operations"
-  ]
+  ],
+  "nextRpk": "0.4.1/code10 installation not yet authorized"
 }

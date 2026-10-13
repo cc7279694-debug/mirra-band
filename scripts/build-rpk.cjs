@@ -6,6 +6,8 @@ const { spawnSync } = require('node:child_process')
 const { inspect } = require('./inspect-rpk.cjs')
 const { identity, configureManifest } = require('./build-profiles.cjs')
 const { sourceFilter } = require('./source-profile.cjs')
+const { PAGES, transformFormalPage } = require('./formal-theme.cjs')
+const { checkRpk } = require('./check-formal-theme.cjs')
 const root = path.resolve(__dirname, '..')
 const local = path.join(root, '.local')
 const staging = path.join(local, 'build-project')
@@ -24,6 +26,14 @@ async function build() {
     fs.rmSync(staging, { recursive: true, force: true })
     fs.mkdirSync(staging)
     fs.cpSync(path.join(root, 'src'), path.join(staging, 'src'), { recursive: true, filter: sourceFilter(path.join(root, 'src'), mode) })
+    if (profile.standalone) {
+      for (const page of PAGES) {
+        const file = path.join(staging, 'src/pages', page, 'index.ux')
+        const themed = transformFormalPage(fs.readFileSync(file, 'utf8'), page,
+          name => fs.readFileSync(path.join(staging, 'src/common', name), 'utf8'))
+        fs.writeFileSync(file, themed)
+      }
+    }
     if (profile.probe || profile.localSession || profile.clickProbe || profile.standalone) {
       const entry = profile.standalone ? 'formal-app.ux' : profile.clickProbe ? 'click-probe-app.ux' : profile.localSession ? 'local-app.ux' : 'probe-app.ux'
       fs.copyFileSync(path.join(staging, 'src', entry), path.join(staging, 'src/app.ux'))
@@ -53,6 +63,8 @@ async function build() {
     // The CLI may return zero after a compiler error: verify the fresh staged
     // artifact and independent signature before copying any delivery output.
     const report = await inspect(source, path.join(root, profile.signDirectory, 'certificate.pem'), mode)
+    if (profile.standalone && (await checkRpk(source)).status !== 'PASS')
+      throw new Error('Formal compiled theme readability validation failed; prior delivery preserved')
     fs.mkdirSync(path.join(root, 'dist'), { recursive: true })
     fs.copyFileSync(source, path.join(root, 'dist', name))
     const runtime = path.join(root, 'build/runtime', mode)
