@@ -8,7 +8,8 @@
       <list-item type="channel" class="info-row"><text class="body-text">{{connectionText}}</text></list-item>
       <list-item type="guidance" class="help-row"><text class="help-text">{{helpText}}</text></list-item>
       <list-item type="lifecycle" class="help-row"><text class="help-text">打开手环应用时更新。息屏或退出后，重新进入会再次获取状态。</text></list-item>
-      <list-item type="privacy" class="help-row"><text class="help-text">仅查看当前阅读信息。开始、休息与结束请在手机操作。</text></list-item>
+      <list-item type="privacy" class="help-row"><text class="help-text">{{formal ? '手机控制须允许；独立学习在手环操作，结束后确认同步。' : '仅查看当前阅读信息。开始、休息与结束请在手机操作。'}}</text></list-item>
+      <list-item if="{{formal}}" type="record-sync" class="help-row"><text class="help-text">{{recordText}}</text></list-item>
       <list-item if="{{errorText}}" type="error" class="help-row"><text class="help-text">诊断代码：{{errorText}}</text></list-item>
       <list-item type="retry" class="control-row"><div class="button" onclick="retry"><text class="button-label">重新连接</text></div></list-item>
       <list-item type="back" class="control-row"><div class="secondary" onclick="back"><text class="secondary-label">返回</text></div></list-item>
@@ -23,7 +24,9 @@ import profile from '../../profile'
 
 export default {
   private: Object.assign(presentationLib.present({}), {
-    versionText: 'Mirra ' + profile.versionName + ' / ' + profile.versionCode
+    versionText: 'Mirra ' + profile.versionName + ' / ' + profile.versionCode,
+    formal: profile.standalone === true,
+    recordText: '完成记录等待协商，原始事实保留。'
   }),
   onInit() {
     this._visible = false
@@ -56,8 +59,14 @@ export default {
   },
   refresh() {
     if (this._destroyed) return
-    const view = presentationLib.present(this._companion.snapshot())
+    const state = this._companion.snapshot()
+    const view = presentationLib.present(state)
     Object.keys(view).forEach(key => { this[key] = view[key] })
+    const records = state.records
+    this.recordText = records && records.errorCode ? '记录未确认：' + records.errorCode
+      : records && records.busy ? '正在同步原始记录，等待保存确认。'
+      : records && records.confirmedCount > 0 ? '手机原始记录已存；参考时间不计有效专注。'
+      : '完成记录等待协商，原始事实保留。'
   },
   retry() { this._companion.requestRefresh() },
   back() { router.back() }

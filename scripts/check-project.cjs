@@ -60,7 +60,7 @@ for (const mode of ['demo', 'live', 'probe', 'probe-upgrade', 'local-session', '
   }
   if (profile.standalone) {
     if (selected.router.entry !== 'pages/Mode' || !selected.router.pages['pages/LocalSession']) errors.push('Missing formal ownership route');
-    if (selected.features.map(feature => feature.name).sort().join(',') !== 'system.file,system.interconnect,system.router') errors.push('Unexpected formal capabilities');
+    if (selected.features.map(feature => feature.name).sort().join(',') !== 'system.crypto,system.file,system.interconnect,system.router') errors.push('Unexpected formal capabilities');
     if (selected.config.background || selected.permissions) errors.push('Unexpected formal permission');
   }
   for (const [page, route] of Object.entries(selected.router.pages)) {

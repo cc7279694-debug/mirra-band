@@ -3,6 +3,7 @@ import storeLib from './lib/companion-store'
 import transportLib from './platform/interconnect-transport'
 import runtimeLib from './lib/formal-local-runtime'
 import catalogLib from './lib/catalog-protocol'
+import recordSyncLib from './lib/record-sync'
 
 export default {
   companion: null,
@@ -25,6 +26,7 @@ export default {
       this._runtime = runtimeLib.createFormalLocalRuntime({
         loadModule: name => {
           if (name === '@system.file') return require('@system.file')
+          if (name === '@system.crypto') return require('@system.crypto')
           throw new Error('UNSUPPORTED_FORMAL_MODULE')
         },
         phoneSnapshot: () => this.companion ? this.companion.snapshot() : null,
@@ -59,17 +61,34 @@ export default {
     if (this._retired) throw new Error('FORMAL_RUNTIME_RETIRED')
     if (!this.companion) {
       const catalogOwner = this.getCatalogOwner()
+      const runtime = this.getLocalRuntime()
       const catalogReceiver = catalogLib.createCatalogReceiver({ persist: async input => {
         // Fast SDK handshakes must not race the one initial disk recovery.
         if (this._ready) await this._ready
         if (this._retired) return { status: 'closed' }
         return catalogOwner.save(input)
       } })
+      const transport = transportLib.createTransport({ loadModule: () => require('@system.interconnect') })
+      const recordSync = recordSyncLib.createRecordSync({
+        send: payload => transport.send(payload),
+        listRecords: async () => { if (this._ready) await this._ready; return runtime.getRecords() },
+        hash: raw => runtime.digest.sha256(raw),
+        acknowledge: value => runtime.owner.acknowledgeCompleted(value),
+        notify: () => { if (this.companion) this.companion.notifyRecordView() }
+      })
       this.companion = storeLib.createCompanionStore({
-        transport: transportLib.createTransport({ loadModule: () => require('@system.interconnect') }),
+        transport, recordSync,
         catalogReceiver,
         catalogRevision: () => catalogOwner.snapshot().revision,
         controlAllowed: () => this.canUsePhoneControl()
+      })
+      let lastSequence = -1, wasBusy = false
+      this._offRecords = runtime.owner.subscribe(local => {
+        if (local.busy) { wasBusy = true; return }
+        if (local.sequence === lastSequence && !wasBusy) return
+        wasBusy = false
+        lastSequence = local.sequence
+        if (this.companion) this.companion.notifyLocalRecords()
       })
     }
     return this.companion
@@ -77,6 +96,8 @@ export default {
   onDestroy() {
     if (this._retired) return
     this._retired = true
+    if (this._offRecords) this._offRecords()
+    this._offRecords = null
     if (this.companion) this.companion.destroy()
     if (this._runtime) this._runtime.close()
     this.companion = null

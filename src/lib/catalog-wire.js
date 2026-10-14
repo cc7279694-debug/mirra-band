@@ -22,7 +22,7 @@ function revision(value) {
 }
 function validateMessage(message, primitives) {
   const utf8Bytes = primitives.utf8Bytes;
-  if (!message || message.protocolVersion !== CATALOG_VERSION || TYPES.indexOf(message.type) < 0) fail('CATALOG_VERSION');
+  if (!message || message.protocolVersion !== CATALOG_VERSION && message.protocolVersion !== 4 || TYPES.indexOf(message.type) < 0) fail('CATALOG_VERSION');
   const extra = {
     GET_CATALOG: ['knownRevision'], CATALOG_MANIFEST: ['revision', 'schemaVersion', 'totalBytes', 'partCount', 'bookCount', 'checksum'],
     CATALOG_PART: ['revision', 'index', 'data', 'checksum'], CATALOG_ACK: ['revision', 'code'], CATALOG_ERROR: ['code']

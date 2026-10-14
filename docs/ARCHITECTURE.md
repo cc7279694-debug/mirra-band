@@ -1,102 +1,58 @@
-# 当前手环伴侣架构
+# 当前Mirra Band架构
 
-## 05C.1 正式主题构建隔离
+更新：2026-10-14。描述当前05D实现；历史交付细节与旧版本范围见DECISIONS及各模块evidence/checkpoints，不作为当前限制重新执行。
 
-只在live profile的暂存输入调用`formal-theme.cjs`，将正式浅色shared sheet及页面专有样式展开为各页style；Home忙碌按钮只增加展示class以配对灰背景/深字。所有页面脚本/onclick和共用源UX、旧theme.css/local-theme.css保持。新formal-theme.css不进入Demo/隔离实验；没有新增运行时全局CSS或主题owner。签名/资源检查后，构建器检查实际编译六页颜色与条件绑定，未通过则不替换交付。检查器运行在Node，不能证明固件透明合成、全局优先级或336×480像素可读性。
+## 运行所有权与模式
 
-## 05C 正式目录与两种学习所有权
+正式`com.guanyi.mirra`由`formal-app.ux`持有一份CompanionStore/Interconnect transport、一份LocalOwner、一份CatalogOwner和一份完成记录档案。页面只有通信lease、订阅、内存草稿和投影，不创建第二写入者。LOCAL拥有腕端Session；PHONE控制手机权威Session，沿用原互斥准入；已知手机活动、未确认控制、本地活动或不确定IO不能靠切页绕过。未知离线不被说成已证明手机空闲。
 
-当前正式profile为`com.guanyi.mirra`，使用既有正式签名。`formal-app.ux`创建一份CompanionStore/Interconnect transport、一份LocalOwner与一份CatalogOwner；Mode、手机伴侣页与独立页共用通信lease，页面不创建存储writer。LOCAL默认；本地活动/准备/IO或不确定状态阻止手机控制，PHONE阻止本地操作；新鲜手机PREPARING/ACTIVE/SAVING及未确认控制阻止新的本地开始。未知离线状态允许独立学习，但不能称已证明手机空闲。
+手机应用级WearableCoordinator复用OwnedWearTransport和官方Xiaomi SDK监听。SnapshotReader、CatalogReader、RecordReceiver及CommandExecutor都捕获startup、Room及StorageMaintenanceGate代际；维护前取消/排空，退役源不重新获取数据库。SDK等待/发送与Room事务分开。伴侣、控制、目录和记录披露许可独立、默认关闭，存no-backup AtomicFile，不随Full Backup迁移。
 
-手机LearningItemEntity只读短事务 → StorageMaintenanceGate/source生命周期 → FirstActionResolver与已同意的本地选书设置 → 既有WearableCoordinator/WearTransport → v3 BOOK_CATALOG。旧v1/v2保持；目录披露同意默认关闭，主线自动、最多11本额外IN_PROGRESS书籍。手机Room v4、Session/Intent/监测算法、统计和备份格式保持。
-
-目录为schema1完整canonical，最多12本/16,384 UTF-8 bytes；书名120码点、第一动作160码点，超限或无效内容明确拒绝，不静默截断。4096字节消息预算内最多32片，每片data最多1024字节，固定30秒期限与client/request/stream上下文。完整重组、校验后由CatalogOwner双槽/CAS/CRC保存相反槽并精确读回，才发布新目录和PERSISTED ACK；相同完整字节幂等免写，缺失/迟到/冲突/未知IO不冒充同步成功。CRC32用于损坏检测，不代替签名身份认证。
-
-目录文件固定`internal://files/mirra_catalog_live_[ab].json`，单槽记录预算32,768 bytes；正式Session固定`internal://files/mirra_local_sessions_live_[ab].json`，marker `MIRRA_LOCAL_SESSION_V1`、schema1、单槽8192 bytes、8 pending、32 intervals及结束预留。实验`mirra_05b_test_sessions_[ab]`及marker保持，正式包不加载跨包数据、不迁移记录。目录更新不改active/pending的自包含快照；本地合法结束页码仅形成待确认进度，未更新手机。
-
-白色LocalSession模板动态读最后确认目录，没有目录不回退测试书籍；短文本首屏、长书名/动作完整滚动展示。第一动作预览绑定catalogRevision，刷新等待期间目录改变则旧确认不能写入Session；明确完成后一次START_CONFIRMED提交。继承参考计时、休息排除、到时主动继续、可空页码、失败锁和轻量tick；显示参考值不证明跨重启可信时长。05C不实现学习记录上传或手机整合。下方为既有模块交付时架构记录，当前验收状态以CURRENT_STATE为准。
-
-## 05B.3 单次确认提交与轻量刷新
-
-明确完成第一步 → UI捕获并核对预览/锁重复点击 → 可刷新忙碌字段 → 专用START_CONFIRMED在内存复用原合法transition链 → Owner容量/结束余量 → 原journal双槽/CAS/历史/CRC/相反槽写入/精确读回 → Owner确认 → 页面业务成功。无通用批处理和schema变化，无准备中间状态持久化；已开始IO的页面隐藏只抑制旧页面导航，不能撤销原生写。
-
-`timerSnapshot`只投影Owner内部已校验的选定Session，复用原时间算法及异常记忆；普通tick经`presentTime`仅提交变化标量，忙碌tick不执行全量刷新。完整错误与业务变化仍全量投影。UI平面绑定、白色主题和原Session事实保留。
-
-`local-performance`是默认关闭的有界内存诊断，固定数值阶段通过Owner/Journal/Page记录，详情可开启，不写业务文件。字段提交≠原生像素绘制，Date.now诊断时长不变成可信学习时间；Node回调模型不变成9 Pro数据。0.1.3参考重进已获用户通过，0.1.4流畅度等待真机自然反馈。
-
-## 05B.2 参考计时补修
-
-时间投影将“有墙钟参考值”和“有可信单调证据”分开：跨Owner可恢复完整、有界的墙钟差，仍标参考值且不贡献可信时长。每个原始FOCUS/BREAK区间分开计算；硬时间异常使参考累计与倒计时未知。Owner内存保留同Session已观察异常，正常下一tick不解除；新Session有独立诊断记忆，该状态不写入持久数据。完成历史只使用闭合端点。
-
-原Date.now入口、schema/transition/history、存储/IO与业务写入不变；平面LocalSession模板、主题、布局和已恢复控件保持字节一致。显示参考值不证明跨重启连续性；未保存的中间异常不能跨Owner证明。当前新实验交付0.1.3/code4，真机交互已有用户部分PASS，参考计时新行为待安装与自然反馈。
-
-## 05B.2 原生兼容修复
-
-主模板只绑定平面标量及平面重复行；纯presentation对象存于非响应字段`_projection`，其不可变第一动作预览仍用于严格开始回执。页面`safeRefresh`提供固定生命周期/刷新错误、事件计数、流程/显示视图、busy/准入及时间KNOWN/UNKNOWN诊断；异常不泄露原生消息，页面隐藏后无计时订阅，不新建数据owner。只读详情/返回可越过IO busy，业务操作安全锁保留。白色主题与递增实验证书身份只作用local-session。
-
-`click-probe`是独立路由/app/profile/包名，只有system.router，无业务模块或存储读写；用于分层检验原生点击、标量刷新和布局区域。主包与探针均不能宣称已获固件触控证明。旧05B.1源码可由基线提交恢复；其Node验证有效，用户后续真机自然验收FAIL单独记录。Logo原图已收到，集成仍LOGO_PENDING。schema/双槽/时间算法不变。
-
-## 05B.1 继承的独立学习界面（交付时记录）
-
-`LocalSession`单路由互斥任务视图 → `local-presentation`只读事实投影与参考时间文案；`local-ui-flow`仅持有内存书籍/动作/页码草稿和跨整链提交锁 → 原05B app级LocalOwner。开始逐条调用既有命令并核对状态、序列、身份、对象及保存回执，中途失败或隐藏不补执行后续命令。结束只有实际FINISH读回后显示SAVED，Done不删pending、不执行NEW_SESSION。打开/选择/返回/刷新均不创建学习事实。
-
-原05B状态机、schema、存储命名空间、容量与时间来源没有变化。仅local-session profile使用独立主题和临时文字图标；其他profile资源隔离。RECOVERED核对只属UI确认，不能证明全部数据完整。原Logo缺失为LOGO_PENDING；新原生像素/触控与同身份真机升级留待授权自然使用。
-
-## 05B 隔离本地Session
-
-`local-app.ux`单一owner → `local-owner`先保存后采纳 → `local-session`不可变转换/自包含测试书籍及动作快照 → `local-journal`双槽/CAS/历史延续校验 → 固定 `local-storage` file后端。页面单页切view、仅订阅与刷新投影，隐藏或退出不结束Session。独立包 `com.guanyi.mirra.band.localsessiontest`，marker `MIRRA_05B_ISOLATED`、schemaVersion1、专用05B测试Files；不加载手机SDK/协议或原伴侣页。
-
-IDLE/PREPARING在明确完成第一动作前不生成Session。FOCUS/BREAK记录原始区间，5/10分钟休息到时不自动继续。FINISH可空页码，pending只追加且不自动删；安装身份+已持久counter产生稳定ID。32interval/8pending/8192bytes均是设计上限，结束预留1024bytes，实际字节限制可更早阻止增长。恢复不能将已确认历史变空、降低counter、替换pending或重写旧活动区间；未知/冲突/读失败/原生IO不确定停止写。
-
-用户确认file必要损坏/升级/重启保留路径，当前隔离profile显式 `storageQualified:true/storageBackend:file`；owner默认仍fail closed。墙钟是未验证观察：保存wall/owner/可选mono原始端点，实际入口monotonic始终未验证；跨owner/回退/异常不造可靠时长、不清零Session。不存在后台timer学习事实或手机有效专注导入。旧05B用户已报告基本自然体验正常；该反馈不扩展为全部时钟、掉电或容量证明。05B.1真机自然验收FAIL，当前由05B.2等待修复包反馈。
-
-## 05A 隔离持久化实验
-
-实验构建使用单独入口 `probe-app.ux`，应用持有 `probe-controller` → `probe-journal` → `probe-storage` 的 owner。页面只订阅/执行实验，不释放全局存取。原正式入口、v1/v2、四个伴侣页面和协议代码不改。
-
-`system.storage` 两个固定 key、`system.file` 两个 `internal://files` 固定 URI 分别存放合成快照。序号决定最新有效记录；保存写另一槽后精确读回并校验，保留前一槽。未知格式、双槽损坏、读错误、序号冲突阻断；5 秒存取结果未知锁存，晚回调和切后端不能解锁。没有删除、clear、move 或文件原子性假设。
-
-实例标识只区分当前 JS owner；墙钟锚点及回调差只用于实验观察，回退或大幅 IO 时间差不报告可靠时长。没有后台 JS 计时或真实独立 Session。初始/升级实验 profile 同独立包、同实验证书，staging allowlist 与 RPK 检查排除所有伴侣/演示页面及 Interconnect。正常 live/demo staging 则排除实验代码。
-
-Node 及真实临时文件证明应用边界，不能证明目标 Vela 固件持久性或像素。当前 05A 状态和设备证据门槛见 CURRENT_STATE，产品后续方案见 Standalone V1 合同。
-
-## Module 04 扩展
-
-v1 文件与只读报文保持原样；v2 在快照信封中加入控制事实，只允许 START_BREAK、FINISH_BREAK、CONFIRM_PREPARATION_AND_START。手机默认关闭的控制许可存放独立 no-backup AtomicFile，不进入 Room 或可携带备份偏好。
-
-应用级 WearableCoordinator 持有当前节点、握手流和与 source 同时绑定的 WearableCommandExecutor。20 秒 opaque grant 绑定节点、client、stream、捕获的存储 owner 与业务状态，最多保留 4 个当前状态授权；状态变化、撤权、断连、维护或重新握手撤销。结果缓存最多 32 项，冲突载荷不能覆盖已证明结果。SDK 等待/发送在业务维护许可与 Room 事务外，零排队、单个在途操作，最长 12 秒。
-
-休息操作复用 FocusSessionActions 和原转换规则，只增加可选外部授权准入：业务读取后和最终 Room 首次写入前再次检查。原手机接口不要求外部控制授权。第一步确认走 SessionStartCoordinator 的严格监测入口，READY/后台 FGS 失败在提交前停止；提交事务再次验证完整动作、页码、书籍、Intent 及授权。提交后失败保留真实 Session，并沿用 DEGRADED 处理。
-
-腕端只有 v2、明确能力、新鲜完整快照和有效 grant 才启用控制。Control 页滚动展示实际第一步并显式确认；5 秒命令期限不重传，不把发送成功当业务成功。RESULT 后再读完整状态，超时/断连显示结果未确认。反馈绑定原命令与 Session，业务身份变化后清理；隐藏/销毁清理页面所有权。正式身份 com.guanyi.mirra / 0.3.0(code8)，演示身份与签名继续分离且不能发送控制。
-
-下方保留 Module 03 基线架构说明；历史版本号指该基线，当前门禁与真机范围见 CURRENT_STATE。
-
-Module 03 继承原生 Vela JavaScript；无服务器、账号、云端或腕端数据库。
+## 原始完成记录同步
 
 ```text
-手机真实 Room / 监测运行时
-  → WearableSnapshotReader：捕获数据库代际，短只读事务
-  → WearableCoordinator：Application SupervisorScope、请求归属、流代际
-  → XiaomiWearTransport：官方 AAR、用户授权、单一节点监听
-  → Interconnect
-  → interconnect-transport.js：平台单例回调唯一所有者
-  → companion-protocol.js：4096 UTF-8 字节、白名单、严格 v1
-  → companion-store.js：前台请求、新鲜度、内存快照
-  → companion-timer.js / companion-presentation.js
-  → Home / Detail / Connection .ux
+LocalOwner完成原始Session并保存pending
+  → record-model完整规范原文 + 经向量自检的system.crypto SHA-256
+  → record-sync / 同一CompanionStore通信流
+  → v4 OFFER → NEED → 有界PART → COMMIT
+  → WearableCoordinator严格完整校验
+  → RoomWearableRecordReceiver / captured gate / withTransaction
+  → 独立不可变wearable_completed_records / 提交及精确原文核对
+  → 绑定身份、摘要、字节数与通信context的ACK
+  → 腕端完成档案双份最新镜像 + 各份精确读回
+  → 原LocalOwner CAS释放对应pending / 持久确认展示
 ```
 
-协议只有 HELLO 与 GET_SNAPSHOT；没有学习写命令。手机 SDK 等待与发送发生在数据库事务和维护许可之外。维护开始先暂停并排空只读请求；退役资源不重开，新代际重新握手。设置保存在手机 `noBackupFilesDir` 的独立 AtomicFile，默认关闭；不会进入 Room、四项可携带偏好或完整备份。SDK 缺失/授权失败不会阻断正常学习。
+v4能力`LOCAL_RECORD_SYNC`兼容旧v1/v2/v3，不以HELLO、SDK发送或摘要一致跳过完整原文。记录schema1、最多8192 UTF-8字节，最多8片/每片1024字节，各帧4096字节，固定30秒总期限包含手机提交与ACK；重复片不延长总期限。一次一个记录、有限重试及退避；旧stream/request、错误身份、摘要、字节数或迟到ACK不能确认另一记录。
 
-腕端仅在页面可见时持有回调、轮询和定时器。页面使用所有权令牌，交叠生命周期不会被旧页面释放新页面的任务。HELLO/GET 最长 3 秒；活动 5 秒、空闲 15 秒查询；15/30 秒过期；退避 2/5/10/30 秒。迟到、重复、旧请求/旧流不刷新新鲜度。来源忙碌、关闭、授权错误清空私有展示；断连/过期冻结最后手机确认的数字。
+手机独立表复合主键installationId/sessionId，保存canonical TEXT、SHA-256、字节数与receivedAt，无手机业务外键/级联。同ID同原字节幂等；不同原文冲突，即使摘要相同也不覆盖。事务返回后才可发送ACK，维护/源退役或撤权使旧context失效。OwnedWearTransport仅对严格v4记录帧使用单worker有界队列：最多10条在途/等待、32768字节，每帧重新核对授权；溢出退役当前代际并清队列，不建立第二监听或无限缓存。
 
-计时用保守 Date 锚点，只插值近期确认且前台连续的显示时间；回退、超过 7 秒调度空档、隐藏/重开均废弃连续性。不计算有效专注，不在倒计时归零时推断手机切换状态。SAVING/ENDED 显示固定值；ENDED 仅能跟随曾收到的 Session。
+腕端在本流首个有效SNAPSHOT后才开始记录同步；上传/本地确认期间暂缓普通快照轮询、目录和手机控制，避免共享通道竞争。新流重放档案及pending，手机旧备份恢复后的缺失行重新接收；已存在原文依旧完整核对。新握手重置流内成功事实；历史回执仅显示曾获保存确认。
 
-构建配置互斥：当前正式包 `com.guanyi.mirra` / 0.2.5(code 7)，没有 States 路由；演示包 `com.guanyi.mirra.band.demo` / 0.2.0(code 2)、独立证书，每页标识“演示数据”。版本由 `scripts/build-profiles.cjs` 与实际产物核对，包身份与协议版本分别维护。正式故障不回退演示。共享 `.ux`/呈现模型以 `#0B0F14` 深墨背景、`#6598E8` 强调、168 设计宽度组织首页与可滚动详情。
+## 腕端存储与容量保护
 
-`scripts/build-rpk.cjs` 隔离输入并串行调用固定 `aiot-toolkit@2.0.5`；新产物通过签名、内容/逐文件摘要、元数据签名、CRC、身份/路由和篡改检查才进入 `dist/`。正式本地 PEM 在忽略的 `sign/live`，不会进包或 Git。
+主Session保持`MIRRA_LOCAL_SESSION_V1` / schema1与原`mirra_local_sessions_live_[ab].json`，单槽8192字节、8 pending、32 intervals及结束预留，不把旧数据当空。新档案namespace `local-record-archive-live`，URI `internal://files/mirra_local_record_archive_live_[ab].json`，marker `MIRRA_CONFIRMED_RECORDS_V1` / schema1；每槽65536字节、最多64原文及稳定回执。
 
-Node 页面 harness 运行真实页面脚本，不能证明 Vela 渲染。Android API37 模拟器证明 Android 回归，不能证明小米服务、手环消息或锁屏可达性。实际边界与产物索引见 [Module 03 checkpoint](checkpoints/2026-10-11-module-03-companion.md)。
+档案append包含全部原文，保存双槽完整镜像且分别精确读回后才提供窄的pending释放证明。中断仅写一份时pending仍保留；未知schema、双损坏、序列冲突、原生结果未知或历史变更停止危险写入。counter与档案/pending/active的连续覆盖检测记录消失、身份回退及冲突。档案不自动删除/压缩；条数或字节满时安全阻断，不承诺无限使用。8条确认、双份归档并释放pending后可开始第9场，实际字节预算可更早限制。
 
-手机连接 owner 的 1.1.3 修正：首次 NO_DEVICE / 暂时 SERVICE_UNAVAILABLE / TIMEOUT 失败后，由同一个应用连接 job 按 2/5/10/30/60 秒延迟恢复，之后保持 60 秒上限；成功即停止。自动尝试 requestAuthorization=false，不新增权限弹窗、FGS、alarm 或 wake lock；系统休眠可能延迟执行，不承诺准点。身份、授权、多设备或监听清理不确定等非暂时错误停止并锁存；晚到事件/发送成功不能覆盖停止状态。关闭伴侣、维护 pause、source 退役、close 与进程 scope 取消所属重试，合法新 source owner 重新接线。SDK ready 不代表 HELLO 或 SNAPSHOT 成功。
+`system.crypto.hashDigest`必须通过ASCII/中文/emoji冻结向量，缺失或错误则停止记录同步/不释放pending。CRC用于槽与分片损坏检查，不替代SHA内容身份或应用签名。原文在腕端档案丢失时不能靠手机回执猜测重建。
+
+## 手机数据库及完整备份
+
+Room v5仅增加独立腕端完成表及索引；Migration4→5明确注册，schemas1–4保留。手机Intent/Active Session/监测/学习算法、页码和统计不由05D修改，腕端参考时长不进入有效专注。
+
+新Full Backup format2/schema5包含全部13个权威表与媒体；旧format1/schema4以冻结可信v4布局严格校验，复制全部12个旧权威表和媒体到干净v5，再完整校验；不对不可信incoming数据库直接迁移。闭库恢复日志兼容合法v4/v5并保留恢复及回退保护。可读JSON/CSV保持原手机12表，明确声明不含腕端原始记录，不能替代Full Backup2。
+
+## 目录与独立学习
+
+目录schema1、最多12书籍/16384 UTF-8字节，书名120码点、动作160码点，完整滚动展示，超限拒绝而不截断语义。主线自动、额外最多11本IN_PROGRESS书籍经手机明确选择；FirstActionResolver只读内容不代表完成。v3/v4目录最多32片、每片1024字节、30秒总期限，CatalogOwner双槽/CAS/校验/精确读回后才启用新目录及ACK。最后完整目录可离线使用；更新不改变active/pending/档案的自包含学习事实。
+
+第一动作实际完成并明确确认后一次START_CONFIRMED持久提交；重复点击锁、失败锁、主动继续休息及nullable结束页码保持。本地合法结束页码可参与腕端待确认进度，不更新手机。页面平面绑定，普通timer tick只更新变化字段；已在进行的原生IO不被隐藏页面虚假撤销。
+
+时间保存原始FOCUS/BREAK边界，休息排除。跨owner合理墙钟差可展示为参考值，已知回退/异常保持未知；未观察或未保存的时钟异常不能跨重启证明。单调来源当前未验证，参考值不是有效专注。
+
+## 正式主题、构建与验证界限
+
+live暂存输入通过formal-theme.cjs展开明确正式浅色样式；白底深字、蓝按钮白字、灰按钮深字。正式主题不进入Demo/隔离实验。实际签名RPK检查编译六页颜色及条件绑定、身份、逐文件摘要、签名与篡改拒绝后才交付。原正式sign/live材料保持，不转换/更换，私钥不进Git或包。
+
+实验包`com.guanyi.mirra.band.localsessiontest`、05A/点击探针及既有记录保持隔离，正式包不跨包读取/迁移。旧产物保护单独核对。Node和编译RPK受控运行证明软件边界；Android自有AVD证明所执行Room/备份及相关回归，均不能证明9Pro原生SHA、无线通信、真机响应或长期持久性。05C.1视觉与05C功能用户通过继承；05D正式安装与自然使用另需当前明确授权。具体实际结果见CURRENT_STATE和05D证据。

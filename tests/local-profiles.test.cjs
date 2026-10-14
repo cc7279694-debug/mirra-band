@@ -80,7 +80,7 @@ test('selecting the local experiment preserves existing companion and probe mani
   const live = configureManifest(base, 'live');
   assert.equal(live.router.entry, 'pages/Mode');
   assert(live.router.pages['pages/LocalSession']);
-  assert.deepEqual(live.features.map(feature => feature.name).sort(), ['system.file', 'system.interconnect', 'system.router']);
+  assert.deepEqual(live.features.map(feature => feature.name).sort(), ['system.crypto', 'system.file', 'system.interconnect', 'system.router']);
   for (const mode of ['probe', 'probe-upgrade']) {
     const selected = configureManifest(base, mode);
     assert.equal(selected.router.entry, 'pages/StorageProbe');

@@ -1,7 +1,7 @@
 // Pure projection of acknowledged storage facts and in-memory UI drafts.
 // This layer never observes a clock, performs IO, or changes a Session.
 const WRITABLE_STATUSES = ['EMPTY', 'READY', 'RECOVERED'];
-const CAPACITY_ERRORS = ['CAPACITY_REQUIRED', 'CAPACITY', 'PENDING_CAPACITY', 'INTERVAL_CAPACITY', 'COUNTER_CAPACITY', 'SIZE'];
+const CAPACITY_ERRORS = ['CAPACITY_REQUIRED', 'CAPACITY', 'PENDING_CAPACITY', 'INTERVAL_CAPACITY', 'COUNTER_CAPACITY', 'SIZE', 'ARCHIVE_CAPACITY'];
 
 function positivePage(value) { return Number.isSafeInteger(value) && value > 0 && value <= 999999 ? value : null; }
 function pageText(value, formal, pendingPage) {
@@ -106,7 +106,7 @@ function storageProblem(snapshot, ui) {
   if (WRITABLE_STATUSES.indexOf(status) < 0 || (!snapshot.document && status !== 'EMPTY')) return notice('状态待核对', '尚未取得可靠本地状态，暂不继续写入。', 'danger', 'reload', '重新读取');
   return notice();
 }
-function taskView(state, ui, snapshot) {
+function taskView(state, ui, snapshot, formal) {
   const defaults = { IDLE: 'READY', PREPARING: 'READY', FOCUS: 'READING', BREAK: 'RESTING', FINISHED_PENDING_SYNC: 'READY' };
   const allowed = { IDLE: ['READY', 'BOOK_PICKER', 'ACTION_PICKER', 'DETAILS'],
     PREPARING: ['READY', 'BOOK_PICKER', 'ACTION_PICKER', 'DETAILS'],
@@ -114,7 +114,10 @@ function taskView(state, ui, snapshot) {
     BREAK: ['RESTING', 'FINISH_REVIEW', 'PAGE_EDITOR', 'DETAILS'],
     FINISHED_PENDING_SYNC: ['READY', 'BOOK_PICKER', 'ACTION_PICKER', 'SAVED', 'DETAILS'] };
   if (!defaults[state]) return 'STORAGE_NOTICE';
-  if (ui.view === 'SAVED' && (snapshot.errorCode || ui.errorCode || !snapshot.document.pending.length)) return 'READY';
+  const retained = formal && Array.isArray(snapshot.retainedRecords) ? snapshot.retainedRecords : [];
+  const savedRetained = retained.some(record => record.id === ui.savedRecordId);
+  if (ui.view === 'SAVED' && (snapshot.errorCode || ui.errorCode || (!snapshot.document.pending.length && !savedRetained))) return 'READY';
+  if (state === 'IDLE' && ui.view === 'SAVED' && savedRetained) return 'SAVED';
   return (allowed[state].indexOf(ui.view) >= 0 ? ui.view : defaults[state]);
 }
 function button(label, action, role, enabled) { return { label, action, role, enabled: !!enabled, disabled: !enabled }; }
@@ -140,17 +143,21 @@ function presentLocal(snapshot, ui, catalog, brand) {
   const pending = Array.isArray(doc.pending) ? doc.pending : [];
   const pendingCount = pending.length;
   const formal = brand.formal === true;
+  const retained = formal && Array.isArray(snapshot.retainedRecords) ? snapshot.retainedRecords : [];
   const preview = resolveReadyPreview(snapshot, formal ? Object.assign({}, ui, { formal: true }) : ui, catalog);
   const storageNotice = storageProblem(snapshot, ui);
   const recoveryNotice = status === 'RECOVERED'
     ? notice('已读取上一份记录', '请核对当前书籍和状态，最近变化可能未保留。', 'warning', 'acknowledgeRecovery', '已核对，继续') : notice();
   const recoveryRequired = recoveryNotice.visible && ui.recoveryAcknowledged !== true;
-  let view = storageNotice.visible || recoveryRequired ? 'STORAGE_NOTICE' : taskView(state, ui, snapshot);
+  let view = storageNotice.visible || recoveryRequired ? 'STORAGE_NOTICE' : taskView(state, ui, snapshot, formal);
   if (ui.view === 'DETAILS') view = 'DETAILS';
   if (view === 'STORAGE_NOTICE' && !storageNotice.visible && !recoveryRequired) Object.assign(storageNotice, notice('状态待核对', '本地状态未知，暂不继续写入。', 'danger', 'reload', '重新读取'));
   let canWrite = snapshot.storageQualified === true && snapshot.canWrite === true
     && WRITABLE_STATUSES.indexOf(status) >= 0 && !busy && !storageNotice.visible && !recoveryRequired && ui.exitRequested !== true;
-  const source = doc.active || ((view === 'SAVED' || (view === 'DETAILS' && state === 'FINISHED_PENDING_SYNC')) ? pending[pending.length - 1] : null);
+  const completed = pending.concat(retained).filter((record, index, all) => all.findIndex(value => value.id === record.id) === index).sort((a, b) => a.ordinal - b.ordinal);
+  const savedSource = ui.savedRecordId ? completed.find(record => record.id === ui.savedRecordId) : completed[completed.length - 1];
+  const source = doc.active || ((view === 'SAVED' || view === 'DETAILS' && (state === 'FINISHED_PENDING_SYNC' || formal && completed.length)) ? savedSource : null);
+  const sourceArchived = !!source && retained.some(record => record.id === source.id);
   const catalogNotice = formal && !source && !preview && !storageNotice.visible && !recoveryRequired
     ? notice('暂无离线书籍', '暂无离线书籍，请在手机手环伴侣启用目录同步。', 'info') : notice();
   if (catalogNotice.visible) { canWrite = false; if (view !== 'DETAILS') view = 'STORAGE_NOTICE'; }
@@ -187,9 +194,10 @@ function presentLocal(snapshot, ui, catalog, brand) {
   }
   return { view, state, status, busy, canWrite, title: view === 'STORAGE_NOTICE' ? activeNotice.title : titles[view],
     experimentLabel: formal ? '独立' : '实验', sourceLabel: view === 'SAVED'
-      ? formal && source && positivePage(source.endPage) !== null ? '页码待确认 · 未更新手机' : formal ? '仅本地 · 尚未上传' : '仅本地 · 尚未同步'
+      ? sourceArchived ? '曾获手机保存确认' : formal && source && positivePage(source.endPage) !== null ? '页码待确认 · 未更新手机' : formal ? '仅本地 · 尚未上传' : '仅本地 · 尚未同步'
       : '仅本地 · 未监测',
-    recordCountText: pendingCount ? '已有 ' + pendingCount + ' 条本地记录' : formal ? '独立记录仅在手环保存' : '本实验仅在手环保存', pendingCount,
+    recordCountText: retained.length ? '待同步 ' + pendingCount + ' 条 · 已确认档案 ' + retained.length + ' 条'
+      : pendingCount ? '已有 ' + pendingCount + ' 条本地记录' : formal ? '独立记录仅在手环保存' : '本实验仅在手环保存', pendingCount,
     preview, bookTitle, actionText, actionLong: Array.from(actionText).length > 18, startPageText: pageText(startPage, formal, pendingPage),
     bookChoices, actionChoices, timer, focusTimer, restTimer, breakTimer, focus: focusTimer, rest: restTimer, break: breakTimer,
     storageNotice, recoveryNotice, notice: currentNotice, primary: actions.primary, secondary: actions.secondary,
@@ -197,8 +205,11 @@ function presentLocal(snapshot, ui, catalog, brand) {
     brand: { name: typeof brand.name === 'string' && brand.name ? brand.name : 'Mirra', logoPath: typeof brand.logoPath === 'string' ? brand.logoPath : '', status: brandStatus },
     details: { status, state, bookTitle, actionText, sourceText: formal ? '腕端独立学习记录' : '腕端独立测试记录', timeReasons: reasons.slice(), timeReasonText: reasons.join(' / ') || '无异常原因',
       pendingCount, sequence: snapshot.sequence, sessionId: doc.active && doc.active.id ? doc.active.id : (source && source.id ? source.id : ''),
-      versionText: brand.versionText || brand.versionName || '', brandStatus, syncText: formal ? '仅同步目录，学习记录未上传；手环页码为待确认进度，未更新手机。' : '本实验尚未接入手机同步',
+      versionText: brand.versionText || brand.versionName || '', brandStatus, syncText: formal ? sourceArchived
+        ? '手机曾确认原始记录；重连会核对。参考时间未计为有效专注，页码未更新手机。'
+        : retained.length ? '部分原始记录曾获确认；待同步记录仍保留，重连会核对。参考时间未计为有效专注，页码未更新手机。'
+          : '仅同步目录，学习记录未上传；手环页码为待确认进度，未更新手机。' : '本实验尚未接入手机同步',
       recoveryText: snapshot.recoveryHint || recoveryNotice.text, errorCode,
-      records: pending.slice(-8).map(record => ({ id: record.id, bookTitle: record.bookSnapshot.title, endPage: record.endPage })) } };
+      records: completed.slice(-8).map(record => ({ id: record.id, bookTitle: record.bookSnapshot.title, endPage: record.endPage })) } };
 }
 module.exports = { presentLocal, presentTime, resolveReadyPreview, formatObservedDuration };

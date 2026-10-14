@@ -1,6 +1,7 @@
 const VERSION = 1;
 const CONTROL_VERSION = 2;
 const CATALOG_VERSION = 3;
+const RECORD_VERSION = 4;
 const MAX_BYTES = 4096;
 const ACTIONS = ['START_BREAK', 'FINISH_BREAK', 'CONFIRM_PREPARATION_AND_START'];
 const RESULT_CODES = ['APPLIED', 'ALREADY_APPLIED', 'STALE_STATE', 'REQUIRES_PHONE', 'DISABLED', 'UNAUTHORIZED', 'BUSY', 'FAILED', 'RESULT_UNKNOWN'];
@@ -39,7 +40,9 @@ function safeTree(value, depth) {
 }
 // JSON.parse overwrites duplicate keys. A bounded structural pass rejects them
 // before the standard parser performs full JSON syntax and value validation.
-function checkJsonKeys(text) {
+function checkJsonKeys(text, maximumDepth) {
+  const depthLimit = maximumDepth === undefined ? 4 : maximumDepth;
+  if (!integer(depthLimit) || depthLimit > 6) reject('DEPTH');
   let offset = 0;
   const whitespace = () => { while (offset < text.length && /[ \t\r\n]/.test(text.charAt(offset))) offset++; };
   function quoted() {
@@ -55,7 +58,7 @@ function checkJsonKeys(text) {
     reject('JSON');
   }
   function value(depth) {
-    if (depth > 4) reject('DEPTH');
+    if (depth > depthLimit) reject('DEPTH');
     whitespace();
     const first = text.charAt(offset);
     if (first === '{') {
@@ -107,6 +110,11 @@ function validateBody(body) {
   return body;
 }
 function validateCapabilities(capabilities, version) {
+  if (version === RECORD_VERSION) {
+    if (!Array.isArray(capabilities) || JSON.stringify(capabilities) !== JSON.stringify(['READ_ONLY_SNAPSHOT', 'BOOK_CATALOG', 'LOCAL_RECORD_SYNC'])
+      && JSON.stringify(capabilities) !== JSON.stringify(['READ_ONLY_SNAPSHOT', 'SESSION_CONTROL', 'BOOK_CATALOG', 'LOCAL_RECORD_SYNC'])) reject('CAPABILITY');
+    return;
+  }
   if (version === CATALOG_VERSION) {
     if (!Array.isArray(capabilities) || JSON.stringify(capabilities) !== JSON.stringify(['READ_ONLY_SNAPSHOT', 'BOOK_CATALOG'])
       && JSON.stringify(capabilities) !== JSON.stringify(['READ_ONLY_SNAPSHOT', 'SESSION_CONTROL', 'BOOK_CATALOG'])) reject('CAPABILITY');
@@ -160,11 +168,13 @@ function decodeMessage(payload, expected) {
   let message; try { message = JSON.parse(payload); } catch (error) { reject('JSON'); }
   safeTree(message, 0);
   const common = ['protocolVersion', 'type', 'clientInstanceId', 'requestId'];
-  if (!message || (message.protocolVersion !== VERSION && message.protocolVersion !== CONTROL_VERSION && message.protocolVersion !== CATALOG_VERSION)) reject('VERSION');
+  if (!message || (message.protocolVersion !== VERSION && message.protocolVersion !== CONTROL_VERSION && message.protocolVersion !== CATALOG_VERSION && message.protocolVersion !== RECORD_VERSION)) reject('VERSION');
   id(message.clientInstanceId); id(message.requestId);
   if (message.type === 'HELLO' || message.type === 'HELLO_ACK') {
-    keys(message, common.concat(message.type === 'HELLO_ACK' ? ['streamId', 'capabilities'] : ['capabilities']));
+    keys(message, common.concat(message.type === 'HELLO_ACK' ? ['streamId', 'capabilities'] : ['capabilities'])
+      .concat(message.type === 'HELLO_ACK' && message.protocolVersion === RECORD_VERSION ? ['recordSyncEnabled'] : []));
     validateCapabilities(message.capabilities, message.protocolVersion);
+    if (message.type === 'HELLO_ACK' && message.protocolVersion === RECORD_VERSION && typeof message.recordSyncEnabled !== 'boolean') reject('BOOLEAN');
   } else if (message.type === 'GET_SNAPSHOT') {
     keys(message, common.concat(['streamId', 'lastSeenSessionId'])); id(message.lastSeenSessionId, true);
   } else if (message.type === 'SNAPSHOT') {
@@ -191,7 +201,9 @@ function decodeMessage(payload, expected) {
     const committed = ['APPLIED', 'ALREADY_APPLIED'].indexOf(message.code) >= 0;
     if (committed && message.sessionId === null) reject('RESULT');
     if (message.monitorDegraded && (!committed || message.action !== 'CONFIRM_PREPARATION_AND_START' || message.sessionId === null)) reject('RESULT');
-  } else if (message.protocolVersion === CATALOG_VERSION && ['GET_CATALOG', 'CATALOG_MANIFEST', 'CATALOG_PART', 'CATALOG_ACK', 'CATALOG_ERROR'].indexOf(message.type) >= 0) {
+  } else if (message.protocolVersion === RECORD_VERSION && require('./record-envelope').TYPES.indexOf(message.type) >= 0) {
+    require('./record-envelope').validateMessage(message);
+  } else if ((message.protocolVersion === CATALOG_VERSION || message.protocolVersion === RECORD_VERSION) && ['GET_CATALOG', 'CATALOG_MANIFEST', 'CATALOG_PART', 'CATALOG_ACK', 'CATALOG_ERROR'].indexOf(message.type) >= 0) {
     // Lazy loading keeps strict envelope validation shared without a codec cycle.
     require('./catalog-wire').validateMessage(message, { utf8Bytes, integer });
   } else reject('COMMAND');
@@ -206,4 +218,4 @@ function encodeMessage(message) {
   decodeMessage(payload);
   return payload;
 }
-module.exports = { VERSION, CONTROL_VERSION, CATALOG_VERSION, ACTIONS, RESULT_CODES, MAX_BYTES, BODY_KEYS, integer, utf8Bytes, validateBody, decodeMessage, encodeMessage };
+module.exports = { VERSION, CONTROL_VERSION, CATALOG_VERSION, RECORD_VERSION, ACTIONS, RESULT_CODES, MAX_BYTES, BODY_KEYS, integer, utf8Bytes, checkJsonKeys, validateBody, decodeMessage, encodeMessage };

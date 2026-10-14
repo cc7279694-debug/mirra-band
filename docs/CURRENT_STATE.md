@@ -1,57 +1,41 @@
 # 当前状态
 
-更新：2026-10-13（Asia/Shanghai）。
+更新：2026-10-14（Asia/Shanghai）。
 
-## Current Stage / Module
+## 当前阶段与授权
 
-**05C.1 / DEV_COMPLETE_AWAITING_VISUAL_FEEDBACK**。用户报告05C真实书籍同步、离线使用与保存基本正常，功能获用户正常反馈、视觉验收失败；0.4.0在真机有白底浅字问题，整体不标PASS。当前合同见[05C.1](plans/MIRRA_BAND_05C_1_LIGHT_THEME.md)，基线05C `92122a2`，当前分支codex/module-05c-1-light-theme-fix。仅正式腕端展示修复，不改Android或业务/存储，不进入05D–05E。
+**05D / DEV_COMPLETE_AWAITING_DEVICE_NATURAL_USE**。独立完成记录可靠同步开发、自动化、原生隔离验证及配套产物核验已完成；尚未进行05D正式设备安装或真实用户数据库操作。合同见[05D方案](plans/MIRRA_BAND_05D_RECORD_SYNC.md)，最终事实以[交付证据](evidence/module-05d/README.md)、artifacts.json及verification.json为准。不进入05E、不自动PR或合并main。
 
-Band基线d693d3502c4d8a05670fb0adf20ab4e8e4c0ba27，新分支codex/module-05c-offline-catalog；Android隔离工作树基线30a8af3fdea225cc96db6a360d71383a85b7ea39，新分支codex/mirra-band-05c-catalog。原手机工作区不修改，不合并main。
+Band分支`codex/module-05d-record-sync`，基线`1c2ac537545f4d5cb365dfa7e276cbd24cd2425f`。Android隔离树`E:\CODEX\mirra-watch\.local\android-worktree`，分支`codex/mirra-band-05d-record-sync`，基线`6589a19f0305245fe0e63bf77f105f61f27a913e`。原手机工作区不修改；最终提交与推送由交付证据记录。
 
-## 已接受的设备结果
+## 已接受的真实设备结果
 
-Module03真实IDLE、用户确认的监测学习锁屏重进和首次NO_DEVICE自动恢复继续保留。05A选定file后端损坏恢复、同身份升级、正常重启记录保留为USER_REPORTED_PASS。05B基本体验、05B.2详情/休息交互、0.1.3/code4跨实例参考计时恢复的用户PASS保留。05B.1点击/计时失败历史保留。
+- **05C.1：USER_REPORTED_PASS — PASS WITH NOTES**。用户确认正式0.4.1/code10真机视觉正常；05C真实书籍同步、离线独立使用与保存基本正常的反馈保留。0.4.0白底浅字失败及修复证据见[05C.1记录](evidence/module-05c-1/README.md)。不再将已通过视觉描述为待验收。
+- Module03真实IDLE、用户确认的监测学习锁屏/腕端重进及首次NO_DEVICE自动恢复继承；05A选定file后端损坏恢复、同身份升级及正常重启保留为USER_REPORTED_PASS。
+- 05B基本体验、05B.2详情/休息交互与0.1.3/code4跨实例参考计时恢复的用户通过反馈保留。05B.3的0.1.4/code5流畅度改善仍无明确认可，不推定性能验收通过。
 
-05B.3的0.1.4/code5已有安装同意，但真机流畅度改善尚无明确反馈，不能标记通过。本轮也不能把旧实验数据保留证明扩大为新正式目录全部固件边界已证明。
+上述反馈不证明全部OEM、掉电、原生SHA、长期耐久或跨重启可信时长边界。
 
-## 当前实现
+## 当前实现与数据边界
 
-正式com.guanyi.mirra拥有Mode入口、手机在线伴侣与LOCAL独立学习。单Interconnect owner和单LocalOwner；已有v1/v2兼容，v3能力协商新增目录。已知手机活动/未确认控制阻止新独立开始，本地活动/存储未知阻止切到手机控制。离线未知不被描述为已证明手机空闲。
+正式`com.guanyi.mirra`同身份应用保留白色Mirra Blue、LOCAL独立学习、PHONE在线伴侣/有限控制及可靠离线目录。单Interconnect owner、单LocalOwner和独立CatalogOwner继续保留；本地活动/IO未知与新鲜手机活动/未确认控制按原模式门禁互斥。手机目录更新不修改活动Session的自包含书籍及动作快照。
 
-Android只读LearningItemEntity与FirstActionResolver；新目录授权默认关闭，明确披露ID/书名/页码/第一动作/主线标记。主线自动、最多11本其他IN_PROGRESS书籍，本地选书偏好独立no-backup设置。Room v4/Schema/原Intent与Session转换/监测/统计/备份格式不变。
+v4协商`LOCAL_RECORD_SYNC`，兼容v1/v2/v3。新增手机记录同步披露许可默认关闭，不继承旧目录或只读许可。一次一条完整记录，4096字节帧、最多8片/每片1024字节、原文最多8192字节、固定30秒总期限。首个有效SNAPSHOT后才上传；共享通道在记录上传/确认期间暂缓普通快照、目录与手机控制。重传有界，不将SDK发送、HELLO或摘要相同当成持久保存。
 
-目录最多12本、16KiB canonical UTF-8、1024字节分片、4096字节消息、固定30秒、双槽/CAS/完整校验/精确读回后ACK。重复完整目录幂等，CRC碰撞冲突拒绝，未知/损坏/迟到/缺失/断连不启用半目录；保存完成但ACK丢失保持“未确认”，不保证仍是旧目录。
+手机Room v5新增独立不可变`wearable_completed_records`表，稳定installationId/sessionId复合键；同ID同原字节幂等，不同内容拒绝冲突。完整校验、事务提交和原文读回后才ACK。新表不注入study_sessions、不占用Active Session、不更新手机书籍页码或统计，不修改Intent/Session/监测算法。Full Backup format2/schema5包含原始记录；旧format1/schema4严格验证并完整重建到干净v5，闭库日志及回滚保护保留。
 
-目录与正式Session文件分别mirra_catalog_live_[ab].json、mirra_local_sessions_live_[ab].json；不读取其他包私有实验槽。正式Session独立marker/schema1，8192字节/8 pending/32 intervals/结束预留，原实验格式与schema不改。目录更新不改活动和已完成自包含快照；合法腕端结束页码仅待确认，未更新手机。
+腕端主Session仍为schema1、原URI与8192字节单槽、最多8 pending；旧有效记录按原格式恢复。新增独立档案`mirra_local_record_archive_live_[ab].json`，每槽65536字节、最多64条，保存完整原始记录和稳定回执。只有双份最新镜像及精确读回证明后，才允许原CAS释放对应pending；未知IO/损坏/冲突不释放历史。档案原文不自动删除，counter连续覆盖检测归档消失/身份回退。每次新握手有界重放档案及pending，应对手机旧备份回退；64条或字节预算满时安全阻断，不承诺无限留存。8条确认并归档释放后可以继续第9场，仍受原字节及结束预留约束。
 
-独立UI保留白色Mirra Blue、实际第一步完成后一次确认保存、忙碌反馈、只更新变化计时字段、休息主动继续及nullable页码。真实书名120码点、动作160码点完整行展示，超限拒绝同步，不静默截断。无完整目录则不能使用测试书籍替代。Logo保持现有资源/LOGO_PENDING。
+原生SHA-256经ASCII/中文/emoji已知向量自检；缺失或失败则停止同步，不使用CRC替代。CRC仅用于损坏检查。参考计时、第一动作明确完成、一次确认开始、休息到时主动继续、nullable结束页码及性能优化保持。档案历史确认不等于当前手机仍拥有记录；本地合法页码只是待确认进度。旧独立实验应用和记录不迁移、不跨包读取、不操作。
 
-## 05C.1 新鲜验证
+## 本轮验证与未验证
 
-未过滤Node699/699 PASS，107脚本/配置0错误；实际正式0.4.1/code10构建/签名/摘要与六页各256颜色条件检查通过。最终80221bytes、SHA ea281efd4570bba436689388ece8081c86943f350c2b4a5f7f2aff4d1668ed83；原正式证书保持。受控编译功能回归/75项资源与旧产物保护通过，Android未改。工具100ms VM超时的4项失败历史保留，工具期限调整后最终全量通过，不改变手环期限。详见[evidence](evidence/module-05c-1/README.md)。
+实际执行：Band未过滤Node **740/740 PASS**；124脚本/配置0错误；Android未过滤JVM **849/849 PASS**（91 suites）；最后Lint **0 errors / 20 warnings / 1 hint**。自有API37原生 **70/70 PASS**，59.033秒，0skip/assumption，包含真实迁移、SQLite失败回滚/文件库重开及新旧完整备份。首轮69/1旧fixture计数错误与0case启动ANR历史保留，修正后完整重测，所属AVD已正常关闭。实际APK **1.4.0/code9** 与正式RPK **0.5.0/code11**构建/原签名/摘要、六页颜色条件及签名编译包受控同步回归通过，精确产物数据见交付索引。
 
-原生Vela336×480画面、新包真机视觉/覆盖保留Not Run；本轮新安装另取明确同意。主题声明检查不证明固件全局优先级或真机像素。停05C.1，不进入05D。
+**Not Run**：05D原配对手机/国行9 Pro正式安装与真实用户Room升级、设备消息/原生SHA/记录确认及自然使用；原因是本轮授权仅含隔离开发与自动化。Node、编译RPK受控运行及Android自有模拟器均不能替代该设备证明。真实恢复、系统权限或不可逆操作另获当前明确同意。
 
-## 05C继承验证（此前执行）
+## 当前限制与停止点
 
-Node未过滤682/682 PASS；104脚本语法/配置0错误。Android88 suites/824 tests全部PASS、0fail/error/skip；Lint0 errors/20原有warnings/1hint，实际两APK构建通过。旧文件并发测试曾两次超时，原断言保持，最后无重构建负载的局部1024m/单worker未过滤通过，失败历史保留。
+墙钟累计只属参考值，跨重启可信连续性和未持久化的中间时间异常没有证明，不计入有效专注。档案可补传的前提是腕端保留原始档案；档案丢失或容量上限没有猜测性删除/修复。可读JSON/CSV明确只含原手机业务数据，完整原始记录保护依赖Full Backup2。
 
-正式RPK0.4.0/code9、80245bytes、SHA bd0458ca70e63d815102d7becefe51a3c74644e87a9df29bc261ec98459fd0dc；APK1.3.0/code8、16950769bytes、SHA c95c9bf53634b465fff2039285d697bdf4f2587c72e0ece46caedd39203d2569。实际同包名/原29DE…证书/版本递增、内容/文件摘要与篡改拒绝已核验，不转换或更换签名材料。
-
-实际签名编译RPK受控执行通过目录读回后ACK/单次开始/离线同Session重进/参考时间/休息排除/null结束/pending保留/tick零IO。自有Android API37 AVD19/19原生PASS（8新目录+11相关回归），只用测试in-memory Room及受控SDK，无用户数据/其他设备操作，完成后正常关闭所属AVD。人工截图未取得：系统Pixel Launcher ANR不被归因于Mirra，不宣称像素/流畅度通过。
-
-22份旧APK/RPK、11项受保护Band资源/依赖、共享v3四份fixtures/Schema副本核对保持。手机Room/Schema/DAO/Migration/备份/非wearable算法未改；原手机checkout1338b9a干净。独立代码审查已修复ACK状态竞态/总期限及demo静态依赖，未发现剩余阻塞。
-
-## Pending / Not Run / 下一步
-
-05C开发交付记录保留；用户自行自然体验，实拍确认腕端0.4.0/code9，曾APK_RAW_TIMEOUT，随后正常同步。最新用户报告真实书籍同步、离线使用及保存基本正常，记功能USER_REPORTED_NORMAL；目录ACK和设备文件未独立提取，不能扩大为全部故障/耐久边界已证明。视觉验收FAIL，当前修05C.1；手机版本/证书未独立核查，新0.4.1安装另取同意。无腕端记录上传、手机历史合并、统计或数据库迁移。
-
-墙钟累计仍是参考值，跨重启可信连续性及未保存中间时间异常不能证明，不计入已验证有效专注。模拟器/Node回调/Golden均不替代真实9 Pro的通信、流畅度、像素或持久保留。
-
-## Git交付
-
-Band实现502f47a21a6d0b0c8a70b28179425f907ca786ee、Android实现c159983919093f031553b9e5e17f245635b5c15e已普通push，远端SHA逐一核对一致；Git记录后置文档提交不改源代码或产物。
-
-## 安装授权与当前阻塞
-
-0.4.0的既有安装授权与超时/恢复反馈保留；最新功能正常反馈已收到，不再重复请求。05C.1新包安装仍需当次明确同意。真机视觉问题尚未通过新包复验，本机Vela运行环境无法加载应用，不能用编译颜色检查替代336×480像素验收。
+已交付配套APK/RPK与完整验证记录，停在05D自然使用验收。正式安装、真实用户数据库升级/恢复须本轮另行明确授权，不强制USB或冗长人工测试矩阵；不进入05E。

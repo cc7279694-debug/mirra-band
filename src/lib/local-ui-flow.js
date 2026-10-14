@@ -60,9 +60,12 @@ function createLocalUiFlow(options) {
       const checkpoint = snapshot.sequence + ':' + JSON.stringify(snapshot.document);
       if (checkpoint !== recoveryCheckpoint) { recoveryCheckpoint = checkpoint; ui.recoveryAcknowledged = false; }
     }
-    if (force || (!pending && previous && previous.document && snapshot.document && previous.document.state !== snapshot.document.state)) {
+    const retainedSaved = sessionContext && sessionContext.profile === 'formal' && ui.savedRecordId
+      && Array.isArray(snapshot.retainedRecords) && snapshot.retainedRecords.some(record => record.id === ui.savedRecordId)
+      && snapshot.document && !snapshot.document.active && ['SAVED', 'DETAILS'].indexOf(ui.view) >= 0;
+    if (force || (!pending && previous && previous.document && snapshot.document && previous.document.state !== snapshot.document.state && !retainedSaved)) {
       ui.view = businessView(snapshot); returnViews.length = 0; ui.returnView = null;
-      if (force) { ui.bookId = null; ui.actionId = null; ui.pageDigits = ''; ui.pageError = ''; finishSessionId = null; }
+      if (force) { ui.bookId = null; ui.actionId = null; ui.pageDigits = ''; ui.pageError = ''; finishSessionId = null; delete ui.savedRecordId; }
     }
   }
   function live(token) { return visible && !disposed && !ui.exitRequested && token === epoch; }
@@ -226,6 +229,7 @@ function createLocalUiFlow(options) {
         accept(result, false);
         if (index === actions.length - 1) {
           ui.view = successfulView; returnViews.length = 0; ui.returnView = null;
+          if (successfulView === 'SAVED' && sessionContext && sessionContext.profile === 'formal') ui.savedRecordId = result.document.pending[result.document.pending.length - 1].id;
           if (successfulView === 'READING') { ui.bookId = null; ui.actionId = null; }
         }
       }
@@ -309,7 +313,7 @@ function createLocalUiFlow(options) {
   }
   function done() {
     if (!interact() || ['SAVED', 'READY'].indexOf(ui.view) < 0) return getState();
-    ui.pageDigits = ''; ui.pageError = ''; finishSessionId = null; ui.bookId = null; ui.actionId = null; return resetReady();
+    ui.pageDigits = ''; ui.pageError = ''; finishSessionId = null; delete ui.savedRecordId; ui.bookId = null; ui.actionId = null; return resetReady();
   }
   function exit() {
     if (!visible || disposed || ui.exitRequested) return getState();
@@ -323,7 +327,9 @@ function createLocalUiFlow(options) {
     if (!visible || disposed) return getState();
     if (ui.view === 'DETAILS' && returnViews.length && readOnlyNavigable()) {
       const previousView = returnViews.pop();
-      if (detailsState !== (ownerSnapshot.document && ownerSnapshot.document.state)) {
+      const retainedSaved = ui.savedRecordId && Array.isArray(ownerSnapshot.retainedRecords)
+        && ownerSnapshot.retainedRecords.some(record => record.id === ui.savedRecordId) && ownerSnapshot.document && !ownerSnapshot.document.active;
+      if (detailsState !== (ownerSnapshot.document && ownerSnapshot.document.state) && !retainedSaved) {
         ui.view = businessView(ownerSnapshot); returnViews.length = 0;
       } else ui.view = previousView;
       ui.returnView = returnViews.length ? returnViews[returnViews.length - 1] : null;

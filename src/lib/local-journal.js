@@ -1,5 +1,5 @@
 const { encodeRecord, decodeRecord, MAX_SEQUENCE } = require('./local-codec');
-const { historyError } = require('./local-session');
+const { guardedHistoryError } = require('./record-history-guard');
 const { createPerformance } = require('./local-performance');
 function errorCode(error) {
   let descriptor;
@@ -18,6 +18,7 @@ function createJournal(options) {
   const backend = options && options.backend;
   const performance = options && options.performance || createPerformance();
   const context = options && options.context;
+  const archive = options && options.recordArchive;
   if (!backend || typeof backend.read !== 'function' || typeof backend.write !== 'function') throw new Error('BACKEND');
   let busy = false; let recoveryRequired = false; let uncertain = false; let closed = false;
   function safety() {
@@ -55,7 +56,7 @@ function createJournal(options) {
     if (valid.length === 2 && valid[0].record.sequence !== valid[1].record.sequence) {
       const older = valid[0].record.sequence < valid[1].record.sequence ? valid[0] : valid[1];
       const newer = older === valid[0] ? valid[1] : valid[0];
-      const conflict = historyError(older.record.document, newer.record.document, context);
+      const conflict = await guardedHistoryError(older.record.document, newer.record.document, context, archive, false);
       if (conflict) return blank('blocked', conflict);
     }
     const chosen = valid.length === 2 && valid[1].record.sequence > valid[0].record.sequence ? valid[1] : valid[0];
@@ -86,7 +87,7 @@ function createJournal(options) {
       if (existing.sequence >= MAX_SEQUENCE) { recoveryRequired = true; return blank('blocked', 'SEQUENCE_EXHAUSTED'); }
       if (expected !== undefined && expected !== existing.sequence) { recoveryRequired = true; return blank('blocked', 'STATE_CHANGED'); }
       if (existing.document) {
-        const conflict = historyError(existing.document, canonical.document, context);
+        const conflict = await guardedHistoryError(existing.document, canonical.document, context, archive, true);
         if (conflict) { recoveryRequired = true; return blank('blocked', conflict); }
       }
       let raw;

@@ -1,6 +1,8 @@
 const { createLocalOwner } = require('./local-owner');
 const { createCatalogOwner } = require('./catalog-owner');
 const { createProbeBackend } = require('../platform/probe-storage');
+const { createRecordArchive } = require('./record-archive');
+const { createRecordDigest } = require('../platform/record-digest');
 
 // The formal package has its own two namespaces. Neither experimental URI is
 // supplied here; another application's private files are never migration input.
@@ -9,6 +11,9 @@ function createFormalLocalRuntime(options) {
   if (typeof options.loadModule !== 'function') throw new Error('FORMAL_RUNTIME_OPTIONS');
   const ownerId = 'formal-process-' + Math.random().toString(36).slice(2, 14);
   let retired = false; let owner = null; let identity = 0;
+  const digest = createRecordDigest(options.loadModule);
+  const archive = createRecordArchive({ backend: createProbeBackend({ kind: 'file', namespace: 'local-record-archive-live', loadModule: options.loadModule }),
+    hash: raw => digest.sha256(raw) });
   const catalogOwner = createCatalogOwner({ backendFactory: () => createProbeBackend({
     kind: 'file', namespace: 'catalog-live', loadModule: options.loadModule
   }) });
@@ -17,7 +22,7 @@ function createFormalLocalRuntime(options) {
     const saved = catalogOwner.snapshot();
     if (!saved.catalog || !saved.canonical || !saved.revision) return [];
     const local = owner ? owner.snapshot() : null;
-    const pending = local && local.document ? local.document.pending : [];
+    const pending = local && local.document ? local.document.pending.concat(local.retainedRecords || []) : [];
     return saved.catalog.books.slice().sort((a, b) => Number(b.isMainline) - Number(a.isMainline)).map(book => {
       let pendingPage = null;
       pending.forEach(record => {
@@ -45,7 +50,7 @@ function createFormalLocalRuntime(options) {
       && ['PREPARING', 'ACTIVE', 'SAVING'].indexOf(phone.body.phase) >= 0) return 'PHONE_SESSION_ACTIVE';
     return null;
   }
-  owner = createLocalOwner({ storageQualified: true, sessionContext: { profile: 'formal' }, beforeDispatch: guard,
+  owner = createLocalOwner({ storageQualified: true, sessionContext: { profile: 'formal' }, beforeDispatch: guard, recordArchive: archive,
     catalogProvider: getBooks, catalogRevisionProvider: () => catalogOwner.snapshot().revision,
     backendFactory: () => createProbeBackend({ kind: 'file', namespace: 'local-session-live', loadModule: options.loadModule }),
     clock: options.clock || (() => {
@@ -53,7 +58,20 @@ function createFormalLocalRuntime(options) {
       return { wallMs, ownerId, monotonicMs: null, monotonicVerified: false };
     }), installationIdFactory: options.installationIdFactory || (() => 'formal-install-' + Math.random().toString(36).slice(2, 18) + '-' + (++identity))
   });
-  function close() { if (retired) return; retired = true; owner.close(); catalogOwner.close(); }
-  return { owner, catalogOwner, getBooks, close };
+  function getRecords() {
+    if (retired) throw new Error('CLOSED');
+    const local = owner.snapshot();
+    if (local.busy) throw new Error('BUSY');
+    if (['EMPTY', 'READY', 'RECOVERED'].indexOf(local.status) < 0) throw new Error('LOCAL_RECOVERY_REQUIRED');
+    const records = archive.records();
+    if (local.document) local.document.pending.forEach(session => {
+      const existing = records.find(record => record.session.id === session.id);
+      if (existing && JSON.stringify(existing.session) !== JSON.stringify(session)) throw new Error('RECORD_CONFLICT');
+      if (!existing) records.push({ schemaVersion: 1, installationId: local.document.installationId, session });
+    });
+    return records;
+  }
+  function close() { if (retired) return; retired = true; owner.close(); catalogOwner.close(); archive.close(); }
+  return { owner, catalogOwner, archive, digest, getRecords, getBooks, close };
 }
 module.exports = { createFormalLocalRuntime };

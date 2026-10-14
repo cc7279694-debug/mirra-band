@@ -1,7 +1,8 @@
 const { createJournal } = require('./local-journal');
-const { createDocument, transition, summarize, summarizeSession, historyError, MAX_OBSERVED_GAP_MS } = require('./local-session');
+const { createDocument, transition, summarize, summarizeSession, MAX_OBSERVED_GAP_MS } = require('./local-session');
 const { encodeRecord, byteLength, MAX_BYTES } = require('./local-codec');
 const { createPerformance } = require('./local-performance');
+const { isRecordArchive, guardedHistoryError } = require('./record-history-guard');
 
 function errorCode(error) {
   let descriptor;
@@ -17,10 +18,12 @@ function createLocalOwner(options) {
     || typeof options.installationIdFactory !== 'function') throw new Error('OWNER_OPTIONS');
   const storageQualified = options.storageQualified === true;
   const sessionContext = Object.freeze(Object.assign({}, options.sessionContext || {}));
+  const recordArchive = sessionContext.profile === 'formal' && isRecordArchive(options.recordArchive) ? options.recordArchive : null;
   const performance = createPerformance({ enabled: options.performanceEnabled === true, clock: options.performanceClock });
   let backend = null; let journal = null; let document = null; let sequence = 0;
   let status = 'UNOPENED'; let busy = false; let closed = false; let uncertain = false; let generation = 0;
   let lastError = null;
+  let retainedRecords = [];
   // Display-only memory of clock anomalies observed in this owner/Session.
   // It never changes the persisted schema, acknowledged facts or write gates.
   let timeSessionId = null; let timeLastObservation = null; let timeAnomalies = [];
@@ -34,11 +37,13 @@ function createLocalOwner(options) {
     const empty = { observedFocusMs: 0, observedBreakMs: 0, breakRemainingMs: null, trustedFocusMs: null,
       timeUncertain: true, reasons: ['NO_LOCAL_SESSION'], timeConfidence: 'UNVERIFIED' };
     if (!document) return empty;
-    const selected = document.active || (document.pending.length ? document.pending[document.pending.length - 1] : null);
+    const latestPending = document.pending.length ? document.pending[document.pending.length - 1] : null;
+    const latestRetained = retainedRecords.reduce((latest, record) => !latest || record.ordinal > latest.ordinal ? record : latest, null);
+    const selected = document.active || (!latestPending || latestRetained && latestRetained.ordinal > latestPending.ordinal ? latestRetained : latestPending);
     const selectedId = selected ? selected.id : null;
     if (selectedId !== timeSessionId) { timeSessionId = selectedId; timeLastObservation = null; timeAnomalies = []; }
     const now = observation(); let projected;
-    try { projected = timeOnly && selected ? summarizeSession(selected, now) : summarize(document, now, sessionContext); }
+    try { projected = selected && (timeOnly || selected === latestRetained) ? summarizeSession(selected, now) : summarize(document, now, sessionContext); }
     catch (_) { projected = Object.assign({}, empty, { observedFocusMs: null, observedBreakMs: null, trustedFocusMs: 0, reasons: ['CLOCK_SOURCE_INVALID'] }); }
     if (document.active && now && Number.isSafeInteger(now.wallMs)) {
       if (timeLastObservation && timeLastObservation.ownerId === now.ownerId && Number.isSafeInteger(timeLastObservation.wallMs)) {
@@ -65,7 +70,7 @@ function createLocalOwner(options) {
       : actualStatus === 'BLOCKED' ? '操作未确认。请重新读取恢复；不要卸载、清数据或覆盖最后有效记录。'
       : !storageQualified ? '等待选定存储后端的损坏恢复、覆盖升级和重启保留证据，暂不启用持久独立学习。'
       : actualStatus === 'RECOVERED' ? '检测到损坏，读取了上一有效快照。请核对恢复状态，损坏槽中的新边界无法证明。'
-      : ['CAPACITY_REQUIRED', 'CAPACITY', 'PENDING_CAPACITY', 'INTERVAL_CAPACITY', 'COUNTER_CAPACITY', 'SIZE'].indexOf(lastError) >= 0
+      : ['CAPACITY_REQUIRED', 'CAPACITY', 'PENDING_CAPACITY', 'INTERVAL_CAPACITY', 'COUNTER_CAPACITY', 'SIZE', 'ARCHIVE_CAPACITY'].indexOf(lastError) >= 0
         ? '空间预算不足。未同步记录保留，未执行本次写入。' : '';
     return { document: copy(document), status: actualStatus, busy,
       canWrite: storageQualified && !closed && !uncertain && !busy && ['EMPTY', 'READY', 'RECOVERED'].indexOf(status) >= 0,
@@ -75,24 +80,48 @@ function createLocalOwner(options) {
           ? '按系统时间差显示参考值；未验证连续计时，休息不计入阅读。'
           : '时间不确定；原始时间边界保留，不生成已验证时长。'
         : '按已记录的时间边界计算；休息不计入学习。',
-      pendingCount: document ? document.pending.length : 0, sequence };
+      pendingCount: document ? document.pending.length : 0, sequence,
+      retainedRecords: copy(retainedRecords) };
   }
   function publish() { listeners.slice().forEach(listener => { try { listener(snapshot()); } catch (_) { /* View failure never changes a verified save. */ } }); }
   function blocked(code) { lastError = code; return snapshot(); }
   function ensureJournal() {
     if (journal) return;
-    backend = options.backendFactory(); journal = createJournal({ backend, performance, context: sessionContext });
+    backend = options.backendFactory(); journal = createJournal({ backend, performance, context: sessionContext, recordArchive });
   }
-  function apply(result) {
+  async function apply(result) {
     if (result.status === 'ready' || result.status === 'recovered' || result.status === 'empty') {
       // A live owner remembers what it already acknowledged. A missing or older
       // native snapshot cannot erase that knowledge or allocate a new identity.
       let conflict = null;
+      if (recordArchive) {
+        const archived = recordArchive.snapshot();
+        const retained = recordArchive.records();
+        if (archived.status === 'uncertain') { uncertain = true; status = 'UNCERTAIN'; lastError = 'ARCHIVE_UNCERTAIN'; return; }
+        if (['ready', 'recovered', 'empty'].indexOf(archived.status) < 0) conflict = 'ARCHIVE_RECOVERY_REQUIRED';
+        else if (retained.length && !result.document) conflict = 'ARCHIVE_WITHOUT_PRIMARY';
+        else if (result.document && retained.some(record => record.installationId !== result.document.installationId)) conflict = 'IDENTITY_CONFLICT';
+        else if (result.document && retained.some(record => record.session.ordinal > result.document.counter)) conflict = 'COUNTER_ROLLBACK';
+        else if (result.document && result.document.active && retained.some(record => record.session.id === result.document.active.id)) conflict = 'ACTIVE_ALREADY_ARCHIVED';
+        if (!conflict && result.document) {
+          const all = retained.map(record => record.session);
+          for (const pending of result.document.pending) {
+            const already = all.find(record => record.id === pending.id);
+            if (already && JSON.stringify(already) !== JSON.stringify(pending)) { conflict = 'ARCHIVED_PENDING_CHANGED'; break; }
+            if (!already) all.push(pending);
+          }
+          if (result.document.active) all.push(result.document.active);
+          all.sort((a, b) => a.ordinal - b.ordinal);
+          if (!conflict && (all.length !== result.document.counter || all.some((record, index) => record.ordinal !== index + 1))) conflict = 'RECORD_HISTORY_INCOMPLETE';
+        }
+        if (!conflict) retainedRecords = retained.map(record => record.session);
+      }
       if (document && sequence > 0) {
-        if (result.status === 'empty') conflict = 'STORAGE_DISAPPEARED';
+        if (conflict) { /* Retained archive facts already demonstrate a conflict. */ }
+        else if (result.status === 'empty') conflict = 'STORAGE_DISAPPEARED';
         else if (result.sequence < sequence) conflict = 'SNAPSHOT_ROLLBACK';
         else if (result.sequence === sequence && JSON.stringify(result.document) !== JSON.stringify(document)) conflict = 'SNAPSHOT_CONFLICT';
-        else conflict = historyError(document, result.document, sessionContext);
+        else conflict = await guardedHistoryError(document, result.document, sessionContext, recordArchive, false);
       }
       if (conflict) { status = 'BLOCKED'; lastError = conflict; return; }
       document = result.document; sequence = result.sequence; status = result.status.toUpperCase(); lastError = null;
@@ -114,7 +143,10 @@ function createLocalOwner(options) {
     }
     return snapshot();
   }
-  async function open() { return operation(async () => { const result = await journal.recover(); if (!closed) apply(result); }); }
+  async function open() { return operation(async () => {
+    if (recordArchive) await recordArchive.open();
+    const result = await journal.recover(); if (!closed) await apply(result);
+  }); }
   async function dispatch(action) {
     if (closed) return blocked('CLOSED');
     if (uncertain) return blocked('UNCERTAIN');
@@ -138,14 +170,48 @@ function createLocalOwner(options) {
         lastError = 'CAPACITY_REQUIRED'; return;
       }
       const result = await journal.save(next, { expectedSequence: sequence });
-      if (!closed) { performance.measure('state_confirm', () => apply(result)); if (result.status === 'ready' && status === 'READY') performance.mark('state_confirmed'); }
+      if (!closed) { await performance.measureAsync('state_confirm', () => apply(result)); if (result.status === 'ready' && status === 'READY') performance.mark('state_confirmed'); }
     });
+  }
+  async function acknowledgeCompleted(value) {
+    const refused = code => Object.assign(blocked(code), { confirmed: false });
+    if (closed) return refused('CLOSED');
+    if (uncertain) return refused('UNCERTAIN');
+    if (busy) return refused('BUSY');
+    if (!storageQualified || !recordArchive) return refused('RECORD_ARCHIVE_REQUIRED');
+    if (['EMPTY', 'READY', 'RECOVERED'].indexOf(status) < 0 || !document) return refused('RECOVERY_REQUIRED');
+    if (!value || typeof value.recordId !== 'string' || !value.receipt) return refused('ARCHIVE_ACK_MISMATCH');
+    let sealedRecord = false;
+    const result = await operation(async () => {
+      const pending = document.pending.find(record => record.id === value.recordId);
+      const previous = document; const expectedSequence = sequence;
+      const record = pending ? { schemaVersion: 1, installationId: document.installationId, session: pending }
+        : recordArchive.records().find(record => record.installationId === document.installationId && record.session.id === value.recordId);
+      if (!record) { lastError = 'RECORD_NOT_FOUND'; return; }
+      const saved = await recordArchive.saveConfirmed(record, value.receipt);
+      if (closed) return;
+      if (saved.status !== 'ready' || !saved.sealed) {
+        lastError = saved.code || 'ARCHIVE_PERSIST_FAILED';
+        if (saved.status === 'uncertain') { uncertain = true; status = 'UNCERTAIN'; }
+        else if (recordArchive.snapshot().status === 'blocked') status = 'BLOCKED';
+        return;
+      }
+      sealedRecord = true;
+      if (!pending) { lastError = null; return; }
+      const next = copy(previous); next.pending = next.pending.filter(record => record.id !== value.recordId);
+      if (next.state === 'FINISHED_PENDING_SYNC' && next.pending.length === 0) next.state = 'IDLE';
+      const result = await journal.save(next, { expectedSequence });
+      if (!closed) await apply(result);
+    });
+    return Object.assign(result, { confirmed: sealedRecord && !closed && !uncertain && !lastError
+      && ['READY', 'RECOVERED'].indexOf(status) >= 0 && document && !document.pending.some(record => record.id === value.recordId) });
   }
   function close() {
     if (closed) return;
     closed = true; generation++; busy = false;
     performance.finish();
     if (journal) journal.close(); else if (backend && typeof backend.close === 'function') backend.close();
+    if (recordArchive) recordArchive.close();
     publish(); listeners.length = 0;
   }
   function subscribe(listener) {
@@ -163,6 +229,6 @@ function createLocalOwner(options) {
         : '时间不确定；原始时间边界保留，不生成已验证时长。'
       : '按已记录的时间边界计算；休息不计入学习。' };
   }
-  return { open, dispatch, snapshot, timerSnapshot, performance, sessionContext, subscribe, close };
+  return { open, dispatch, acknowledgeCompleted, snapshot, timerSnapshot, performance, sessionContext, subscribe, close };
 }
 module.exports = { createLocalOwner };

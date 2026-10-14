@@ -161,7 +161,8 @@ test('actual formal app, catalog journal and file boundary retain a real local s
       .replace(/^import .+$/gm, '').replace(/\bexport\s+default\s+/, 'module.exports = ');
     const module = { exports: {} }; vm.runInNewContext(script, { module, ...context }); return module.exports;
   }
-  const app = evaluate('src/formal-app.ux', { runtimeLib, storeLib, catalogLib, transportLib, Promise,
+  const recordSyncLib = require('../src/lib/record-sync');
+  const app = evaluate('src/formal-app.ux', { runtimeLib, storeLib, catalogLib, transportLib, recordSyncLib, Promise,
     require(name) { assert.equal(name, '@system.file'); return nativeFile; } });
   app.onCreate(); await app._ready;
   const raw = { schemaVersion: 1, books: [{ id: 'actual-real', title: '真实离线目录', totalPages: 300,
@@ -198,7 +199,7 @@ test('actual formal app, catalog journal and file boundary retain a real local s
     const finished = app.getLocalOwner().snapshot().document.pending[0];
     assert.equal(finished.id, active.id); assert.equal(finished.endPage, null); assert.equal(finished.bookSnapshot.title, '真实离线目录');
     assert.equal(transportOwners, 1);
-    assert(calls.every(call => /^internal:\/\/files\/mirra_(?:catalog|local_sessions)_live_[ab]\.json$/.test(call.uri)));
+    assert(calls.every(call => /^internal:\/\/files\/mirra_(?:catalog|local_sessions|local_record_archive)_live_[ab]\.json$/.test(call.uri)));
   } finally { page.onDestroy(); app.onDestroy(); }
   assert.equal(pageTimers.size, 0);
 });

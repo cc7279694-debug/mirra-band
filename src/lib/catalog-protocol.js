@@ -55,7 +55,7 @@ function buildTransfer(request, value) {
     chunk += point; bytes += count; offset += width;
   }
   if (chunk) parts.push(chunk); if (parts.length > MAX_PARTS) fail('CATALOG_TOO_LARGE');
-  const rev = revisionFor(canonical); const common = { protocolVersion: CATALOG_VERSION, clientInstanceId: request.clientInstanceId, requestId: request.requestId, streamId: request.streamId };
+  const rev = revisionFor(canonical); const common = { protocolVersion: request.protocolVersion, clientInstanceId: request.clientInstanceId, requestId: request.requestId, streamId: request.streamId };
   const frames = [Object.assign({}, common, { type: 'CATALOG_MANIFEST', revision: rev, schemaVersion: 1, totalBytes: utf8Bytes(canonical), partCount: parts.length, bookCount: catalog.books.length, checksum: checksum(canonical) })];
   parts.forEach((data, index) => frames.push(Object.assign({}, common, { type: 'CATALOG_PART', revision: rev, index, data, checksum: checksum(data) })));
   frames.forEach(encodeMessage); return { revision: rev, catalog, canonical, frames };
@@ -72,7 +72,7 @@ function createCatalogReceiver(options) {
   }
   function begin(value) {
     validateMessage(Object.assign({}, value, { type: 'GET_CATALOG', knownRevision: null })); generation++;
-    context = { protocolVersion: CATALOG_VERSION, clientInstanceId: value.clientInstanceId, requestId: value.requestId, streamId: value.streamId };
+    context = { protocolVersion: value.protocolVersion, clientInstanceId: value.clientInstanceId, requestId: value.requestId, streamId: value.streamId };
     startedAt = now(); manifest = null; parts = []; receivedBytes = 0; status = 'receiving'; code = null; acknowledgement = null;
   }
   function cancel() { generation++; context = null; manifest = null; parts = []; receivedBytes = 0; status = 'idle'; code = null; acknowledgement = null; }

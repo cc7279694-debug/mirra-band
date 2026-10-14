@@ -12,7 +12,7 @@
 import router from '@system.router'
 
 export default {
-  private: { catalogText: '正在读取离线书籍', message: '独立记录仅在手环保存，尚未上传手机。',
+  private: { catalogText: '正在读取离线书籍', message: '独立记录保留原始事实，连接后确认同步。',
     syncLabel: '同步书籍目录', syncing: false },
   onInit() {
     this._visible = false
@@ -50,7 +50,10 @@ export default {
     else if (saved.errorCode || ['blocked', 'uncertain'].indexOf(saved.status) >= 0) this.message = '目录读取待恢复，请保留应用数据。'
     else if (local.busy) this.message = '正在保存独立记录，请稍候。'
     else if (local.document && (local.document.active || local.document.preparation)) this.message = '独立学习尚未结束，请继续本次学习。'
-    else this.message = '目录由手机发送；独立记录尚未上传。'
+    else if (connection.records && connection.records.errorCode) this.message = '记录同步待确认，手环原始记录仍保留。'
+    else if (connection.records && connection.records.busy) this.message = '正在同步原始记录，等待手机保存确认。'
+    else if (connection.records && connection.records.confirmedCount > 0) this.message = '手机已存原始记录；参考时间不计入有效专注。'
+    else this.message = '请在手机允许接收腕端记录；未确认记录仍保留。'
   },
   openLocal() {
     if (!this._visible || this._destroyed) return

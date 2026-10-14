@@ -25,10 +25,11 @@ function createProbeBackend(options) {
   const names = { probe: ['mirra_05a_journal_a', 'mirra_05a_journal_b'],
     'local-session-test': ['mirra_05b_test_sessions_a', 'mirra_05b_test_sessions_b'],
     'local-session-live': ['mirra_local_sessions_live_a', 'mirra_local_sessions_live_b'],
+    'local-record-archive-live': ['mirra_local_record_archive_live_a', 'mirra_local_record_archive_live_b'],
     'catalog-live': ['mirra_catalog_live_a', 'mirra_catalog_live_b'] };
   if (!Object.prototype.hasOwnProperty.call(names, namespace)) throw failure('INVALID_NAMESPACE');
-  if ((namespace === 'local-session-live' || namespace === 'catalog-live') && kind !== 'file') throw failure('INVALID_KIND');
-  const maxBytes = namespace === 'catalog-live' ? 32768 : MAX_BYTES;
+  if ((namespace === 'local-session-live' || namespace === 'catalog-live' || namespace === 'local-record-archive-live') && kind !== 'file') throw failure('INVALID_KIND');
+  const maxBytes = namespace === 'local-record-archive-live' ? 65536 : namespace === 'catalog-live' ? 32768 : MAX_BYTES;
   const timeoutMs = options.timeoutMs === undefined ? 5000 : options.timeoutMs;
   if (typeof timeoutMs !== 'number' || !isFinite(timeoutMs) || Math.floor(timeoutMs) !== timeoutMs
     || timeoutMs < 1 || timeoutMs > 5000) throw failure('INVALID_TIMEOUT');

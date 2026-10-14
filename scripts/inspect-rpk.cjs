@@ -169,7 +169,7 @@ async function inspect(filePath, certificatePath, mode = 'demo') {
   assert.deepEqual(Object.keys(manifest.router.pages).sort(), (experiment ? [entry] : profile.standalone ? ['pages/Mode','pages/LocalSession','pages/Home','pages/Detail','pages/Connection','pages/Control'] : mode === 'live' ? ['pages/Home','pages/Detail','pages/Connection','pages/Control'] : ['pages/Home','pages/Detail','pages/Connection','pages/Control','pages/States']).sort())
   assert.equal(manifest.config.designWidth, 168)
   assert.equal(manifest.router.entry, entry)
-  assert.deepEqual(manifest.features.map(feature => feature.name).sort(), profile.clickProbe ? ['system.router'] : experiment ? ['system.file', 'system.router', 'system.storage'] : profile.standalone ? ['system.file', 'system.interconnect', 'system.router'] : ['system.interconnect', 'system.router'])
+  assert.deepEqual(manifest.features.map(feature => feature.name).sort(), profile.clickProbe ? ['system.router'] : experiment ? ['system.file', 'system.router', 'system.storage'] : profile.standalone ? ['system.crypto', 'system.file', 'system.interconnect', 'system.router'] : ['system.interconnect', 'system.router'])
   if (profile.probe) {
     assert.equal(manifest.permissions, undefined, 'Unexpected probe permissions')
     assert(!Object.keys(zip.files).some(name => /^pages\/(Home|Detail|Connection|Control|States)\//.test(name)), 'Companion or demo page bundled in probe')

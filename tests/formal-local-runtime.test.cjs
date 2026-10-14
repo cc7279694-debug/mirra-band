@@ -17,7 +17,7 @@ function start(r){const b=r.runtime.getBooks()[0];return r.runtime.owner.dispatc
 test('formal storage namespaces are isolated and no directory never falls back to test books',async()=>{
  const r=rig();try{await opened(r);assert.deepEqual(r.runtime.getBooks(),[]);await save(r);assert.equal(r.runtime.getBooks()[0].id,'main');
  await start(r);assert.equal(r.runtime.owner.snapshot().document.active.bookSnapshot.id,'main');
- assert.ok(r.calls.every(q=>/^internal:\/\/files\/mirra_(?:catalog_live|local_sessions_live)_[ab]\.json$/.test(q.uri)));
+ assert.ok(r.calls.every(q=>/^internal:\/\/files\/mirra_(?:catalog_live|local_sessions_live|local_record_archive_live)_[ab]\.json$/.test(q.uri)));
  assert.ok([...r.files.keys()].some(q=>q.includes('catalog_live')));assert.ok([...r.files.keys()].some(q=>q.includes('local_sessions_live')));
  }finally{r.runtime.close()}
 });

@@ -145,6 +145,7 @@ function appRig() {
     './lib/formal-local-runtime': { createFormalLocalRuntime(options) { runtimeCount++; assert.equal(typeof options.getMode, 'function'); return runtime; } },
     './lib/catalog-protocol': { createCatalogReceiver(options) { assert.equal(typeof options.persist, 'function'); return { snapshot: () => ({ status: 'idle' }) }; } },
     './platform/interconnect-transport': { createTransport() { transportCount++; return {}; } },
+    './lib/record-sync': { createRecordSync(options) { assert.equal(typeof options.listRecords, 'function'); assert.equal(typeof options.acknowledge, 'function'); return {}; } },
     './lib/companion-store': { createCompanionStore(options) { companionCount++; assert.equal(typeof options.controlAllowed, 'function'); return companion; } },
     './profile': { mode: 'live', standalone: true },
   };
