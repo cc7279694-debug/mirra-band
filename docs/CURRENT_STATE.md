@@ -4,7 +4,7 @@
 
 ## 当前阶段与授权
 
-**05D / DEV_COMPLETE_AWAITING_DEVICE_NATURAL_USE**。独立完成记录可靠同步开发、自动化、原生隔离验证及配套产物核验已完成；尚未进行05D正式设备安装或真实用户数据库操作。合同见[05D方案](plans/MIRRA_BAND_05D_RECORD_SYNC.md)，最终事实以[交付证据](evidence/module-05d/README.md)、artifacts.json及verification.json为准。不进入05E、不自动PR或合并main。
+**05D / DEV_COMPLETE_AWAITING_DEVICE_NATURAL_USE**。独立完成记录可靠同步开发、自动化、原生隔离验证及配套产物核验已完成；用户自行安装已授权，尚未收到实际安装/数据库升级及真机反馈。合同见[05D方案](plans/MIRRA_BAND_05D_RECORD_SYNC.md)，最终事实以[交付证据](evidence/module-05d/README.md)、artifacts.json及verification.json、device-acceptance.json为准。不进入05E、不自动PR或合并main。
 
 Band分支`codex/module-05d-record-sync`，基线`1c2ac537545f4d5cb365dfa7e276cbd24cd2425f`。Android隔离树`E:\CODEX\mirra-watch\.local\android-worktree`，分支`codex/mirra-band-05d-record-sync`，基线`6589a19f0305245fe0e63bf77f105f61f27a913e`。原手机工作区不修改；最终提交与推送由交付证据记录。
 
@@ -32,10 +32,10 @@ v4协商`LOCAL_RECORD_SYNC`，兼容v1/v2/v3。新增手机记录同步披露许
 
 实际执行：Band未过滤Node **740/740 PASS**；124脚本/配置0错误；Android未过滤JVM **849/849 PASS**（91 suites）；最后Lint **0 errors / 20 warnings / 1 hint**。自有API37原生 **70/70 PASS**，59.033秒，0skip/assumption，包含真实迁移、SQLite失败回滚/文件库重开及新旧完整备份。首轮69/1旧fixture计数错误与0case启动ANR历史保留，修正后完整重测，所属AVD已正常关闭。实际APK **1.4.0/code9** 与正式RPK **0.5.0/code11**构建/原签名/摘要、六页颜色条件及签名编译包受控同步回归通过，精确产物数据见交付索引。
 
-**Not Run**：05D原配对手机/国行9 Pro正式安装与真实用户Room升级、设备消息/原生SHA/记录确认及自然使用；原因是本轮授权仅含隔离开发与自动化。Node、编译RPK受控运行及Android自有模拟器均不能替代该设备证明。真实恢复、系统权限或不可逆操作另获当前明确同意。
+**Not Run / 未收到反馈**：05D原配对手机/国行9 Pro正式安装、真实用户Room升级、设备消息/原生SHA/记录确认及自然使用。用户已明确同意先备份后自行覆盖配套包并体验，记USER_SELF_INSTALL_AUTHORIZED，尚无实际结果，不重复要求同一授权或USB。Node、编译RPK受控运行及Android自有模拟器不能替代设备证明。真实DB直接操作/恢复、系统权限变更及其他不可逆操作仍须单独同意。
 
 ## 当前限制与停止点
 
 墙钟累计只属参考值，跨重启可信连续性和未持久化的中间时间异常没有证明，不计入有效专注。档案可补传的前提是腕端保留原始档案；档案丢失或容量上限没有猜测性删除/修复。可读JSON/CSV明确只含原手机业务数据，完整原始记录保护依赖Full Backup2。
 
-已交付配套APK/RPK与完整验证记录，停在05D自然使用验收。正式安装、真实用户数据库升级/恢复须本轮另行明确授权，不强制USB或冗长人工测试矩阵；不进入05E。
+已交付配套APK/RPK与完整验证记录，停在05D自然使用验收。用户已同意先备份后自行覆盖APK1.4.0/code9、RPK0.5.0/code11（含APK正常Room4→5升级），开启「接收腕端完成记录」后自然体验；等待实际同步与保留反馈，见[evidence](evidence/module-05d/device-acceptance.json)。不强制USB或冗长人工矩阵，不进入05E。
