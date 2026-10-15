@@ -1,0 +1,326 @@
+{
+  "sourceKind": "frozen_evidence",
+  "date": "2026-10-15",
+  "repositories": {
+    "band": "42714a8919799238cbd295636b5c57a4c8fb6092",
+    "android": "8ae37f67ca7bba523d23f5198fddb8820f7066f7"
+  },
+  "content": [
+    {
+      "repository": "band",
+      "path": "docs/plans/MIRRA_BAND_05E_PRODUCT_BASELINE_V1.md",
+      "originalSHA256": "44f1f881ff26c0448f2398894035d234e17ac6b11d5b2d8074ad815d373e9d43",
+      "includedSHA256": "44f1f881ff26c0448f2398894035d234e17ac6b11d5b2d8074ad815d373e9d43",
+      "worktreeSHA256": "44f1f881ff26c0448f2398894035d234e17ac6b11d5b2d8074ad815d373e9d43",
+      "ranges": null,
+      "headBound": false
+    },
+    {
+      "repository": "band",
+      "path": "docs/plans/MIRRA_BAND_05E_0_ARCHITECTURE_REVIEW.md",
+      "originalSHA256": "bc0947d0372a24ae0f65356cdfb492b4f243e86aed79975f00fadb53dd8c97fc",
+      "includedSHA256": "bc0947d0372a24ae0f65356cdfb492b4f243e86aed79975f00fadb53dd8c97fc",
+      "worktreeSHA256": "bc0947d0372a24ae0f65356cdfb492b4f243e86aed79975f00fadb53dd8c97fc",
+      "ranges": null,
+      "headBound": false
+    },
+    {
+      "repository": "band",
+      "path": "docs/evidence/module-05e-0/model-scenarios.cjs",
+      "originalSHA256": "05ef2b9d2e8850336e50f0ab9f1c3a454c57f7165385d2552f1c909f5e8a19a9",
+      "includedSHA256": "05ef2b9d2e8850336e50f0ab9f1c3a454c57f7165385d2552f1c909f5e8a19a9",
+      "worktreeSHA256": "05ef2b9d2e8850336e50f0ab9f1c3a454c57f7165385d2552f1c909f5e8a19a9",
+      "ranges": null,
+      "headBound": false
+    },
+    {
+      "repository": "band",
+      "path": "docs/evidence/module-05e-0/model-results.json",
+      "originalSHA256": "781620ace1971525e908c6bed9088b1da306251e1986661453dad357e5d7a8ad",
+      "includedSHA256": "781620ace1971525e908c6bed9088b1da306251e1986661453dad357e5d7a8ad",
+      "worktreeSHA256": "781620ace1971525e908c6bed9088b1da306251e1986661453dad357e5d7a8ad",
+      "ranges": null,
+      "headBound": false
+    },
+    {
+      "repository": "band",
+      "path": "docs/evidence/module-05d/device-acceptance.json",
+      "originalSHA256": "e760ee6dcb5564dcc945878d0660373bff1a845a5660400fe91223d34eb4d658",
+      "includedSHA256": "e760ee6dcb5564dcc945878d0660373bff1a845a5660400fe91223d34eb4d658",
+      "worktreeSHA256": "e760ee6dcb5564dcc945878d0660373bff1a845a5660400fe91223d34eb4d658",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "band",
+      "path": "src/lib/formal-local-runtime.js",
+      "originalSHA256": "ea2106d34e8d5be8d27788428f5af9ab82148ba0e0bc46890ba2f206063d3259",
+      "includedSHA256": "ea2106d34e8d5be8d27788428f5af9ab82148ba0e0bc46890ba2f206063d3259",
+      "worktreeSHA256": "ea2106d34e8d5be8d27788428f5af9ab82148ba0e0bc46890ba2f206063d3259",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "band",
+      "path": "src/lib/local-session.js",
+      "originalSHA256": "54c526e8e869acc5ed0310da4a788a21e0fa60ae20c7115bf3b860e75df1973f",
+      "includedSHA256": "54c526e8e869acc5ed0310da4a788a21e0fa60ae20c7115bf3b860e75df1973f",
+      "worktreeSHA256": "54c526e8e869acc5ed0310da4a788a21e0fa60ae20c7115bf3b860e75df1973f",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/repository/GlobalReadingHistoryRepository.kt",
+      "originalSHA256": "8560a2d7774aa2b9dbaef115ee81152adbb5f3eb0b13174a8d2ff0df0e4bf3aa",
+      "includedSHA256": "8560a2d7774aa2b9dbaef115ee81152adbb5f3eb0b13174a8d2ff0df0e4bf3aa",
+      "worktreeSHA256": "ab68d9da525c03095ae8dc68acd85668f49ec1695ac0925c975ccf6051e974ed",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/local/dao/SessionDao.kt",
+      "originalSHA256": "2b5b228f23432dc995a972ad5eeabcd4c46d057351849ce180afda7a7306ca8a",
+      "includedSHA256": "2b5b228f23432dc995a972ad5eeabcd4c46d057351849ce180afda7a7306ca8a",
+      "worktreeSHA256": "31d11c766532a8918edeb17fc6d069b5ad40b9f180925b3a0593d4e5a82fc031",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/local/entity/WearableCompletedRecordEntity.kt",
+      "originalSHA256": "ea39c23d66ddfca9ac81d47d2cb92d31b4e4620308b7c0a5eaef436b07cd1694",
+      "includedSHA256": "ea39c23d66ddfca9ac81d47d2cb92d31b4e4620308b7c0a5eaef436b07cd1694",
+      "worktreeSHA256": "ea39c23d66ddfca9ac81d47d2cb92d31b4e4620308b7c0a5eaef436b07cd1694",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/local/dao/WearableCompletedRecordDao.kt",
+      "originalSHA256": "a853578850d530dcc6fe8e7d3d9b9e5f7513d40cd77caa14f72c6d6c40974a57",
+      "includedSHA256": "a853578850d530dcc6fe8e7d3d9b9e5f7513d40cd77caa14f72c6d6c40974a57",
+      "worktreeSHA256": "a853578850d530dcc6fe8e7d3d9b9e5f7513d40cd77caa14f72c6d6c40974a57",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/domain/wearable/WearableLocalRecord.kt",
+      "originalSHA256": "b69fe362f86cd4141c097266dcad84da6a08ac2e163aa81dd935cd3753c36073",
+      "includedSHA256": "b69fe362f86cd4141c097266dcad84da6a08ac2e163aa81dd935cd3753c36073",
+      "worktreeSHA256": "b69fe362f86cd4141c097266dcad84da6a08ac2e163aa81dd935cd3753c36073",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/feature/profile/GlobalReadingHistoryViewModel.kt",
+      "originalSHA256": "3b9494ac654404f5fc1a840fe2cdcb45089d4d373bc7363343d2bd3bd70939cb",
+      "includedSHA256": "3b9494ac654404f5fc1a840fe2cdcb45089d4d373bc7363343d2bd3bd70939cb",
+      "worktreeSHA256": "3137e1e177de8b5a3bd744c5cd7cf54e0e8d04221fe6a222022bc9c115e2f136",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/domain/ReadingAnalyticsService.kt",
+      "originalSHA256": "67843ae2b4b0650dd75270c0c7c4bf16da118c68d0fee908aeffeb8b803e9816",
+      "includedSHA256": "67843ae2b4b0650dd75270c0c7c4bf16da118c68d0fee908aeffeb8b803e9816",
+      "worktreeSHA256": "ebd2e32a1b0e56a3300374da5fbbfbcbcb5271401a38ad257e0f0f59d6b12f7e",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/domain/ReadingRecordService.kt",
+      "originalSHA256": "f249a6b25859e48b6ad572cd19c415f510ba7cf43210c16a5ca179d473ff674d",
+      "includedSHA256": "f249a6b25859e48b6ad572cd19c415f510ba7cf43210c16a5ca179d473ff674d",
+      "worktreeSHA256": "e143be6d21f8f797b251d8786e3552c58be1ea0fc8da44151082711b91f66a4e",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/domain/SessionTimelineValidator.kt",
+      "originalSHA256": "16472ce6aa94129fe399f1ab8c2720cecafe3f2f1e09887c883488767eb701e3",
+      "includedSHA256": "16472ce6aa94129fe399f1ab8c2720cecafe3f2f1e09887c883488767eb701e3",
+      "worktreeSHA256": "ef6b644ac105965ab2d54a63f0eaefaaf77348574dd9ca16f3ed7c3045d7f08e",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/domain/trends/TrendsAccumulator.kt",
+      "originalSHA256": "cb299da18bc2e984043c7bc9241bfac2ee4adc413a39f5a715c78d6c3ef94a1c",
+      "includedSHA256": "cb299da18bc2e984043c7bc9241bfac2ee4adc413a39f5a715c78d6c3ef94a1c",
+      "worktreeSHA256": "8aa708f938a5895a98ab76de0f18ac034cb5a07a11b227fa23736249f57d5265",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/local/dao/LearningItemDao.kt",
+      "originalSHA256": "982582ae694d6124aef152d35b7d123d63070dac365c75d972223f90e6cad6a2",
+      "includedSHA256": "982582ae694d6124aef152d35b7d123d63070dac365c75d972223f90e6cad6a2",
+      "worktreeSHA256": "bab9b2e7994e6761a6229e58b96a3183d908895e8d4b3ae872fc944dd0e92f97",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/local/dao/IntentDao.kt",
+      "originalSHA256": "89be981ef6ffe5e688e60e5d81321f9c94c00d677e291a2a5f5a8bcaf5a94aad",
+      "includedSHA256": "89be981ef6ffe5e688e60e5d81321f9c94c00d677e291a2a5f5a8bcaf5a94aad",
+      "worktreeSHA256": "c46fce75da216f72892569d83f9a021c1945a756c003b02841fec376dcd5b221",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/repository/StudyWorkflowRepository.kt",
+      "originalSHA256": "3d7fdac78e11660446e76385b6cda4682cd955ca4462cf5c90e98d9a41186c1f",
+      "includedSHA256": "3d7fdac78e11660446e76385b6cda4682cd955ca4462cf5c90e98d9a41186c1f",
+      "worktreeSHA256": "c8676c3d896a81811f480bd432ce3e49f43bcdea80d47e7c8bccb252cbbe7d7c",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/backup/BackupValidation.kt",
+      "originalSHA256": "c1a8f729477a34976fd95b3fa7dcbb5b3adf87bf24fbb6d1e0b3108a30b1ef79",
+      "includedSHA256": "c1a8f729477a34976fd95b3fa7dcbb5b3adf87bf24fbb6d1e0b3108a30b1ef79",
+      "worktreeSHA256": "21e9e2e0f72ca7191841ad52c71926fedeb397146841a038ed8a12686e17a238",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/backup/BackupDatabaseSnapshot.kt",
+      "originalSHA256": "f5a445dd0a8094af16386f9a12ed4ce9534541b84ad75ccf8954137916a5c19c",
+      "includedSHA256": "f5a445dd0a8094af16386f9a12ed4ce9534541b84ad75ccf8954137916a5c19c",
+      "worktreeSHA256": "e233eac302cc1353cca84fc9fc415b81f5cf2d0190cc2fa943bf45d569de0e4c",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/backup/DefaultFullBackupService.kt",
+      "originalSHA256": "0a9d299a8ac0cf3131af8aa767f75107866f7bbb40f65e76fecf2532e721bc06",
+      "includedSHA256": "0a9d299a8ac0cf3131af8aa767f75107866f7bbb40f65e76fecf2532e721bc06",
+      "worktreeSHA256": "93ce394bfc929999c2fa45bca6a38b15444521c9496045cb60caa938dadaff43",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/backup/AndroidBackupFiles.kt",
+      "originalSHA256": "546a2088af3c9a733885472ab615a87064de4c82a9feecf69934aa96c6ce61fe",
+      "includedSHA256": "546a2088af3c9a733885472ab615a87064de4c82a9feecf69934aa96c6ce61fe",
+      "worktreeSHA256": "e6071c9fb4284c0682cbe8ee02edce4eca131b9725bc823a435c8a7f34139254",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/backup/BackupModels.kt",
+      "originalSHA256": "a6772320026cf937f458c32662ddebedd1a85451c788dd68de8578f2d1512efe",
+      "includedSHA256": "a6772320026cf937f458c32662ddebedd1a85451c788dd68de8578f2d1512efe",
+      "worktreeSHA256": "29d4657965f7b24189dc45d1baf7c3c512cddfe18992b7b5b5415b62164f7865",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/local/MirraDatabase.kt",
+      "originalSHA256": "30996c92876ea3c0f8c6d62eaa3b817b04effe1091f92473d64396483f85d452",
+      "includedSHA256": "30996c92876ea3c0f8c6d62eaa3b817b04effe1091f92473d64396483f85d452",
+      "worktreeSHA256": "09fec407061629b424105fe45b88c65266282b5ec66bd6361882b8bab4dcdc02",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/domain/maintenance/StorageMaintenanceGate.kt",
+      "originalSHA256": "a86d78842dd6caeee1c4d62ab68b37165495304de59c9d6ea356af34e28ab89b",
+      "includedSHA256": "a86d78842dd6caeee1c4d62ab68b37165495304de59c9d6ea356af34e28ab89b",
+      "worktreeSHA256": "0a80dbd0b38a873ca3dd9f567fcc26b2cc1d48b7bc332199c81315f0844bd8c0",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/wearable/RoomWearableRecordReceiver.kt",
+      "originalSHA256": "5e1f188b01c9c6703db8e34e07980b100feaae50a0c984188a8d4676595f2ba3",
+      "includedSHA256": "5e1f188b01c9c6703db8e34e07980b100feaae50a0c984188a8d4676595f2ba3",
+      "worktreeSHA256": "5e1f188b01c9c6703db8e34e07980b100feaae50a0c984188a8d4676595f2ba3",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/domain/AnalyticsTimeProvider.kt",
+      "originalSHA256": "6c740e1bc3e8f014146fa6281f0e51295fcbf7530582b4fc0b006a2c0ca3337e",
+      "includedSHA256": "6c740e1bc3e8f014146fa6281f0e51295fcbf7530582b4fc0b006a2c0ca3337e",
+      "worktreeSHA256": "eb5d24d34cd841697178e08ffd1813902b39c297101eedbda79a2184f4a4b66f",
+      "ranges": null,
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/feature/knowledge/LearningItemScreens.kt",
+      "originalSHA256": "f75b175f6ef6e5cfa5d262c8bb94e8c96c707b1fd3fb3103f3047782db7824cd",
+      "includedSHA256": "0042f8a801106dbd65ce02a6f8c6955506884c76a89639f249dcbcddfeeff906",
+      "worktreeSHA256": "a78544ab5595959c5f38f251592dcd1d97a8fa58befd22910bf6cdc0cc5a60a2",
+      "ranges": [
+        [
+          188,
+          245
+        ],
+        [
+          300,
+          370
+        ]
+      ],
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/domain/wearable/WearableCoordinator.kt",
+      "originalSHA256": "2329a4357690dee933ffe266fa9ac3790825def8abbc0c169e70034ad50fda00",
+      "includedSHA256": "537d6d2a9b6da373aca53ce43f60a1fbc96529ae73434199613008928e55b3c5",
+      "worktreeSHA256": "2329a4357690dee933ffe266fa9ac3790825def8abbc0c169e70034ad50fda00",
+      "ranges": [
+        [
+          1,
+          110
+        ],
+        [
+          160,
+          184
+        ],
+        [
+          290,
+          347
+        ]
+      ],
+      "headBound": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/repository/FocusRepository.kt",
+      "originalSHA256": "45215324c001e58847462af3407b89e566675ddef89cb23d5ae852f6c46680c2",
+      "includedSHA256": "ec8202c9f98a5a6cb3f897b6f6f88cb70d0e36f35af3ca4e94fb0c8aa6adfae5",
+      "worktreeSHA256": "cc90efc555d3e9e297100134ced9f55420d8b344e5a5745e6b0b42f740297df7",
+      "ranges": [
+        [
+          222,
+          270
+        ]
+      ],
+      "headBound": true
+    }
+  ],
+  "boundary": "Explicit multi-repository source copies. Git metadata belongs to Band parent only. Excerpts have original line numbers. Model files are synthetic architecture reasoning, not production implementation or Room tests. 05D device results NOT_REPORTED. No credentials, device logs, databases, signing files or personal data."
+}

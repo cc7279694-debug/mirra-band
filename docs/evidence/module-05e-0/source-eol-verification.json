@@ -1,0 +1,108 @@
+{
+  "date": "2026-10-15",
+  "purpose": "Explain ChatGPT source/worktree hash note using actual frozen Git blob versus Windows checkout; source code was not changed.",
+  "mismatchedRawHashes": 20,
+  "allLineEndingNormalizedEqual": true,
+  "files": [
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/repository/GlobalReadingHistoryRepository.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/local/dao/SessionDao.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/feature/profile/GlobalReadingHistoryViewModel.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/domain/ReadingAnalyticsService.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/domain/ReadingRecordService.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/domain/SessionTimelineValidator.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/domain/trends/TrendsAccumulator.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/local/dao/LearningItemDao.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/local/dao/IntentDao.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/repository/StudyWorkflowRepository.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/backup/BackupValidation.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/backup/BackupDatabaseSnapshot.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/backup/DefaultFullBackupService.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/backup/AndroidBackupFiles.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/backup/BackupModels.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/local/MirraDatabase.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/domain/maintenance/StorageMaintenanceGate.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/domain/AnalyticsTimeProvider.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/feature/knowledge/LearningItemScreens.kt",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "repository": "android",
+      "path": "app/src/main/java/com/guanyi/mirra/data/repository/FocusRepository.kt",
+      "lineEndingNormalizedEqual": true
+    }
+  ]
+}

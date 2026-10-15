@@ -1,12 +1,22 @@
 # 当前状态
 
-更新：2026-10-14（Asia/Shanghai）。
+更新：2026-10-15（Asia/Shanghai）。
 
 ## 当前阶段与授权
 
-**05D / DEV_COMPLETE_AWAITING_DEVICE_NATURAL_USE**。独立完成记录可靠同步开发、自动化、原生隔离验证及配套产物核验已完成；用户自行安装已授权，尚未收到实际安装/数据库升级及真机反馈。合同见[05D方案](plans/MIRRA_BAND_05D_RECORD_SYNC.md)，最终事实以[交付证据](evidence/module-05d/README.md)、artifacts.json及verification.json、device-acceptance.json为准。不进入05E、不自动PR或合并main。
+**05E-0 / ARCHITECTURE_REVIEW_COMPLETE_PASS_WITH_NOTES**。用户已冻结[Product Baseline V1](plans/MIRRA_BAND_05E_PRODUCT_BASELINE_V1.md)，仅授权设计、只读核查、合成模型及ChatGPT独立技术审查。方案见[05E-0](plans/MIRRA_BAND_05E_0_ARCHITECTURE_REVIEW.md)，[外部审查原文](evidence/module-05e-0/chatgpt-review.md)为PASS WITH NOTES（仅架构），33/33 MODEL_ONLY实际通过。05E-1～5未实施，不批准发布或真机PASS。
 
-Band分支`codex/module-05d-record-sync`，基线`1c2ac537545f4d5cb365dfa7e276cbd24cd2425f`。Android隔离树`E:\CODEX\mirra-watch\.local\android-worktree`，分支`codex/mirra-band-05d-record-sync`，基线`6589a19f0305245fe0e63bf77f105f61f27a913e`。原手机工作区不修改；最终提交与推送由交付证据记录。
+**05D / DEV_COMPLETE_AWAITING_DEVICE_NATURAL_USE**仍保留。独立完成记录可靠同步开发、自动化、原生隔离验证及配套产物核验已完成；自行安装已授权，实际无线记录同步、手机Room4→5升级与重进保留仍无用户反馈。合同与历史证据见[05D方案](plans/MIRRA_BAND_05D_RECORD_SYNC.md)、[交付证据](evidence/module-05d/README.md)及device-acceptance.json。不重复要求同一许可/USB，不自动PR或合并main。
+
+Band审查分支`codex/module-05e-0-product-baseline`，真实基线`42714a8919799238cbd295636b5c57a4c8fb6092`。Android隔离树`E:\CODEX\mirra-watch\.local\android-worktree`，审查分支`codex/mirra-band-05e-0-review`，真实基线`8ae37f67ca7bba523d23f5198fddb8820f7066f7`。两个05D功能分支保留；原手机工作区不改，仍为`1338b9a4e41788082f30bf3894a974c2ff652630`。本阶段只有文档及MODEL_ONLY证据，未修改源码/数据库/签名/包。
+
+## 05E-0当前审查结论与边界
+
+来源类型化复合身份；统一历史与旧phone-only分析入口分离。未知结束时间单独显示，不用receivedAt补造；候选Room5固定成员视图先同事务捕获手机终结元数据与腕端PK/digest/bytes，再有界解析不可变原文。长历史性能尚未证明；Room6/索引若必要需独立Migration及Backup评估。
+
+ChatGPT六项Notes作为后续实施验收条件保留：固定成员及10001条真实性能、同事务条件MAX、旧raw时钟域不可证明、参考/硬异常分开、恢复退役、复合身份与旧模型隔离。审查提到的冻结blob与Windows工作区摘要差异20处，实际归一化LF/CRLF后全部相等，源码无变更，证据见source-eol-verification.json；节选仍不能充当完整文件。外部审查与所有范围证据见[05E-0报告](evidence/module-05e-0/README.md)。
+
+参考FOCUS可以基于合理完整墙钟展示；真实旧记录缺少持久跨端校准证据，双端完整并集暂不可计算，绝不当有效专注。进度仅合法范围/无活动工作流时事务条件MAX，等值/低值/null不写副作用；原文保存与05D ACK不依赖进度推进成功。技术方案未等同实施批准。
 
 ## 已接受的真实设备结果
 
@@ -28,7 +38,7 @@ v4协商`LOCAL_RECORD_SYNC`，兼容v1/v2/v3。新增手机记录同步披露许
 
 原生SHA-256经ASCII/中文/emoji已知向量自检；缺失或失败则停止同步，不使用CRC替代。CRC仅用于损坏检查。参考计时、第一动作明确完成、一次确认开始、休息到时主动继续、nullable结束页码及性能优化保持。档案历史确认不等于当前手机仍拥有记录；本地合法页码只是待确认进度。旧独立实验应用和记录不迁移、不跨包读取、不操作。
 
-## 本轮验证与未验证
+## 继承的05D验证与未验证（本次未重跑）
 
 实际执行：Band未过滤Node **740/740 PASS**；124脚本/配置0错误；Android未过滤JVM **849/849 PASS**（91 suites）；最后Lint **0 errors / 20 warnings / 1 hint**。自有API37原生 **70/70 PASS**，59.033秒，0skip/assumption，包含真实迁移、SQLite失败回滚/文件库重开及新旧完整备份。首轮69/1旧fixture计数错误与0case启动ANR历史保留，修正后完整重测，所属AVD已正常关闭。实际APK **1.4.0/code9** 与正式RPK **0.5.0/code11**构建/原签名/摘要、六页颜色条件及签名编译包受控同步回归通过，精确产物数据见交付索引。
 
@@ -38,4 +48,4 @@ v4协商`LOCAL_RECORD_SYNC`，兼容v1/v2/v3。新增手机记录同步披露许
 
 墙钟累计只属参考值，跨重启可信连续性和未持久化的中间时间异常没有证明，不计入有效专注。档案可补传的前提是腕端保留原始档案；档案丢失或容量上限没有猜测性删除/修复。可读JSON/CSV明确只含原手机业务数据，完整原始记录保护依赖Full Backup2。
 
-已交付配套APK/RPK与完整验证记录，停在05D自然使用验收。用户已同意先备份后自行覆盖APK1.4.0/code9、RPK0.5.0/code11（含APK正常Room4→5升级），开启「接收腕端完成记录」后自然体验；等待实际同步与保留反馈，见[evidence](evidence/module-05d/device-acceptance.json)。不强制USB或冗长人工矩阵，不进入05E。
+05D既有配套APK/RPK及验证保留不重建。用户已同意先备份后自行覆盖APK1.4.0/code9、RPK0.5.0/code11（含APK正常Room4→5升级），开启「接收腕端完成记录」后自然体验；等待实际同步与保留反馈，见[evidence](evidence/module-05d/device-acceptance.json)。不强制USB或冗长人工矩阵。当前停在05E-0技术审查与05D自然反馈门禁，不实施05E-1～5，不进入其他模块。

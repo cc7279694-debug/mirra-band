@@ -1,0 +1,194 @@
+{
+  "evidenceKind": "MODEL_ONLY",
+  "phase": "05E-0",
+  "executedAtUtc": "2026-10-15T01:28:47.015Z",
+  "environment": {
+    "runtime": "Node.js",
+    "version": "v24.18.1",
+    "platform": "win32",
+    "architecture": "x64"
+  },
+  "scope": "Synthetic architecture semantics only; no production API, Room, backup, SDK, device, or performance verification.",
+  "clockBoundary": "SYNTHETIC_COMPARABLE_ONLY is a fixture assumption; it cannot grant comparability or effective focus to real wrist records.",
+  "total": 33,
+  "passed": 33,
+  "failed": 0,
+  "status": "MODEL_SCENARIOS_PASS",
+  "applicationImplementationStatus": "NOT_IMPLEMENTED",
+  "notRun": [
+    "Production implementation/regression",
+    "Real SQLite transaction/isolation",
+    "Room migration",
+    "Full Backup restore",
+    "Native performance",
+    "Physical wireless/device use",
+    "APK/RPK build/install"
+  ],
+  "cases": [
+    {
+      "id": "identity_source",
+      "description": "Same session ID on phone and wrist remains distinct.",
+      "status": "PASS"
+    },
+    {
+      "id": "identity_installation_and_delimiters",
+      "description": "Installation and delimiter-containing IDs cannot collide.",
+      "status": "PASS"
+    },
+    {
+      "id": "union_overlap",
+      "description": "Two overlapping ten-unit intervals yield fifteen, not twenty.",
+      "status": "PASS"
+    },
+    {
+      "id": "union_adjacent_and_contained",
+      "description": "Adjacent intervals merge; a contained interval adds no duration.",
+      "status": "PASS"
+    },
+    {
+      "id": "union_window_clip",
+      "description": "Reference intervals are clipped to the requested half-open window.",
+      "status": "PASS"
+    },
+    {
+      "id": "same_content_dedup",
+      "description": "Duplicate source identity and content is counted once.",
+      "status": "PASS"
+    },
+    {
+      "id": "different_content_conflict",
+      "description": "Same source identity with different content rejects the total.",
+      "status": "PASS"
+    },
+    {
+      "id": "break_excluded",
+      "description": "Complete reading/rest timelines retain rest facts but exclude rest duration.",
+      "status": "PASS"
+    },
+    {
+      "id": "unproven_clock",
+      "description": "Wall clock-only input cannot generate a dual-device total.",
+      "status": "PASS"
+    },
+    {
+      "id": "missing_rollback_jump",
+      "description": "Missing endpoint, rollback, and excessive single-interval jump reject totals.",
+      "status": "PASS"
+    },
+    {
+      "id": "incomplete_timeline",
+      "description": "Gaps, overlapping segments, and unknown kinds are not silently skipped.",
+      "status": "PASS"
+    },
+    {
+      "id": "unsafe_boundary",
+      "description": "Unsafe integer boundaries and invalid windows reject calculations.",
+      "status": "PASS"
+    },
+    {
+      "id": "unknown_is_not_zero_or_partial_total",
+      "description": "A calculable subset cannot masquerade as a complete total.",
+      "status": "PASS"
+    },
+    {
+      "id": "reference_never_effective_focus",
+      "description": "Synthetic reference remains reference even when uncertain wall time is calculable.",
+      "status": "PASS"
+    },
+    {
+      "id": "coverage_not_clock_proof",
+      "description": "FULL is not calibration; PARTIAL does not invalidate a separately qualified reference interval.",
+      "status": "PASS"
+    },
+    {
+      "id": "non_reading_phone_segments",
+      "description": "Phone non-reading classifications remain excluded from the new reference model.",
+      "status": "PASS"
+    },
+    {
+      "id": "paging_50_and_51",
+      "description": "50+1 lookahead detects an additional member and traverses it once.",
+      "status": "PASS"
+    },
+    {
+      "id": "paging_equal_end_identity",
+      "description": "Source and installation tie-breakers remain deterministic across a page boundary.",
+      "status": "PASS"
+    },
+    {
+      "id": "unknown_end_bucket",
+      "description": "Unknown end time stays unknown and receivedAt cannot determine completion order.",
+      "status": "PASS"
+    },
+    {
+      "id": "late_import_requires_refresh",
+      "description": "A late historical import appears only in a new fixed-membership view.",
+      "status": "PASS"
+    },
+    {
+      "id": "stale_cursor_rejected",
+      "description": "A cursor from before source retirement or restore cannot continue a new view.",
+      "status": "PASS"
+    },
+    {
+      "id": "active_finish_does_not_change_open_view",
+      "description": "An active phone record ending later does not silently alter existing membership.",
+      "status": "PASS"
+    },
+    {
+      "id": "null_page_no_side_effect",
+      "description": "An absent end page does not invent progress or write updatedAt.",
+      "status": "PASS"
+    },
+    {
+      "id": "equal_lower_page_no_side_effect",
+      "description": "Equal or lower valid end pages never regress or write updatedAt.",
+      "status": "PASS"
+    },
+    {
+      "id": "max_progress_idempotent",
+      "description": "A valid advance writes once; repeating the same raw record has no side effect.",
+      "status": "PASS"
+    },
+    {
+      "id": "global_active_and_pending_defer",
+      "description": "Any active workflow, including another book and PENDING closeout, defers progress.",
+      "status": "PASS"
+    },
+    {
+      "id": "missing_book_preserves_raw",
+      "description": "Missing or mismatched stable book ID defers without mutating raw facts.",
+      "status": "PASS"
+    },
+    {
+      "id": "range_and_status_defer",
+      "description": "Invalid current ranges, backward end pages, and non-IN_PROGRESS statuses defer.",
+      "status": "PASS"
+    },
+    {
+      "id": "restore_rereads_current_facts",
+      "description": "After an older backup restore, admission is recalculated from current book and workflow.",
+      "status": "PASS"
+    },
+    {
+      "id": "serialized_max_does_not_regress",
+      "description": "Synthetic serialized guarded transactions preserve maximum progress in either order.",
+      "status": "PASS"
+    },
+    {
+      "id": "closed_zero_interval_is_not_unknown",
+      "description": "A complete closed zero-length interval contributes zero while an unknown endpoint rejects the total.",
+      "status": "PASS"
+    },
+    {
+      "id": "unknown_start_page_defers",
+      "description": "A nullable or missing start page prevents progress admission without changing raw facts.",
+      "status": "PASS"
+    },
+    {
+      "id": "unknown_total_pages_defers",
+      "description": "Unknown, non-positive, fractional, or unsafe current total pages cannot authorize an advance.",
+      "status": "PASS"
+    }
+  ]
+}

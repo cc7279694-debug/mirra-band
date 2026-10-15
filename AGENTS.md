@@ -2,6 +2,8 @@
 
 ## 产品与边界
 
+- 2026-10-15 用户冻结05E Product Baseline V1（ACCEPTED/FROZEN），合同见docs/plans/MIRRA_BAND_05E_PRODUCT_BASELINE_V1.md。当前仅授权05E-0方案、只读代码/数据准入核查、纯合成模型与ChatGPT独立架构审查；不实施05E-1～5，不修改生产代码/协议/Room5/索引/Backup/产物或真实数据，不安装设备/清理档案/进入其他模块。统计采用方案A：腕端FOCUS仅参考、BREAK排除、合格且可比较区间才可并集；旧有效专注/Start-Maintain-Recover/速度/节奏口径不变。05D自行安装授权保留，但真实无线同步/实际Room升级与重进保留尚无反馈；不推定PASS，不重复请求USB或同一安装许可。只读投影与条件页码MAX已获ChatGPT架构PASS WITH NOTES，仍不代表实现或发布批准。下方“05E未授权”是历史范围，不覆盖此项新的05E-0窄授权。
+
 - 2026-10-14 用户已明确同意「先备份后自行覆盖并体验」05D APK1.4.0/code9与正式RPK0.5.0/code11，包括APK自身Room4→5升级、手动开启完成记录接收及一次自然学习。此为本次自行安装授权，不是已安装/备份完成或真机PASS，不要求USB、不重复询问同一授权；不授权Codex操作真实DB/恢复、清数据、卸载、降级、签名变更或05E。状态见docs/evidence/module-05d/device-acceptance.json。
 
 - 2026-10-14 当前授权05D可靠完成记录同步，合同见docs/plans/MIRRA_BAND_05D_RECORD_SYNC.md。05C.1用户真机视觉确认USER_REPORTED_PASS — PASS WITH NOTES，继承功能结果与OEM/时间/耐久限制。允许双端隔离方案/代码/自动化、Room4→5独立不可变表及Full Backup新旧兼容；不注入手机Session或更新进度/统计。正式主schema1安全兼容，新有界档案双副本读回后才释放pending，档案原文不自动删除，每次新握手核对重放以处理旧手机备份回退。新正式安装、真实用户DB写入/恢复或不可逆操作不在本授权，不进入05E。下方05C.1和更早边界为历史，不得覆盖此项用户新授权。

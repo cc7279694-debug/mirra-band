@@ -1,5 +1,19 @@
 # 架构与产品决定
 
+## 2026-10-15 — 05E Product Baseline V1统计与原始事实边界冻结
+
+### Decision
+
+用户ACCEPTED/FROZEN方案A：两端原始记录分别保留，只读投影统一全局/单书历史，使用来源复合身份。腕端合理FOCUS仅参考，BREAK排除；只有可比较的合格区间才能并集去重，不能简单相加、回填receivedAt或污染有效专注。手机有效专注/Start-Maintain-Recover/速度/剩余时间/节奏公式及旧输入保持。合法安全页码按max(current,endPage)推进，缺书/越界/活动工作流暂缓，nullable不推进，原文不改。
+
+### Context / Alternatives
+
+05D已交付Room5不可变原文与Full Backup2，新旧恢复自动化为历史证据；实际无线记录同步/手机Room升级仍无反馈。将腕端伪装为手机Session、将参考时间加入有效专注或为技术便利改变口径均不采用。
+
+### Reason / Consequences
+
+原始事实、来源、时间性质和备份保护优先；未知不补造、重复不产生副作用。本轮仅05E-0核查、模型和ChatGPT独立审查，未实施05E-1～5。Room5固定成员投影、条件MAX、当前无跨端时钟证明下不产总量已获ChatGPT架构PASS WITH NOTES，Notes须后续验证，不能转为生产批准；Room6/索引/Migration/Backup或真实数据操作均不由冻结产品自动授予。用户已获05D自行安装许可，不重复请求USB或同一授权；待实际反馈和后续实施准入，不合并main。
+
 ## 2026-10-14 — 独立原始记录接收、双份归档及备份回退补传
 
 ### Decision
